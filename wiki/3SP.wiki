@@ -63,7 +63,8 @@ Eine Applikation, die den auf Datenträger(-Verpackungen) aufgedruckten Barcode 
 || 27.06.2011 || Testen ||
 || 27.06.2011 || 2. Review ||
 || 29.06.2011 || Splashscreen, Hilfefunktion ||
-|| 29.06.2011 || Abschlusspräsentation erstellen ||
+|| 29.06.2011 - 11.07.2011 || Abschlusspräsentation erstellen ||
+|| 11.07.2011 || DryRun ||
 || 13.07.2011 || Projektabschluss ||
 
 =Potentielle Hindernisse und Maßnahmen=
