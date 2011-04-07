@@ -54,4 +54,16 @@ Eine Applikation, die den auf Datenträger(-Verpackungen) aufgedruckten Barcode 
 
 =Projektplan=
 
+|| 04.04.2011 - 08.04.2011|| Erstellung 3-SP ||
+|| 04.04.2011 - 15.04.2011|| Einarbeitung ||
+|| 20.04.2011 || GUI Prototyp ||
+|| 10.05.2011 || App, Funktionen & GUI verfeinern ||
+|| 16.05.2011 || 1. Review ||
+|| 19.06.2011 || Erste Integration, Prototyp ||
+|| 27.06.2011 || Testen ||
+|| 27.06.2011 || 2. Review ||
+|| 29.06.2011 || Splashscreen, Hilfefunktion ||
+|| 29.06.2011 || Abschlusspräsentation erstellen ||
+|| 13.07.2011 || Projektabschluss ||
+
 =Potentielle Hindernisse und Maßnahmen=
