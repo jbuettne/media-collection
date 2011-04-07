@@ -6,7 +6,7 @@
 
 || *Philipp Dermitzel* || *Jens Büttner* || *David Pollehn* ||
 || Projektleitung || GUI || Backend ||
-|| p.dermitzel@agentur38.de || Jens.buettner@tu-bs.de || d.pollehn@tu-bs.de ||
+|| p.dermitzel@agentur38.de || jens.buettner@tu-bs.de || d.pollehn@tu-bs.de ||
 
 =Motivation und Ausgangssituation=
   
@@ -63,3 +63,7 @@ Eine Applikation, die den auf Datenträger(-Verpackungen) aufgedruckten Barcode 
 || 13.07.2011 || Projektabschluss ||
 
 =Potentielle Hindernisse und Maßnahmen=
+
+ * Möglicherweise ergeben sich Probleme bei der Anbindung an die Fetching-Dienste. In diesem Fall...  // mir fällt keine Maßnahme ein...
+
+ * Möglicherweise gelingt die direkte Übertragung und Speicherung der Datenträger-Informationen in der Datenbank auf dem Computer nicht. Alternativ könnte zum Beispiel eine XML-Datei erstellt werden, welche manuell auf den Computer gesendet und eingelesen wird.
