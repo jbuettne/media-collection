@@ -4,9 +4,9 @@
 
 =Projektteam=
 
-|| Philipp Dermitzel || Projektleitung || p.dermitzel@agentur38.de ||
-|| Jens Büttner || GUI || Jens.buettner@tu-bs.de ||
-|| David Pollehn || Backend || d.pollehn@tu-bs.de ||
+|| *Philipp Dermitzel* || *Jens Büttner* || *David Pollehn* ||
+|| Projektleitung || GUI || Backend ||
+|| p.dermitzel@agentur38.de || Jens.buettner@tu-bs.de || d.pollehn@tu-bs.de ||
 
 =Motivation und Ausgangssituation=
   
