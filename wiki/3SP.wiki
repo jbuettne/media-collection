@@ -1,21 +1,12 @@
-#summary One-sentence summary of this page.
+#summary MusicCollection - Android-Lab  - Sommersemester 2011
 
-= Introduction =
-
-MusicCollection
-
-Android-Lab 
-Sommersemester 2011
-
+#sidebar TableOfContents
 
 =Projektteam=
 
-Philipp Dermitzel p.dermitzel@agentur38.de
-* Projektleitung
-Jens Büttner Jens.buettner@tu-bs.de
-* GUI
-David Pollehn d.pollehn@tu-bs.de
-* Backend
+|| Philipp Dermitzel || Projektleitung || p.dermitzel@agentur38.de ||
+|| Jens Büttner || GUI || Jens.buettner@tu-bs.de ||
+|| David Pollehn || Backend || d.pollehn@tu-bs.de ||
 
 =Motivation und Ausgangssituation=
   
@@ -42,26 +33,24 @@ Ziele
 Eine Applikation, die den auf Datenträger(-Verpackungen) aufgedruckten Barcode einlesen, entsprechende Daten aus dem Internet einholen und den Datenträger in die eigene Sammlung einfügen kann. Dabei sollen sowohl Tonträger (LPs, CDs) als auch Film-Medien (DVD, Bluray) und möglicherweise sogar Bücher gespeichert werden können.
 
 =Anforderungen=
-
-(1) Ein Barcode-Scanner, welcher die Barcodes diverser Datenträger einlesen kann
-(2) Webbasierte Dienste, welche (bestenfalls über eine API) das Einholen von Daten zu den Datenträgern erlauben
-(3) Eine durchdachte grafische Oberfläche, die eine einfache Bedienung des Programms ermöglicht
-(4) Eine Möglichkeit, die eingeholten Daten sinnvoll zu speichern
-(5) Eine Möglichkeit, die Sammlung mit dem PC zu synchronisieren
+ # Ein Barcode-Scanner, welcher die Barcodes diverser Datenträger einlesen kann
+ # Webbasierte Dienste, welche (bestenfalls über eine API) das Einholen von Daten zu den Datenträgern erlauben
+ # Eine durchdachte grafische Oberfläche, die eine einfache Bedienung des Programms ermöglicht
+ # Eine Möglichkeit, die eingeholten Daten sinnvoll zu speichern
+ # Eine Möglichkeit, die Sammlung mit dem PC zu synchronisieren
 
 =Lösungsweg=
-
-# Barcode-Scanner
-Geeignete Libraries sind bereits vorhanden und müssten auf die Einsetzbarkeit geprüft werden.
-# Fetching-Dienste
-Für Tonträger existieren APIs von MusicBrainz oder last.fm, die möglicherweise genutzt werden könnten. Hierbei müsste geprüft werden, wie ein Ansprechen der APIs mit den aus dem Scannen des Barcodes gewonnen Daten möglich ist.
-# GUI
-Keine Anmerkungen
-# Speicherung der Sammlung
-Sinnvoll wäre eine Speicherung in einer einfachen Datenbank (SQLite). 
-# Synchronisierung
-Eine Synchronisierung über das Internet wäre wünschenswert. Dafür könnten freie Cloud-Dienste wie Dropbox verwendet werden. Somit würde jedoch eine Abhängigkeit von anderen Apps erzeugt, was zu vermeiden wäre.
-Andere Möglichkeiten wären ein Dateiversand über E-Mail o.ä.
+ # Barcode-Scanner
+ * Geeignete Libraries sind bereits vorhanden und müssten auf die Einsetzbarkeit geprüft werden.
+ # Fetching-Dienste
+ * Für Tonträger existieren APIs von MusicBrainz oder last.fm, die möglicherweise genutzt werden könnten. Hierbei müsste geprüft werden, wie ein Ansprechen der APIs mit den aus dem Scannen des Barcodes gewonnen Daten möglich ist.
+ # GUI
+ * Keine Anmerkungen
+ # Speicherung der Sammlung
+ * Sinnvoll wäre eine Speicherung in einer einfachen Datenbank (SQLite). 
+ # Synchronisierung
+ * Eine Synchronisierung über das Internet wäre wünschenswert. Dafür könnten freie Cloud-Dienste wie Dropbox verwendet werden. Somit würde jedoch eine Abhängigkeit von anderen Apps erzeugt, was zu vermeiden wäre.
+ * Andere Möglichkeiten wären ein Dateiversand über E-Mail o.ä.
 
 =Projektplan=
 
