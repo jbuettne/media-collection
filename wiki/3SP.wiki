@@ -2,17 +2,6 @@
 
 = Introduction =
 
-Add your content here.
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
-
-
 MusicCollection
 
 Android-Lab 
@@ -21,15 +10,12 @@ Sommersemester 2011
 
 =Projektteam=
 
-Philipp Dermitzel
-Jens Büttner
-David Pollehn
-Projektleitung
-GUI
-Backend
-p.dermitzel@agentur38.de
-Jens.buettner@tu-bs.de
-d.pollehn@tu-bs.de
+Philipp Dermitzel p.dermitzel@agentur38.de
+* Projektleitung
+Jens Büttner Jens.buettner@tu-bs.de
+* GUI
+David Pollehn d.pollehn@tu-bs.de
+* Backend
 
 =Motivation und Ausgangssituation=
   
@@ -65,15 +51,15 @@ Eine Applikation, die den auf Datenträger(-Verpackungen) aufgedruckten Barcode 
 
 =Lösungsweg=
 
-(1) Barcode-Scanner
+# Barcode-Scanner
 Geeignete Libraries sind bereits vorhanden und müssten auf die Einsetzbarkeit geprüft werden.
-(2) Fetching-Dienste
+# Fetching-Dienste
 Für Tonträger existieren APIs von MusicBrainz oder last.fm, die möglicherweise genutzt werden könnten. Hierbei müsste geprüft werden, wie ein Ansprechen der APIs mit den aus dem Scannen des Barcodes gewonnen Daten möglich ist.
-(3) GUI
+# GUI
 Keine Anmerkungen
-(4) Speicherung der Sammlung
+# Speicherung der Sammlung
 Sinnvoll wäre eine Speicherung in einer einfachen Datenbank (SQLite). 
-(5) Synchronisierung
+# Synchronisierung
 Eine Synchronisierung über das Internet wäre wünschenswert. Dafür könnten freie Cloud-Dienste wie Dropbox verwendet werden. Somit würde jedoch eine Abhängigkeit von anderen Apps erzeugt, was zu vermeiden wäre.
 Andere Möglichkeiten wären ein Dateiversand über E-Mail o.ä.
 
