@@ -1,6 +1,6 @@
 #summary MusicCollection - Android-Lab  - Sommersemester 2011
 
-#sidebar TableOfContents
+[Articles Ziele Ziele]
 
 =Projektteam=
 
@@ -28,7 +28,8 @@ Philipp Dermitzel	___________________________
 Jens Büttner		___________________________
 
 David Polen		___________________________
-Ziele
+
+=Ziele=
 
 Eine Applikation, die den auf Datenträger(-Verpackungen) aufgedruckten Barcode einlesen, entsprechende Daten aus dem Internet einholen und den Datenträger in die eigene Sammlung einfügen kann. Dabei sollen sowohl Tonträger (LPs, CDs) als auch Film-Medien (DVD, Bluray) und möglicherweise sogar Bücher gespeichert werden können.
 
@@ -40,17 +41,11 @@ Eine Applikation, die den auf Datenträger(-Verpackungen) aufgedruckten Barcode 
  # Eine Möglichkeit, die Sammlung mit dem PC zu synchronisieren
 
 =Lösungsweg=
- # Barcode-Scanner
- * Geeignete Libraries sind bereits vorhanden und müssten auf die Einsetzbarkeit geprüft werden.
- # Fetching-Dienste
- * Für Tonträger existieren APIs von MusicBrainz oder last.fm, die möglicherweise genutzt werden könnten. Hierbei müsste geprüft werden, wie ein Ansprechen der APIs mit den aus dem Scannen des Barcodes gewonnen Daten möglich ist.
- # GUI
- * Keine Anmerkungen
- # Speicherung der Sammlung
- * Sinnvoll wäre eine Speicherung in einer einfachen Datenbank (SQLite). 
- # Synchronisierung
- * Eine Synchronisierung über das Internet wäre wünschenswert. Dafür könnten freie Cloud-Dienste wie Dropbox verwendet werden. Somit würde jedoch eine Abhängigkeit von anderen Apps erzeugt, was zu vermeiden wäre.
- * Andere Möglichkeiten wären ein Dateiversand über E-Mail o.ä.
+ # *GUI* _Keine Anmerkungen_
+ # *Barcode-Scanner* _Geeignete Libraries sind bereits vorhanden und müssten auf die Einsetzbarkeit geprüft werden._
+ # *Fetching-Dienste* _Für Tonträger existieren APIs von MusicBrainz oder last.fm, die möglicherweise genutzt werden könnten. Hierbei müsste geprüft werden, wie ein Ansprechen der APIs mit den aus dem Scannen des Barcodes gewonnen Daten möglich ist._
+ # *Speicherung* der Sammlung _Sinnvoll wäre eine Speicherung in einer einfachen Datenbank (SQLite)._
+ # *Synchronisierung* _Eine Synchronisierung über das Internet wäre wünschenswert. Dafür könnten freie Cloud-Dienste wie Dropbox verwendet werden. Somit würde jedoch eine Abhängigkeit von anderen Apps erzeugt, was zu vermeiden wäre. Andere Möglichkeiten wären ein Dateiversand über E-Mail o.ä._
 
 =Projektplan=
 
