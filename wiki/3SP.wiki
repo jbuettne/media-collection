@@ -1,0 +1,82 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+Add your content here.
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
+
+
+MusicCollection
+
+Android-Lab 
+Sommersemester 2011
+
+
+=Projektteam=
+
+Philipp Dermitzel
+Jens Büttner
+David Pollehn
+Projektleitung
+GUI
+Backend
+p.dermitzel@agentur38.de
+Jens.buettner@tu-bs.de
+d.pollehn@tu-bs.de
+
+=Motivation und Ausgangssituation=
+  
+Die immer weiter ausgebauten Möglichkeiten des Erwerbs von Medien wie Musik und Film in digitaler Form, ermöglichen es, einfacher den je einen Überblick über die eigene Sammlung zu erhalten und zu pflegen. 
+Die Zusammenführung der Sammlung mit den klassischen Datenträgern (LP, CD, DVD, etc.) erfordert jedoch einen großen Aufwand, da gewünschte Daten – Artist, Titel, Erscheinungsjahr, Cover, etc. – manuell gesucht und eingefügt werden müssen.
+
+Glaubt man den Aussagen der Musik- (und Film-)Industrie, so sinken die Verkaufszahlen bereits seit der  massenkompatiblen Einführung der Kassette1 und doch existieren immer noch viele Fans, die ihre Medien auf einem klassischen Medium erwerben.
+
+Zwar existieren Webportale wie Musik-Sammler.de oder dvdb.de, doch müssen die eigenen Datenträger noch immer per Hand eingegeben werden. An dieser Stelle setzt die App „MusicCollection“ an. Die Android-Applikation soll es ermöglichen, die Barcodes auf Datenträgern zu scannen und so mit einem Knopfdruck in die Sammlung hinzuzufügen. Auch soll die auf diese Art erzeugte Sammlung mit dem heimischen PC synchronisiert und in wählbaren Formaten (XML, SQL, DB, ...) erzeugt werden können, so dass das Einpflegen in bestehende Systeme ermöglicht wird.
+
+
+
+
+Braunschweig, den 05. April 2011
+
+
+Philipp Dermitzel	___________________________
+
+Jens Büttner		___________________________
+
+David Polen		___________________________
+Ziele
+
+Eine Applikation, die den auf Datenträger(-Verpackungen) aufgedruckten Barcode einlesen, entsprechende Daten aus dem Internet einholen und den Datenträger in die eigene Sammlung einfügen kann. Dabei sollen sowohl Tonträger (LPs, CDs) als auch Film-Medien (DVD, Bluray) und möglicherweise sogar Bücher gespeichert werden können.
+
+=Anforderungen=
+
+(1) Ein Barcode-Scanner, welcher die Barcodes diverser Datenträger einlesen kann
+(2) Webbasierte Dienste, welche (bestenfalls über eine API) das Einholen von Daten zu den Datenträgern erlauben
+(3) Eine durchdachte grafische Oberfläche, die eine einfache Bedienung des Programms ermöglicht
+(4) Eine Möglichkeit, die eingeholten Daten sinnvoll zu speichern
+(5) Eine Möglichkeit, die Sammlung mit dem PC zu synchronisieren
+
+=Lösungsweg=
+
+(1) Barcode-Scanner
+Geeignete Libraries sind bereits vorhanden und müssten auf die Einsetzbarkeit geprüft werden.
+(2) Fetching-Dienste
+Für Tonträger existieren APIs von MusicBrainz oder last.fm, die möglicherweise genutzt werden könnten. Hierbei müsste geprüft werden, wie ein Ansprechen der APIs mit den aus dem Scannen des Barcodes gewonnen Daten möglich ist.
+(3) GUI
+Keine Anmerkungen
+(4) Speicherung der Sammlung
+Sinnvoll wäre eine Speicherung in einer einfachen Datenbank (SQLite). 
+(5) Synchronisierung
+Eine Synchronisierung über das Internet wäre wünschenswert. Dafür könnten freie Cloud-Dienste wie Dropbox verwendet werden. Somit würde jedoch eine Abhängigkeit von anderen Apps erzeugt, was zu vermeiden wäre.
+Andere Möglichkeiten wären ein Dateiversand über E-Mail o.ä.
+
+=Projektplan=
+
+=Potentielle Hindernisse und Maßnahmen=
