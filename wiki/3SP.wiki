@@ -42,9 +42,9 @@ Eine Applikation, die den auf Datenträger(-Verpackungen) aufgedruckten Barcode 
 
 =Lösungsweg=
  # *GUI* _Keine Anmerkungen_
- # *Barcode-Scanner* _Geeignete Libraries sind bereits vorhanden und müssten auf die Einsetzbarkeit geprüft werden._
+ # *Barcode-Scanner* _Geeignete Libraries sind bereits vorhanden und müssten auf die Einsetzbarkeit geprüft werden._ Hierbei böte sich vor allem zxing (http://code.google.com/p/zxing/) an.
  # *Fetching-Dienste* _Für Tonträger existieren APIs von MusicBrainz oder last.fm, die möglicherweise genutzt werden könnten. Hierbei müsste geprüft werden, wie ein Ansprechen der APIs mit den aus dem Scannen des Barcodes gewonnen Daten möglich ist._
- # *Speicherung* der Sammlung _Sinnvoll wäre eine Speicherung in einer einfachen Datenbank (SQLite)._
+ # *Speicherung der Sammlung* _Sinnvoll wäre eine Speicherung in einer einfachen Datenbank (SQLite)._
  # *Synchronisierung* _Eine Synchronisierung über das Internet wäre wünschenswert. Dafür könnten freie Cloud-Dienste wie Dropbox verwendet werden. Somit würde jedoch eine Abhängigkeit von anderen Apps erzeugt, was zu vermeiden wäre. Andere Möglichkeiten wären ein Dateiversand über E-Mail o.ä._
 
 =Projektplan=
