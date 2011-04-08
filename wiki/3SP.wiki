@@ -23,11 +23,11 @@ Zwar existieren Webportale wie Musik-Sammler.de oder dvdb.de, doch müssen die e
 Braunschweig, den 05. April 2011
 
 
-Philipp Dermitzel	___________________________
+Philipp Dermitzel	`___________________________`
 
-Jens Büttner		___________________________
+Jens Büttner		`___________________________`
 
-David Pollehn		___________________________
+David Pollehn		`___________________________`
 
 =Ziele=
 
@@ -42,7 +42,7 @@ Eine Applikation, die den auf Datenträger(-Verpackungen) aufgedruckten Barcode 
 
 =Lösungsweg=
  # *GUI* _Keine Anmerkungen_
- # *Barcode-Scanner* _Geeignete Libraries sind bereits vorhanden und müssten auf die Einsetzbarkeit geprüft werden._ Hierbei böte sich vor allem zxing (http://code.google.com/p/zxing/) an.
+ # *Barcode-Scanner* _Geeignete Libraries sind bereits vorhanden und müssten auf die Einsetzbarkeit geprüft werden. Hierbei böte sich vor allem zxing (http://code.google.com/p/zxing/) an._
  # *Fetching-Dienste* _Für Tonträger existieren APIs von MusicBrainz oder last.fm, die möglicherweise genutzt werden könnten. Hierbei müsste geprüft werden, wie ein Ansprechen der APIs mit den aus dem Scannen des Barcodes gewonnen Daten möglich ist._
  # *Speicherung der Sammlung* _Sinnvoll wäre eine Speicherung in einer einfachen Datenbank (SQLite)._
  # *Synchronisierung* _Eine Synchronisierung über das Internet wäre wünschenswert. Dafür könnten freie Cloud-Dienste wie Dropbox verwendet werden. Somit würde jedoch eine Abhängigkeit von anderen Apps erzeugt, was zu vermeiden wäre. Andere Möglichkeiten wären ein Dateiversand über E-Mail o.ä._
@@ -52,7 +52,9 @@ Eine Applikation, die den auf Datenträger(-Verpackungen) aufgedruckten Barcode 
 || 04.04.2011 - 08.04.2011|| Erstellung 3-SP ||
 || 04.04.2011 - 15.04.2011|| Einarbeitung ||
 || 20.04.2011 || GUI Prototyp ||
-|| 10.05.2011 || App, Funktionen & GUI verfeinern ||
+|| 01.05.2011 || BarCode einscannen ||
+|| 10.05.2011 || Fetching an Informationen ||
+|| 13.05.2011 || GUI verfeinern ||
 || 16.05.2011 || 1. Review ||
 || 19.06.2011 || Erste Integration, Prototyp ||
 || 27.06.2011 || Testen ||
