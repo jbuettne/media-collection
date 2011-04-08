@@ -1,7 +1,5 @@
 #summary MusicCollection - Android-Lab  - Sommersemester 2011
 
-[Articles Ziele Ziele]
-
 =Projektteam=
 
 || *Philipp Dermitzel* || *Jens Büttner* || *David Pollehn* ||
