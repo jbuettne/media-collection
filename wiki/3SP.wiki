@@ -66,5 +66,6 @@ Eine Applikation, die den auf Datenträger(-Verpackungen) aufgedruckten Barcode 
 
  * Möglicherweise ergeben sich Probleme bei der Anbindung an die Fetching-Dienste. In diesem Fall müsste nach alternativen Möglichkeiten gesucht werden. Hierbei wäre beispielsweise das Parsen von Google-Ergebnissseiten eine Variante.
 
- * Da die Anwendung nicht auf andere Infrastrukturen aufbauen soll (z. B. Dropbox), muss ein Weg gefunden werden, die Dateien mit dem Heim-PC zu synchronisieren. Sollte hier keine Möglichkeit, die Daten über das Internet zu übertragen, gefunden werden, müsste man auf das Übertragen als Datei per USB-Verbindung zurückgegriffen werden.
+ * Da die Anwendung nicht auf andere Infrastrukturen aufbauen soll (z. B. Dropbox), muss ein Weg gefunden werden, die Dateien mit dem Heim-PC zu synchronisieren. Sollte hier keine Möglichkeit, die Daten über das Internet zu übertragen, gefunden werden, müsste man auf das Übertragen als Datei per USB-Verbindung zurückgegriffen werden - wobei dies "ultima ratio" wäre.
+
  * (Möglicherweise gelingt die direkte Übertragung und Speicherung der Datenträger-Informationen in der Datenbank auf dem Computer nicht. Alternativ könnte zum Beispiel eine XML-Datei erstellt werden, welche manuell auf den Computer gesendet und eingelesen wird.)
