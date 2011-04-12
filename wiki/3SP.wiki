@@ -31,6 +31,15 @@ David Pollehn		`___________________________`
 
 Eine Applikation, die den auf Datenträger(-Verpackungen) aufgedruckten Barcode einlesen, entsprechende Daten aus dem Internet einholen und den Datenträger in die eigene Sammlung einfügen kann. Dabei sollen sowohl Tonträger (LPs, CDs) als auch Film-Medien (DVD, Bluray) und möglicherweise sogar Bücher gespeichert werden können.
 
+
+`der Haupteinsatzzweck der App soll zwar das Scannen, also das Neuaufnehmen von Medien in die Sammlung sein, natürlich soll aber auch die Möglichkeit bestehen, die Sammlung auf dem Handy einzusehen und zu bearbeiten - in geeigneter Form (Bilder auf Nachfrage laden, Filter, etc.).
+
+Der Export bezieht sich also nicht nur auf das gerade gescannte Medium, sondern auf die gesamte Sammlung.
+
+Die Ausgabe ist im Augenblick noch nicht genauer spezifiziert, da die von uns genannten Dienste leider keine Import-Funktion bieten. Daher wollten wir hier den Weg des geringsten Widerstandes wählen, und eine Wahlmöglichkeit beim Export bieten (XML, CSV, SQL, ...) Ein Nice-to-have wäre noch eine PC-Applikation, die entspreche Daten einliest und die Sammlung dann auf dem Rechner darstellt. Dies würden wir gerne angehen wenn wir die Zeit dazu haben oder auch nach dem Projekt.
+
+Hierbei wäre jedoch der Synchronisierungsaspekt wichtig. Natürlich hat niemand Lust, eine "exportierte" Datei per USB auf den Rechner zu laden, weshalb eine Möglichkeit, die Daten über das Internet zu synchronisieren wünschenswert wäre.`
+
 =Anforderungen=
  # Ein Barcode-Scanner, welcher die Barcodes diverser Datenträger einlesen kann
  # Webbasierte Dienste, welche (bestenfalls über eine API) das Einholen von Daten zu den Datenträgern erlauben
