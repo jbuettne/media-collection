@@ -1,6 +1,7 @@
 =Design-Entwürfe=
 
 *Hinweis*: Für alle Grafiken gilt: (c) 2011, Philipp Dermitzel
+*Hinweis 2*: Um die Wirkung auf dem Handy zu beurteilen, sollten die Grafiken (in Vollbild) auch auf dem Handy angeschaut werden.
 
 ===Entwurf 1===
 
@@ -17,4 +18,3 @@ http://www.philipp.agentur38.de/uni/android/entwurf-1_01_start.jpg
 Start-Screen, Version B:
 
 http://www.philipp.agentur38.de/uni/android/entwurf-1_01_start-2.jpg
-
