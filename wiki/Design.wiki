@@ -4,18 +4,19 @@
 
 *Hinweis 2*: Um die Wirkung auf dem Handy zu beurteilen, sollten die Grafiken (in Vollbild) auch auf dem Handy angeschaut werden.
 
-===Entwurf 1===
+===Loading-Screen===
 
-Loading-Screen:
+Version 1:
 
 http://www.philipp.agentur38.de/uni/android/entwurf-1_00_loading.jpg 
 
---------
-Start-Screen, Version A:
+===Start-Screen===
 
-http://www.philipp.agentur38.de/uni/android/entwurf-1_01_start.jpg
+Start-Screen, Version 4:
 
---------
-Start-Screen, Version B:
+http://www.philipp.agentur38.de/uni/android/entwurf-1_01_start-4.jpg
 
-http://www.philipp.agentur38.de/uni/android/entwurf-1_01_start-2.jpg
+*Alte Versionen:*
+  * Version 3: [http://www.philipp.agentur38.de/uni/android/entwurf-1_01_start-3.jpg Klick]
+  * Version 2: [http://www.philipp.agentur38.de/uni/android/entwurf-1_01_start-2.jpg Klick]
+  * Version 1: [http://www.philipp.agentur38.de/uni/android/entwurf-1_01_start-1.jpg Klick]
