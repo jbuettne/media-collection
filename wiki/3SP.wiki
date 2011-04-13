@@ -35,13 +35,16 @@ Eine Applikation, die den auf Datenträger(-Verpackungen) aufgedruckten Barcode 
 
 =Anforderungen=
  # Ein Barcode-Scanner, welcher die Barcodes diverser Datenträger einlesen kann
- # Webbasierte Dienste, welche (bestenfalls über eine API) das Einholen von Daten zu den Datenträgern erlauben
+ # Webbasierte Dienste für das Fethcne der Informationen zu dem Codes, die man eingescannt hat
+  * Diese Dienste sollen die Informationen bestenfalls über eine API bereitstellen
  # Eine durchdachte grafische Oberfläche, die eine einfache Bedienung des Programms ermöglicht
  # Eine Möglichkeit, die eingeholten Daten sinnvoll zu speichern
  # Eine Möglichkeit, die Sammlung mit dem PC zu synchronisieren
   * Vorerst soll die synchronisation über (XML, CSV, SQL, ...) erfolgen, da die uns bisher bekannten Dienste keine Import-/Exportfunktion besitzen
+  * Webbasierte Dienste, die das synchronisieren den Sammlung erlauben (Dropbox,...)
  # Eine Möglichkeit, die Sammlung auf dem SmartPhone anzuzeigen
  # Eine Möglichkeit, die Sammlung auf dem SmartPhone zu bearbeiten (Nice-to-have)
+  * Das bearbeiten kann ansonsten direkt über die XML Files erfolgen
 
 =Lösungsweg=
  # *GUI* _Keine Anmerkungen_
