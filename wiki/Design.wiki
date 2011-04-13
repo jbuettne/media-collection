@@ -1,0 +1,20 @@
+=Design-Entwürfe=
+
+*Hinweis*: Für alle Grafiken gilt: (c) 2011, Philipp Dermitzel
+
+===Entwurf 1===
+
+Loading-Screen:
+
+http://www.philipp.agentur38.de/uni/android/entwurf-1_00_loading.jpg 
+
+--------
+Start-Screen, Version A:
+
+http://www.philipp.agentur38.de/uni/android/entwurf-1_01_start.jpg
+
+--------
+Start-Screen, Version B:
+
+http://www.philipp.agentur38.de/uni/android/entwurf-1_01_start-2.jpg
+
