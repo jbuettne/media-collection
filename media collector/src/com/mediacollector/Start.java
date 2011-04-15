@@ -1,6 +1,7 @@
 package com.mediacollector;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -10,10 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class Start extends Activity {
+	
+	public static boolean loadFirst = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {    	
         super.onCreate(savedInstanceState);
+        if (Start.loadFirst) {
+        	loadData();
+        }
         setContentView(R.layout.start);        
         LinearLayout addField = (LinearLayout) findViewById(R.id.addField);
         addField.setOnClickListener(new OnClickListener() {
@@ -82,6 +88,11 @@ public class Start extends Activity {
             	toast.show();
             }
         });   
+    }
+    
+    private void loadData() {
+    	startActivity(new Intent(Start.this, com.mediacollector
+				.Loading.class));
     }
     
 }
