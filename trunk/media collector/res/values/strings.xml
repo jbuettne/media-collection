@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, Start! Hallo David!</string>
     <string name="app_name">Media Collector</string>
+    <string name="copyright_short">Media Collector (c) 2011\nfor more Informations visit\ncode.google.com/p/media-collection</string>
+    
+    <string name="BSNFD_title">BarcodeScanner not found</string>
+    <string name="BSNFD_message">This application requires Barcode Scanner. Would you like to install it?</string>
+    <string name="BSNFD_button_pos">Yes</string>
+    <string name="BSNFD_button_neg">No</string>
 </resources>

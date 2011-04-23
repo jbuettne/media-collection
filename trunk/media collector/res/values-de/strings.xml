@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Media Collector</string>
+    <string name="copyright_short">Media Collector (c) 2011\nfor more Informations visit\ncode.google.com/p/media-collection</string>
+    
+    <string name="BSNFD_title">BarcodeScanner wurde nicht gefunden</string>
+    <string name="BSNFD_message">Diese App benötigt den BarcodeScanner. Soll dieser installiert werden?</string>
+    <string name="BSNFD_button_pos">Ja</string>
+    <string name="BSNFD_button_neg">Nein</string>
+</resources>
