@@ -1,98 +1,91 @@
 package com.mediacollector;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+/**
+ * Der Start-Screen der Applikation. Sie zeigt die Hauptbuttons zum Scannen von
+ * neuen Medien sowie zum Browsen und Synchronisieren der Sammlungen. 
+ * @author Philipp Dermitzel
+ */
 public class Start extends Activity {
 	
-	public static boolean loadFirst = true;
+	/**
+	 * Das Paket, über welches der BarcodeScanner erreichbar ist. Da der 
+	 * MediaCollector auf diese App aufbaut, muss sie installiert sein. Sollte
+	 * dies nicht der Fall sein, so fragt der MediaCollector, ob sie 
+	 * installiert werden soll.
+	 */
+	public static final String BS_PACKAGE = "com.google.zxing.client.android";	
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {    	
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Start.loadFirst) {
-        	loadData();
-        }
         setContentView(R.layout.start);        
         LinearLayout addField = (LinearLayout) findViewById(R.id.addField);
-        addField.setOnClickListener(new OnClickListener() {
-        	public void onClick(View v) {
-        		Toast toast = Toast.makeText(Start.this, 
-        				"You clicked \"Add new Media\"", Toast.LENGTH_SHORT);
-            	toast.show();
+        addField.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                Intent intentScan = new Intent(BS_PACKAGE + ".SCAN");
+                intentScan.setPackage(BS_PACKAGE);
+                intentScan.addCategory(Intent.CATEGORY_DEFAULT);
+                try {
+                	startActivityForResult(intentScan, 0);
+                } catch (ActivityNotFoundException e) {
+                	showDownloadDialog();
+                }
             }
         });
-        LinearLayout syncField = (LinearLayout) findViewById(R.id.syncField);
-        syncField.setOnClickListener(new OnClickListener() {
-        	public void onClick(View v) {
-        		Toast toast = Toast.makeText(Start.this, 
-        				"You clicked \"Sync Collection\"", Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, 
+    		Intent intent) {
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                String contents = intent.getStringExtra("SCAN_RESULT");
+                Toast toast = Toast.makeText(Start.this, 
+        				contents, Toast.LENGTH_SHORT);
+            	toast.show();
+            } else if (resultCode == RESULT_CANCELED) {
+            	Toast toast = Toast.makeText(Start.this, 
+        				"Sorry, no scan-result", Toast.LENGTH_SHORT);
             	toast.show();
             }
-        });
-        LinearLayout browseAudioField = (LinearLayout) findViewById(R.id
-        		.browseAudioField);
-        browseAudioField.setOnClickListener(new OnClickListener() {
-        	public void onClick(View v) {
-        		Toast toast = Toast.makeText(Start.this, 
-        				"You clicked \"Browse Audio-Collection\"", 
-        				Toast.LENGTH_SHORT);
-            	toast.show();
-            }
-        });   
-        LinearLayout browseVideoField = (LinearLayout) findViewById(R.id
-        		.browseVideoField);
-        browseVideoField.setOnClickListener(new OnClickListener() {
-        	public void onClick(View v) {
-        		Toast toast = Toast.makeText(Start.this, 
-        				"You clicked \"Browse Video-Collection\"", 
-        				Toast.LENGTH_SHORT);
-            	toast.show();
-            }
-        });   
-        LinearLayout browseBooksField = (LinearLayout) findViewById(R.id
-        		.browseBooksField);
-        browseBooksField.setOnClickListener(new OnClickListener() {
-        	public void onClick(View v) {
-        		Toast toast = Toast.makeText(Start.this, 
-        				"You clicked \"Browse Books-Collection\"", 
-        				Toast.LENGTH_SHORT);
-            	toast.show();
-            }
-        });   
-        LinearLayout browseGamesField = (LinearLayout) findViewById(R.id
-        		.browseGamesField);
-        browseGamesField.setOnClickListener(new OnClickListener() {
-        	public void onClick(View v) {
-        		Toast toast = Toast.makeText(Start.this, 
-        				"You clicked \"Browse Games-Collection\"", 
-        				Toast.LENGTH_SHORT);
-            	toast.show();
-            }
-        });  
-        Button searchButton = (Button) findViewById(R.id.searchButton);
-        searchButton.setOnClickListener(new OnClickListener() {
-        	public void onClick(View v) {
-        		EditText searchText = (EditText) findViewById(R.id.searchText);
-        		Toast toast = Toast.makeText(Start.this, 
-        				"You want to search for\n\"" + searchText.getText()
-        				.toString() + "\"", 
-        				Toast.LENGTH_SHORT);
-            	toast.show();
-            }
-        });   
+        }
     }
     
-    private void loadData() {
-    	startActivity(new Intent(Start.this, com.mediacollector
-				.Loading.class));
+    /**
+     * Zeigt einen Dialog, der darauf hinweist, dass der MediaCollector den 
+     * BarcodeScanner benötigt und fragt nach, ob dieser installiert werden
+     * soll. In diesem Falle wird der Market geöffnet.
+     * @return AlertDialog: Der Dialog
+     */
+    private AlertDialog showDownloadDialog() {
+    	AlertDialog.Builder downloadDialog = new AlertDialog.Builder(this);
+    	downloadDialog.setTitle(getString(R.string.BSNFD_title));
+    	downloadDialog.setMessage(getString(R.string.BSNFD_message));
+    	downloadDialog.setPositiveButton(getString(R.string.BSNFD_button_pos), 
+    			new DialogInterface.OnClickListener() {
+    		public void onClick(DialogInterface dialogInterface, int i) {
+    			Uri uri = Uri.parse("market://search?q=pname:" + BS_PACKAGE);
+    			Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+    			startActivity(intent);
+    		}
+    	});
+    	downloadDialog.setNegativeButton(getString(R.string.BSNFD_button_neg), 
+    			new DialogInterface.OnClickListener() {
+    		public void onClick(DialogInterface dialogInterface, int i) {}
+    	});
+    	return downloadDialog.show();
     }
     
 }
