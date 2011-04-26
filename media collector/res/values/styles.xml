@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style name="CollectorTheme"
+		   parent="android:Theme.NoTitleBar">
+		<item name="android:windowBackground">
+			@color/background
+		</item>
+		<item name="android:textViewStyle">
+			@style/TextStyleNormal
+		</item>
+	
+	</style>
+	
+	<style name="TextStyleNormal">
+		<item name="android:textSize">14sp</item>
+		<item name="android:textColor">#ffff</item>
+	</style>
+	<style name="button">
+		<item name="android:textSize">14sp</item>
+		<item name="android:textColor">#ffff</item>
+	</style>
+</resources>
