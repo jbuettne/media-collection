@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 /**
- * Der Start-Screen der Applikation. Sie zeigt die Hauptbuttons zum Scannen von
+ * Der Start-Screen der Applikation. Sie zeigt die HauptButtons zum Scannen von
  * neuen Medien sowie zum Browsen und Synchronisieren der Sammlungen. 
  * @author Philipp Dermitzel
  */
