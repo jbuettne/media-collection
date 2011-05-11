@@ -8,16 +8,20 @@ import com.mediacollector.collection.TextImageEntry;
 
 import android.app.ExpandableListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  *  
@@ -25,11 +29,11 @@ import android.widget.TextView;
  */
 public abstract class EntryListing extends ExpandableListActivity {
 	
-	public 		String[] 			groups 		= null;
-	protected 	TextImageEntry[][] 	children 	= null;
+	private final String 				TEXT	 = "name";
+	private final String 				IMAGE	 = "image";
 	
-	private final String TEXT	 = "name";
-	private final String IMAGE	 = "image";
+	protected	  String[] 				groups 		= null;
+	protected 	  TextImageEntry[][] 	children 	= null;
 	
 	protected abstract void setData();
 	
@@ -38,7 +42,23 @@ public abstract class EntryListing extends ExpandableListActivity {
 		super.onCreate(savedInstanceState);
 		this.setData();
         setContentView(R.layout.entry_layout);
-
+        
+        LinearLayout logo = (LinearLayout) findViewById(R.id.logo_layout); 
+        ImageView more = (ImageView) findViewById(R.id.more);
+        
+        logo.setOnClickListener(new OnClickListener() {
+			public void onClick(View arg0) {
+				startActivity(new Intent(getBaseContext(), com.mediacollector
+						.Start.class));
+			}        	
+        });
+        more.setOnClickListener(new OnClickListener() {
+			public void onClick(View arg0) {
+				Toast toast = Toast.makeText(EntryListing.this, 
+        				"Hier kommt bald eine Animation ;-)", Toast.LENGTH_SHORT);
+            	toast.show();
+			}        	
+        });
         final LayoutInflater layoutInflater = (LayoutInflater) 
         	this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         
