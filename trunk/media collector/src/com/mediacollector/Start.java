@@ -1,5 +1,7 @@
 package com.mediacollector;
 
+import com.mediacollector.collection.Database;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -8,6 +10,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -30,7 +33,7 @@ public class Start extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.start);        
+        setContentView(R.layout.start);
         LinearLayout addField = (LinearLayout) findViewById(R.id.addField);
         addField.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
@@ -44,6 +47,16 @@ public class Start extends Activity {
                 }
             }
         });
+        LinearLayout browseAudioField = (LinearLayout) findViewById(
+        		R.id.browseAudioField);
+        browseAudioField.setOnClickListener(new OnClickListener() {			
+			public void onClick(View v) {
+    			startActivity(new Intent(getBaseContext(), com.mediacollector
+    					.collection.audio.listings.ArtistListing.class));
+			}
+		});
+        /*Database db = Database.getInstance();
+        db.createDb();*/
     }
 
     @Override
