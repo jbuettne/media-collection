@@ -9,6 +9,7 @@ import com.mediacollector.collection.TextImageEntry;
 import android.app.ExpandableListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -34,6 +35,7 @@ public abstract class EntryListing extends ExpandableListActivity {
 	
 	protected	  String[] 				groups 		= null;
 	protected 	  TextImageEntry[][] 	children 	= null;
+	protected	  ImageView				more		= null;
 	
 	protected abstract void setData();
 	
@@ -44,19 +46,13 @@ public abstract class EntryListing extends ExpandableListActivity {
         setContentView(R.layout.entry_layout);
         
         LinearLayout logo = (LinearLayout) findViewById(R.id.logo_layout); 
-        ImageView more = (ImageView) findViewById(R.id.more);
+        this.more = (ImageView) findViewById(R.id.more);
+        this.hideHeader();
         
         logo.setOnClickListener(new OnClickListener() {
 			public void onClick(View arg0) {
 				startActivity(new Intent(getBaseContext(), com.mediacollector
 						.Start.class));
-			}        	
-        });
-        more.setOnClickListener(new OnClickListener() {
-			public void onClick(View arg0) {
-				Toast toast = Toast.makeText(EntryListing.this, 
-        				"Hier kommt bald eine Animation ;-)", Toast.LENGTH_SHORT);
-            	toast.show();
 			}        	
         });
         final LayoutInflater layoutInflater = (LayoutInflater) 
@@ -122,6 +118,28 @@ public abstract class EntryListing extends ExpandableListActivity {
         	}
         });
 		registerForContextMenu(getExpandableListView());
+	}
+	
+	public void showHeader() {
+		findViewById(R.id.overall_header_spacer).setVisibility(View.VISIBLE);
+		findViewById(R.id.overall_header_invisib).setVisibility(View.VISIBLE);
+		this.more.setOnClickListener(new OnClickListener() {        	
+			public void onClick(View arg0) {
+            	hideHeader();
+			}        	
+        });
+		//this.more.setImageResource(R.drawable.less);
+	}
+	
+	public void hideHeader() {
+		findViewById(R.id.overall_header_spacer).setVisibility(View.GONE);
+		findViewById(R.id.overall_header_invisib).setVisibility(View.GONE);
+		this.more.setOnClickListener(new OnClickListener() {        	
+			public void onClick(View arg0) {
+            	showHeader();
+			}        	
+        });
+		//this.more.setImageResource(R.drawable.more);
 	}
 	
 }
