@@ -55,6 +55,13 @@ public class Start extends Activity {
     					.collection.audio.listings.ArtistListing.class));
 			}
 		});
+        LinearLayout browseGamesField = (LinearLayout) findViewById(
+        		R.id.browseGamesField);
+        browseGamesField.setOnClickListener(new OnClickListener() {			
+			public void onClick(View v) {
+    			startActivity(new Intent(getBaseContext(), ScanResult.class));
+			}
+		});
         /*Database db = Database.getInstance();
         db.createDb();*/
     }

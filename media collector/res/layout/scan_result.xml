@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/radialbackground" 
+    android:orientation="vertical">
+    <RelativeLayout android:layout_width="match_parent" 
+                    android:id="@+id/relativeLayout1" 
+                    android:layout_height="wrap_content">
+        <ImageView android:id="@+id/imageView1" 
+                   android:layout_width="wrap_content" 
+                   android:layout_height="wrap_content" 
+                   android:src="@drawable/logo_bird" 
+                   android:layout_alignParentRight="true"></ImageView>
+        <ImageView android:id="@+id/imageView2" 
+                   android:layout_width="wrap_content" 
+                   android:layout_height="wrap_content" 
+                   android:src="@drawable/logo_schrift_middle"
+                   android:layout_marginTop="55sp"
+                   android:layout_marginLeft="20sp"></ImageView>
+        <View android:id="@+id/spacer1"
+              android:layout_width="match_parent"
+              android:layout_height="0.1dip"
+              android:layout_marginLeft="10sp"
+              android:layout_marginRight="35sp"
+              android:background="#44FFFFFF"
+              android:layout_marginTop="80sp" />
+    </RelativeLayout>
+    <LinearLayout android:id="@+id/linearLayout1" 
+        android:layout_height="wrap_content" 
+        android:layout_width="match_parent" 
+        android:orientation="vertical" 
+        android:layout_marginLeft="20sp">
+        <ImageView android:src="@drawable/aa_cover" 
+            android:id="@+id/imageView3" 
+            android:layout_width="225sp"
+            android:layout_height="225sp"></ImageView>
+        <TextView android:text="Amon Amarth" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:id="@+id/textView1"
+            android:textSize="14sp"
+            android:layout_marginTop="20sp"
+            ></TextView>
+        <TextView android:text="Surtur Rising (Limited Edition)" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:id="@+id/textView2"
+            android:textSize="18sp"></TextView>
+    </LinearLayout>
+    <RelativeLayout android:id="@+id/relativeLayout2" 
+        android:layout_height="match_parent" 
+        android:layout_width="match_parent"
+        android:paddingBottom="20sp"
+        android:layout_marginRight="20sp"
+        android:layout_marginLeft="20sp">
+        <TextView android:text="〈 back to start" 
+            android:id="@+id/textView3" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:textSize="12sp"
+            android:layout_alignParentBottom="true"></TextView>
+        <TextView android:text="add to collection 〉" 
+            android:id="@+id/textView4" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"></TextView>
+    </RelativeLayout>
+</LinearLayout>
