@@ -1,6 +1,7 @@
 package com.mediacollector.collection;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.Context;
@@ -37,9 +38,15 @@ public class Database extends Activity {
 	public void executeStatement(final String statement) {}	
 	public void executeStatements(final String[] statements) {}
 	public void create() {}
-	public void select() {}
+	public void select(final String select, final String from, 
+			final String where) {
+		this.select(select, from, where, null);
+	}
+	public void select(final String select, final String from, 
+			final String where, final String add) {}
 	public void update() {}
-	public void delete() {}
+	public void delete(final String from, final String where) {}
+	public void insert(final String into, final HashMap<String, ?> values) {}
 	public void createDb() {
 		/*if (this.dbHandle == null) this.connectToDb();
 		this.dbHandle.beginTransaction();
