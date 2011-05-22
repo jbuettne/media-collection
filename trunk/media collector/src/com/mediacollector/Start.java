@@ -29,7 +29,8 @@ public class Start extends Activity {
 	 * installiert werden soll.
 	 */
 	public static final String BS_PACKAGE = "com.google.zxing.client.android";	
-
+	private Database dbHandle;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,8 +63,27 @@ public class Start extends Activity {
     			startActivity(new Intent(getBaseContext(), ScanResult.class));
 			}
 		});
-        /*Database db = Database.getInstance();
-        db.createDb();*/
+        LinearLayout browseBooksField = (LinearLayout) findViewById(
+        		R.id.browseBooksField);
+        browseBooksField.setOnClickListener(new OnClickListener() {			
+			public void onClick(View v) {
+    			startActivity(new Intent(getBaseContext(), TestDBEntry.class));
+			}
+		});
+        LinearLayout browseVideoField = (LinearLayout) findViewById(
+        		R.id.browseVideoField);
+        browseVideoField.setOnClickListener(new OnClickListener() {			
+			public void onClick(View v) {
+    			startActivity(new Intent(getBaseContext(), TestDBDelete.class));
+			}
+		});
+        dbHandle = new Database(this);
+    }
+    
+    @Override
+    protected void onDestroy() {
+        dbHandle.closeConnection();
+        super.onDestroy();
     }
 
     @Override

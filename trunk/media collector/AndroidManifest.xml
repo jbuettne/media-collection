@@ -25,6 +25,12 @@
         <activity android:name=".ScanResult"
                   android:label="@string/app_name">
         </activity>
+        <activity android:name=".TestDBEntry"
+                  android:label="@string/app_name">
+        </activity>
+        <activity android:name=".TestDBDelete"
+                  android:label="@string/app_name">
+        </activity>
         <activity android:name=".collection.audio.listings.ArtistListing"></activity>
     </application>
 </manifest>
