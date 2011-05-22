@@ -17,6 +17,11 @@ public class Cd {
 	
 	private HashMap<String, Object> data   = new HashMap<String, Object>();
 	
+	public Cd(final int id) {
+		this.data.put("id", id);
+		this.getDataFromDb();
+	}
+	
 	public void setData(final HashMap<String, Object> dataMap) {}
 	public void setValue(final String key, final Object value) {}
 	public HashMap<String, Object> getData() { 

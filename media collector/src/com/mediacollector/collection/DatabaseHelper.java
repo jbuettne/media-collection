@@ -1,90 +1,104 @@
 package com.mediacollector.collection;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import android.content.Context;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-
-	private static String DB_PATH = "/data/data/com.mediacollector/databases/";
-	private static String DB_NAME = "mcData";
-	private SQLiteDatabase db;
-	private final Context context;
+	private static final String DATENBANK_NAME = "mcData.db";
+	private static final int DATENBANK_VERSION = 1;
 
 	public DatabaseHelper(Context context) {
-		super(context, DB_NAME, null, 1);
-		this.context = context;
+		super(context, DATENBANK_NAME, null, DATENBANK_VERSION);
 	}
 
-	public void createDb() throws IOException {
-		boolean dbExist = checkDataBase();
-		if (dbExist) {
-		} else {
-			this.getReadableDatabase();
-			try {
-				copyDataBase();
-			} catch (IOException e) {
-				throw new Error("Error copying database");
-			}
-		}
+	public interface T_Artist {
+
+		public static final String COL_ARTIST_ID = "_id";
+		public static final String COL_ARTIST_NAME = "name";
+		public static final String COL_ARTIST_IMAGE = "imgPath";
+		public static final String COL_ARTIST_MBID = "mbId";
+
+		static final String TABLE_NAME = "Artist";
+
+		static final String SQL_CREATE = "CREATE TABLE Artist (				"
+				+ "	_id		INTEGER			PRIMARY KEY AUTOINCREMENT,		"
+				+ "	name	VARCHAR(500)	NOT NULL,						"
+				+ "	imgPath	VARCHAR(500),									"
+				+ "	mbId	VARCHAR(500)									"
+				+ ");";
+
+		static final String STMT_FULL_INSERT = "INSERT INTO Artist (		"
+				+ "	name, imgPath, mbId)  									"
+				+ " 	values (?,?,?)";
+		
+		static final String STMT_DELETE = "DELETE FROM Artist WHERE ?";
 	}
 
-	private boolean checkDataBase() {
-		SQLiteDatabase checkDB = null;
-		try {
-			String dbPath = DB_PATH + DB_NAME;
-			checkDB = SQLiteDatabase.openDatabase(dbPath, null,
-					SQLiteDatabase.OPEN_READONLY);
-		} catch (SQLiteException e) {
-			// this.createDb();
-		}
-		if (checkDB != null) {
-			checkDB.close();
-		}
-		return checkDB != null ? true : false;
+	public interface T_Cd {
+
+		public static final String COL_CD_ID = "_id";
+		public static final String COL_CD_NAME = "name";
+		public static final String COL_CD_ARTIST = "artist";
+		public static final String COL_CD_YEAR = "year";
+		public static final String COL_ARTIST_IMAGE = "imgPath";
+		public static final String COL_ARTIST_MBID = "mbId";
+
+		static final String TABLE_NAME = "Cd";
+
+		static final String SQL_CREATE = "CREATE TABLE Cd (					"
+				+ "	_id		INTEGER			PRIMARY KEY AUTOINCREMENT,		"
+				+ "	name	VARCHAR(500)	NOT NULL,						"
+				+ "	artist	INTEGER 		REFERENCES Artist,				"
+				+ "	year	INTEGER,										"
+				+ "	imgPath	VARCHAR(500),									"
+				+ "	mbId	VARCHAR(500)									"
+				+ ");";
+
+		static final String STMT_FULL_INSERT = "INSERT INTO Cd (			"
+				+ "	name, artist, year, imgPath, mbId)  					"
+				+ " 	values (?,?,?,?,?)";
 	}
 
-	private void copyDataBase() throws IOException {
-		InputStream inputStream = this.context.getAssets().open(DB_NAME);
-		String outFileName = DB_PATH + DB_NAME;
-		OutputStream outputStream = new FileOutputStream(outFileName);
+	public interface T_Track {
 
-		byte[] buffer = new byte[1024];
-		int length;
-		while ((length = inputStream.read(buffer)) > 0) {
-			outputStream.write(buffer, 0, length);
-		}
+		public static final String COL_TRACK_ID = "_id";
+		public static final String COL_TRACK_NAME = "name";
+		public static final String COL_TRACK_ARTIST = "artist";
+		public static final String COL_TRACK_CD = "cd";
+		public static final String COL_TRACK_TRACKONCD = "trackOnCd";
+		public static final String COL_TRACK_LENGTH = "length";
+		public static final String COL_TRACK_IMAGE = "imgPath";
+		public static final String COL_TRACK_MBID = "mbId";
 
-		outputStream.flush();
-		outputStream.close();
-		inputStream.close();
+		static final String TABLE_NAME = "Track";
 
+		static final String SQL_CREATE = "CREATE TABLE Track (				"
+				+ "	_id			INTEGER			PRIMARY KEY AUTOINCREMENT,	"
+				+ "	name		VARCHAR(500)	NOT NULL,					"
+				+ "	artist		INTEGER 		REFERENCES Artist,			"
+				+ "	cd			INTEGER 		REFERENCES Cd,				"
+				+ "	trackOnCd	INTEGER,									"
+				+ "	length		INTEGER,									"
+				+ "	imgPath		VARCHAR(500),								"
+				+ "	mbId		VARCHAR(500)								"
+				+ ");";
+
+		static final String STMT_FULL_INSERT = "INSERT INTO Track (		"
+				+ "	name, artist, cd, trackOnCd, length, imgPath, mbId) "
+				+ " 	values (?,?,?,?,?,?,?)";
 	}
 
-	public void openDataBase() throws SQLException {
-		String dbPath = DB_PATH + DB_NAME;
-		db = SQLiteDatabase.openDatabase(dbPath, null,
-				SQLiteDatabase.OPEN_READONLY);
+	public void onCreate(SQLiteDatabase db) {
+		db.execSQL(T_Artist.SQL_CREATE);
+		db.execSQL(T_Cd.SQL_CREATE);
+		db.execSQL(T_Track.SQL_CREATE);
 	}
 
-	@Override
-	public synchronized void close() {
-		if (this.db != null)
-			this.db.close();
-		super.close();
-
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+	    db.execSQL("DROP TABLE IF EXISTS " + T_Artist.TABLE_NAME);
+	    db.execSQL("DROP TABLE IF EXISTS " + T_Cd.TABLE_NAME);
+	    db.execSQL("DROP TABLE IF EXISTS " + T_Track.TABLE_NAME);
+		onCreate(db);
 	}
-
-	@Override
-	public void onCreate(SQLiteDatabase db) {}
-
-	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
-
 }
