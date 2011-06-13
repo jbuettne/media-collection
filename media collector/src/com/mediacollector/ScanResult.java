@@ -2,6 +2,10 @@ package com.mediacollector;
 
 import android.os.Bundle;
 
+/**
+ * 
+ * @author Philipp Dermitzel
+ */
 public class ScanResult extends RegisteredActivity {
 	
 	@Override

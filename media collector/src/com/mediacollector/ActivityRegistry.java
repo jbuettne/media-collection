@@ -34,6 +34,7 @@ public class ActivityRegistry {
 			Activity activitiy = (Activity) obj;
 			activitiy.finish();
 		}
+		System.exit(0);
 	}
-
+	
 }
