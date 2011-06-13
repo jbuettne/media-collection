@@ -24,13 +24,6 @@ import android.widget.Toast;
  */
 public class Start extends RegisteredActivity {
 	
-	/**
-	 * Das Paket, über welches der BarcodeScanner erreichbar ist. Da der 
-	 * MediaCollector auf diese App aufbaut, muss sie installiert sein. Sollte
-	 * dies nicht der Fall sein, so fragt der MediaCollector, ob sie 
-	 * installiert werden soll.
-	 */
-	public static final String BS_PACKAGE = "com.google.zxing.client.android";	
 	private Database dbHandle;
 	
     @Override
@@ -40,14 +33,7 @@ public class Start extends RegisteredActivity {
         LinearLayout addField = (LinearLayout) findViewById(R.id.addField);
         addField.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                Intent intentScan = new Intent(BS_PACKAGE + ".SCAN");
-                intentScan.setPackage(BS_PACKAGE);
-                intentScan.addCategory(Intent.CATEGORY_DEFAULT);
-                try {
-                	startActivityForResult(intentScan, 0);
-                } catch (ActivityNotFoundException e) {
-                	showDownloadDialog();
-                }
+            	startActivity(new Intent(getBaseContext(), ScanBarcode.class));
             }
         });
         LinearLayout browseAudioField = (LinearLayout) findViewById(
@@ -86,65 +72,6 @@ public class Start extends RegisteredActivity {
     protected void onDestroy() {
         dbHandle.closeConnection();
         super.onDestroy();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, 
-    		Intent intent) {
-        if (requestCode == 0) {
-            if (resultCode == RESULT_OK) {
-                String contents = intent.getStringExtra("SCAN_RESULT");
-                Toast toast = Toast.makeText(Start.this, 
-        				contents, Toast.LENGTH_SHORT);
-            	toast.show();
-            } else if (resultCode == RESULT_CANCELED) {
-            	Toast toast = Toast.makeText(Start.this, 
-        				"Sorry, no scan-result", Toast.LENGTH_SHORT);
-            	toast.show();
-            }
-        }
-    }
-    
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return true;
-    }
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-    	switch (item.getItemId()) {
-    		case R.id.menu_exit:
-    			ActivityRegistry.closeAll();
-    			return true;
-    		default: return true;
-    	}
-    }
-    
-    /**
-     * Zeigt einen Dialog, der darauf hinweist, dass der MediaCollector den 
-     * BarcodeScanner benötigt und fragt nach, ob dieser installiert werden
-     * soll. In diesem Falle wird der Market geöffnet.
-     * @return AlertDialog: Der Dialog
-     */
-    private AlertDialog showDownloadDialog() {
-    	AlertDialog.Builder downloadDialog = new AlertDialog.Builder(this);
-    	downloadDialog.setTitle(getString(R.string.BSNFD_title));
-    	downloadDialog.setMessage(getString(R.string.BSNFD_message));
-    	downloadDialog.setPositiveButton(getString(R.string.BSNFD_button_pos), 
-    			new DialogInterface.OnClickListener() {
-    		public void onClick(DialogInterface dialogInterface, int i) {
-    			Uri uri = Uri.parse("market://search?q=pname:" + BS_PACKAGE);
-    			Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-    			startActivity(intent);
-    		}
-    	});
-    	downloadDialog.setNegativeButton(getString(R.string.BSNFD_button_neg), 
-    			new DialogInterface.OnClickListener() {
-    		public void onClick(DialogInterface dialogInterface, int i) {}
-    	});
-    	return downloadDialog.show();
     }
     
 }
