@@ -20,10 +20,10 @@ public class TestDBDelete extends Activity {
         super.onCreate(savedInstanceState);
         //try {
         Database db = new Database(this); 
-            Artist fanta = new Artist(getBaseContext(), "Fanta 1");
+            Artist fanta = new Artist(getBaseContext(), "Fanta 2");
         	showExDialog(fanta);
             fanta.deleteFromDb();
-        //} catch (Throwable ex) {
+            //} catch (Throwable ex) {
         //}
     }
     private AlertDialog showExDialog(Artist artist) {
