@@ -2,7 +2,6 @@ package com.mediacollector;
 
 import com.mediacollector.collection.Database;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -11,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -22,7 +22,7 @@ import android.widget.Toast;
  * neuen Medien sowie zum Browsen und Synchronisieren der Sammlungen. 
  * @author Philipp Dermitzel
  */
-public class Start extends Activity {
+public class Start extends RegisteredActivity {
 	
 	/**
 	 * Das Paket, über welches der BarcodeScanner erreichbar ist. Da der 
@@ -110,6 +110,16 @@ public class Start extends Activity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	switch (item.getItemId()) {
+    		case R.id.menu_exit:
+    			ActivityRegistry.closeAll();
+    			return true;
+    		default: return true;
+    	}
     }
     
     /**

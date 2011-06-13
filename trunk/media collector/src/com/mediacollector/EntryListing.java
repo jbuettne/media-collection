@@ -40,6 +40,7 @@ public abstract class EntryListing extends ExpandableListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		ActivityRegistry.register(this);
 		this.setData();
         setContentView(R.layout.entry_layout);
         

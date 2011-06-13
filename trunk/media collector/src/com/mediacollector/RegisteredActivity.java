@@ -1,13 +1,14 @@
 package com.mediacollector;
 
+import android.app.Activity;
 import android.os.Bundle;
 
-public class ScanResult extends RegisteredActivity {
+public class RegisteredActivity extends Activity {
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.scan_result);
-    }
+        ActivityRegistry.register(this);
+	}
 
 }
