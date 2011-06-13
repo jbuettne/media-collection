@@ -41,8 +41,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		public static final String COL_CD_NAME = "name";
 		public static final String COL_CD_ARTIST = "artist";
 		public static final String COL_CD_YEAR = "year";
-		public static final String COL_ARTIST_IMAGE = "imgPath";
-		public static final String COL_ARTIST_MBID = "mbId";
+		public static final String COL_CD_IMAGE = "imgPath";
+		public static final String COL_CD_MBID = "mbId";
 
 		static final String TABLE_NAME = "Cd";
 
@@ -50,7 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				+ "	_id		INTEGER			PRIMARY KEY AUTOINCREMENT,		"
 				+ "	name	VARCHAR(500)	NOT NULL,						"
 				+ "	artist	INTEGER 		REFERENCES Artist,				"
-				+ "	year	INTEGER,										"
+				+ "	year	LONG,										"
 				+ "	imgPath	VARCHAR(500),									"
 				+ "	mbId	VARCHAR(500)									"
 				+ ");";
@@ -68,7 +68,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		public static final String COL_TRACK_CD = "cd";
 		public static final String COL_TRACK_TRACKONCD = "trackOnCd";
 		public static final String COL_TRACK_LENGTH = "length";
-		public static final String COL_TRACK_IMAGE = "imgPath";
 		public static final String COL_TRACK_MBID = "mbId";
 
 		static final String TABLE_NAME = "Track";
@@ -76,17 +75,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		static final String SQL_CREATE = "CREATE TABLE Track (				"
 				+ "	_id			INTEGER			PRIMARY KEY AUTOINCREMENT,	"
 				+ "	name		VARCHAR(500)	NOT NULL,					"
-				+ "	artist		INTEGER 		REFERENCES Artist,			"
-				+ "	cd			INTEGER 		REFERENCES Cd,				"
-				+ "	trackOnCd	INTEGER,									"
-				+ "	length		INTEGER,									"
-				+ "	imgPath		VARCHAR(500),								"
+				+ "	artist		INTEGER	 		REFERENCES Artist,			"
+				+ "	cd			INTEGER	 		REFERENCES Cd,				"
+				+ "	trackOnCd	LONG,									"
+				+ "	length		DOUBLE,										"
 				+ "	mbId		VARCHAR(500)								"
 				+ ");";
 
 		static final String STMT_FULL_INSERT = "INSERT INTO Track (		"
-				+ "	name, artist, cd, trackOnCd, length, imgPath, mbId) "
-				+ " 	values (?,?,?,?,?,?,?)";
+				+ "	name, artist, cd, trackOnCd, length, mbId) "
+				+ " 	values (?,?,?,?,?,?)";
 	}
 
 	public void onCreate(SQLiteDatabase db) {

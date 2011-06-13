@@ -5,15 +5,17 @@ import java.util.HashMap;
 import com.mediacollector.collection.Database;
 import com.mediacollector.collection.DatabaseHelper;
 import com.mediacollector.collection.audio.Artist;
+import com.mediacollector.collection.audio.Cd;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-public class TestDBEntry extends Activity {
+public class TestDBEntry extends ListActivity {
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -21,12 +23,23 @@ public class TestDBEntry extends Activity {
         //try {
         Database db = new Database(this);
         for (Integer i = 0; i <= 3; i++) {
-            HashMap<String, Object> data = new HashMap<String, Object>();
-            data.put("name", "Fanta " + i);
-            data.put("imgPath", "test.jpg");
-            data.put("mbId", "h72626ks787");
+            HashMap<String, Object> artist = new HashMap<String, Object>();
+            artist.put("name", "Fanta " + i);
+            artist.put("imgPath", "test.jpg");
+            artist.put("mbId", "h72626ks787");
             Artist fanta = new Artist(getBaseContext());
-            fanta.setData(data);
+            fanta.setData(artist);
+            fanta.insertIntoDb();
+        }
+        for (Integer i = 0; i <= 3; i++) {
+            HashMap<String, Object> cd = new HashMap<String, Object>();
+            cd.put("name", "Lauschgift " + i);
+            cd.put("artist", i);
+            cd.put("year", 2011);
+            cd.put("imgPath", "test.jpg");
+            cd.put("mbId", "h72626ks787");
+            Cd fanta = new Cd(getBaseContext());
+            fanta.setData(cd);
             fanta.insertIntoDb();
         }
         //} catch (Throwable ex) {

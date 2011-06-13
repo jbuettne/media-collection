@@ -34,11 +34,13 @@ public class Artist{
 	 * entsprechenden getter und setter gelesen/gesetzt werden.
 	 */
 	private HashMap<String, Object> data = new HashMap<String, Object>();
-	private Cursor dbCursor;
+	private Cursor dbCursor = null;
 	private String sqlWhere;
 	private DatabaseHelper dbHelper;
+	private Context context;
 	public Artist(Context context) {
 		dbHelper = new DatabaseHelper(context);
+		this.context = context;
 	}
 
 	public Artist(Context context, final int id) {
@@ -158,6 +160,8 @@ public class Artist{
 		} catch (Throwable ex) {
 			Log.e("Artist - getDataFromDb", "Konnte Daten nicht einfügen", ex);
 			ex.printStackTrace();
+		} finally {
+			dbCursor.close();
 		}
 
 	}
@@ -209,21 +213,20 @@ public class Artist{
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
 					"SELECT _id FROM Cd WHERE " + sqlWhere, null);
-		    if (dbCursor == null || dbCursor.moveToFirst() == false) {
-		    	
-		      }
+			if (dbCursor == null || dbCursor.moveToFirst() == false) {}
 			ArrayList<Cd> albumList = new ArrayList<Cd>();
 			while (dbCursor.moveToNext()) {
-				Cd curAlbum = new Cd(dbCursor.getInt(dbCursor
+				Cd curAlbum = new Cd(this.context, dbCursor.getInt(dbCursor
 						.getColumnIndexOrThrow(T_Cd.COL_CD_ID)));
 				albumList.add(curAlbum);
 				dbCursor.moveToNext();
 			}
-			dbCursor.close();
 			return albumList;
 		} catch (Throwable ex) {
 			Log.e("Artist - getAlbums", "Artist nicht gefunden", ex);
 			ex.printStackTrace();
+		} finally {
+			dbCursor.close();
 		}
 		/*
 		 * if id != null: sqlWhere = "artist = '" + id + "';"; else if name !=
