@@ -7,12 +7,12 @@
         android:layout_width="match_parent" 
         android:layout_height="wrap_content" 
         android:orientation="vertical" 
-        android:background="@drawable/radialbackground">
+        android:background="@drawable/radialbackground"
+        android:clickable="true">
         <LinearLayout android:id="@+id/overall_header_visib" 
             android:layout_width="match_parent" 
             android:layout_height="wrap_content">
             <LinearLayout android:id="@+id/logo_layout" 
-                android:clickable="true" 
                 android:layout_width="wrap_content" 
                 android:layout_height="match_parent">
                 <ImageView android:layout_marginBottom="5sp" 
@@ -30,7 +30,7 @@
                     android:layout_marginTop="7sp" 
                     android:src="@drawable/logo_schrift_small"></ImageView>
             </LinearLayout>
-            <RelativeLayout android:layout_width="wrap_content" 
+            <!-- <RelativeLayout android:layout_width="wrap_content" 
                 android:layout_height="match_parent" 
                 android:id="@+id/relativeLayout1">
                 <ImageView android:layout_marginRight="10sp" 
@@ -41,9 +41,9 @@
                     android:clickable="true" 
                     android:src="@drawable/more" 
                     android:layout_centerVertical="true"></ImageView>
-            </RelativeLayout>
+            </RelativeLayout> -->
         </LinearLayout>
-        <View android:id="@+id/overall_header_spacer"
+        <!-- <View android:id="@+id/overall_header_spacer"
               android:layout_width="match_parent"
               android:layout_height="0.1dip"
               android:layout_marginTop="7sp"
@@ -102,12 +102,6 @@
                         android:layout_gravity="center"
                         android:layout_marginBottom="5sp"></TextView>
                 </LinearLayout>
-                <!-- <View android:id="@+id/spacer2"
-                    android:layout_width="0.1dip"
-                    android:layout_height="50sp"
-                    android:background="#44FFFFFF"
-                    android:layout_marginBottom="10sp"
-                    android:layout_marginRight="20sp" /> -->
                 <LinearLayout android:id="@+id/syncField" 
                     android:layout_width="wrap_content" 
                     android:layout_height="match_parent" 
@@ -189,7 +183,7 @@
                         android:layout_marginBottom="5sp"></TextView>
                 </LinearLayout>
             </LinearLayout>
-        </HorizontalScrollView>
+        </HorizontalScrollView> -->
     </LinearLayout>
     <ExpandableListView android:id="@+id/android:list" 
         android:layout_width="fill_parent" 
