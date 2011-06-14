@@ -44,6 +44,7 @@ public class ArtistListing extends EntryListing {
 			dbCursor.close();
 		}
 		
+		
 		TextImageEntry[][] children = {
 				{ new TextImageEntry("Mit Raben und Wölfen", 
 						getResources().getDrawable(R.drawable.color_red))

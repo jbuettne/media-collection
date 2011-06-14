@@ -32,6 +32,9 @@ public class RegisteredActivity extends Activity {
     		case R.id.menu_scan:
     			startActivity(new Intent(getBaseContext(), ScanBarcode.class));
     			return true;
+    		case R.id.menu_settings:    			
+    			startActivity(new Intent(getBaseContext(), Preferences.class));
+    			return true;
     		case R.id.menu_exit:
     			ActivityRegistry.closeAll();
     			return true;
