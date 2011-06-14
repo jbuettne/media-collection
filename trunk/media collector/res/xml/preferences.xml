@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Images" android:background="#fff">
+        <CheckBoxPreference android:title="Store images"
+            android:defaultValue="true"
+            android:summary="Store all images on your phone"
+            android:key="checkboxPref" />
+        <CheckBoxPreference android:title="Resize images "
+            android:defaultValue="true"
+            android:summary="Store resized images for faster access"
+            android:key="checkboxPref" />
+    </PreferenceCategory>  
+</PreferenceScreen>
