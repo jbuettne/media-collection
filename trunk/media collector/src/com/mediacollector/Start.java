@@ -65,7 +65,7 @@ public class Start extends RegisteredActivity {
     			startActivity(new Intent(getBaseContext(), TestDBDelete.class));
 			}
 		});
-        dbHandle = new Database(this);
+        //dbHandle = new Database(this);
     }
     
     @Override

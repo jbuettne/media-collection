@@ -10,8 +10,6 @@ import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import com.mediacollector.collection.DatabaseHelper;
-import com.mediacollector.collection.DatabaseHelper.T_Artist;
-import com.mediacollector.collection.DatabaseHelper.T_Cd;
 
 /**
  * OR-Mapper für 'Cd'.
@@ -80,8 +78,8 @@ public class Cd {
 	public int getArtist() {
 		return (Integer) this.data.get("artist");
 	}
-	public long getYear() {
-		return (Long) this.data.get("year");
+	public int getYear() {
+		return (Integer) this.data.get("year");
 	}
 	public String getImgPath() {
 		return (String) this.data.get("imgPath");
@@ -105,18 +103,18 @@ public class Cd {
 		    	Log.e("CdFromDB", "test");
 		      }
 			this.data.put("id", dbCursor.getInt(dbCursor
-					.getColumnIndexOrThrow(T_Cd.COL_CD_ID)));
+					.getColumnIndexOrThrow(AlbumTbl
+							.COL_ALBUM_ID)));
 			this.data.put("name", dbCursor.getString(dbCursor
-					.getColumnIndexOrThrow(T_Cd.COL_CD_NAME)));
+					.getColumnIndexOrThrow(AlbumTbl.COL_ALBUM_NAME)));
 			this.data.put("artist", dbCursor.getString(dbCursor
-					.getColumnIndexOrThrow(T_Cd.COL_CD_ARTIST)));
+					.getColumnIndexOrThrow(AlbumTbl.COL_ALBUM_ARTIST)));
 			this.data.put("year", dbCursor.getString(dbCursor
-					.getColumnIndexOrThrow(T_Cd.COL_CD_YEAR)));
+					.getColumnIndexOrThrow(AlbumTbl.COL_ALBUM_YEAR)));
 			this.data.put("imgPath", dbCursor.getString(dbCursor
-					.getColumnIndexOrThrow(T_Cd.COL_CD_IMAGE)));
+					.getColumnIndexOrThrow(AlbumTbl.COL_ALBUM_IMAGE)));
 			this.data.put("mbId", dbCursor.getString(dbCursor
-					.getColumnIndexOrThrow(T_Cd.COL_CD_MBID)));
-			dbCursor.close();
+					.getColumnIndexOrThrow(AlbumTbl.COL_ALBUM_MBID)));
 		} catch (Throwable ex) {
 			Log.e("Cd - getDataFromDb", "Konnte Daten nicht einfügen", ex);
 			ex.printStackTrace();
@@ -128,7 +126,7 @@ public class Cd {
 	public void insertIntoDb() {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		SQLiteStatement stmtInsert = db
-				.compileStatement(T_Cd.STMT_FULL_INSERT);
+				.compileStatement(AlbumTbl.STMT_FULL_INSERT);
 		db.beginTransaction();
 		try {
 			stmtInsert.bindString(1, getName());
