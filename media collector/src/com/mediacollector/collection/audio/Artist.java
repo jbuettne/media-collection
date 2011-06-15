@@ -4,20 +4,10 @@ public class Artist {
   
 	public String name;
 
-	public long id;
-
 	public String imgPath;
 
 	public String mbId;
-
-	public boolean istNeu() {
-		return id == 0;
-	}
-	
-	public long getId(){
-		return id;
-	}
-	
+		
 	public String getName(){
 		return name;
 	}
@@ -29,7 +19,7 @@ public class Artist {
 		return mbId;
 	}
 	
-	public Artist(String name, String imgPath, String mbId){
+	public Artist(String mbId, String name, String imgPath){
 		this.name = name;
 		this.imgPath = imgPath;
 		this.mbId = mbId;

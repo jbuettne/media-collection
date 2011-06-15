@@ -34,6 +34,7 @@ public class ArtistData{
 	private static final String TAG = "ArtistData";
 	private DatabaseHelper dbHelper;
 	private Context context;
+	private String sqlWhere;
 
 	public ArtistData(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -44,20 +45,23 @@ public class ArtistData{
 	private ArtistData() {
 	}
 
-	public long insertArtist(String name, String imgPath, String mbId) {
+	public long insertArtist(String mbId, String name, String imgPath) {
 
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 		SQLiteStatement stmtInsert = db
 				.compileStatement(ArtistTbl.STMT_FULL_INSERT);
 		db.beginTransaction();
 		try {
-			stmtInsert.bindString(1, name);
-			stmtInsert.bindString(2, imgPath);
-			stmtInsert.bindString(3, mbId);
+			stmtInsert.bindString(1, mbId);
+			stmtInsert.bindString(2, name);
+			stmtInsert.bindString(3, imgPath);
 			long id = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
-			Log.i(TAG, "Geokontakt mit id=" + id + " erzeugt.");
+			Log.i(TAG, "Artist mit mbId=" + mbId + " erzeugt.");
 			return id;
+		} catch(Throwable ex) {
+			Log.e("TAG", "Artist nicht hinzugefuegt!");
+			return -1;
 		} finally {
 			db.endTransaction();
 			db.close();
@@ -78,13 +82,11 @@ public class ArtistData{
 	   *           möglich.
 	   */
 	  public long insertArtist(Artist artist) {
-	    //if (artist.istNeu()) {
 	      return insertArtist(
 	          artist.name,
 	          artist.imgPath,
 	          artist.mbId);
-	          
-	    //};
+	    }
 //	    } else {
 //	      updateArtist(
 //	          artist.id,
@@ -93,34 +95,9 @@ public class ArtistData{
 //	          artist.mbId);
 //	      return artist.id;
 //	    }
-	  }
 
-	  /**
-	   * Ändert einen vorhandenen Geokontakt in der Datenbank.
-	   * Wenn die id nicht mitgegeben wird, wird keine Änderung
-	   * durchgeführt. <br>
-	   * Es werden bei der Änderung alle Parameter
-	   * berücksichtigt. Wenn das <code>stichwort</code> gesetzt
-	   * wird, werden auch die Positionsangaben gespeichert.
-	   * 
-	   * @param id
-	   *          Schlüssel des DB-Datensatzes. 
-	   * @param name Vollständiger Name (Pflichtfeld)
-	   * @param lookupKey key des Telefonbuch-Kontakts
-	   * @param mobilnummer Rufnummer des Kontakts.
-	   * @param stichwort Stichwort der Geomarkierung.
-	   *          Wenn == null, werden Positionsdaten nicht
-	   *          berücksichtigt.
-	   * @param laengengrad Längengrad, 0 wenn unbekannt
-	   * @param breitengrad Breitengrad, 0 wenn unbekannt
-	   * @param hoehe Höhe, 0 wenn unbekannt
-	   * @param zeitstempel Zeitpunkt des Kontakts
-	   */
-//	  public void aendereGeoKontakt(long id, String name,
-//	      String lookupKey, String mobilnummer,
-//	      String stichwort,
-//	      double laengengrad, double breitengrad, double hoehe,
-//	      long zeitstempel) {
+//	  public void updateArtist(long id, String name,
+//	      String imgPath, String mbId) {
 //	    if (id == 0) {
 //	      Log.w(TAG, "id == 0 => kein update möglich.");
 //	      return;
@@ -130,14 +107,6 @@ public class ArtistData{
 //	    daten.put(GeoKontaktTbl.NAME, name);
 //	    daten.put(GeoKontaktTbl.LOOKUP_KEY, lookupKey);
 //	    daten.put(GeoKontaktTbl.MOBILNUMMER, mobilnummer);
-//	    if (stichwort != null) {
-//	      daten.put(GeoKontaktTbl.STICHWORT_POS, stichwort);
-//	      daten.put(GeoKontaktTbl.LAENGENGRAD, laengengrad);
-//	      daten.put(GeoKontaktTbl.BREITENGRAD, breitengrad);
-//	      daten.put(GeoKontaktTbl.HOEHE, hoehe);
-//	      daten.put(GeoKontaktTbl.ZEITSTEMPEL, zeitstempel);
-//	    }
-//
 //	    final SQLiteDatabase dbCon = mDb.getWritableDatabase();
 //
 //	    try {
@@ -151,24 +120,7 @@ public class ArtistData{
 //	    }
 //	  }
 
-	  /**
-	   * Ändert die Positionsdaten eines vorhandenen Geokontakts
-	   * in der Datenbank. Wenn die id nicht mitgegeben wird,
-	   * wird keine Änderung durchgeführt. <br>
-	   * Es werden bei der Änderung alle Parameter
-	   * berücksichtigt.
-	   * 
-	   * @param id
-	   *          Schlüssel des gesuchten Kontakts
-	   * @param laengengrad
-	   *          Längengrad, 0 wenn unbekannt
-	   * @param breitengrad
-	   *          Breitengrad, 0 wenn unbekannt
-	   * @param hoehe
-	   *          Höhe, 0 wenn unbekannt
-	   * @param zeitstempel
-	   *          Zeitpunkt des Kontakts.
-	   */
+
 //	  public void updateArtist(long id,
 //	      double laengengrad, double breitengrad, double hoehe,
 //	      long zeitstempel) {
@@ -195,30 +147,6 @@ public class ArtistData{
 //	      dbCon.close();
 //	    }
 //	  }
-
-	  /**
-	   * Entfernt einen Geokontakt aus der Datenbank.
-	   * 
-	   * @param id
-	   *          Schlüssel des gesuchten Kontakts
-	   * @return true, wenn Datensatz geloescht wurde.
-	   */
-	  public boolean deleteArtist(long id) {
-	    final SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-	    int deleteCount = 0;
-	    try {
-	      deleteCount = 
-	        db.delete(ArtistTbl.TABLE_NAME, 
-	          "_id = '" + id + "'",
-	          null);
-	      Log.i(TAG,
-	          "Artist id=" + id + " deleted.");
-	    } finally {
-	      db.close();
-	    }
-	    return deleteCount == 1;
-	  }
 	  
 	  /**
 	   * Entfernt einen Geokontakt aus der Datenbank.
@@ -227,29 +155,30 @@ public class ArtistData{
 	   *          Schlüssel des gesuchten Kontakts
 	   * @return true, wenn Datensatz geloescht wurde.
 	   */
-	  public boolean deleteArtist(String name) {
+	  public boolean deleteArtist(String value, String type) {
 	    final SQLiteDatabase db = dbHelper.getWritableDatabase();
-
+	    Log.i("TAG", "ICH BIN DRIN!");
 	    int deleteCount = 0;
 	    try {
 	      deleteCount = 
 	        db.delete(ArtistTbl.TABLE_NAME, 
-	          "name = '" + name + "'",
+	        		"name = '" + value + "'",
 	          null);
 	      Log.i(TAG,
-	          "Artist name=" + name + " deleted.");
+	          "Artist " + type + " = " + value  + " deleted.");
 	    } finally {
 	      db.close();
 	    }
 	    return deleteCount == 1;
 	  }
 
-	public Artist getArtist(long id) {
+	public Artist getArtist(String value, String type) {
 		Artist artist = null;
 		Cursor c = null;
 		try {
 			c = dbHelper.getReadableDatabase().rawQuery(
-					"SELECT * FROM Artist WHERE _id = '" + id + "'", null);
+				"SELECT * FROM " + ArtistTbl.TABLE_NAME
+				+ " WHERE '" + type + "' = '" + value + "'", null);
 			if (c.moveToFirst() == false) {
 				return null;
 			}
@@ -267,25 +196,28 @@ public class ArtistData{
 			return null;
 		}
 		return dbHelper.getReadableDatabase().rawQuery(
-				"SELECT * FROM Artist WHERE name = '" + name + "'", null);
+				"SELECT * FROM " + ArtistTbl.TABLE_NAME
+				+ " WHERE name = '" + name + "'", null);
 	}
 
-	public Cursor getArtistDetails(Integer id) {
-		if (id == null) {
+
+	public Cursor getArtistDetailsMbId(String mbId) {
+		if (mbId == null) {
 			return null;
 		}
 		return dbHelper.getReadableDatabase().rawQuery(
-				"SELECT * FROM Artist WHERE _id = '" + id + "'", null);
-	}
+				"SELECT * FROM " + ArtistTbl.TABLE_NAME
+				+ " WHERE id = '" + mbId + "'", null);
+	}	
 
-	public ArrayList<String> getArtists() {
+	public ArrayList<String> getArtistsName() {
 		ArrayList<String> artists = new ArrayList<String>();
 		Cursor dbCursor = null;
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
-					"SELECT name FROM Artist GROUP BY name", null);
+					"SELECT name FROM " + ArtistTbl.TABLE_NAME, null);
 			if (dbCursor.moveToFirst() == false) {
-				return null;
+				return new ArrayList<String>();
 			}	
 	    	artists.add(dbCursor.getString(0));
 		    while (dbCursor.moveToNext() == true) {
@@ -299,6 +231,32 @@ public class ArtistData{
 		}
 	    return artists; 
 	}
+	
+	public ArrayList<Artist> getArtistsAll() {
+		ArrayList<Artist> artists = new ArrayList<Artist>();
+		Artist artist = null;
+		Cursor dbCursor = null;
+		try {
+			dbCursor = dbHelper.getReadableDatabase().rawQuery(
+					"SELECT * FROM " + ArtistTbl.TABLE_NAME, null);
+			if (dbCursor.moveToFirst() == false) {
+				return new ArrayList<Artist>();
+			}	
+	    	artists.add(new Artist(dbCursor.getString(0),
+	    			dbCursor.getString(1), dbCursor.getString(2)));
+	    	//artists.add(dbCursor.getString(0));
+		    while (dbCursor.moveToNext() == true) {
+		    	artists.add(new Artist(dbCursor.getString(0),
+		    			dbCursor.getString(1), dbCursor.getString(2)));
+			}
+  
+		} finally {
+			if (dbCursor != null) {
+				dbCursor.close();
+			}
+		}
+	    return artists; 
+	}	
 
 	  /**
 	   * Lädt den Geo-Kontakt aus dem GeoKontaktTbl-Datensatz, 
@@ -314,14 +272,12 @@ public class ArtistData{
 	  public Artist getArtist(Cursor dbCursor) {
 	    final Artist artist = new Artist();
 
-	    artist.id = dbCursor.getLong(dbCursor
-	        .getColumnIndex(ArtistTbl.COL_ARTIST_ID));
 	    artist.name = dbCursor.getString(dbCursor
 	        .getColumnIndex(ArtistTbl.COL_ARTIST_NAME));
 	    artist.imgPath = dbCursor.getString(dbCursor
 	        .getColumnIndex(ArtistTbl.COL_ARTIST_IMAGE));
 	    artist.mbId = dbCursor.getString(dbCursor
-	        .getColumnIndex(ArtistTbl.COL_ARTIST_MBID));
+	        .getColumnIndex(ArtistTbl.COL_ARTIST_ID));
 	    return artist;
 	  }
 	  

@@ -1,6 +1,6 @@
 package com.mediacollector.collection.audio;
 
-public class Track {
+public class Album {
 
 	public long id;
   
@@ -8,11 +8,9 @@ public class Track {
 
 	public String artist;
 
-	public long cd;
-	
-	public long trackOnCd;
+	public long year;
 
-	public long length;
+	public String imgPath;
 
 	public String mbId;
 
@@ -32,32 +30,27 @@ public class Track {
 		return artist;
 	}
 	
-	public long getCd(){
-		return cd;
+	public long getYear(){
+		return year;
 	}
 	
-	public long getTrackOnCd() {
-		return trackOnCd;
-	}
-	
-	public long getLength() {
-		return length;
+	public String getImgPath() {
+		return imgPath;
 	}
 	
 	public String getMbId() {
 		return mbId;
 	}
 	
-	public Track(String name, String artist, long cd, 
-			long trackOnCd, long length, String mbId){
+	public Album(String name, String artist, long year, 
+			String imgPath, String mbId){
 		this.name = name;
 		this.artist = artist;
-		this.cd = cd;
-		this.trackOnCd = trackOnCd;
-		this.length = length;
+		this.year = year;
+		this.imgPath = imgPath;
 		this.mbId = mbId;
 	}
-	public Track(){
+	public Album(){
 		
 	}
 }
