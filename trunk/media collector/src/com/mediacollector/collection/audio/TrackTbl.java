@@ -19,7 +19,7 @@ public interface TrackTbl {
 			+ "	cd			INTEGER	 		REFERENCES Album,			"
 			+ "	trackOnCd	INTEGER(3),									"
 			+ "	length		INTEGER(6),									"
-			+ "	mbId		VARCHAR(500)								"
+			+ "	mbId		VARCHAR(500)	UNIQUE						"
 			+ ");";
 
 	static final String STMT_FULL_INSERT = "INSERT INTO Track (		"

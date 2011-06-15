@@ -11,11 +11,13 @@ import com.mediacollector.R;
 import com.mediacollector.collection.Database;
 import com.mediacollector.collection.DatabaseHelper;
 import com.mediacollector.collection.TextImageEntry;
+import com.mediacollector.collection.audio.AlbumData;
+import com.mediacollector.collection.audio.Artist;
 import com.mediacollector.collection.audio.ArtistData;
-import com.mediacollector.collection.audio.Cd;
 
 public class ArtistListing extends EntryListing {
 	ArtistData artists;
+	AlbumData albums;
 	@Override
 	protected void setData() {
 		/*
@@ -25,8 +27,16 @@ public class ArtistListing extends EntryListing {
 		 * gehörenden Alben, images die entsprechenden Alben-Cover.
 		 */
 		artists = new ArtistData(this);
+		albums = new AlbumData(this);
 		
-		ArrayList<String> groups = artists.getArtists();
+		ArrayList<String> groups = artists.getArtistsName();
+		ArrayList<Artist> groupsA = artists.getArtistsAll();
+		ArrayList<String> groupsT = new ArrayList<String>();
+			for (Artist artist : groupsA) {
+				// ArrayList<String> tempGroup = albums.getAlbums(artist);
+				Log.i("ArtistListing", String.valueOf(artist.getMbId()));
+				// boolean addedGroup = groups.addAll(tempGroup);
+			}
 		//ArrayList<Object> children = new ArrayList<Object>();
 
 //		HashMap<TextImageEntry, TextImageEntry> childrenTest = new HashMap<TextImageEntry, TextImageEntry>();
