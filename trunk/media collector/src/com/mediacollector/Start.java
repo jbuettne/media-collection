@@ -26,8 +26,6 @@ import android.widget.Toast;
  */
 public class Start extends RegisteredActivity {
 	
-	private Database dbHandle;
-	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,16 +69,12 @@ public class Start extends RegisteredActivity {
         		R.id.syncField);
         syncField.setOnClickListener(new OnClickListener() {			
 			public void onClick(View v) {
-    			startActivity(new Intent(getBaseContext(), Dropbox.class));
+				Intent intent = new Intent(getBaseContext(), Dropbox.class);
+				intent.putExtra("email", 	"test");
+				intent.putExtra("password", "test");
+    			startActivity(intent);
 			}
 		});
-        //dbHandle = new Database(this);
-    }
-    
-    @Override
-    protected void onDestroy() {
-        dbHandle.closeConnection();
-        super.onDestroy();
     }
     
 }

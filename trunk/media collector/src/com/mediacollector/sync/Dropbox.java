@@ -85,7 +85,6 @@ public class Dropbox extends Activity {
     
     public String[] getKeys() {
     	SharedPreferences prefs = getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
-    	showToast(prefs.getString(ACCESS_KEY_NAME, null));
         String key 		= prefs.getString(ACCESS_KEY_NAME, null);
         String secret 	= prefs.getString(ACCESS_SECRET_NAME, null);
         if (key != null && secret != null) {
