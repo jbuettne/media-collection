@@ -7,4 +7,6 @@
     <string name="BSNFD_message">This application requires Barcode Scanner. Would you like to install it?</string>
     <string name="BSNFD_button_pos">Yes</string>
     <string name="BSNFD_button_neg">No</string>
+    
+    <string name="DROPBOX_cnc">Can\'t connect to your Dropbox!</string>
 </resources>

@@ -1,4 +1,8 @@
-package com.mediacollector;
+package com.mediacollector.tools;
+
+import com.mediacollector.InfoPopUp;
+import com.mediacollector.R;
+import com.mediacollector.ScanBarcode;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,7 +20,7 @@ public class RegisteredActivity extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityRegistry.register(this);
+        ActivityRegistry.registerActivity(this);
 	}
 	
 	@Override
@@ -36,7 +40,7 @@ public class RegisteredActivity extends Activity {
     			startActivity(new Intent(getBaseContext(), Preferences.class));
     			return true;
     		case R.id.menu_exit:
-    			ActivityRegistry.closeAll();
+    			ActivityRegistry.closeAllActivities();
     			return true;
     		case R.id.menu_info:    			
     			startActivityForResult(new Intent(this, InfoPopUp.class), 1);

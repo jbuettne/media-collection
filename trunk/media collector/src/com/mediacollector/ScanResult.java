@@ -1,5 +1,7 @@
 package com.mediacollector;
 
+import com.mediacollector.tools.RegisteredActivity;
+
 import android.os.Bundle;
 
 /**

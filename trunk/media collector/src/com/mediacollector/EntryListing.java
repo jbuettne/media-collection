@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.mediacollector.collection.DatabaseHelper;
 import com.mediacollector.collection.TextImageEntry;
+import com.mediacollector.tools.ActivityRegistry;
 
 import android.app.ExpandableListActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -43,7 +42,7 @@ public abstract class EntryListing extends ExpandableListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ActivityRegistry.register(this);
+		ActivityRegistry.registerActivity(this);
 		this.setData();
         setContentView(R.layout.entry_layout);
         
@@ -134,7 +133,7 @@ public abstract class EntryListing extends ExpandableListActivity {
     			startActivity(new Intent(getBaseContext(), ScanBarcode.class));
     			return true;
     		case R.id.menu_exit:
-    			ActivityRegistry.closeAll();
+    			ActivityRegistry.closeAllActivities();
     			return true;
     		case R.id.menu_info:    			
     			startActivityForResult(new Intent(this, InfoPopUp.class), 1);

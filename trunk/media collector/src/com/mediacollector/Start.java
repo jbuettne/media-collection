@@ -1,6 +1,8 @@
 package com.mediacollector;
 
 import com.mediacollector.collection.Database;
+import com.mediacollector.sync.Dropbox;
+import com.mediacollector.tools.RegisteredActivity;
 
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -63,6 +65,13 @@ public class Start extends RegisteredActivity {
         browseVideoField.setOnClickListener(new OnClickListener() {			
 			public void onClick(View v) {
     			startActivity(new Intent(getBaseContext(), TestDBDelete.class));
+			}
+		});
+        LinearLayout syncField = (LinearLayout) findViewById(
+        		R.id.syncField);
+        syncField.setOnClickListener(new OnClickListener() {			
+			public void onClick(View v) {
+    			startActivity(new Intent(getBaseContext(), Dropbox.class));
 			}
 		});
         //dbHandle = new Database(this);
