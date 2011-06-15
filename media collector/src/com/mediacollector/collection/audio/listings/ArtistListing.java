@@ -1,6 +1,7 @@
 package com.mediacollector.collection.audio.listings;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.database.Cursor;
 import android.util.Log;
@@ -10,11 +11,11 @@ import com.mediacollector.R;
 import com.mediacollector.collection.Database;
 import com.mediacollector.collection.DatabaseHelper;
 import com.mediacollector.collection.TextImageEntry;
-import com.mediacollector.collection.DatabaseHelper.T_Cd;
+import com.mediacollector.collection.audio.ArtistData;
 import com.mediacollector.collection.audio.Cd;
 
 public class ArtistListing extends EntryListing {
-
+	ArtistData artists;
 	@Override
 	protected void setData() {
 		/*
@@ -23,26 +24,46 @@ public class ArtistListing extends EntryListing {
 		 * Groups bezeichnet hier die Artists, children die zum Artist 
 		 * gehörenden Alben, images die entsprechenden Alben-Cover.
 		 */
-		final DatabaseHelper dbHelper = new DatabaseHelper(this);
-		Cursor dbCursor = null;
-		ArrayList<String> groups = new ArrayList<String>();
-		try {
-			dbCursor = dbHelper.getReadableDatabase().rawQuery(
-					"SELECT name FROM Artist", null);
-			if (dbCursor == null || dbCursor.moveToFirst() == false) {}
-	    	groups.add(dbCursor.getString(0));
-		    while (dbCursor.moveToNext() == true) {
-		    	groups.add(dbCursor.getString(0));
-			}
-			dbCursor = dbHelper.getReadableDatabase().rawQuery(
-					"SELECT name, imgPath FROM Cd", null);
-		} catch (Throwable ex) {
-			Log.e("Artist-Liste", "Artist kaputt", ex);
-			ex.printStackTrace();
-		} finally {
+		artists = new ArtistData(this);
+		
+		ArrayList<String> groups = artists.getArtists();
+		//ArrayList<Object> children = new ArrayList<Object>();
 
-			dbCursor.close();
-		}
+//		HashMap<TextImageEntry, TextImageEntry> childrenTest = new HashMap<TextImageEntry, TextImageEntry>();
+//		try {
+//			dbCursor = dbHelper.getReadableDatabase().rawQuery(
+//					"SELECT name FROM Artist", null);
+//			if (dbCursor == null || dbCursor.moveToFirst() == false) {}
+//	    	groups.add(dbCursor.getString(0));
+//		    while (dbCursor.moveToNext() == true) {
+//		    	groups.add(dbCursor.getString(0));
+//			}
+//		    startManagingCursor(dbCursor);
+//		    for (String artist : groups) {
+//		    	Artist tempArt = new Artist(getBaseContext(), artist);
+//		    	ArrayList<Cd> tempCd = tempArt.getAlbums();
+//	    		ArrayList<TextImageEntry> tempArtCd = new 
+//    				ArrayList<TextImageEntry>();
+//		    	for (Cd obj : tempCd) {
+//		    		TextImageEntry tempData = new 
+//		    			TextImageEntry(artist,
+//		    					getResources().getDrawable(
+//		    							R.drawable.color_red));
+//		    		tempArtCd.add(tempData);
+//		    		obj.getArtist();
+//		    		obj.getImgPath();
+//		    	}
+//		    	children.add(tempArtCd.toArray(new TextImageEntry[0]));	
+//			
+//		    }
+		    	
+			
+//		} catch (Throwable ex) {
+//			Log.e("Artist-Liste", "Artist kaputt", ex);
+//			ex.printStackTrace();
+//		} finally {
+//			dbCursor.close();
+//		}
 		
 		
 		TextImageEntry[][] children = {
@@ -65,7 +86,7 @@ public class ArtistListing extends EntryListing {
 //				"Agrypnie", "Air", "Al Green", "Alice Cooper", "Alida", 
 //				"Amity in Fame", "Amon Amarth", "Amos Lee", "Amy Macdonald", 
 //				"Amy Winehouse", "Anthrax", "Apocalyptica", "Audio"
-////		};
+//		};
 //		TextImageEntry[][] children = {
 //				{ new TextImageEntry("Mit Raben und Wölfen", 
 //						getResources().getDrawable(R.drawable.color_red))
@@ -111,6 +132,11 @@ public class ArtistListing extends EntryListing {
 //		};
 	    
 		this.groups = groups.toArray(new String[0]);
-		this.children = children;
+		this.children = children; //children.toArray(new TextImageEntry[0][0]);
+	}
+	@Override
+	protected void onDestroy() {
+		artists.close();
+		super.onDestroy();
 	}
 }

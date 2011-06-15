@@ -3,8 +3,7 @@ package com.mediacollector.collection;
 import java.io.IOException;
 
 import com.mediacollector.Start;
-import com.mediacollector.collection.DatabaseHelper.T_Artist;
-import com.mediacollector.collection.audio.Artist;
+import com.mediacollector.collection.audio.ArtistData;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,49 +21,25 @@ import android.database.sqlite.SQLiteOpenHelper;
  * @author Philipp Dermitzel
  * @version 0.1
  */
-public class Database {
+public class Database{
 
-	private DatabaseHelper dbHelper;
+	private ArtistData artist;
+
 	private SQLiteStatement stmtInsert;
 
 	public Database(Context context) {
-		dbHelper = new DatabaseHelper(context);
+		artist = new ArtistData(context);
+	}
 
 		// vernetzung mit anderen speichern...
 		// ortSpeicher = new OrtSpeicher(context);
 
-		// erzeugung von prepared statements
-		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		stmtInsert = db.compileStatement(
-				DatabaseHelper.T_Artist.STMT_FULL_INSERT);
-		stmtInsert = db.compileStatement(
-				DatabaseHelper.T_Cd.STMT_FULL_INSERT);
-		stmtInsert = db.compileStatement(
-				DatabaseHelper.T_Track.STMT_FULL_INSERT);
-	}
 
 	/**
 	 * schlie�e die Datenbankverbindung
 	 */
 	public void closeConnection() {
-		dbHelper.close();
+		//dbHelper.close();
 	}
-	
-	public void insertIntoDb(Artist artist) {
-		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		SQLiteStatement stmtInsert = db
-				.compileStatement(T_Artist.STMT_FULL_INSERT);
-		db.beginTransaction();
-		try {
-			stmtInsert.bindString(1, artist.getName());
-			stmtInsert.bindString(2, artist.getImgPath());
-			stmtInsert.bindString(3, artist.getMbId());
-			stmtInsert.executeInsert();
-			db.setTransactionSuccessful();
-		} catch (Throwable ex) {
-			throw new SQLException("Konnte Daten nicht einfuegen");
-		} finally {
-			db.endTransaction();
-		}
-	}
+
 }

@@ -10,8 +10,6 @@ import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import com.mediacollector.collection.DatabaseHelper;
-import com.mediacollector.collection.DatabaseHelper.T_Cd;
-import com.mediacollector.collection.DatabaseHelper.T_Track;
 
 /**
  * OR-Mapper für 'Track'.
@@ -85,11 +83,11 @@ public class Track {
 	public int getCd() {
 		return (Integer) this.data.get("cd");
 	}
-	public long getTrackOnCd() {
-		return (Long) this.data.get("trackOnCd");
+	public int getTrackOnCd() {
+		return (Integer) this.data.get("trackOnCd");
 	}
-	public double getLength() {
-		return (Double) this.data.get("length");
+	public int getLength() {
+		return (Integer) this.data.get("length");
 	}
 	public String getMbId() {
 		return (String) this.data.get("mbId");
@@ -109,19 +107,19 @@ public class Track {
 		    	Log.e("TrackFromDB", "test");
 		      }
 			this.data.put("id", dbCursor.getInt(dbCursor
-					.getColumnIndexOrThrow(T_Track.COL_TRACK_ID)));
+					.getColumnIndexOrThrow(TrackTbl.COL_TRACK_ID)));
 			this.data.put("name", dbCursor.getString(dbCursor
-					.getColumnIndexOrThrow(T_Track.COL_TRACK_NAME)));
+					.getColumnIndexOrThrow(TrackTbl.COL_TRACK_NAME)));
 			this.data.put("artist", dbCursor.getString(dbCursor
-					.getColumnIndexOrThrow(T_Track.COL_TRACK_ARTIST)));
+					.getColumnIndexOrThrow(TrackTbl.COL_TRACK_ARTIST)));
 			this.data.put("cd", dbCursor.getString(dbCursor
-					.getColumnIndexOrThrow(T_Track.COL_TRACK_CD)));
+					.getColumnIndexOrThrow(TrackTbl.COL_TRACK_CD)));
 			this.data.put("trackOnCd", dbCursor.getString(dbCursor
-					.getColumnIndexOrThrow(T_Track.COL_TRACK_TRACKONCD)));
+					.getColumnIndexOrThrow(TrackTbl.COL_TRACK_TRACKONCD)));
 			this.data.put("length", dbCursor.getString(dbCursor
-					.getColumnIndexOrThrow(T_Track.COL_TRACK_LENGTH)));
+					.getColumnIndexOrThrow(TrackTbl.COL_TRACK_LENGTH)));
 			this.data.put("mbId", dbCursor.getString(dbCursor
-					.getColumnIndexOrThrow(T_Track.COL_TRACK_MBID)));
+					.getColumnIndexOrThrow(TrackTbl.COL_TRACK_MBID)));
 			dbCursor.close();
 		} catch (Throwable ex) {
 			Log.e("Track - getDataFromDb", "Konnte Daten nicht einfügen", ex);
@@ -131,14 +129,14 @@ public class Track {
 	public void insertIntoDb() {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		SQLiteStatement stmtInsert = db
-				.compileStatement(T_Track.STMT_FULL_INSERT);
+				.compileStatement(TrackTbl.STMT_FULL_INSERT);
 		db.beginTransaction();
 		try {
 			stmtInsert.bindString(1, getName());
 			stmtInsert.bindLong(2, getArtist());
 			stmtInsert.bindLong(3, getCd());
 			stmtInsert.bindLong(4, getTrackOnCd());
-			stmtInsert.bindDouble(5, getLength());
+			stmtInsert.bindLong(5, getLength());
 			stmtInsert.bindString(6, getMbId());
 			stmtInsert.executeInsert();
 			db.setTransactionSuccessful();

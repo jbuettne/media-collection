@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.mediacollector.collection.DatabaseHelper;
 import com.mediacollector.collection.TextImageEntry;
 
 import android.app.ExpandableListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -37,9 +39,7 @@ public abstract class EntryListing extends ExpandableListActivity {
 	protected	  String[] 				groups 		= null;
 	protected 	  TextImageEntry[][] 	children 	= null;
 	protected	  ImageView				more		= null;
-	
 	protected abstract void setData();
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -126,6 +126,7 @@ public abstract class EntryListing extends ExpandableListActivity {
         return true;
     }
     
+	
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch (item.getItemId()) {
@@ -140,5 +141,5 @@ public abstract class EntryListing extends ExpandableListActivity {
     		default: return true;
     	}
     }
-	
+    	
 }
