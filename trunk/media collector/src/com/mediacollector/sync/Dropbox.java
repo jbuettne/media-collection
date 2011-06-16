@@ -68,11 +68,11 @@ public class Dropbox extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getKeys() != null) setLoggedIn(true); else setLoggedIn(false);
-        if (authenticate()) {
-        	Bundle extras = getIntent().getExtras();        	
+        if (!this.loggedIn) {
+        	final Bundle extras = getIntent().getExtras();        	
         	getAccountInfo(extras.getString("email"), 
         				   extras.getString("password"));
-        }
+        } else setLoggedIn(true);
 	}
     
     /***************************************************************************
@@ -111,14 +111,8 @@ public class Dropbox extends Activity {
     }
     
     private void getAccountInfo(final String email, final String password) {
-    	LoginAsyncTask login;
-    	if (api.isAuthenticated()) {
-    		login = new LoginAsyncTask(this, null, null, getConfig());
-	        login.execute();    		
-    	} else {
-	        login = new LoginAsyncTask(this, email, password, getConfig());
-	        login.execute();
-    	}
+    	if (api.isAuthenticated()) login(null, null);
+    	else login(email, password);
     }
 
     protected boolean authenticate() {
@@ -132,6 +126,18 @@ public class Dropbox extends Activity {
     	clearKeys();
     	setLoggedIn(false);
     	return false;
+    }
+    
+    private void login(final String email, final String password) {
+    	this.config = this.api.authenticate(getConfig(), email, password);
+    	setConfig(this.config);
+    	
+    	if (this.config != null 
+    			&& this.config.authStatus == DropboxAPI.STATUS_SUCCESS) {
+        	storeKeys(this.config.accessTokenKey, 
+        			this.config.accessTokenSecret);
+        	setLoggedIn(true);
+        } else showToast("Unsuccessful login.");
     }
     
 }
