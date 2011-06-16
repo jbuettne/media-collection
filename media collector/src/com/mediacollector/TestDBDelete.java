@@ -24,7 +24,7 @@ public class TestDBDelete extends RegisteredActivity {
         artist = new ArtistData(this);
         Artist art = new Artist();
         art.name = "Fanta 007";
-            artist.deleteArtist(art.getName(), "name");
+            artist.deleteArtist(art.name, "name");
         	showExDialog(art);
             //} catch (Throwable ex) {
         //}
@@ -32,7 +32,7 @@ public class TestDBDelete extends RegisteredActivity {
     private AlertDialog showExDialog(Artist artist) {
     	AlertDialog.Builder exDialog = new AlertDialog.Builder(this);
     	exDialog.setTitle("Artist deleted!");
-    	exDialog.setMessage(artist.getName() + " deleted.");
+    	exDialog.setMessage(artist.name + " | " + artist.mbId + " deleted.");
     	exDialog.setNegativeButton(getString(R.string.BSNFD_button_neg), 
     			new DialogInterface.OnClickListener() {
     		public void onClick(DialogInterface dialogInterface, int i) {}

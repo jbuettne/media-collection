@@ -31,12 +31,24 @@ public class ArtistListing extends EntryListing {
 		
 		ArrayList<String> groups = artists.getArtistsName();
 		ArrayList<Artist> groupsA = artists.getArtistsAll();
-		ArrayList<String> groupsT = new ArrayList<String>();
-			for (Artist artist : groupsA) {
-				// ArrayList<String> tempGroup = albums.getAlbums(artist);
-				Log.i("ArtistListing", String.valueOf(artist.getMbId()));
-				// boolean addedGroup = groups.addAll(tempGroup);
-			}
+		//ArrayList<String> groups = new ArrayList<String>();
+//		for (Artist artist : groupsA) {
+//			ArrayList<TextImageEntry> tempGroup = albums.getAlbumsTI(artist);
+//
+//			Log.i("ArtistListing", String.valueOf(artist.getMbId()));
+//			for (TextImageEntry name : tempGroup) {
+//				 boolean addedGroup = groups.add(name.getText());
+//			}
+//		}
+		ArrayList<TextImageEntry[]> groupsTI =
+			new ArrayList<TextImageEntry[]>();
+		for (Artist artist : groupsA) {
+			ArrayList<TextImageEntry> tempGroup = albums.getAlbumsTI(artist);
+			Log.i("ArtistListing", String.valueOf(artist.mbId));
+			boolean addedGroup = groupsTI.add(tempGroup.toArray(
+					new TextImageEntry[0]));
+		}
+			
 		//ArrayList<Object> children = new ArrayList<Object>();
 
 //		HashMap<TextImageEntry, TextImageEntry> childrenTest = new HashMap<TextImageEntry, TextImageEntry>();
@@ -74,23 +86,7 @@ public class ArtistListing extends EntryListing {
 //		} finally {
 //			dbCursor.close();
 //		}
-		
-		
-		TextImageEntry[][] children = {
-				{ new TextImageEntry("Mit Raben und Wölfen", 
-						getResources().getDrawable(R.drawable.color_red))
-				},
-				{ new TextImageEntry("Stiff Upper Lip", 
-						getResources().getDrawable(R.drawable.color_yellow))
-				},
-				{ new TextImageEntry("19", 
-						getResources().getDrawable(R.drawable.color_green)), 
-				  new TextImageEntry("21",
-						getResources().getDrawable(R.drawable.color_yellow))
-				},
-				{},{},{}
 
-		};
 //		String[] groups = {
 //				"Aaskereia", "AC/DC", "Adele", "Aggaloch", 
 //				"Agrypnie", "Air", "Al Green", "Alice Cooper", "Alida", 
@@ -142,7 +138,7 @@ public class ArtistListing extends EntryListing {
 //		};
 	    
 		this.groups = groups.toArray(new String[0]);
-		this.children = children; //children.toArray(new TextImageEntry[0][0]);
+		this.children = groupsTI.toArray(new TextImageEntry[0][0]); //children.toArray(new TextImageEntry[0][0]);
 	}
 	@Override
 	protected void onDestroy() {

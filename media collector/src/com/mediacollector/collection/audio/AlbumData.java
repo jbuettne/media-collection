@@ -47,22 +47,22 @@ public class AlbumData{
 	private AlbumData() {
 	}
 
-	public long insertAlbum(String name, String artist, long year,
-			String imgPath, String mbId) {
+	public long insertAlbum(String mbId, String name, String artist, long year,
+			String imgPath) {
 
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 		SQLiteStatement stmtInsert = db
 				.compileStatement(AlbumTbl.STMT_FULL_INSERT);
 		db.beginTransaction();
 		try {
-			stmtInsert.bindString(1, name);
-			stmtInsert.bindString(2, artist);
-			stmtInsert.bindLong(3, year);
-			stmtInsert.bindString(4, imgPath);
-			stmtInsert.bindString(5, mbId);
+			stmtInsert.bindString(1, mbId);
+			stmtInsert.bindString(2, name);
+			stmtInsert.bindString(3, artist);
+			stmtInsert.bindLong(4, year);
+			stmtInsert.bindString(5, imgPath);
 			long id = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
-			Log.i(TAG, "Album mit id=" + id + " erzeugt.");
+			Log.i(TAG, "Album mit id=" + mbId + " erzeugt.");
 			return id;
 		} catch(Throwable ex) {
 			Log.e("TAG", "Album nicht hinzugefuegt!");
@@ -75,8 +75,8 @@ public class AlbumData{
 
 	public long insertAlbum(Album album) {
 		// if (artist.istNeu()) {
-		return insertAlbum(album.name, album.artist, album.year, album.imgPath,
-				album.mbId);
+		return insertAlbum(album.mbId, album.name, album.artist, album.year,
+				album.imgPath);
 
 		// };
 		// } else {
@@ -236,7 +236,7 @@ public class AlbumData{
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
 					"SELECT name, imgPath FROM " + AlbumTbl.TABLE_NAME
-					+ " WHERE artist = '" + artist.getMbId() + "'", null);
+					+ " WHERE artist = '" + artist.mbId + "'", null);
 			if (dbCursor.moveToFirst() == false) {
 				return null;
 			}
@@ -254,27 +254,29 @@ public class AlbumData{
 		return albums;
 	}
 	
-	public ArrayList<TextImageEntry> getAlbumsTextImage(Artist artist) {
+	public ArrayList<TextImageEntry> getAlbumsTI(Artist artist) {
 		ArrayList<TextImageEntry> albums = new ArrayList<TextImageEntry>();
-		TextImageEntry tempAlbum = null;
 		Cursor dbCursor = null;
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
-					"SELECT name, imgPath FROM " + AlbumTbl.TABLE_NAME
-					+ " WHERE artist = '" + artist.getMbId() + "'", null);
+					"SELECT name, year, imgPath FROM " + AlbumTbl.TABLE_NAME
+					+ " WHERE artist = '" + artist.mbId + "'", null);
 			if (dbCursor.moveToFirst() == false) {
 				return null;
 			}
+			albums.add(new TextImageEntry(dbCursor.getString(0),
+					context.getResources().getDrawable(
+							R.drawable.color_red), dbCursor.getInt(1),10));
 			while (dbCursor.moveToNext() == true) {
-				tempAlbum = new TextImageEntry(dbCursor.getString(0),
-						context.getResources().getDrawable(
-		    							R.drawable.color_red));
 //				tempAlbum = new TextImageEntry(dbCursor.getString(0),
-//						getResources().getDrawable(
-//		    							dbCursor.getString(1)));
-				albums.add(tempAlbum);
+//						getResources().getDrawable(dbCursor.getString(1)),
+//						dbCursor.getInt(2),getTrackCount...));
+				albums.add(new TextImageEntry(dbCursor.getString(0),
+						context.getResources().getDrawable(
+    							R.drawable.color_red), dbCursor.getInt(1),10));
 			}
-
+		} catch(Throwable ex) {
+			Log.e("TAG", "Konnte Alben nicht lesen", ex);
 		} finally {
 			if (dbCursor != null) {
 				dbCursor.close();
@@ -297,7 +299,7 @@ public class AlbumData{
 	public Album getAlbum(Cursor dbCursor) {
 		final Album album = new Album();
 
-		album.id = dbCursor.getLong(dbCursor
+		album.mbId = dbCursor.getString(dbCursor
 				.getColumnIndex(AlbumTbl.COL_ALBUM_ID));
 		album.name = dbCursor.getString(dbCursor
 				.getColumnIndex(AlbumTbl.COL_ALBUM_NAME));
@@ -307,8 +309,6 @@ public class AlbumData{
 				.getColumnIndex(AlbumTbl.COL_ALBUM_YEAR));
 		album.imgPath = dbCursor.getString(dbCursor
 				.getColumnIndex(AlbumTbl.COL_ALBUM_IMAGE));
-		album.mbId = dbCursor.getString(dbCursor
-				.getColumnIndex(AlbumTbl.COL_ALBUM_MBID));
 		return album;
 	}
 

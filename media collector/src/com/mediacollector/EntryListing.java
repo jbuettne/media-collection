@@ -34,6 +34,8 @@ public abstract class EntryListing extends ExpandableListActivity {
 	
 	private final String 				TEXT	 	= "name";
 	private final String 				IMAGE	 	= "image";
+	private final String 				YEAR	 	= "year";
+	private final String 				TRACKCOUNT	= "trackcount";
 	
 	protected	  String[] 				groups 		= null;
 	protected 	  TextImageEntry[][] 	children 	= null;
@@ -75,14 +77,16 @@ public abstract class EntryListing extends ExpandableListActivity {
         		TextImageEntry curEntry = (TextImageEntry) objI;
         		hmTmp.put(TEXT, curEntry.getText());
         		hmTmp.put(IMAGE, curEntry.getImage());
+        		hmTmp.put(YEAR, curEntry.getYear());
+        		hmTmp.put(TRACKCOUNT, curEntry.getTrackCount());
         		alTmp.add(hmTmp);
         	}
         	childData.add(alTmp);
         }
         
         setListAdapter(new SimpleExpandableListAdapter(this, groupData, 
-        		R.layout.group_row, new String[] { TEXT, IMAGE }, 
-        		new int[] { R.id.groupname }, childData, 0, null, 
+        		R.layout.group_row, new String[] { TEXT, IMAGE , YEAR,
+        		TRACKCOUNT}, new int[] { R.id.groupname }, childData, 0, null, 
         		new int[] {}) {
         	@SuppressWarnings("unchecked")
 			@Override
@@ -98,6 +102,13 @@ public abstract class EntryListing extends ExpandableListActivity {
         				(String) ((Map<String, Object>) 
         						getChild(groupPosition, childPosition))
         						.get(TEXT));
+        		((TextView) v.findViewById(R.id.details)).setText( 
+        				(String) ((Map<String, Object>) 
+        						getChild(groupPosition, childPosition))
+        						.get(YEAR) + "; " +
+        				(String) ((Map<String, Object>) 
+                				getChild(groupPosition, childPosition))
+                				.get(TRACKCOUNT) + " Tracks");
         		return v;
         	}        	
         	public View newChildView(boolean isLastChild, ViewGroup parent) {
