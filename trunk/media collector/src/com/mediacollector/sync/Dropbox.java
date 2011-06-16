@@ -21,8 +21,8 @@ public class Dropbox extends Activity {
 	 * KLASSENVARIABLEN
 	 **************************************************************************/	
 	
-    final static private String 	APP_KEY 			= "";
-    final static private String 	APP_SECRET 			= "";
+    final static private String 	APP_KEY 			= "mybc6j39m3hodok";
+    final static private String 	APP_SECRET 			= "h30ieogzye5u49b";
     
     final static private String 	ACCOUNT_PREFS_NAME 	= "prefs";
     final static private String 	ACCESS_KEY_NAME 	= "ACCESS_KEY";
