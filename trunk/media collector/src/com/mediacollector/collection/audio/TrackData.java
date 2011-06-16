@@ -33,7 +33,7 @@ public class TrackData{
 	 */
 	
 	private HashMap<String, Object> data = new HashMap<String, Object>();
-	private static final String TAG = "AlbumData";
+	private static final String TAG = "TrackData";
 	private DatabaseHelper dbHelper;
 	private Context context;
 
@@ -41,29 +41,29 @@ public class TrackData{
 		this.context = context;
 		dbHelper = new DatabaseHelper(context);
 		open();
-		Log.d(TAG, "Albenspeicher angelegt.");
+		Log.d(TAG, "Trackpeicher angelegt.");
 	}
 
 	private TrackData() {
 	}
 
-	public long insertTrack(String name, String artist, long cd, long trackOnCd,
-			long length, String mbId) {
+	public long insertTrack(String mbId, String name, String artist, long cd,
+			long trackOnCd, long length) {
 
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 		SQLiteStatement stmtInsert = db
 				.compileStatement(AlbumTbl.STMT_FULL_INSERT);
 		db.beginTransaction();
 		try {
-			stmtInsert.bindString(1, name);
-			stmtInsert.bindString(2, artist);
-			stmtInsert.bindLong(3, cd);
-			stmtInsert.bindLong(4, trackOnCd);
-			stmtInsert.bindLong(5, length);
-			stmtInsert.bindString(6, mbId);
+			stmtInsert.bindString(1, mbId);
+			stmtInsert.bindString(2, name);
+			stmtInsert.bindString(3, artist);
+			stmtInsert.bindLong(4, cd);
+			stmtInsert.bindLong(5, trackOnCd);
+			stmtInsert.bindLong(6, length);
 			long id = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
-			Log.i(TAG, "Track mit id=" + id + " erzeugt.");
+			Log.i(TAG, "Track mit id=" + mbId + " erzeugt.");
 			return id;
 		} catch(Throwable ex) {
 			Log.e("TAG", "Track nicht hinzugefuegt!");
@@ -76,8 +76,8 @@ public class TrackData{
 
 	public long insertTrack(Track track) {
 		// if (artist.istNeu()) {
-		return insertTrack(track.name, track.artist, track.cd, track.trackOnCd,
-				track.length, track.mbId);
+		return insertTrack(track.mbId, track.name, track.artist, track.cd, 
+				track.trackOnCd, track.length);
 
 		// };
 		// } else {
@@ -225,7 +225,7 @@ public class TrackData{
 	public Track getTrack(Cursor dbCursor) {
 		final Track track = new Track();
 
-		track.id = dbCursor.getLong(dbCursor
+		track.mbId = dbCursor.getString(dbCursor
 				.getColumnIndex(TrackTbl.COL_TRACK_ID));
 		track.name = dbCursor.getString(dbCursor
 				.getColumnIndex(TrackTbl.COL_TRACK_NAME));
@@ -237,18 +237,16 @@ public class TrackData{
 				.getColumnIndex(TrackTbl.COL_TRACK_TRACKONCD));
 		track.length = dbCursor.getLong(dbCursor
 				.getColumnIndex(TrackTbl.COL_TRACK_LENGTH));
-		track.mbId = dbCursor.getString(dbCursor
-				.getColumnIndex(TrackTbl.COL_TRACK_MBID));
 		return track;
 	}
 
-	public ArrayList<String> getTracks(Artist artist) {
+	public ArrayList<String> getTracks(Album album) {
 		ArrayList<String> tracks = new ArrayList<String>();
 		Cursor dbCursor = null;
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
 				"SELECT name FROM " + TrackTbl.TABLE_NAME 
-				+ " WHERE artist = '" + artist.getMbId() + "'", null);
+				+ " WHERE album = '" + album.mbId + "'", null);
 			if (dbCursor.moveToFirst() == false) {
 				return null;
 			}

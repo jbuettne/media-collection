@@ -35,12 +35,12 @@ public class TestDBEntry extends RegisteredActivity {
         }
         
         for (Integer i = 0; i <= 9; i++) {
-        	album.insertAlbum("Lauschgift 00" + i, "kjjh800" + i, 2011, 
-        			"bild.jpg", "kjjh700" + i);
+        	album.insertAlbum("kjjh700" + i, "Lauschgift 00" + i, "kjjh800" + i,
+        			2011, "bild.jpg");
         }
         for (Integer i = 0; i <= 9; i++) {
-        	album.insertAlbum("Lauschgift 50" + i, "kjjh850" + i, 2011, 
-        			"bild.jpg", "kjjh750" + i);
+        	album.insertAlbum("kjjh750" + i, "Lauschgift 50" + i, "kjjh850" + i,
+        			2011, "bild.jpg");
         }
         
         

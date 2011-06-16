@@ -8,9 +8,12 @@ public class TextImageEntry {
 	
 	private HashMap<String, Object> data = new HashMap<String, Object>();
 	
-	public TextImageEntry(String text, Drawable image) {
+	public TextImageEntry(String text, Drawable image, int year,
+			int trackCount) {
 		this.data.put("text", text);
 		this.data.put("image", image);
+		this.data.put("year", String.valueOf(year));
+		this.data.put("trackCount", String.valueOf(trackCount));
 	}
 	
 	public HashMap<String, Object>getMap() {
@@ -23,6 +26,14 @@ public class TextImageEntry {
 	
 	public Drawable getImage() {
 		return (Drawable) this.data.get("image");
+	}
+	
+	public String getYear() {
+		return (String) this.data.get("year");
+	}
+	
+	public String getTrackCount() {
+		return (String) this.data.get("trackCount");
 	}
 
 }
