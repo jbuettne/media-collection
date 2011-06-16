@@ -31,7 +31,7 @@
                   android:layout_marginRight="10sp"
                   android:textColor="#ffff"
                   android:textSize="12sp"></TextView>       
-        <TextView android:text="Philipp Dermitzel (p.dermitzel@dppm.de), Jens Büttner (jabuke@web.de), David Polehn (d.polehn@tu-braunschweig.de)" 
+        <TextView android:text="Philipp Dermitzel (p.dermitzel@dppm.de), Jens Büttner (jens.buettner@tu-bs.de), David Polehn (d.polehn@tu-bs.de)" 
                   android:id="@+id/scrollingtext" 
                   android:layout_width="wrap_content" 
                   android:layout_height="wrap_content"

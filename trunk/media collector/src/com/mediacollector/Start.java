@@ -76,6 +76,14 @@ public class Start extends RegisteredActivity {
     			startActivity(intent);
 			}
 		});
+
+        Button searchButton = (Button) findViewById(
+        		R.id.searchButton);
+        searchButton.setOnClickListener(new OnClickListener() {			
+        	public void onClick(View v) {
+        		startActivity(new Intent(getBaseContext(), SearchResult.class));
+        	}
+        });
         
     }
     

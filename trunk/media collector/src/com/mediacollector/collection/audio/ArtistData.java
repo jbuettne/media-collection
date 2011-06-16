@@ -1,15 +1,20 @@
 package com.mediacollector.collection.audio;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
+import com.mediacollector.R;
+import com.mediacollector.SearchResult;
 import com.mediacollector.collection.DatabaseHelper;
 
 /**
@@ -25,16 +30,8 @@ import com.mediacollector.collection.DatabaseHelper;
  */
 public class ArtistData{
 
-	/**
-	 * Enthält alle benötigten Daten für die Objekte. Diese können über die
-	 * entsprechenden getter und setter gelesen/gesetzt werden.
-	 */
-	
-	private HashMap<String, Object> data = new HashMap<String, Object>();
 	private static final String TAG = "ArtistData";
 	private DatabaseHelper dbHelper;
-	private Context context;
-	private String sqlWhere;
 
 	public ArtistData(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -234,7 +231,6 @@ public class ArtistData{
 	
 	public ArrayList<Artist> getArtistsAll() {
 		ArrayList<Artist> artists = new ArrayList<Artist>();
-		Artist artist = null;
 		Cursor dbCursor = null;
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
