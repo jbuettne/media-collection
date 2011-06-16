@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
   xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="Images" android:background="#fff">
+    <PreferenceCategory android:title="Images">
         <CheckBoxPreference android:title="Store images"
             android:defaultValue="true"
             android:summary="Store all images on your phone"
-            android:key="checkboxPref" />
+            android:key="imagesStore" />
         <CheckBoxPreference android:title="Resize images "
             android:defaultValue="true"
             android:summary="Store resized images for faster access"
-            android:key="checkboxPref" />
+            android:key="imageResize" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Synchronisation (Dropbox)">
+        <EditTextPreference android:title="Dropbox Loginname"
+            android:summary="Your Dropbox Loginname"
+            android:key="dropboxLogin" />
+        <EditTextPreference android:title="Dropbox Password"
+            android:summary="The Password to your Dropbox"
+            android:key="dropboxPassword" 
+            android:password="true" />
     </PreferenceCategory>  
 </PreferenceScreen>

@@ -1,5 +1,7 @@
 package com.mediacollector.sync;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -21,8 +23,8 @@ public class Dropbox extends Activity {
 	 * KLASSENVARIABLEN
 	 **************************************************************************/	
 	
-    final static private String 	APP_KEY 			= "mybc6j39m3hodok";
-    final static private String 	APP_SECRET 			= "h30ieogzye5u49b";
+    final static private String 	APP_KEY 			= "dlbvko1demdc7ke";
+    final static private String 	APP_SECRET 			= "16enl0keyoqj0ke";
     
     final static private String 	ACCOUNT_PREFS_NAME 	= "prefs";
     final static private String 	ACCESS_KEY_NAME 	= "ACCESS_KEY";
@@ -69,10 +71,11 @@ public class Dropbox extends Activity {
         super.onCreate(savedInstanceState);
         if (getKeys() != null) setLoggedIn(true); else setLoggedIn(false);
         if (!this.loggedIn) {
-        	final Bundle extras = getIntent().getExtras();        	
+        	final Bundle extras = getIntent().getExtras();
         	getAccountInfo(extras.getString("email"), 
         				   extras.getString("password"));
         } else setLoggedIn(true);
+        uploadFile();
 	}
     
     /***************************************************************************
@@ -129,15 +132,25 @@ public class Dropbox extends Activity {
     }
     
     private void login(final String email, final String password) {
-    	this.config = this.api.authenticate(getConfig(), email, password);
+    	this.config = this.api.authenticate(getConfig(), 
+    			"mediacollector@gmx.net", "media1606collector");
     	setConfig(this.config);
-    	
     	if (this.config != null 
     			&& this.config.authStatus == DropboxAPI.STATUS_SUCCESS) {
         	storeKeys(this.config.accessTokenKey, 
         			this.config.accessTokenSecret);
         	setLoggedIn(true);
         } else showToast("Unsuccessful login.");
+    }
+    
+    private void uploadFile() {
+    	File moep = new File("moep.txt");
+    	//try {
+    		this.api.createFolder("dropbox", "testingtesting");
+    		//this.api.getFile("dropbox", "alletjut.txt", moep, );
+    	/*} catch (Exception ex) {
+    		showToast(ex.toString());
+    	}*/
     }
     
 }

@@ -1,14 +1,20 @@
 package com.mediacollector;
 
+import java.net.URI;
+
 import com.mediacollector.sync.Dropbox;
 import com.mediacollector.tools.RegisteredActivity;
 
+import android.app.LauncherActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 /**
  * Der Start-Screen der Applikation. Sie zeigt die Hauptbuttons zum Scannen von
@@ -60,12 +66,17 @@ public class Start extends RegisteredActivity {
         		R.id.syncField);
         syncField.setOnClickListener(new OnClickListener() {			
 			public void onClick(View v) {
+				SharedPreferences prefs = 
+					getSharedPreferences("com.mediacollector_preferences", 0);
 				Intent intent = new Intent(getBaseContext(), Dropbox.class);
-				intent.putExtra("email", 	"test");
-				intent.putExtra("password", "test");
+				intent.putExtra("email", 
+						prefs.getString("dropboxLogin", null));
+				intent.putExtra("password", 
+						prefs.getString("dropboxPassword", null));
     			startActivity(intent);
 			}
 		});
+        
     }
     
 }
