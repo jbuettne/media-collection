@@ -11,7 +11,7 @@ import com.mediacollector.SearchResult;
 import com.mediacollector.collection.Database;
 import com.mediacollector.collection.DatabaseHelper;
 
-public class SearchListing extends SearchResult {
+public class SearchListing extends SearchResult{
 
 	Database db = null;
 	@Override
@@ -19,9 +19,9 @@ public class SearchListing extends SearchResult {
 
 		db = new Database(this);
 		
-		String[] groups = new String[0];
+		ArrayList<String> searchResult = db.getArtist().getArtistsName();
 	    
-		this.groups = groups;
+		this.searchResult = searchResult;
 	}
 	@Override
 	protected void onDestroy() {

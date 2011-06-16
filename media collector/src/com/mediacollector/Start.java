@@ -2,6 +2,7 @@ package com.mediacollector;
 
 import java.net.URI;
 
+import com.mediacollector.collection.SearchListing;
 import com.mediacollector.sync.Dropbox;
 import com.mediacollector.tools.RegisteredActivity;
 
@@ -81,7 +82,7 @@ public class Start extends RegisteredActivity {
         		R.id.searchButton);
         searchButton.setOnClickListener(new OnClickListener() {			
         	public void onClick(View v) {
-        		startActivity(new Intent(getBaseContext(), SearchResult.class));
+        		startActivity(new Intent(getBaseContext(), SearchListing.class));
         	}
         });
         
