@@ -1,15 +1,22 @@
 package com.mediacollector.sync;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.os.Environment;
 import android.widget.Toast;
 
 import com.dropbox.client.DropboxAPI;
 import com.dropbox.client.DropboxAPI.Config;
+import com.dropbox.client.DropboxAPI.FileDownload;
 import com.mediacollector.R;
 
 /**
@@ -75,7 +82,10 @@ public class Dropbox extends Activity {
         	getAccountInfo(extras.getString("email"), 
         				   extras.getString("password"));
         } else setLoggedIn(true);
+        //Toast toast = Toast.makeText(getBaseContext() , "abgehts", Toast.LENGTH_LONG);
+		//toast.show();
         uploadFile();
+
 	}
     
     /***************************************************************************
@@ -143,14 +153,96 @@ public class Dropbox extends Activity {
         } else showToast("Unsuccessful login.");
     }
     
+    private boolean downloadDropboxFile(String boxPath, File localFile) throws IOException {
+
+		BufferedInputStream br = null;
+		BufferedOutputStream bw = null;
+
+		try {
+			if (!localFile.exists()) {
+				localFile.createNewFile(); //otherwise dropbox client will fail silently
+			}
+
+			FileDownload fd = api.getFileStream("dropbox", boxPath, null);
+			br = new BufferedInputStream(fd.is);
+			bw = new BufferedOutputStream(new FileOutputStream(localFile));
+			
+			byte[] buffer = new byte[4096];
+			int read;
+			while (true) {
+				read = br.read(buffer);
+				if (read <= 0) {
+					break;
+				}
+				bw.write(buffer, 0, read);
+			}
+		} finally {
+			//in finally block:
+			if (bw != null) {
+				bw.close();
+			}
+			if (br != null) {
+				br.close();
+			}
+		}
+
+		return true;
+	}
+    private Object openFileOutput(File localFile, int modePrivate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private boolean writeFile(String fileContent, String fileName) {
+    	
+    	if(deleteFile(fileName)) {
+    		showToast(fileName + " deleted");
+    	}
+    	try { // catches IOException below
+            
+             // ##### Write a file to the disk #####
+             /* We have to use the openFileOutput()-method
+              * the ActivityContext provides, to
+              * protect your file from others and
+              * This is done for security-reasons.
+              * We chose MODE_WORLD_READABLE, because
+              *  we have nothing to hide in our file */             
+             FileOutputStream fOut = openFileOutput(fileName,
+                                                     MODE_WORLD_READABLE);
+             OutputStreamWriter osw = new OutputStreamWriter(fOut); 
+
+             // Write the string to the file
+             osw.write(fileContent);
+             /* ensure that everything is
+              * really written out and close */
+             osw.flush();
+             osw.close();
+    	 } catch (Exception ex) {
+    		 showToast("EX:" + ex.toString());
+    	 }
+    	return true;
+    }
+    
     private void uploadFile() {
-    	File moep = new File("moep.txt");
-    	//try {
-    		this.api.createFolder("dropbox", "testingtesting");
+    	
+    	File moep = new File(Environment.getExternalStorageDirectory(),"moep.txt");
+    	showToast(moep.toString());
+    	
+    	String file = "alletjut.txt";
+    	try {
+    		//this.api.createFolder("dropbox", "testingtesting");
+    		this.downloadDropboxFile(file,moep);
+    		Toast toast = Toast.makeText(getBaseContext() , "abgehts", Toast.LENGTH_LONG);
+    		toast.show();
+    		//writeFile("shit happens",file);
+    		//showToast("File " + file + " loaded successfully");
+
+    		
     		//this.api.getFile("dropbox", "alletjut.txt", moep, );
-    	/*} catch (Exception ex) {
-    		showToast(ex.toString());
-    	}*/
+    	} catch (Exception ex) {
+    		showToast("EX:" + ex.toString());
+    	}
+    		
     }
     
 }
