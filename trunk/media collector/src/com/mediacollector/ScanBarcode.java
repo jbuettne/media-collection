@@ -38,6 +38,9 @@ public class ScanBarcode extends RegisteredActivity {
 	public void scanBarcode() {
 		Intent intentScan = new Intent(BS_PACKAGE + ".SCAN");
         intentScan.setPackage(BS_PACKAGE);
+        intentScan.putExtra("SCAN_MODE", "PRODUCT_MODE");
+        intentScan.putExtra("ENCODE_DATA","ENCODE_FORMATE");
+        //intentScan.addCategory(Intent.C )
         intentScan.addCategory(Intent.CATEGORY_DEFAULT);
         try {
         	startActivityForResult(intentScan, 0);
@@ -72,17 +75,22 @@ public class ScanBarcode extends RegisteredActivity {
     	});
     	return downloadDialog.show();
     }
-    
     @Override
     public void onActivityResult(int requestCode, int resultCode, 
     		Intent intent) {
         if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
-                String contents = intent.getStringExtra("SCAN_RESULT");
-                Toast toast = Toast.makeText(getBaseContext(), 
-        				contents, Toast.LENGTH_SHORT);
+            	
+            	String contents = intent.getStringExtra("SCAN_RESULT");
+            	String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+                
+                final Intent scanresult = new Intent(this, ScanResult.class);
+                scanresult.putExtra("BARCODE", contents);
+                startActivity(scanresult);
+                String test = contents + " " + format;            	
+                Toast toast = Toast.makeText(getBaseContext() , test, Toast.LENGTH_LONG);
             	toast.show();
-            	this.scanResult = contents;
+            	
             } else if (resultCode == RESULT_CANCELED) {
             	Toast toast = Toast.makeText(getBaseContext(), 
         				"Sorry, no scan-result", Toast.LENGTH_SHORT);
