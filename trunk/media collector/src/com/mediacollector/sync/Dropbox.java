@@ -4,19 +4,13 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.dropbox.client.DropboxAPI;
@@ -26,8 +20,29 @@ import com.mediacollector.R;
 import com.mediacollector.tools.Identifier;
 
 /**
- * Modifiziertes Beispielprogramm zur Nutzung des Dropbox-SDKs.
- * Siehe hierzu: https://www.dropbox.com/developers
+ * Klasse zur Synchronisation der Sammlungsdaten mit einer zentralen Dropbox.
+ * Die Zugangsdaten werden unter den folgenden Konstanten abgelegt:
+ * 	- APP_KEY			App Key
+ * 	- APP_SECRET		Secret App Key
+ * 	- LOGIN_EMAIL		Die E-Mail-Adresse des Dropbox-Account
+ * 	- LOGIN_PASSWORD	Das Password zum Dropbx-Account
+ * Weiterhin basieren Teile der Klasse grundlegend auf dem Beispielscript zur 
+ * Dropbox-API: https://www.dropbox.com/developers
+ * 
+ * In der Dropbox wird durch die Programm die folgende Baumstruktur erzeugt:
+ * /
+ *    /identifier_1
+ *       /identifier_1/changes
+ *       /identifier_1/collections
+ *    /identifier_2
+ *    /identifier_3
+ *    ...
+ *    /identifier_n
+ * Jeder "User" hat also einen eigenen Ordner mit seiner UUID als Namen. Darin
+ * befinden sich zwei Dateien: changes und collections. collections beinhaltet
+ * die gespeicherten Sammlungsdaten, changes den Timestamp der letzten 
+ * Änderungen dieser Daten. Die Datei changes existiert als entsprechendes 
+ * Gegenstück auch lokal auf dem mobilen Gerät.
  * @author Philipp Dermitzel
  */
 public class Dropbox {
@@ -41,6 +56,9 @@ public class Dropbox {
 	
 	private static final String 	APP_KEY 			= "dlbvko1demdc7ke";
 	private static final String 	APP_SECRET 			= "16enl0keyoqj0ke";
+	private static final String		LOGIN_EMAIL			= "media1606collector";
+	private static final String		LOGIN_PASSWORD		= 
+		"mediacollector@gmx.net";
     
 	private final static String 	ACCOUNT_PREFS_NAME 	= "prefs";
 	private final static String 	ACCESS_KEY_NAME 	= "ACCESS_KEY";
@@ -55,10 +73,18 @@ public class Dropbox {
 	 * Getter und Setter
 	 **************************************************************************/
     
+    /**
+     * Liefert die Dropbox-API-Instanz.
+     * @return DropboxAPI Die Dropbox-API-Instanz.
+     */
     public DropboxAPI getAPI() { 
     	return api; 
     }
     
+    /**
+     * Liefert die Dropbox-Config.
+     * @return Config Die Dropbox-Config.
+     */
     protected Config getConfig() {
     	if (this.config == null) {
     		this.config = api.getConfig(null, false);
@@ -71,36 +97,10 @@ public class Dropbox {
     	return this.config;
     }
     
-    public void setConfig(Config conf) {
-    	this.config = conf;
-    }
-
-    public void setLoggedIn(boolean loggedIn) {
-    	this.loggedIn = loggedIn;
-    }
-    
-    /***************************************************************************
-	 * Konstruktor/On-Create-Methode
-	 **************************************************************************/
-    
-    public Dropbox(	final Context context, 
-    				final String email, 
-    				final String password) {
-    	this.context = context;
-    	/*if (getKeys() != null) setLoggedIn(true); else */setLoggedIn(false);
-        /*if (!this.loggedIn)*/
-        	getAccountInfo(email, password);
-        //else setLoggedIn(true);
-    }
-    
-    /***************************************************************************
-	 * Klassenmethoden
-	 **************************************************************************/
-
-    public void showToast(String msg) {
-    	(Toast.makeText(this.context, msg, Toast.LENGTH_LONG)).show();
-    }
-    
+    /**
+     * Liefert die Schlüsselwerte aus den Preferences.
+     * @return null/Array
+     */
     public String[] getKeys() {
     	SharedPreferences prefs = 
     		this.context.getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
@@ -112,8 +112,53 @@ public class Dropbox {
         	ret[1] = secret;
         	return ret;
         } else return null;
-    }    
+    }  
     
+    /**
+     * Setzt eine neue Config für Dropbox.
+     * @param conf String Die zu setzende Config.
+     */
+    public void setConfig(Config conf) {
+    	this.config = conf;
+    }
+
+    /**
+     * Definiert, ob der Benutzer als eingeloggt gesehen wird oder nicht. Dies
+     * ist NICHT der Login und hat auch nur UI-Zwecke.
+     * @param loggedIn boolean
+     */
+    public void setLoggedIn(boolean loggedIn) {
+    	this.loggedIn = loggedIn;
+    }
+    
+    /***************************************************************************
+	 * Konstruktor/On-Create-Methode
+	 **************************************************************************/
+    
+    /**
+     * Der Standard-Konstruktor.
+     * Auf Grund eines noch nicht genauer definierten Problems, wird im 
+     * Augenblick bei jeder Instanziierung ein neuer Login durchgeführt.
+     * Dies sollte in naher Zukunft verbessert werden!
+     * @param context Der Context der aufrufenden Activity.
+     */
+    public Dropbox(final Context context) {
+    	this.context = context;
+    	/*if (getKeys() != null) setLoggedIn(true); else */setLoggedIn(false);
+        /*if (!this.loggedIn)*/
+        	getAccountInfo();
+        //else setLoggedIn(true);
+    }
+    
+    /***************************************************************************
+	 * Klassenmethoden
+	 **************************************************************************/
+    
+    /**
+     * Speichert die Schlüsselwerte in den Preferences.
+     * @param key String Der öffentliche Schlüsselwert.
+     * @param secret String Der geheime Schlüsselwert.
+     */
     public void storeKeys(String key, String secret) {
         SharedPreferences prefs = 
         	this.context.getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
@@ -123,6 +168,9 @@ public class Dropbox {
         edit.commit();
     }
     
+    /**
+     * Löscht die gespeicherten Werte in den Preferences.
+     */
     public void clearKeys() {
         SharedPreferences prefs = 
         	this.context.getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
@@ -131,11 +179,19 @@ public class Dropbox {
         edit.commit();
     }
     
-    private void getAccountInfo(final String email, final String password) {
+    /**
+     * Führt den eigentlichen Login aus.
+     */
+    private void getAccountInfo() {
     	if (api.isAuthenticated()) login(null, null);
-    	else login(email, password);
+    	else login(LOGIN_EMAIL, LOGIN_PASSWORD);
     }
 
+    /**
+     * Authentifiziert den Benutzer. Hierüber kann - verlässlich - geprüft 
+     * werden, ob der User eingeloggt ist.
+     * @return boolean Eingeloggt ja/nein
+     */
     protected boolean authenticate() {
     	if (this.config == null) this.config = getConfig();
     	String keys[] = getKeys();
@@ -149,23 +205,28 @@ public class Dropbox {
     	return false;
     }
     
+    /**
+     * Führt den Login aus.
+     * @param email Die E-Mail-Adresse zum Userkonto.
+     * @param password Das Passwort zum Userkonto.
+     */
     private void login(final String email, final String password) {
     	this.config = this.api.authenticate(getConfig(), 
-    			"mediacollector@gmx.net", "media1606collector");
+    			email, password);
     	setConfig(this.config);
     	if (this.config != null 
     			&& this.config.authStatus == DropboxAPI.STATUS_SUCCESS) {
         	storeKeys(this.config.accessTokenKey, 
         			this.config.accessTokenSecret);
         	setLoggedIn(true);
-        } else showToast("Unsuccessful login.");
+        }
     }
-    
-    /***********
-     * **********
+
+    /**
+     * Führt eine Synchronisation der Daten zwischen lokalem Speicher und der 
+     * Dropbox aus. Dabei werden veraltete Daten ersetzt!
      * @throws IOException
      */
-    
     public void sync() 
     throws IOException  {
     	File changes 		= new File(this.context.getFilesDir() 
@@ -173,6 +234,8 @@ public class Dropbox {
     	File collections 	= new File(this.context.getFilesDir() 
     			+ FILE_COLLECTIONS);
     	if (!changes.exists() || !collections.exists()) {
+    		// Erste Synchronisation. Hier müssten dann auch noch die 
+    		// entsprechenden Verzeichnisse in der DB erzeugt werden.
     		showToast("Erstes Mal...");
     		this.createLocalFiles();
     	}
@@ -196,6 +259,11 @@ public class Dropbox {
     	}
     }
     
+    /**
+     * Liefert den Timestamp der letzten Änderungen der Daten in der Dropbox.
+     * @return int Timestamp der letzten Änderungen der Daten in der Dropbox.
+     * @throws IOException
+     */
     private int getRemoteTimestamp() 
     throws IOException {
     	File changesTmp = new File(this.context.getFilesDir() + FILE_CHANGES 
@@ -206,7 +274,15 @@ public class Dropbox {
     	return new Integer(reader.readLine());
     }
     
-    private boolean downloadFile(String remotePath, File localFile) 
+    /**
+     * Läd eine Datei aus der Dropbox herunter und speichert den Inhalt im 
+     * übergebenen File-Objekt.
+     * @param remotePath String Der Pfad zur Datei in der Dropbox
+     * @param localFile File Das File-Objekt, in welchem die Daten gespeichert
+     * 					werden sollen
+     * @throws IOException
+     */
+    private void downloadFile(String remotePath, File localFile) 
     throws IOException{
     	BufferedInputStream 	br = null;
     	BufferedOutputStream 	bw = null;    	
@@ -226,9 +302,37 @@ public class Dropbox {
     		if (bw != null) bw.close();
     		if (br != null) br.close();
     	}
-    	return true;
     }
     
+    /**
+     * Erstellt die lokalen Files bei der ersten Synchronisation. 
+     * ACHTUNG: Dies sollte nicht bei der ersten Synchronisation, sondern beim 
+     * ersten Start erfolgen! Dafür kann auch ein Context übergeben werden.
+     * @throws IOException
+     */
+    @SuppressWarnings("unused")
+	private static void createLocalFiles(Context context) 
+    throws IOException {
+    	final File o = new File(context.getFilesDir() + FILE_COLLECTIONS);
+    	final File h = new File(context.getFilesDir() + FILE_CHANGES);    	
+    	o.createNewFile();
+    	h.createNewFile();
+    	FileOutputStream fOSO = new FileOutputStream(o);
+    	FileOutputStream fOSH = new FileOutputStream(h);
+    	fOSO.write("DB-Data".getBytes()); // DB-Data...
+    	fOSH.write(("" + (System.currentTimeMillis() / 1000)).getBytes());
+    	fOSO.flush();
+    	fOSH.flush();
+    	fOSO.close();
+    	fOSH.close();
+    }
+    
+    /**
+     * Erstellt die lokalen Files bei der ersten Synchronisation. 
+     * ACHTUNG: Dies sollte nicht bei der ersten Synchronisation, sondern beim 
+     * ersten Start erfolgen! Dafür kann auch ein Context übergeben werden.
+     * @throws IOException
+     */
     private void createLocalFiles() 
     throws IOException {
     	final File o = new File(this.context.getFilesDir() + FILE_COLLECTIONS);
@@ -243,6 +347,14 @@ public class Dropbox {
     	fOSH.flush();
     	fOSO.close();
     	fOSH.close();
+    }
+    
+    /**
+     * Reine Hilfsmethode für das Debugging. Wird für das Release entfernt.
+     * @param msg String
+     */
+    public void showToast(String msg) {
+    	(Toast.makeText(this.context, msg, Toast.LENGTH_LONG)).show();
     }
     
 }
