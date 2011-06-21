@@ -96,16 +96,16 @@ public class Start extends RegisteredActivity {
         	}
         });
         
-        Dropbox db = new Dropbox(this, null, null);
-        //Toast toast = Toast.makeText(getBaseContext(), Identifier.getIdentifier(this), Toast.LENGTH_LONG);
-    	//toast.show();
-        try {
-			db.sync();
-		} catch (Exception e) {
-			Log.v("HAYA", e.toString());
-			Toast toast = Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_LONG);
-	    	toast.show();
-		}
+//        Dropbox db = new Dropbox(this, null, null);
+//        Toast toast = Toast.makeText(getBaseContext(), Identifier.getIdentifier(this), Toast.LENGTH_LONG);
+//    	toast.show();
+//        try {
+//			db.sync();
+//		} catch (Exception e) {
+//			Log.v("HAYA", e.toString());
+//			Toast toast = Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_LONG);
+//	    	toast.show();
+//		}
     }
     
 }

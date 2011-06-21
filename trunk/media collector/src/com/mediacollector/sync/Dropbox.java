@@ -36,12 +36,15 @@ public class Dropbox {
 	 * KLASSENVARIABLEN
 	 **************************************************************************/	
 	
-    final static private String 	APP_KEY 			= "dlbvko1demdc7ke";
-    final static private String 	APP_SECRET 			= "16enl0keyoqj0ke";
+	public static final	 String		FILE_CHANGES		= "changes";
+	public static final  String		FILE_COLLECTIONS	= "collections";
+	
+	private static final String 	APP_KEY 			= "dlbvko1demdc7ke";
+	private static final String 	APP_SECRET 			= "16enl0keyoqj0ke";
     
-    final static private String 	ACCOUNT_PREFS_NAME 	= "prefs";
-    final static private String 	ACCESS_KEY_NAME 	= "ACCESS_KEY";
-    final static private String 	ACCESS_SECRET_NAME 	= "ACCESS_SECRET";
+	private final static String 	ACCOUNT_PREFS_NAME 	= "prefs";
+	private final static String 	ACCESS_KEY_NAME 	= "ACCESS_KEY";
+	private final static String 	ACCESS_SECRET_NAME 	= "ACCESS_SECRET";
 
     private 			 Context	context				= null;
     private 			 DropboxAPI	api					= new DropboxAPI();    
@@ -158,36 +161,49 @@ public class Dropbox {
         } else showToast("Unsuccessful login.");
     }
     
-    public void sync() 
-    throws Exception {
-    	final File tmpFile = createFile();
-    	this.downloadFile("/alletjut.txt", tmpFile);
-
-    	StringBuilder text = new StringBuilder();
-    	try {
-    	    BufferedReader br = new BufferedReader(new FileReader(tmpFile));
-    	    String line;
-    	    while ((line = br.readLine()) != null) {
-    	        text.append(line);
-    	        text.append('\n');
-    	    }
-    	}
-    	catch (IOException e) {
-    	    showToast(e.toString());
-    	}
-    	showToast(text.toString());
-
-    } 
+    /***********
+     * **********
+     * @throws IOException
+     */
     
-    private File createFile() 
+    public void sync() 
+    throws IOException  {
+    	File changes 		= new File(this.context.getFilesDir() 
+    			+ FILE_CHANGES);
+    	File collections 	= new File(this.context.getFilesDir() 
+    			+ FILE_COLLECTIONS);
+    	if (!changes.exists() || !collections.exists()) {
+    		showToast("Erstes Mal...");
+    		this.createLocalFiles();
+    	}
+    	BufferedReader reader = new BufferedReader(new FileReader(changes));
+    	int timestampLocal 	= new Integer(reader.readLine());
+    	int timestampRemote	= this.getRemoteTimestamp();      	
+    	if (timestampLocal == timestampRemote) {
+    		showToast("Alles aktuell => keine Änderungen");
+    	} else if (timestampLocal > timestampRemote) {
+    		showToast("Lokale Änderungen => In die DB hochladen");
+    	} else {
+    		showToast("Änderungen in der Dropbox => updating...");
+    		collections.delete();
+    		this.downloadFile("/" + Identifier.getIdentifier(this.context) + "/" 
+        			+ FILE_COLLECTIONS, collections);
+    		changes.delete();
+        	FileOutputStream fOSH = new FileOutputStream(changes);
+        	fOSH.write(("" + timestampRemote).getBytes()); 
+        	fOSH.flush();
+        	fOSH.close();
+    	}
+    }
+    
+    private int getRemoteTimestamp() 
     throws IOException {
-    	final 	String	identifier	= Identifier.getIdentifier(this.context);
-    	final 	long 	timestamp 	= System.currentTimeMillis() / 1000;
-    	final 	String	fileName	= this.context.getFilesDir()
-    								  + identifier + "_" + timestamp; 
-    	final	File	newFile		= new File(fileName);
-    	newFile.createNewFile();
-    	return newFile;
+    	File changesTmp = new File(this.context.getFilesDir() + FILE_CHANGES 
+    			+ "_tmp");
+    	this.downloadFile("/" + Identifier.getIdentifier(this.context) + "/" 
+    			+ FILE_CHANGES, changesTmp);
+    	BufferedReader reader = new BufferedReader(new FileReader(changesTmp));
+    	return new Integer(reader.readLine());
     }
     
     private boolean downloadFile(String remotePath, File localFile) 
@@ -211,6 +227,22 @@ public class Dropbox {
     		if (br != null) br.close();
     	}
     	return true;
+    }
+    
+    private void createLocalFiles() 
+    throws IOException {
+    	final File o = new File(this.context.getFilesDir() + FILE_COLLECTIONS);
+    	final File h = new File(this.context.getFilesDir() + FILE_CHANGES);    	
+    	o.createNewFile();
+    	h.createNewFile();
+    	FileOutputStream fOSO = new FileOutputStream(o);
+    	FileOutputStream fOSH = new FileOutputStream(h);
+    	fOSO.write("DB-Data".getBytes()); // DB-Data...
+    	fOSH.write(("" + (System.currentTimeMillis() / 1000)).getBytes());
+    	fOSO.flush();
+    	fOSH.flush();
+    	fOSO.close();
+    	fOSH.close();
     }
     
 }
