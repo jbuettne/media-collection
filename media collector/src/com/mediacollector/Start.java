@@ -96,7 +96,7 @@ public class Start extends RegisteredActivity {
         	}
         });
         
-//        Dropbox db = new Dropbox(this, null, null);
+//        Dropbox db = new Dropbox(this);
 //        Toast toast = Toast.makeText(getBaseContext(), Identifier.getIdentifier(this), Toast.LENGTH_LONG);
 //    	toast.show();
 //        try {
