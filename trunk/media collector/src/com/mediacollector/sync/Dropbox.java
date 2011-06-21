@@ -310,7 +310,6 @@ public class Dropbox {
      * ersten Start erfolgen! Dafür kann auch ein Context übergeben werden.
      * @throws IOException
      */
-    @SuppressWarnings("unused")
 	private static void createLocalFiles(Context context) 
     throws IOException {
     	final File o = new File(context.getFilesDir() + FILE_COLLECTIONS);
