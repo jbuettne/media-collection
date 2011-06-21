@@ -56,8 +56,8 @@ public class Dropbox {
 	
 	private static final String 	APP_KEY 			= "dlbvko1demdc7ke";
 	private static final String 	APP_SECRET 			= "16enl0keyoqj0ke";
-	private static final String		LOGIN_EMAIL			= "media1606collector";
-	private static final String		LOGIN_PASSWORD		= 
+	private static final String		LOGIN_PASSWORD		= "media1606collector";
+	private static final String		LOGIN_EMAIL			= 
 		"mediacollector@gmx.net";
     
 	private final static String 	ACCOUNT_PREFS_NAME 	= "prefs";
