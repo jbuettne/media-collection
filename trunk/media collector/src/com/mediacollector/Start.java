@@ -2,16 +2,19 @@ package com.mediacollector;
 
 import com.mediacollector.collection.SearchListing;
 import com.mediacollector.sync.Dropbox;
+import com.mediacollector.tools.Identifier;
 import com.mediacollector.tools.RegisteredActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 /**
  * Der Start-Screen der Applikation. Sie zeigt die Hauptbuttons zum Scannen von
@@ -93,6 +96,16 @@ public class Start extends RegisteredActivity {
         	}
         });
         
+        Dropbox db = new Dropbox(this, null, null);
+        //Toast toast = Toast.makeText(getBaseContext(), Identifier.getIdentifier(this), Toast.LENGTH_LONG);
+    	//toast.show();
+        try {
+			db.sync();
+		} catch (Exception e) {
+			Log.v("HAYA", e.toString());
+			Toast toast = Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_LONG);
+	    	toast.show();
+		}
     }
     
 }

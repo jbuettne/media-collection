@@ -2,29 +2,35 @@ package com.mediacollector.sync;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.dropbox.client.DropboxAPI;
 import com.dropbox.client.DropboxAPI.Config;
 import com.dropbox.client.DropboxAPI.FileDownload;
 import com.mediacollector.R;
+import com.mediacollector.tools.Identifier;
 
 /**
  * Modifiziertes Beispielprogramm zur Nutzung des Dropbox-SDKs.
  * Siehe hierzu: https://www.dropbox.com/developers
  * @author Philipp Dermitzel
  */
-public class Dropbox extends Activity {
+public class Dropbox {
 	
 	/***************************************************************************
 	 * KLASSENVARIABLEN
@@ -37,6 +43,7 @@ public class Dropbox extends Activity {
     final static private String 	ACCESS_KEY_NAME 	= "ACCESS_KEY";
     final static private String 	ACCESS_SECRET_NAME 	= "ACCESS_SECRET";
 
+    private 			 Context	context				= null;
     private 			 DropboxAPI	api					= new DropboxAPI();    
     private 			 boolean 	loggedIn			= false;
     private 			 Config 	config				= null;
@@ -73,31 +80,27 @@ public class Dropbox extends Activity {
 	 * Konstruktor/On-Create-Methode
 	 **************************************************************************/
     
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getKeys() != null) setLoggedIn(true); else setLoggedIn(false);
-        if (!this.loggedIn) {
-        	final Bundle extras = getIntent().getExtras();
-        	getAccountInfo(extras.getString("email"), 
-        				   extras.getString("password"));
-        } else setLoggedIn(true);
-        //Toast toast = Toast.makeText(getBaseContext() , "abgehts", Toast.LENGTH_LONG);
-		//toast.show();
-        uploadFile();
-
-	}
+    public Dropbox(	final Context context, 
+    				final String email, 
+    				final String password) {
+    	this.context = context;
+    	/*if (getKeys() != null) setLoggedIn(true); else */setLoggedIn(false);
+        /*if (!this.loggedIn)*/
+        	getAccountInfo(email, password);
+        //else setLoggedIn(true);
+    }
     
     /***************************************************************************
 	 * Klassenmethoden
 	 **************************************************************************/
 
     public void showToast(String msg) {
-    	(Toast.makeText(this, msg, Toast.LENGTH_LONG)).show();
+    	(Toast.makeText(this.context, msg, Toast.LENGTH_LONG)).show();
     }
     
     public String[] getKeys() {
-    	SharedPreferences prefs = getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
+    	SharedPreferences prefs = 
+    		this.context.getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
         String key 		= prefs.getString(ACCESS_KEY_NAME, null);
         String secret 	= prefs.getString(ACCESS_SECRET_NAME, null);
         if (key != null && secret != null) {
@@ -109,7 +112,8 @@ public class Dropbox extends Activity {
     }    
     
     public void storeKeys(String key, String secret) {
-        SharedPreferences prefs = getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
+        SharedPreferences prefs = 
+        	this.context.getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
         Editor edit = prefs.edit();
         edit.putString(ACCESS_KEY_NAME, key);
         edit.putString(ACCESS_SECRET_NAME, secret);
@@ -117,7 +121,8 @@ public class Dropbox extends Activity {
     }
     
     public void clearKeys() {
-        SharedPreferences prefs = getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
+        SharedPreferences prefs = 
+        	this.context.getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
         Editor edit = prefs.edit();
         edit.clear();
         edit.commit();
@@ -135,7 +140,7 @@ public class Dropbox extends Activity {
     		this.config = api.authenticateToken(keys[0], keys[1], this.config);
 	        if (this.config != null) return true;
     	}
-    	showToast(getString(R.string.DROPBOX_cnc));
+    	showToast(this.context.getString(R.string.DROPBOX_cnc));
     	clearKeys();
     	setLoggedIn(false);
     	return false;
@@ -153,96 +158,59 @@ public class Dropbox extends Activity {
         } else showToast("Unsuccessful login.");
     }
     
-    private boolean downloadDropboxFile(String boxPath, File localFile) throws IOException {
+    public void sync() 
+    throws Exception {
+    	final File tmpFile = createFile();
+    	this.downloadFile("/alletjut.txt", tmpFile);
 
-		BufferedInputStream br = null;
-		BufferedOutputStream bw = null;
-
-		try {
-			if (!localFile.exists()) {
-				localFile.createNewFile(); //otherwise dropbox client will fail silently
-			}
-
-			FileDownload fd = api.getFileStream("dropbox", boxPath, null);
-			br = new BufferedInputStream(fd.is);
-			bw = new BufferedOutputStream(new FileOutputStream(localFile));
-			
-			byte[] buffer = new byte[4096];
-			int read;
-			while (true) {
-				read = br.read(buffer);
-				if (read <= 0) {
-					break;
-				}
-				bw.write(buffer, 0, read);
-			}
-		} finally {
-			//in finally block:
-			if (bw != null) {
-				bw.close();
-			}
-			if (br != null) {
-				br.close();
-			}
-		}
-
-		return true;
-	}
-    private Object openFileOutput(File localFile, int modePrivate) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private boolean writeFile(String fileContent, String fileName) {
-    	
-    	if(deleteFile(fileName)) {
-    		showToast(fileName + " deleted");
+    	StringBuilder text = new StringBuilder();
+    	try {
+    	    BufferedReader br = new BufferedReader(new FileReader(tmpFile));
+    	    String line;
+    	    while ((line = br.readLine()) != null) {
+    	        text.append(line);
+    	        text.append('\n');
+    	    }
     	}
-    	try { // catches IOException below
-            
-             // ##### Write a file to the disk #####
-             /* We have to use the openFileOutput()-method
-              * the ActivityContext provides, to
-              * protect your file from others and
-              * This is done for security-reasons.
-              * We chose MODE_WORLD_READABLE, because
-              *  we have nothing to hide in our file */             
-             FileOutputStream fOut = openFileOutput(fileName,
-                                                     MODE_WORLD_READABLE);
-             OutputStreamWriter osw = new OutputStreamWriter(fOut); 
+    	catch (IOException e) {
+    	    showToast(e.toString());
+    	}
+    	showToast(text.toString());
 
-             // Write the string to the file
-             osw.write(fileContent);
-             /* ensure that everything is
-              * really written out and close */
-             osw.flush();
-             osw.close();
-    	 } catch (Exception ex) {
-    		 showToast("EX:" + ex.toString());
-    	 }
-    	return true;
+    } 
+    
+    private File createFile() 
+    throws IOException {
+    	final 	String	identifier	= Identifier.getIdentifier(this.context);
+    	final 	long 	timestamp 	= System.currentTimeMillis() / 1000;
+    	final 	String	fileName	= this.context.getFilesDir()
+    								  + identifier + "_" + timestamp; 
+    	final	File	newFile		= new File(fileName);
+    	newFile.createNewFile();
+    	return newFile;
     }
     
-    private void uploadFile() {
-    	
-    	File moep = new File(Environment.getExternalStorageDirectory(),"moep.txt");
-    	showToast(moep.toString());
-    	
-    	String file = "alletjut.txt";
+    private boolean downloadFile(String remotePath, File localFile) 
+    throws IOException{
+    	BufferedInputStream 	br = null;
+    	BufferedOutputStream 	bw = null;    	
     	try {
-    		//this.api.createFolder("dropbox", "testingtesting");
-    		this.downloadDropboxFile(file,moep);
-    		Toast toast = Toast.makeText(getBaseContext() , "abgehts", Toast.LENGTH_LONG);
-    		toast.show();
-    		//writeFile("shit happens",file);
-    		//showToast("File " + file + " loaded successfully");
-
-    		
-    		//this.api.getFile("dropbox", "alletjut.txt", moep, );
-    	} catch (Exception ex) {
-    		showToast("EX:" + ex.toString());
+    		if (!localFile.exists()) localFile.createNewFile();
+    		FileDownload fd = api.getFileStream("dropbox", remotePath, null);
+    		br = new BufferedInputStream(fd.is);
+    		bw = new BufferedOutputStream(new FileOutputStream(localFile));
+    		byte[] buffer = new byte[4096];
+    		int read;
+    		while (true) {
+    			read = br.read(buffer);
+    			if (read <= 0) break;
+    			bw.write(buffer, 0, read);
+    		}
+    	} finally {
+    		if (bw != null) bw.close();
+    		if (br != null) br.close();
     	}
-    		
+    	return true;
     }
     
 }
