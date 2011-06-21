@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 /**
@@ -18,6 +19,16 @@ import android.widget.LinearLayout;
  * @author Philipp Dermitzel
  */
 public class Start extends RegisteredActivity {
+	
+	private static String editText;	
+	
+    public static String getEditText() {
+    	return editText;
+	}
+
+	public void setEditText(String editText) {
+		this.editText = editText;
+	}
  
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,8 +84,11 @@ public class Start extends RegisteredActivity {
 
         Button searchButton = (Button) findViewById(
         		R.id.searchButton);
+        final EditText searchText = (EditText) findViewById(
+        		R.id.searchText);
         searchButton.setOnClickListener(new OnClickListener() {			
         	public void onClick(View v) {
+        		setEditText(searchText.getText().toString());
         		startActivity(new Intent(getBaseContext(), SearchListing.class));
         	}
         });

@@ -13,7 +13,7 @@ public interface AlbumTbl {
 	static final String SQL_CREATE = "CREATE TABLE Album (				"
 			+ "	id		VARCHAR(63)		PRIMARY KEY ,					"
 			+ "	name	VARCHAR(500)	NOT NULL,						"
-			+ "	artist	INTEGER 		REFERENCES Artist(mbId)         " 
+			+ "	artist	VARCHAR(63) 	REFERENCES Artist(mbId)         " 
 			+ " 	ON DELETE CASCADE ON UPDATE CASCADE,				"
 			+ "	year	INTEGER(4),										"
 			+ "	imgPath	VARCHAR(500)									"

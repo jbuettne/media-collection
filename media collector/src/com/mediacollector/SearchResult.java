@@ -1,21 +1,28 @@
 package com.mediacollector;
 
 import java.util.ArrayList;
+import java.util.Map;
 
+import com.mediacollector.collection.Data;
 import com.mediacollector.tools.ActivityRegistry;
 import com.mediacollector.tools.RegisteredActivity;
 
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -28,7 +35,7 @@ import android.widget.Toast;
  */
 public abstract class SearchResult extends ListActivity {
 	
-	protected	  ArrayList<String> 		searchResult 		= null;
+	protected	  ArrayList<Data> 		searchResult 		= null;
 	protected abstract void setData();
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,8 +44,29 @@ public abstract class SearchResult extends ListActivity {
 		this.setData();
         setContentView(R.layout.search_result);
         
-        setListAdapter(new ArrayAdapter<String>(this, R.layout.group_row,
-        		searchResult));
+        setListAdapter(new ArrayAdapter<Data>(this, 
+        		R.layout.group_row, searchResult) {
+        	@Override
+			public View getView(
+					int position, View convertView, ViewGroup parent) {
+				View v = convertView;
+				if (v == null) {
+					LayoutInflater vi = (LayoutInflater) getSystemService(
+							Context.LAYOUT_INFLATER_SERVICE);
+					v = vi.inflate(R.layout.entry_child_layout, null);
+				}
+				Data o = searchResult.get(position);
+				if (o != null) {
+					((TextView) v.findViewById(R.id.name)).setText(o.name);
+					((TextView) v.findViewById(R.id.details)).setText(String
+							.valueOf(o.year));
+					((ImageView) v.findViewById(R.id.image))
+							.setImageDrawable((Drawable) getResources()
+									.getDrawable(R.drawable.color_red));
+				}
+				return v;
+			}
+		});
         ListView lv = getListView();
         lv.setTextFilterEnabled(true);
 

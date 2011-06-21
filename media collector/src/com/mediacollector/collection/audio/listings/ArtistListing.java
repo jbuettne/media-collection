@@ -26,15 +26,7 @@ public class ArtistListing extends EntryListing {
 		
 		ArrayList<String> groups = artists.getArtistsName();
 		ArrayList<Artist> groupsA = artists.getArtistsAll();
-		//ArrayList<String> groups = new ArrayList<String>();
-//		for (Artist artist : groupsA) {
-//			ArrayList<TextImageEntry> tempGroup = albums.getAlbumsTI(artist);
-//
-//			Log.i("ArtistListing", String.valueOf(artist.getMbId()));
-//			for (TextImageEntry name : tempGroup) {
-//				 boolean addedGroup = groups.add(name.getText());
-//			}
-//		}
+		
 		ArrayList<TextImageEntry[]> groupsTI =
 			new ArrayList<TextImageEntry[]>();
 		for (Artist artist : groupsA) {
@@ -44,7 +36,7 @@ public class ArtistListing extends EntryListing {
 		}
 			
 		this.groups = groups.toArray(new String[0]);
-		this.children = groupsTI.toArray(new TextImageEntry[0][0]); //children.toArray(new TextImageEntry[0][0]);
+		this.children = groupsTI.toArray(new TextImageEntry[0][0]);
 	}
 	@Override
 	protected void onDestroy() {
