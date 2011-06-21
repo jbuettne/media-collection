@@ -144,10 +144,11 @@ public class Dropbox {
      */
     public Dropbox(final Context context) {
     	this.context = context;
-    	/*if (getKeys() != null) setLoggedIn(true); else */setLoggedIn(false);
-        /*if (!this.loggedIn)*/
+    	/*if (getKeys() != null) setLoggedIn(true); else setLoggedIn(false);
+        if (!this.loggedIn)
         	getAccountInfo();
-        //else setLoggedIn(true);
+        else setLoggedIn(true);*/
+    	login(LOGIN_EMAIL, LOGIN_PASSWORD);
     }
     
     /***************************************************************************
@@ -240,8 +241,8 @@ public class Dropbox {
     		this.createLocalFiles();
     	}
     	BufferedReader reader = new BufferedReader(new FileReader(changes));
-    	int timestampLocal 	= new Integer(reader.readLine());
-    	int timestampRemote	= this.getRemoteTimestamp();      	
+    	long timestampLocal 	= new Long(reader.readLine());
+    	long timestampRemote	= this.getRemoteTimestamp();      	
     	if (timestampLocal == timestampRemote) {
     		showToast("Alles aktuell => keine Änderungen");
     	} else if (timestampLocal > timestampRemote) {
@@ -261,17 +262,17 @@ public class Dropbox {
     
     /**
      * Liefert den Timestamp der letzten Änderungen der Daten in der Dropbox.
-     * @return int Timestamp der letzten Änderungen der Daten in der Dropbox.
+     * @return long Timestamp der letzten Änderungen der Daten in der Dropbox.
      * @throws IOException
      */
-    private int getRemoteTimestamp() 
+    private Long getRemoteTimestamp() 
     throws IOException {
     	File changesTmp = new File(this.context.getFilesDir() + FILE_CHANGES 
     			+ "_tmp");
     	this.downloadFile("/" + Identifier.getIdentifier(this.context) + "/" 
     			+ FILE_CHANGES, changesTmp);
     	BufferedReader reader = new BufferedReader(new FileReader(changesTmp));
-    	return new Integer(reader.readLine());
+    	return new Long(reader.readLine());
     }
     
     /**
