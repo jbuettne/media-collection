@@ -68,6 +68,7 @@ public class Dropbox {
     private 			 DropboxAPI	api					= new DropboxAPI();    
     private 			 boolean 	loggedIn			= false;
     private 			 Config 	config				= null;
+    private				 String		identifier			= null;
     
     /***************************************************************************
 	 * Getter und Setter
@@ -143,11 +144,8 @@ public class Dropbox {
      * @param context Der Context der aufrufenden Activity.
      */
     public Dropbox(final Context context) {
-    	this.context = context;
-    	/*if (getKeys() != null) setLoggedIn(true); else setLoggedIn(false);
-        if (!this.loggedIn)
-        	getAccountInfo();
-        else setLoggedIn(true);*/
+    	this.context 	= context;
+    	this.identifier	= Identifier.getIdentifier(this.context); 
     	login(LOGIN_EMAIL, LOGIN_PASSWORD);
     }
     
@@ -178,14 +176,6 @@ public class Dropbox {
         Editor edit = prefs.edit();
         edit.clear();
         edit.commit();
-    }
-    
-    /**
-     * Führt den eigentlichen Login aus.
-     */
-    private void getAccountInfo() {
-    	if (api.isAuthenticated()) login(null, null);
-    	else login(LOGIN_EMAIL, LOGIN_PASSWORD);
     }
 
     /**
@@ -226,37 +216,43 @@ public class Dropbox {
     /**
      * Führt eine Synchronisation der Daten zwischen lokalem Speicher und der 
      * Dropbox aus. Dabei werden veraltete Daten ersetzt!
+     * @return int Erfolgswert:
+     * 	-1 lokal geänderte Daten wurden in die Dropbox geladen
+     * 	 0 keine Änderungen
+     *   1 Änderungen aus der Dropbox wurden lokal eingespielt.
      * @throws IOException
      */
-    public void sync() 
+    public int sync() 
     throws IOException  {
-    	File changes 		= new File(this.context.getFilesDir() 
+    	File changes = new File(this.context.getFilesDir() + "/"
     			+ FILE_CHANGES);
-    	File collections 	= new File(this.context.getFilesDir() 
+    	File collections = new File(this.context.getFilesDir() + "/" 
     			+ FILE_COLLECTIONS);
     	if (!changes.exists() || !collections.exists()) {
-    		// Erste Synchronisation. Hier müssten dann auch noch die 
-    		// entsprechenden Verzeichnisse in der DB erzeugt werden.
-    		showToast("Erstes Mal...");
     		this.createLocalFiles();
+    		this.api.createFolder("dropbox", "/" + this.identifier);
+    		this.uploadFile("/" + this.identifier, changes);
+    		this.uploadFile("/" + this.identifier, collections);
     	}
-    	BufferedReader reader = new BufferedReader(new FileReader(changes));
+    	BufferedReader reader 	= new BufferedReader(new FileReader(changes));
     	long timestampLocal 	= new Long(reader.readLine());
     	long timestampRemote	= this.getRemoteTimestamp();      	
     	if (timestampLocal == timestampRemote) {
-    		showToast("Alles aktuell => keine Änderungen");
+    		return 0;
     	} else if (timestampLocal > timestampRemote) {
-    		showToast("Lokale Änderungen => In die DB hochladen");
+    		this.uploadFile("/" + this.identifier + "/", changes);
+    		this.uploadFile("/" + this.identifier + "/", collections);
+    		return -1;
     	} else {
-    		showToast("Änderungen in der Dropbox => updating...");
     		collections.delete();
-    		this.downloadFile("/" + Identifier.getIdentifier(this.context) + "/" 
-        			+ FILE_COLLECTIONS, collections);
+    		this.downloadFile("/" + this.identifier + "/" + FILE_COLLECTIONS, 
+    				collections);
     		changes.delete();
         	FileOutputStream fOSH = new FileOutputStream(changes);
         	fOSH.write(("" + timestampRemote).getBytes()); 
         	fOSH.flush();
         	fOSH.close();
+        	return 1;
     	}
     }
     
@@ -267,10 +263,10 @@ public class Dropbox {
      */
     private Long getRemoteTimestamp() 
     throws IOException {
-    	File changesTmp = new File(this.context.getFilesDir() + FILE_CHANGES 
-    			+ "_tmp");
-    	this.downloadFile("/" + Identifier.getIdentifier(this.context) + "/" 
-    			+ FILE_CHANGES, changesTmp);
+    	File changesTmp = new File(this.context.getFilesDir() + "/" 
+    			+ FILE_CHANGES + "_tmp");
+    	this.downloadFile("/" + this.identifier + "/" + FILE_CHANGES, 
+    			changesTmp);
     	BufferedReader reader = new BufferedReader(new FileReader(changesTmp));
     	return new Long(reader.readLine());
     }
@@ -280,7 +276,7 @@ public class Dropbox {
      * übergebenen File-Objekt.
      * @param remotePath String Der Pfad zur Datei in der Dropbox
      * @param localFile File Das File-Objekt, in welchem die Daten gespeichert
-     * 					werden sollen
+     * 	werden sollen
      * @throws IOException
      */
     private void downloadFile(String remotePath, File localFile) 
@@ -306,6 +302,18 @@ public class Dropbox {
     }
     
     /**
+     * Läd eine Datei in die Dropbox. Bereits bestehende Dateien werden ohne
+     * Nachfrage überschrieben.
+     * @param remotePath String Der Pfad zum Ordner, in welchen die Datei 
+     * 	geladen werden soll. Ohne Dateiname dahinter!
+     * @param localFile File Die Datei, die hochgeladen werden soll. Der 
+     * 	Dateiname wird beibehalten.
+     */
+    private void uploadFile(String remotePath, File localFile) {
+        this.api.putFile("dropbox", remotePath, localFile);
+    }
+    
+    /**
      * Erstellt die lokalen Files bei der ersten Synchronisation. 
      * ACHTUNG: Dies sollte nicht bei der ersten Synchronisation, sondern beim 
      * ersten Start erfolgen! Dafür kann auch ein Context übergeben werden.
@@ -313,8 +321,8 @@ public class Dropbox {
      */
 	private static void createLocalFiles(Context context) 
     throws IOException {
-    	final File o = new File(context.getFilesDir() + FILE_COLLECTIONS);
-    	final File h = new File(context.getFilesDir() + FILE_CHANGES);    	
+    	final File o = new File(context.getFilesDir() + "/" + FILE_COLLECTIONS);
+    	final File h = new File(context.getFilesDir() + "/" + FILE_CHANGES);    	
     	o.createNewFile();
     	h.createNewFile();
     	FileOutputStream fOSO = new FileOutputStream(o);
