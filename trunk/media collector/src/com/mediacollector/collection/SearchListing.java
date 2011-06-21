@@ -5,21 +5,33 @@ import java.util.HashMap;
 
 import android.database.Cursor;
 import android.util.Log;
+import android.widget.EditText;
 
 import com.mediacollector.R;
 import com.mediacollector.SearchResult;
+import com.mediacollector.Start;
 import com.mediacollector.collection.Database;
 import com.mediacollector.collection.DatabaseHelper;
 
+/**
+ * 
+ * @author Jens Buettner
+ */
 public class SearchListing extends SearchResult{
 
 	Database db = null;
+	EditText searchText = null;
 	@Override
 	protected void setData() {
-
+		ArrayList<Data> searchResult;
 		db = new Database(this);
-		
-		ArrayList<String> searchResult = db.getArtist().getArtistsName();
+		if ("".equals(Start.getEditText())) {
+			searchResult = new ArrayList<Data>();
+			Log.e("TAG", "HALLO!");
+		} else {
+			searchResult = db.getSearchResult(
+				Start.getEditText());
+		}
 	    
 		this.searchResult = searchResult;
 	}
