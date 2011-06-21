@@ -335,18 +335,7 @@ public class Dropbox {
      */
     private void createLocalFiles() 
     throws IOException {
-    	final File o = new File(this.context.getFilesDir() + FILE_COLLECTIONS);
-    	final File h = new File(this.context.getFilesDir() + FILE_CHANGES);    	
-    	o.createNewFile();
-    	h.createNewFile();
-    	FileOutputStream fOSO = new FileOutputStream(o);
-    	FileOutputStream fOSH = new FileOutputStream(h);
-    	fOSO.write("DB-Data".getBytes()); // DB-Data...
-    	fOSH.write(("" + (System.currentTimeMillis() / 1000)).getBytes());
-    	fOSO.flush();
-    	fOSH.flush();
-    	fOSO.close();
-    	fOSH.close();
+    	createLocalFiles(this.context);
     }
     
     /**
