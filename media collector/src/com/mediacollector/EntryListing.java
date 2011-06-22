@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.mediacollector.collection.TextImageEntry;
+import com.mediacollector.sync.SyncActivity;
 import com.mediacollector.tools.ActivityRegistry;
+import com.mediacollector.tools.Preferences;
 
 import android.app.ExpandableListActivity;
 import android.content.Context;
@@ -140,16 +142,22 @@ public abstract class EntryListing extends ExpandableListActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch (item.getItemId()) {
-    		case R.id.menu_scan:
-    			startActivity(new Intent(getBaseContext(), ScanBarcode.class));
-    			return true;
-    		case R.id.menu_exit:
-    			ActivityRegistry.closeAllActivities();
-    			return true;
-    		case R.id.menu_info:    			
-    			startActivityForResult(new Intent(this, InfoPopUp.class), 1);
-    		default: return true;
-    	}
+		case R.id.menu_sync:
+			startActivity(new Intent(getBaseContext(), SyncActivity.class));
+			return true;
+		case R.id.menu_scan:
+			startActivity(new Intent(getBaseContext(), ScanBarcode.class));
+			return true;
+		case R.id.menu_settings:    			
+			startActivity(new Intent(getBaseContext(), Preferences.class));
+			return true;
+		case R.id.menu_exit:
+			ActivityRegistry.closeAllActivities();
+			return true;
+		case R.id.menu_info:    			
+			startActivityForResult(new Intent(this, InfoPopUp.class), 1);
+		default: return true;
+	}
     }
     	
 }
