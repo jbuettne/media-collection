@@ -1,20 +1,17 @@
 package com.mediacollector;
 
 import com.mediacollector.collection.SearchListing;
-import com.mediacollector.sync.Dropbox;
-import com.mediacollector.tools.Identifier;
+import com.mediacollector.collection.audio.listings.ArtistListing;
+import com.mediacollector.sync.SyncActivity;
 import com.mediacollector.tools.RegisteredActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 /**
  * Der Start-Screen der Applikation. Sie zeigt die Hauptbuttons zum Scannen von
@@ -30,7 +27,7 @@ public class Start extends RegisteredActivity {
 	}
 
 	public void setEditText(String editText) {
-		this.editText = editText;
+		Start.editText = editText;
 	}
  
     @Override
@@ -47,8 +44,7 @@ public class Start extends RegisteredActivity {
            R.id.browseAudioField);
         browseAudioField.setOnClickListener(new OnClickListener() { 
         public void onClick(View v) {
-        	startActivity(new Intent(getBaseContext(), 
-        			com.mediacollector.collection.audio.listings.ArtistListing.class));
+        	startActivity(new Intent(getBaseContext(), ArtistListing.class));
         	}
         });
         LinearLayout browseGamesField = (LinearLayout) findViewById(
@@ -76,12 +72,7 @@ public class Start extends RegisteredActivity {
         	R.id.syncField);
         syncField.setOnClickListener(new OnClickListener() {
 		   	public void onClick(View v) {
-		   		SharedPreferences prefs = 
-		   			getSharedPreferences("com.mediacollector_preferences", 0);
-		   		Intent intent = new Intent(getBaseContext(), Dropbox.class);
-		   		intent.putExtra("email", prefs.getString("dropboxLogin", null));
-		   		intent.putExtra("password",prefs.getString("dropboxPassword", null));
-		   		startActivity(intent);
+		   		startActivity(new Intent(getBaseContext(), SyncActivity.class));
 		   	}
         });
 
@@ -92,20 +83,10 @@ public class Start extends RegisteredActivity {
         searchButton.setOnClickListener(new OnClickListener() {			
         	public void onClick(View v) {
         		setEditText(searchText.getText().toString());
-        		startActivity(new Intent(getBaseContext(), SearchListing.class));
+        		startActivity(new Intent(getBaseContext(), 
+        				SearchListing.class));
         	}
         });
-        
-//        Dropbox db = new Dropbox(this);
-//        Toast toast = Toast.makeText(getBaseContext(), Identifier.getIdentifier(this), Toast.LENGTH_LONG);
-//    	toast.show();
-//        try {
-//			db.sync();
-//		} catch (Exception e) {
-//			Log.v("HAYA", e.toString());
-//			Toast toast = Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_LONG);
-//	    	toast.show();
-//		}
     }
     
 }

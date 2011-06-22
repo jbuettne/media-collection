@@ -11,6 +11,7 @@ import java.io.IOException;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.Looper;
 import android.widget.Toast;
 
 import com.dropbox.client.DropboxAPI;
@@ -18,6 +19,7 @@ import com.dropbox.client.DropboxAPI.Config;
 import com.dropbox.client.DropboxAPI.FileDownload;
 import com.mediacollector.R;
 import com.mediacollector.tools.Identifier;
+import com.mediacollector.tools.Observable;
 
 /**
  * Klasse zur Synchronisation der Sammlungsdaten mit einer zentralen Dropbox.
@@ -45,7 +47,7 @@ import com.mediacollector.tools.Identifier;
  * Gegenstück auch lokal auf dem mobilen Gerät.
  * @author Philipp Dermitzel
  */
-public class Dropbox {
+public class Dropbox extends Observable implements Runnable {
 	
 	/***************************************************************************
 	 * KLASSENVARIABLEN
@@ -66,7 +68,6 @@ public class Dropbox {
 
     private 			 Context	context				= null;
     private 			 DropboxAPI	api					= new DropboxAPI();    
-    private 			 boolean 	loggedIn			= false;
     private 			 Config 	config				= null;
     private				 String		identifier			= null;
     
@@ -122,15 +123,6 @@ public class Dropbox {
     public void setConfig(Config conf) {
     	this.config = conf;
     }
-
-    /**
-     * Definiert, ob der Benutzer als eingeloggt gesehen wird oder nicht. Dies
-     * ist NICHT der Login und hat auch nur UI-Zwecke.
-     * @param loggedIn boolean
-     */
-    public void setLoggedIn(boolean loggedIn) {
-    	this.loggedIn = loggedIn;
-    }
     
     /***************************************************************************
 	 * Konstruktor/On-Create-Methode
@@ -142,12 +134,51 @@ public class Dropbox {
      * Augenblick bei jeder Instanziierung ein neuer Login durchgeführt.
      * Dies sollte in naher Zukunft verbessert werden!
      * @param context Der Context der aufrufenden Activity.
+     * @return 
      */
     public Dropbox(final Context context) {
     	this.context 	= context;
-    	this.identifier	= Identifier.getIdentifier(this.context); 
-    	login(LOGIN_EMAIL, LOGIN_PASSWORD);
+    	this.identifier	= Identifier.getIdentifier(this.context); 	
     }
+    
+    /**
+     * Wird ausgeführt, wenn die Dropbox als Thread im Hintergrund die 
+     * Sammlungsdaten synchronisiert. Über einen hinzuzufügenden Observer kann
+     * die aufrufende Activity beendet werden oder weitere Aktionen als 
+     * "Callback" aufgerufen werden.
+     */
+    public void run() {
+    	Looper.prepare();
+    	login(LOGIN_EMAIL, LOGIN_PASSWORD);
+    	try {
+			switch(this.sync()) {
+			case -5: 
+				Toast.makeText(this.context, 
+						"Fehler bei der Synchronisation.",
+						Toast.LENGTH_LONG).show();
+				break;
+			case -1:
+				Toast.makeText(this.context,
+   						 "Lokale Änderungen wurden synchronisiert.", 
+   						 Toast.LENGTH_LONG).show();
+   				 break;
+			case 0:
+				Toast.makeText(this.context,
+   						 "Die Sammlungen sind auf dem neusten Stand.", 
+   						 Toast.LENGTH_LONG).show();
+   				break;
+   			case 1:
+   				Toast.makeText(this.context,
+   						 "Die Sammlungen wurden auf den neusten Stand " 
+   						+ "gebracht.", Toast.LENGTH_LONG).show();	
+			}
+		} catch (Exception e) {
+			Toast.makeText(this.context, "Programmfehler:" + e, 
+					Toast.LENGTH_LONG).show();
+		}
+		this.notifyObserver();
+		Looper.loop();
+	} 
     
     /***************************************************************************
 	 * Klassenmethoden
@@ -192,7 +223,6 @@ public class Dropbox {
     	}
     	showToast(this.context.getString(R.string.DROPBOX_cnc));
     	clearKeys();
-    	setLoggedIn(false);
     	return false;
     }
     
@@ -209,7 +239,6 @@ public class Dropbox {
     			&& this.config.authStatus == DropboxAPI.STATUS_SUCCESS) {
         	storeKeys(this.config.accessTokenKey, 
         			this.config.accessTokenSecret);
-        	setLoggedIn(true);
         }
     }
 

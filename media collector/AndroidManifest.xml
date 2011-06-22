@@ -59,9 +59,10 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".sync.Dropbox"
+        <activity android:name=".sync.SyncActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog">
         </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
