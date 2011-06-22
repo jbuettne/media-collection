@@ -11,13 +11,4 @@
             android:summary="Store resized images for faster access"
             android:key="imageResize" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="Synchronisation (Dropbox)">
-        <EditTextPreference android:title="Dropbox Loginname"
-            android:summary="Your Dropbox Loginname"
-            android:key="dropboxLogin" />
-        <EditTextPreference android:title="Dropbox Password"
-            android:summary="The Password to your Dropbox"
-            android:key="dropboxPassword" 
-            android:password="true" />
-    </PreferenceCategory>  
 </PreferenceScreen>

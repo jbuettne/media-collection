@@ -13,10 +13,18 @@ import java.util.ArrayList;
  */
 public abstract class Observable {
 	
+	/***************************************************************************
+	 * KLASSENVARIABLEN
+	 **************************************************************************/
+	
 	/**
 	 * Die Liste mit allen aktiven Observern.
 	 */
 	protected ArrayList<Observer> observer = new ArrayList<Observer>();
+	
+	/***************************************************************************
+	 * Klassenmethoden
+	 **************************************************************************/
 	
 	/**
 	 * Fügt einen Observer hinzu. Dieser wird abgeleitet von der Observer-

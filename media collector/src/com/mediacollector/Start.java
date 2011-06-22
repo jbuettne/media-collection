@@ -2,6 +2,7 @@ package com.mediacollector;
 
 import com.mediacollector.collection.SearchListing;
 import com.mediacollector.collection.audio.listings.ArtistListing;
+import com.mediacollector.fetching.Google;
 import com.mediacollector.sync.SyncActivity;
 import com.mediacollector.tools.RegisteredActivity;
 
@@ -12,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 /**
  * Der Start-Screen der Applikation. Sie zeigt die Hauptbuttons zum Scannen von
@@ -75,6 +77,10 @@ public class Start extends RegisteredActivity {
 		   		startActivity(new Intent(getBaseContext(), SyncActivity.class));
 		   	}
         });
+        
+        Google google = new Google();
+        Toast.makeText(getBaseContext() , google.startSearch("803341219427"), 
+        		Toast.LENGTH_LONG).show();
 
         Button searchButton = (Button) findViewById(
         		R.id.searchButton);
