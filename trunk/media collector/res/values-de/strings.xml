@@ -7,4 +7,11 @@
     <string name="BSNFD_message">Diese App benötigt den BarcodeScanner. Soll dieser installiert werden?</string>
     <string name="BSNFD_button_pos">Ja</string>
     <string name="BSNFD_button_neg">Nein</string>
+    
+    <string name="DROPBOX_cnc">Konnte nicht mit der Dropbox verbinden!</string>
+    <string name="SYNC_Loading">Synchronisation...</string>
+    <string name="SYNC_Error">Fehler bei der Synchronisation.</string>
+    <string name="SYNC_Local">Lokale Änderungen wurden synchronisiert.</string>
+    <string name="SYNC_Okay">Die Sammlungen sind auf dem neusten Stand.</string>
+    <string name="SYNC_Remote">Die Sammlungen wurden auf den neusten Stand gebracht.</string>
 </resources>

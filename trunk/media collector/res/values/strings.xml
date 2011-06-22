@@ -9,4 +9,9 @@
     <string name="BSNFD_button_neg">No</string>
     
     <string name="DROPBOX_cnc">Can\'t connect to your Dropbox!</string>
+    <string name="SYNC_Loading">Synchronization...</string>
+    <string name="SYNC_Error">Error during synchronization.</string>
+    <string name="SYNC_Local">Local changes have been uploaded.</string>
+    <string name="SYNC_Okay">The collections are up to date.</string>
+    <string name="SYNC_Remote">The collections have been updated.</string>
 </resources>
