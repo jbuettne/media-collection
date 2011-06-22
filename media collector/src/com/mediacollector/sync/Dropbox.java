@@ -153,27 +153,23 @@ public class Dropbox extends Observable implements Runnable {
     	try {
 			switch(this.sync()) {
 			case -5: 
-				Toast.makeText(this.context, 
-						"Fehler bei der Synchronisation.",
+				Toast.makeText(this.context, R.string.SYNC_Error, 
 						Toast.LENGTH_LONG).show();
 				break;
 			case -1:
-				Toast.makeText(this.context,
-   						 "Lokale Änderungen wurden synchronisiert.", 
+				Toast.makeText(this.context, R.string.SYNC_Local, 
    						 Toast.LENGTH_LONG).show();
    				 break;
 			case 0:
-				Toast.makeText(this.context,
-   						 "Die Sammlungen sind auf dem neusten Stand.", 
+				Toast.makeText(this.context, R.string.SYNC_Okay, 
    						 Toast.LENGTH_LONG).show();
    				break;
    			case 1:
-   				Toast.makeText(this.context,
-   						 "Die Sammlungen wurden auf den neusten Stand " 
-   						+ "gebracht.", Toast.LENGTH_LONG).show();	
+   				Toast.makeText(this.context, R.string.SYNC_Remote, 
+   						Toast.LENGTH_LONG).show();	
 			}
 		} catch (Exception e) {
-			Toast.makeText(this.context, "Programmfehler:" + e, 
+			Toast.makeText(this.context, "Error: " + e, 
 					Toast.LENGTH_LONG).show();
 		}
 		this.notifyObserver();
