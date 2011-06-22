@@ -15,7 +15,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter> 
         </activity>
         <activity android:name=".EntryListing"
             android:label="@string/app_name"
@@ -63,6 +63,10 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Dialog">
+        </activity>
+        <activity android:name=".fetching.Google"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
