@@ -4,6 +4,7 @@ import com.mediacollector.collection.SearchListing;
 import com.mediacollector.collection.audio.listings.ArtistListing;
 import com.mediacollector.fetching.Google;
 import com.mediacollector.sync.SyncActivity;
+import com.mediacollector.tools.Observer;
 import com.mediacollector.tools.RegisteredActivity;
 
 import android.content.Intent;
@@ -20,7 +21,7 @@ import android.widget.Toast;
  * neuen Medien sowie zum Browsen und Synchronisieren der Sammlungen. 
  * @author Philipp Dermitzel
  */
-public class Start extends RegisteredActivity {
+public class Start extends RegisteredActivity implements Observer {
 	
 	private static String editText;	
 	
@@ -78,9 +79,9 @@ public class Start extends RegisteredActivity {
 		   	}
         });
         
-        Google google = new Google();
-        Toast.makeText(getBaseContext() , google.startSearch("803341219427"), 
-        		Toast.LENGTH_LONG).show();
+        Google google = new Google("803341219427");
+        google.addObserver(this);
+        new Thread(google).start();
 
         Button searchButton = (Button) findViewById(
         		R.id.searchButton);
@@ -94,5 +95,11 @@ public class Start extends RegisteredActivity {
         	}
         });
     }
+
+	public void updateObserver() {
+		Toast toast = Toast.makeText(getBaseContext(), Google.product, 
+				Toast.LENGTH_LONG);
+     	toast.show();
+	}
     
 }
