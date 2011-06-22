@@ -16,22 +16,13 @@
 
 package com.mediacollector.fetching;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
-
 import com.mediacollector.tools.Observable;
 
-import android.net.http.AndroidHttpClient;
 import android.os.Looper;
 
 /**
@@ -102,63 +93,23 @@ public class Google extends Observable implements Runnable {
 		Looper.loop();
 	}
 	
+	/***************************************************************************
+	 * Klassenmethoden
+	 **************************************************************************/
+	
 	/**
-	 * Die Methode, welche das Parsen der Daten übernimmt.
+	 * Die Methode, welche das Holen der Daten übernimmt.
 	 * @throws IOException
 	 */
 	private void getData() 
 	throws IOException {
 		String encProductID = URLEncoder.encode(productID, "UTF-8");
-		String completeURI	= BASE_URI + encProductID;
-		
-		HttpUriRequest		head 		= new HttpGet(completeURI);
-		AndroidHttpClient 	client 		= AndroidHttpClient.newInstance(null);
-		HttpResponse 		response 	= client.execute(head);		
-		
-		int status = response.getStatusLine().getStatusCode();
-		if (status != 200) return;
-				
-		String 				webContent 	= getWebContent(response.getEntity());
-		Matcher				matcher 	= PATTERN.matcher(webContent);
-		
+		String webContent = WebParsing.getWebContent(BASE_URI + encProductID);
+		Matcher matcher = PATTERN.matcher(webContent);		
 		if (matcher.find()) {
 			product = matcher.group(1);
 			notifyObserver();
 		}
 	}
-	
-	/**
-	 * Die Parsing-Methode. 
-	 * Siehe http://code.google.com/p/zxing/source/browse/trunk/android/src/com/
-	 * google/zxing/client/android/result/supplement/
-	 * ProductResultInfoRetriever.java
-	 * Methode consume()
-	 * @param entity HttpEntity
-	 * @return String Der Quellcode der entsprechenden Seite.
-	 */
-	private static String getWebContent(HttpEntity entity) {
-	    ByteArrayOutputStream 	bAOS 	= new ByteArrayOutputStream();
-	    InputStream 			iS 		= null;
-	    try {
-	      iS = entity.getContent();
-	      byte[] buffer = new byte[1024];
-	      int bytesRead;
-	      
-	      while ((bytesRead = iS.read(buffer)) > 0) 
-	    	  bAOS.write(buffer, 0, bytesRead);
-	    } catch (IOException ioe) {	    	
-	    } finally {
-	      if (iS != null) {
-	        try {
-	          iS.close();
-	        } catch (IOException ioe) {}
-	      }
-	    }
-	    try {
-	      return new String(bAOS.toByteArray(), "UTF-8");
-	    } catch (UnsupportedEncodingException uee) {
-	      throw new IllegalStateException(uee);
-	    }
-	  }
 
 }
