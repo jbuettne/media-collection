@@ -93,19 +93,17 @@ public class Google extends Observable implements Runnable {
 		Looper.loop();
 	}
 	
-	/***************************************************************************
-	 * Klassenmethoden
-	 **************************************************************************/
-	
 	/**
-	 * Die Methode, welche das Holen der Daten übernimmt.
+	 * Die Methode, welche das Parsen der Daten übernimmt.
 	 * @throws IOException
 	 */
 	private void getData() 
 	throws IOException {
 		String encProductID = URLEncoder.encode(productID, "UTF-8");
-		String webContent = WebParsing.getWebContent(BASE_URI + encProductID);
-		Matcher matcher = PATTERN.matcher(webContent);		
+		String completeURI	= BASE_URI + encProductID;
+		String webContent 	= WebParsing.getWebContent(completeURI);
+		Matcher	matcher 	= PATTERN.matcher(webContent);
+		
 		if (matcher.find()) {
 			product = matcher.group(1);
 			notifyObserver();

@@ -3,6 +3,7 @@ package com.mediacollector;
 import com.mediacollector.collection.SearchListing;
 import com.mediacollector.collection.audio.listings.ArtistListing;
 import com.mediacollector.fetching.Google;
+import com.mediacollector.fetching.Imdb;
 import com.mediacollector.sync.SyncActivity;
 import com.mediacollector.tools.Observer;
 import com.mediacollector.tools.RegisteredActivity;
@@ -79,7 +80,7 @@ public class Start extends RegisteredActivity implements Observer {
 		   	}
         });
         
-        Google google = new Google("803341219427");
+        Google google = new Google("4030521100190");
         google.addObserver(this);
         new Thread(google).start();
 
@@ -97,9 +98,14 @@ public class Start extends RegisteredActivity implements Observer {
     }
 
 	public void updateObserver() {
-		Toast toast = Toast.makeText(getBaseContext(), Google.product, 
-				Toast.LENGTH_LONG);
-     	toast.show();
+		if (Imdb.year == -1) {
+			Imdb imdb = new Imdb(Google.product);
+			imdb.addObserver(this);
+			new Thread(imdb).start();
+		} else {
+			Toast.makeText(getBaseContext(), Imdb.correctTitle + " (" 
+					+ Imdb.year + ")", Toast.LENGTH_LONG).show();
+		}
 	}
     
 }

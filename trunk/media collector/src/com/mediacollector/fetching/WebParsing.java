@@ -26,16 +26,16 @@ public class WebParsing {
 	 */
 	public static String getWebContent(final String uri) 
 	throws IOException {
-		HttpUriRequest			head 		= new HttpGet(uri);
-		AndroidHttpClient 		client 		= AndroidHttpClient.newInstance(null);
-		HttpResponse 			response 	= client.execute(head);
-				
+		HttpUriRequest		head 		= new HttpGet(uri);
+		AndroidHttpClient 	client 		= AndroidHttpClient.newInstance(null);
+		HttpResponse 		response 	= client.execute(head);
+		
 		int status = response.getStatusLine().getStatusCode();
 		if (status != 200) return null;		
 		
-		HttpEntity				entity		= response.getEntity();		
-	    ByteArrayOutputStream 	bAOS 	= new ByteArrayOutputStream();
-	    InputStream 			iS 		= null;
+		HttpEntity			entity		= response.getEntity();		
+	    ByteArrayOutputStream bAOS 	= new ByteArrayOutputStream();
+	    InputStream 		iS 		= null;
 	    try {
 	      iS = entity.getContent();
 	      byte[] buffer = new byte[1024];
@@ -52,9 +52,9 @@ public class WebParsing {
 	      }
 	    }
 	    try {
-	      return new String(bAOS.toByteArray(), "UTF-8");
+	    	return new String(bAOS.toByteArray(), "UTF-8");
 	    } catch (UnsupportedEncodingException uee) {
-	      throw new IllegalStateException(uee);
+	    	throw new IllegalStateException(uee);
 	    }
 	  }
 
