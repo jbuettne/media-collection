@@ -59,9 +59,6 @@ public class Google extends DataFetcher {
 	 */
 	private static final Pattern PATTERN = Pattern.compile("owb63p\">([^<]+)");
 	
-	public static String title;
-	public static String year;
-	
 	/***************************************************************************
 	 * Konstruktor/On-Create-Methode
 	 **************************************************************************/
@@ -93,7 +90,7 @@ public class Google extends DataFetcher {
 		String webContent 	= WebParsing.getWebContent(completeURI);
 		Matcher	matcher 	= PATTERN.matcher(webContent);		
 		if (matcher.find()) {
-			Google.title = matcher.group(1);
+			this.set("title", matcher.group(1));
 			notifyObserver();
 		}
 	}
