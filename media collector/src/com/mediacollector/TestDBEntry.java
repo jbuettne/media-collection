@@ -1,20 +1,9 @@
 package com.mediacollector;
 
-import java.util.HashMap;
-
-import com.mediacollector.collection.Database;
-import com.mediacollector.collection.DatabaseHelper;
 import com.mediacollector.collection.audio.AlbumData;
 import com.mediacollector.collection.audio.ArtistData;
 import com.mediacollector.tools.RegisteredActivity;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ListActivity;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 
 public class TestDBEntry extends RegisteredActivity {

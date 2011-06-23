@@ -21,6 +21,18 @@ public abstract class DataFetcher extends Observable implements Runnable {
 	 **************************************************************************/
 	
 	/**
+	 * Definiert den Schlüsselwert, unter welchem der Titel des Videos in der
+	 * Data-HashMap gespeichert wird.
+	 */
+	protected static final String TITLE_STRING = "title";
+	
+	/**
+	 * Definiert den Schlüsselwert, unter welchem das Erscheinungsjahr des 
+	 * Videos in der Data-HashMap gespeichert wird.
+	 */
+	protected static final String YEAR_STRING = "year";
+	
+	/**
 	 * Die EAN, zu der die entsprechenden Daten eingeholt werden. Sie wird
 	 * mittels des Konstruktors gesetzt.
 	 */
@@ -30,7 +42,7 @@ public abstract class DataFetcher extends Observable implements Runnable {
 	 * Die Daten, die eingeholt werden. Sie können über die allgemeinen Getter-
 	 * und Setter-Methoden ausgelesen und gesetzt werden.
 	 */
-	protected HashMap<String, Object> data = new HashMap<String, Object>(); 
+	protected HashMap<String, Object> data = new HashMap<String, Object>();
 	
 	/***************************************************************************
 	 * Getter und Setter

@@ -21,10 +21,6 @@ import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.mediacollector.tools.Observable;
-
-import android.os.Looper;
-
 /**
  * Diese Klasse dient dazu, zu einer gegebenen EAN einen Titel bzw. eine 
  * "Beschrebung" zu finden. Über diese können dann weitere benötigte Daten aus
@@ -43,7 +39,7 @@ import android.os.Looper;
 public class Google extends DataFetcher {
 	
 	/***************************************************************************
-	 * KLASSENVARIABLEN
+	 * Klassenvariablen
 	 **************************************************************************/
 
 	/**
@@ -63,25 +59,20 @@ public class Google extends DataFetcher {
 	 * Konstruktor/On-Create-Methode
 	 **************************************************************************/
 	
+	/**
+	 * Der Konstruktor. 
+	 * Setzt die EAN (Product-ID).
+	 */
 	public Google(String ean) {
 		super(ean);
 	}
 	
-	/**
-	 * Holt - als Thread aufgerufen - die Daten von Google Product-Pages und 
-	 * speichert die Beschreibung in der product-Klassenvariable.
-	 */
-	public void run() {
-		Looper.prepare();
-		try {
-			this.getData();
-		} catch (IOException e) {}
-		Looper.loop();
-	}
+	/***************************************************************************
+	 * Klassenmethoden
+	 **************************************************************************/
 	
 	/**
-	 * Die Methode, welche das Parsen der Daten übernimmt.
-	 * @throws IOException
+	 * Die Fetching-Methode. Siehe auch in DataFetcher.java
 	 */
 	protected void getData() 
 	throws IOException {
@@ -90,9 +81,9 @@ public class Google extends DataFetcher {
 		String webContent 	= WebParsing.getWebContent(completeURI);
 		Matcher	matcher 	= PATTERN.matcher(webContent);		
 		if (matcher.find()) {
-			this.set("title", matcher.group(1));
-			notifyObserver();
-		}
+			this.set(TITLE_STRING, matcher.group(1));
+			notifyObserver(true);
+		} else notifyObserver(false);
 	}
 
 }

@@ -45,10 +45,12 @@ public abstract class Observable {
 	}
 	
 	/**
-	 * Benachrichtigt alle aktiven (hinzugefügten) Observer.
+	 * Benachrichtigt alle aktiven (hinzugefügten) Observer. Der Status gibt an,
+	 * ob beim Ausführen Fehler aufgetreten sind (false) oder nicht (true).
 	 */
-	public void notifyObserver() {
-		for (Object obj : this.observer) ((Observer) obj).updateObserver();			
+	public void notifyObserver(boolean statusOkay) {
+		for (Object obj : this.observer) 
+			((Observer) obj).updateObserver(statusOkay);			
 	}
 
 }

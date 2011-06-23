@@ -37,7 +37,7 @@ public class WebParsing {
 		int status = response.getStatusLine().getStatusCode();
 		if (status != 200) return null;		
 		
-		HttpEntity			entity		= response.getEntity();		
+		HttpEntity			entity	= response.getEntity();		
 	    ByteArrayOutputStream bAOS 	= new ByteArrayOutputStream();
 	    InputStream 		iS 		= null;
 	    try {
@@ -53,6 +53,7 @@ public class WebParsing {
 	        try {
 	          iS.close();
 	        } catch (IOException ioe) {}
+	        client.close();
 	      }
 	    }
 	    try {
