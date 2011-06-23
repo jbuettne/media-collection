@@ -12,6 +12,10 @@ import org.apache.http.client.methods.HttpUriRequest;
 
 import android.net.http.AndroidHttpClient;
 
+/**
+ * Diese Klasse liefert den (Quell-)Code einer angegebenen Internetseite.
+ * @author Philipp Dermitzel
+ */
 public class WebParsing {
 	
 	/**
