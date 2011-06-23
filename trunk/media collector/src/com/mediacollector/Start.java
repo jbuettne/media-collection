@@ -2,10 +2,8 @@ package com.mediacollector;
 
 import com.mediacollector.collection.SearchListing;
 import com.mediacollector.collection.audio.listings.ArtistListing;
-import com.mediacollector.fetching.Google;
-import com.mediacollector.fetching.Imdb;
+import com.mediacollector.fetching.VideoDataFetching;
 import com.mediacollector.sync.SyncActivity;
-import com.mediacollector.tools.Observer;
 import com.mediacollector.tools.RegisteredActivity;
 
 import android.content.Intent;
@@ -15,14 +13,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 /**
  * Der Start-Screen der Applikation. Sie zeigt die Hauptbuttons zum Scannen von
  * neuen Medien sowie zum Browsen und Synchronisieren der Sammlungen. 
  * @author Philipp Dermitzel
  */
-public class Start extends RegisteredActivity implements Observer {
+public class Start extends RegisteredActivity {
 	
 	private static String editText;	
 	
@@ -80,10 +77,10 @@ public class Start extends RegisteredActivity implements Observer {
 		   	}
         });
         
-        Google google = new Google("4030521100190");
-        google.addObserver(this);
-        new Thread(google).start();
-
+        // Es war einmal in Amerika
+        new VideoDataFetching(this, "7321921200267", 
+        		VideoDataFetching.SEARCH_ENGINE_OFDB);
+        
         Button searchButton = (Button) findViewById(
         		R.id.searchButton);
         final EditText searchText = (EditText) findViewById(
@@ -96,16 +93,5 @@ public class Start extends RegisteredActivity implements Observer {
         	}
         });
     }
-
-	public void updateObserver() {
-		if (Imdb.year == -1) {
-			Imdb imdb = new Imdb(Google.product);
-			imdb.addObserver(this);
-			new Thread(imdb).start();
-		} else {
-			Toast.makeText(getBaseContext(), Imdb.correctTitle + " (" 
-					+ Imdb.year + ")", Toast.LENGTH_LONG).show();
-		}
-	}
     
 }

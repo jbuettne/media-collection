@@ -40,12 +40,12 @@ import android.os.Looper;
  * Basierend auf ZXings ProductResultInfoRetriever.
  * @author Philipp Dermitzel
  */
-public class Google extends Observable implements Runnable {
+public class Google extends DataFetcher {
 	
 	/***************************************************************************
 	 * KLASSENVARIABLEN
 	 **************************************************************************/
-	
+
 	/**
 	 * Die URL zu Googles Product-Seite, welche geparst und ausgelesen wird.
 	 * Die EAN wird an das Ende dieser URL angehängt.
@@ -59,26 +59,15 @@ public class Google extends Observable implements Runnable {
 	 */
 	private static final Pattern PATTERN = Pattern.compile("owb63p\">([^<]+)");
 	
-	/**
-	 * Die EAN des Produktes, zu welchem die "Beschreibung" gesucht werden soll.	
-	 */
-	private String productID = null;
-	
-	/**
-	 * Die Produkt-"Beschreibung".
-	 */
-	public static String product = null;
+	public static String title;
+	public static String year;
 	
 	/***************************************************************************
 	 * Konstruktor/On-Create-Methode
 	 **************************************************************************/
 	
-	/**
-	 * Der Konstruktor. 
-	 * Setzt die EAN (Product-ID).
-	 */
-	public Google(String productID) {
-		this.productID = productID;
+	public Google(String ean) {
+		super(ean);
 	}
 	
 	/**
@@ -97,15 +86,14 @@ public class Google extends Observable implements Runnable {
 	 * Die Methode, welche das Parsen der Daten übernimmt.
 	 * @throws IOException
 	 */
-	private void getData() 
+	protected void getData() 
 	throws IOException {
-		String encProductID = URLEncoder.encode(productID, "UTF-8");
+		String encProductID = URLEncoder.encode(ean, "UTF-8");
 		String completeURI	= BASE_URI + encProductID;
 		String webContent 	= WebParsing.getWebContent(completeURI);
-		Matcher	matcher 	= PATTERN.matcher(webContent);
-		
+		Matcher	matcher 	= PATTERN.matcher(webContent);		
 		if (matcher.find()) {
-			product = matcher.group(1);
+			Google.title = matcher.group(1);
 			notifyObserver();
 		}
 	}
