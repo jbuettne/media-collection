@@ -38,6 +38,17 @@ public class VideoDataFetching implements Observer {
 	private DataFetcher fetcher = null;
 	
 	/**
+	 * Der Image-Fetcher. Holt ein zum Video passendes Cover.
+	 */
+	private DataFetcher imgFetcher = null;
+	
+	/**
+	 * Ein Counter, der sicherstellt, dass beide Fetcher gelaufen sind, bevor
+	 * die Callback-Aktion ausgeführt wird.
+	 */
+	private int fetcherCounter = 0;
+	
+	/**
 	 * Startet das Fetching mit dem Standard-Fetcher.
 	 * @param context Context Der Context, aus dem das Fetching gestartet wurde.
 	 * @param ean String Die EAN, zu welcher Daten eingeholt werden.
@@ -65,6 +76,10 @@ public class VideoDataFetching implements Observer {
 		}
 		this.fetcher.addObserver(this);
         new Thread(this.fetcher).start();
+        
+        this.imgFetcher = new ImagesGoogle(context, ean);
+        this.imgFetcher.addObserver(this);
+        new Thread(this.imgFetcher).start();
 	}
 	
 	/**
@@ -72,9 +87,14 @@ public class VideoDataFetching implements Observer {
 	 * Sie wird nach dem erfolgreichen Holen der Daten aufgerufen und kann das
 	 * weitere Vorgehen definieren.
 	 */
-	public void updateObserver() {
-		Toast.makeText(this.context, this.fetcher.get("title") + " (" 
-				+ this.fetcher.get("year") + ")", Toast.LENGTH_LONG).show();
+	public void updateObserver(boolean statusOkay) {
+		this.fetcherCounter = this.fetcherCounter + 1;
+		if (this.fetcherCounter == 2) {
+			Toast.makeText(this.context, this.fetcher.get("title") + " ("
+					+ this.fetcher.get("year") + ")", Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, "" + this.imgFetcher.get("cover"), 
+					Toast.LENGTH_LONG).show();
+		}
 	}
 
 }

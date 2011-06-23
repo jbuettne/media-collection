@@ -2,8 +2,6 @@ package com.mediacollector.collection.audio.listings;
 
 import java.util.ArrayList;
 
-import android.util.Log;
-
 import com.mediacollector.EntryListing;
 import com.mediacollector.collection.TextImageEntry;
 import com.mediacollector.collection.audio.AlbumData;

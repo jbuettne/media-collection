@@ -5,11 +5,6 @@ import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.mediacollector.tools.Observable;
-
-import android.os.Looper;
-import android.util.Log;
-
 /**
  * Data-Fetcher, welcher Daten von OFDb einholt. Siehe auch: DataFetcher.java
  * und VideoDataFetching.java.
@@ -62,6 +57,10 @@ public class OFDb extends DataFetcher {
 	public OFDb(String ean) {
 		super(ean);
 	}	
+	
+	/***************************************************************************
+	 * Klassenmethoden
+	 **************************************************************************/
 
 	/**
 	 * Die Fetching-Methode. Siehe auch in DataFetcher.java
@@ -90,10 +89,10 @@ public class OFDb extends DataFetcher {
 		Matcher	matcher_t	= PATTERN_DT.matcher(webContent);
 		Matcher matcher_y	= PATTERN_YEAR.matcher(webContent);
 		if (matcher_t.find() && matcher_y.find()) {
-			this.set("title", matcher_t.group(1));
-			this.set("year", matcher_y.group(1));
-			notifyObserver();
-		}
+			this.set(TITLE_STRING, matcher_t.group(1));
+			this.set(YEAR_STRING, matcher_y.group(1));
+			notifyObserver(true);
+		} else notifyObserver(false);
 	}
 
 }

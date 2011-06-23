@@ -29,7 +29,7 @@ public class SyncActivity extends Activity implements Observer {
 	 * Schließt die Activity wenn der Thread durch das Observable darüber 
 	 * benachrichtigt wird, dass die Hintergrundaktion beendet ist.
 	 */
-	public void updateObserver() {
+	public void updateObserver(boolean statusOkay) {
 		this.finish();
 	}
 

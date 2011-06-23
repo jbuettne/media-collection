@@ -9,8 +9,9 @@ public interface Observer {
 	
 	/**
 	 * Diese Methode definiert, welche Aktion(en) der Observer nach 
-	 * Benachrichtigung durch das Observable ausführen soll.
+	 * Benachrichtigung durch das Observable ausführen soll. Der Status gibt an,
+	 * ob beim Ausführen Fehler aufgetreten sind (false) oder nicht (true).	 * 
 	 */
-	public void updateObserver();
+	public void updateObserver(boolean statusOkay);
 
 }

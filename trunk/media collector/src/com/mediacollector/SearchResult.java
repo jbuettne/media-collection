@@ -1,11 +1,9 @@
 package com.mediacollector;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import com.mediacollector.collection.Data;
 import com.mediacollector.tools.ActivityRegistry;
-import com.mediacollector.tools.RegisteredActivity;
 
 import android.app.ListActivity;
 import android.content.Context;
@@ -17,14 +15,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
