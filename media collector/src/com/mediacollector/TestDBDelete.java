@@ -15,7 +15,8 @@ public class TestDBDelete extends RegisteredActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dBase = new Database(this);
-        dBase.writeCsv(this.getFilesDir() + "/test.csv", "UTF-8");
+        //dBase.writeToCsv(this.getFilesDir() + "/test.csv", "UTF-8");
+        dBase.readFromCsv(this.getFilesDir() + "/test.csv");
         //try {
 //        artist = new ArtistData(this);
 //        Artist art = new Artist();

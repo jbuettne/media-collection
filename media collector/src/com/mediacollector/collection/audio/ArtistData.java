@@ -235,7 +235,8 @@ public class ArtistData{
 		Cursor dbCursor = null;
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
-					"SELECT name FROM " + ArtistTbl.TABLE_NAME, null);
+					"SELECT name FROM " + ArtistTbl.TABLE_NAME +
+					" ORDER BY name", null);
 			if (dbCursor.moveToFirst() == false) {
 				return new ArrayList<String>();
 			}	
@@ -257,7 +258,8 @@ public class ArtistData{
 		Cursor dbCursor = null;
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
-					"SELECT * FROM " + ArtistTbl.TABLE_NAME, null);
+					"SELECT * FROM " + ArtistTbl.TABLE_NAME +
+					" ORDER BY name", null);
 			if (dbCursor.moveToFirst() == false) {
 				return new ArrayList<Artist>();
 			}	
