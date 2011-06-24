@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.database.Cursor;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
 
@@ -25,11 +26,12 @@ public class SearchListing extends SearchResult{
 	protected void setData() {
 		ArrayList<Data> searchResult;
 		db = new Database(this);
-		if ("".equals(Start.getEditText())) {
+		Bundle extras = getIntent().getExtras();
+		if (extras.getString("searchText").equals("")) {
 			searchResult = new ArrayList<Data>();
 		} else {
 			searchResult = db.getSearchResult(
-				Start.getEditText());
+					extras.getString("searchText"));
 		}
 	    
 		this.searchResult = searchResult;
