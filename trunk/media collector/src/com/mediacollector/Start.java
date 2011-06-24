@@ -21,16 +21,6 @@ import android.widget.LinearLayout;
  */
 public class Start extends RegisteredActivity {
 	
-	private static String editText;	
-	
-    public static String getEditText() {
-    	return editText;
-	}
-
-	public void setEditText(String editText) {
-		Start.editText = editText;
-	}
- 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,9 +78,9 @@ public class Start extends RegisteredActivity {
         		R.id.searchText);
         searchButton.setOnClickListener(new OnClickListener() {			
         	public void onClick(View v) {
-        		setEditText(searchText.getText().toString());
-        		startActivity(new Intent(getBaseContext(), 
-        				SearchListing.class));
+        		Intent searchIntent = new Intent(getBaseContext(), SearchListing.class);
+        		searchIntent.putExtra("searchText", searchText.getText().toString());
+        		startActivity(searchIntent);
         	}
         });
     }
