@@ -1,6 +1,7 @@
 package com.mediacollector.fetching.Audio;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -78,9 +79,9 @@ public class Thalia extends DataFetcher {
 		Matcher	matcher_a	= PATTERN_ARTIST.matcher(webContent);
 		Matcher matcher_y	= PATTERN_YEAR.matcher(webContent);
 		if (matcher_t.find() && matcher_y.find() && matcher_a.find()) {
-			this.set(TITLE_STRING, matcher_t.group(1));
-			this.set(ARTIST_STRING, matcher_a.group(1));
-			this.set(YEAR_STRING, matcher_y.group(1));
+			this.set(TITLE_STRING, URLDecoder.decode(matcher_t.group(1)));
+			this.set(ARTIST_STRING, URLDecoder.decode(matcher_a.group(1)));
+			this.set(YEAR_STRING, URLDecoder.decode(matcher_y.group(1)));
 			notifyObserver(true);
 		} else notifyObserver(false);
 	}

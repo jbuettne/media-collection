@@ -6,6 +6,8 @@ package com.mediacollector;
 
 //import com.mediacollector.fetching.Audio;
 
+import com.mediacollector.fetching.Fetching;
+
 import android.app.Activity;
 //import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -24,11 +26,12 @@ public class ScanResult extends Activity {
         
         String barcode = null;
         
-        if (extras != null) {
-        	barcode = extras.getString("BARCODE");   	
-        } else {
-        	barcode ="5050749203229";
-        }
+        if (extras != null)
+        	new Fetching(this, 
+        			extras.getString("BARCODE"), 
+        			Fetching.SEARCH_ENGINE_THALIA);
+        
+        
         
 //    	final Audio audio = new Audio();
 //		audio.setBarcode(barcode);

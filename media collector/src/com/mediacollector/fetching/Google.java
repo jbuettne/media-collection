@@ -17,6 +17,7 @@
 package com.mediacollector.fetching;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -81,7 +82,7 @@ public class Google extends DataFetcher {
 		String webContent 	= WebParsing.getWebContent(completeURI);
 		Matcher	matcher 	= PATTERN.matcher(webContent);		
 		if (matcher.find()) {
-			this.set(TITLE_STRING, matcher.group(1));
+			this.set(TITLE_STRING, URLDecoder.decode(matcher.group(1)));
 			notifyObserver(true);
 		} else notifyObserver(false);
 	}

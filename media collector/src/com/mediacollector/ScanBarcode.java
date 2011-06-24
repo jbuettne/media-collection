@@ -91,11 +91,7 @@ public class ScanBarcode extends RegisteredActivity {
                 Toast toast = Toast.makeText(getBaseContext() , test, Toast.LENGTH_LONG);
             	toast.show();
             	
-            } else if (resultCode == RESULT_CANCELED) {
-            	Toast toast = Toast.makeText(getBaseContext(), 
-        				"Sorry, no scan-result", Toast.LENGTH_SHORT);
-            	toast.show();
-            }
+            } 
         }
     }
 
