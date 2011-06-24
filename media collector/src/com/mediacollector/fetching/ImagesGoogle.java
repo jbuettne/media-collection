@@ -27,8 +27,8 @@ public class ImagesGoogle extends ImageFetcher {
 	
 	/**
 	 * Das anhängen des Suchbegriffes "cover" an die EAN erhöht die 
-	 * Wahrscheinlichkeit, DVD-/Bluray-Cover und keine anderen, filmrelevanten 
-	 * Bilder zu finden.
+	 * Wahrscheinlichkeit, Cover und keine anderen, eintragsrelevanten Bilder 
+	 * zu finden.
 	 */
 	private static final String BASE_URI_2 = "+cover";
 	

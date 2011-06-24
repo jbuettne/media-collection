@@ -1,24 +1,24 @@
 package com.mediacollector;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
+//import java.io.IOException;
+//import java.io.InputStream;
+//import java.net.URL;
 
-import com.mediacollector.fetching.Audio;
+//import com.mediacollector.fetching.Audio;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+//import android.widget.Toast;
 
 public class EntryDetails extends Activity {
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.entry_details);
+//        setContentView(R.layout.entry_details);
         
         final Bundle extras = getIntent().getExtras(); 
         
