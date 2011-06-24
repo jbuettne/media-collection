@@ -192,6 +192,24 @@ public class AlbumData{
 		return deleteCount == 1;
 	}
 
+	public Cursor getAlbumDetails(String name) {
+		if (name == null) {
+			return null;
+		}
+		return dbHelper.getReadableDatabase().rawQuery(
+				"SELECT * FROM " + AlbumTbl.TABLE_NAME
+					+ " WHERE name = '" + name + "'", null);
+	}
+
+	public Cursor getAlbumDetails(Integer id) {
+		if (id == null) {
+			return null;
+		}
+		return dbHelper.getReadableDatabase().rawQuery(
+				"SELECT * FROM " + AlbumTbl.TABLE_NAME
+					+ " WHERE _id = '" + id + "'", null);
+	}
+
 	public Album getAlbum(String mbId) {
 		Album album = null;
 		Cursor c = null;
@@ -238,31 +256,14 @@ public class AlbumData{
 		return album;
 	}
 
-	public Cursor getAlbumDetails(String name) {
-		if (name == null) {
-			return null;
-		}
-		return dbHelper.getReadableDatabase().rawQuery(
-				"SELECT * FROM " + AlbumTbl.TABLE_NAME
-					+ " WHERE name = '" + name + "'", null);
-	}
-
-	public Cursor getAlbumDetails(Integer id) {
-		if (id == null) {
-			return null;
-		}
-		return dbHelper.getReadableDatabase().rawQuery(
-				"SELECT * FROM " + AlbumTbl.TABLE_NAME
-					+ " WHERE _id = '" + id + "'", null);
-	}
-
 	public ArrayList<String> getAlbums(Artist artist) {
 		ArrayList<String> albums = new ArrayList<String>();
 		Cursor dbCursor = null;
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
-					"SELECT name, imgPath FROM " + AlbumTbl.TABLE_NAME
-					+ " WHERE artist = '" + artist.mbId + "'", null);
+					"SELECT name, imgPath FROM " + AlbumTbl.TABLE_NAME + 
+					" WHERE artist = '" + artist.mbId + "' " +
+					"ORDER BY name", null);
 			if (dbCursor.moveToFirst() == false) {
 				return null;
 			}
@@ -286,7 +287,8 @@ public class AlbumData{
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
 					"SELECT name, year, imgPath FROM " + AlbumTbl.TABLE_NAME
-					+ " WHERE artist = '" + artist.mbId + "'", null);
+					+ " WHERE artist = '" + artist.mbId + "' " +
+					"ORDER BY name", null);
 			if (dbCursor.moveToFirst() == false) {
 				return null;
 			}

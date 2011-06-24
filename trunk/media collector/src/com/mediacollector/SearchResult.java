@@ -71,7 +71,7 @@ public abstract class SearchResult extends ListActivity {
         	  Intent entryDetails = new Intent(getBaseContext(),
         			  EntryDetails.class);
         	  entryDetails.putExtra("name", searchResult.get(position).name);
-        	  entryDetails.putExtra("details", searchResult.get(position).year);
+        	  entryDetails.putExtra("details", String.valueOf(searchResult.get(position).year));
         	  entryDetails.putExtra("extra", searchResult.get(position).extra);
       		startActivity(entryDetails);
         	  //entryDetails.putExtra("image", (Drawable) getResources()

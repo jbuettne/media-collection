@@ -1,10 +1,16 @@
 package com.mediacollector.collection;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import com.mediacollector.Start;
 import com.mediacollector.collection.audio.Album;
@@ -13,11 +19,12 @@ import com.mediacollector.collection.audio.AlbumTbl;
 import com.mediacollector.collection.audio.Artist;
 import com.mediacollector.collection.audio.ArtistData;
 import com.mediacollector.collection.audio.ArtistTbl;
-import com.mediacollector.collection.audio.TrackData;
-import com.mediacollector.collection.books.AuthorData;
-import com.mediacollector.collection.books.AuthorTbl;
 import com.mediacollector.collection.books.BookData;
 import com.mediacollector.collection.books.BookTbl;
+import com.mediacollector.collection.games.BoardGameData;
+import com.mediacollector.collection.games.BoardGameTbl;
+import com.mediacollector.collection.games.VideoGameData;
+import com.mediacollector.collection.games.VideoGameTbl;
 import com.mediacollector.collection.video.FilmData;
 import com.mediacollector.collection.video.FilmTbl;
 
@@ -47,10 +54,10 @@ public class Database{
 	
 	private ArtistData artist;
 	private AlbumData album;
-	private TrackData track;
 	private BookData book;
-	private AuthorData author;
 	private FilmData film;
+	private BoardGameData board;
+	private VideoGameData video;
 
 
 	public ArtistData getArtist() {
@@ -61,20 +68,20 @@ public class Database{
 		return album;
 	}
 
-	public TrackData getTrack() {
-		return track;
-	}
-
 	public BookData getBook() {
 		return book;
-	}
-
-	public AuthorData getAuthor() {
-		return author;
 	}
 	
 	public FilmData getFilm() {
 		return film;
+	}
+	
+	public BoardGameData getBoardGame() {
+		return board;
+	}
+	
+	public VideoGameData getVideGame() {
+		return video;
 	}
 
 	public Database(Context context) {
@@ -83,7 +90,6 @@ public class Database{
 		film = new FilmData(context);
 		dbHelper = new DatabaseHelper(context);
 //		book = new BookData(context);
-//		author = new AuthorData(context);
 		
 	}
 	
@@ -140,9 +146,10 @@ public class Database{
 		return searchResult;
 	}
 
-	public final void writeCsv(String csvFile, String encoding) {
-		final String[] dataTables = { ArtistTbl.TABLE_NAME,
-				AlbumTbl.TABLE_NAME, BookTbl.TABLE_NAME, FilmTbl.TABLE_NAME };
+	public final void writeToCsv(String csvFile, String encoding) {
+		final String[] dataTables = { ArtistTbl.TABLE_NAME, FilmTbl.TABLE_NAME,
+				AlbumTbl.TABLE_NAME/*, BookTbl.TABLE_NAME,
+				BoardGameTbl.TABLE_NAME, VideoGameTbl.TABLE_NAME*/};
 		Cursor dbCursor = null;
 		try {
 			BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
@@ -176,13 +183,49 @@ public class Database{
 		}
 	}
 	
+	
+	public final void readFromCsv(String filePath) {
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					new FileInputStream(filePath)));
+			String readString;
+			while ((readString = in.readLine()) != null) {
+				String[] tmpArray = readString.split(";");
+				if (tmpArray[0].equals("Artist")) {
+					artist.insertArtist(tmpArray[1], tmpArray[2], tmpArray[3]);
+				} else if(tmpArray[0].equals("Album")) {
+					album.insertAlbum(tmpArray[1], tmpArray[2], tmpArray[3],
+							Long.valueOf(tmpArray[4]), tmpArray[5]);
+//				} else if(tmpArray[0] == "Book") {
+//					book.insertAlbum(tmpArray[1], tmpArray[2], tmpArray[3],
+//							Long.valueOf(tmpArray[4]), tmpArray[5]);
+//				} else if(tmpArray[0] == "Film") {
+//					film.insertFilm(tmpArray[1], tmpArray[2], tmpArray[3],
+//							Long.valueOf(tmpArray[4]), tmpArray[5]);
+//				} else if(tmpArray[0] == "BoardGame") {
+//					album.insertAlbum(tmpArray[1], tmpArray[2], tmpArray[3],
+//							Long.valueOf(tmpArray[4]), tmpArray[5]);
+//				} else if(tmpArray[0] == "VideoGame") {
+//					album.insertAlbum(tmpArray[1], tmpArray[2], tmpArray[3],
+//							Long.valueOf(tmpArray[4]), tmpArray[5]);
+				}
+			}
+			in.close();
+		} catch (Exception ex) {
+			Log.e(TAG, "\nFehler beim Lesen der CSV-Datei '" + filePath + "': "
+					+ ex);
+		}
+
+	}
+	
+	
+	
 	/**
 	 * schlie�e die Datenbankverbindung
 	 */
 	public void closeConnection() {
 		artist.close();
 		album.close();
-		track.close();
 		film.close();
 		dbHelper.close();
 //		book.close();

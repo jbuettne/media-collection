@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,7 +43,9 @@ public abstract class EntryListing extends ExpandableListActivity {
 	protected	  String[] 				groups 		= null;
 	protected 	  TextImageEntry[][] 	children 	= null;
 	protected	  ImageView				more		= null;
+	
 	protected abstract void setData();
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -119,20 +122,25 @@ public abstract class EntryListing extends ExpandableListActivity {
         	}
         });
         
-        ExpandableListView list = (ExpandableListView) findViewById(
-        		android.R.id.list);
-        list.setOnChildClickListener(new OnChildClickListener(){
-        	public boolean onChildClick(ExpandableListView parent, View v,
-        			int groupPosition, int childPosition, long id) {
-        	  Intent entryDetails = new Intent(getBaseContext(),
-        			  EntryDetails.class);
-        	  entryDetails.putExtra("name", (String) childData.get(groupPosition).get(childPosition).get(TEXT));
-        	  entryDetails.putExtra("details", (String) childData.get(groupPosition).get(childPosition).get(YEAR));
-        	  entryDetails.putExtra("extra", groupData.get(groupPosition).get(TEXT));
-      		startActivity(entryDetails);
-        		return true;
-        	}
-        });
+		ExpandableListView list = (ExpandableListView) findViewById(
+				android.R.id.list);
+		list.setOnChildClickListener(new OnChildClickListener() {
+			public boolean onChildClick(ExpandableListView parent, View v,
+					int groupPosition, int childPosition, long id) {
+				Intent entryDetails = new Intent(getBaseContext(),
+						EntryDetails.class);
+				entryDetails.putExtra("name",
+						(String) childData.get(groupPosition)
+								.get(childPosition).get(TEXT));
+				entryDetails.putExtra("details",
+						(String) childData.get(groupPosition)
+								.get(childPosition).get(YEAR));
+				entryDetails.putExtra("extra",
+						(String) groupData.get(groupPosition).get(TEXT));
+				startActivity(entryDetails);
+				return true;
+			}
+		});
 		registerForContextMenu(getExpandableListView());
 	}
 	
