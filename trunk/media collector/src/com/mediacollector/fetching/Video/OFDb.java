@@ -1,6 +1,7 @@
 package com.mediacollector.fetching.Video;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -92,8 +93,8 @@ public class OFDb extends DataFetcher {
 		Matcher	matcher_t	= PATTERN_DT.matcher(webContent);
 		Matcher matcher_y	= PATTERN_YEAR.matcher(webContent);
 		if (matcher_t.find() && matcher_y.find()) {
-			this.set(TITLE_STRING, matcher_t.group(1));
-			this.set(YEAR_STRING, matcher_y.group(1));
+			this.set(TITLE_STRING, URLDecoder.decode(matcher_t.group(1)));
+			this.set(YEAR_STRING, URLDecoder.decode(matcher_y.group(1)));
 			notifyObserver(true);
 		} else notifyObserver(false);
 	}
