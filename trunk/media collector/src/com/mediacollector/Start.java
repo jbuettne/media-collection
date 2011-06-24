@@ -2,7 +2,7 @@ package com.mediacollector;
 
 import com.mediacollector.collection.SearchListing;
 import com.mediacollector.collection.audio.listings.ArtistListing;
-import com.mediacollector.fetching.VideoDataFetching;
+import com.mediacollector.fetching.Fetching;
 import com.mediacollector.sync.SyncActivity;
 import com.mediacollector.tools.RegisteredActivity;
 
@@ -78,8 +78,10 @@ public class Start extends RegisteredActivity {
         });
         
         // Es war einmal in Amerika
-        new VideoDataFetching(this, "7321921200267", 
-        		VideoDataFetching.SEARCH_ENGINE_OFDB);
+//        new Fetching(this, "7321921200267", 
+//        		Fetching.SEARCH_ENGINE_OFDB);    
+        // Geist - Galeere
+        new Fetching(this, "4039053403328",Fetching.SEARCH_ENGINE_THALIA);
         
         Button searchButton = (Button) findViewById(
         		R.id.searchButton);

@@ -1,17 +1,26 @@
 package com.mediacollector.fetching;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.mediacollector.fetching.Audio.Thalia;
+import com.mediacollector.fetching.Video.OFDb;
 import com.mediacollector.tools.Observer;
 
 /**
- * Data-Fetching-Factory für Videos. Diese Klasse definiert die vorhandenen 
- * Search-Enginges und startet den Vorgang des Fetchings. Diese Klasse übernimmt
- * auch das Callback-Handling mittels der updateObserver-Methode.
+ * Data-Fetching-Factory. Diese Klasse definiert die vorhandenen Search-Enginges
+ * und startet den Vorgang des Fetchings. Diese Klasse übernimmt auch das 
+ * Callback-Handling mittels der updateObserver-Methode.
  * @author Philipp Dermitzel
  */
-public class VideoDataFetching implements Observer {
+public class Fetching implements Observer {
+	
+	/**
+	 * Die verschiedenen Search-Engine-Klassen. Hier Google Product Search;
+	 * http://www.google.com/m/products  -- Google.java
+	 */
+	public static final int SEARCH_ENGINE_GOOGLE 	= 0;
 	
 	/**
 	 * Die verschiedenen Search-Engine-Klassen. Hier OFDb;
@@ -20,10 +29,10 @@ public class VideoDataFetching implements Observer {
 	public static final int SEARCH_ENGINE_OFDB 		= 1;
 	
 	/**
-	 * Die verschiedenen Search-Engine-Klassen. Hier Google Product Search;
-	 * http://www.google.com/m/products  -- Google.java
+	 * Die verschiedenen Search-Engine-Klassen. Hier Thalia;
+	 * http://www.thalia.de  -- Thalia.java
 	 */
-	public static final int SEARCH_ENGINE_GOOGLE 	= 3;
+	public static final int SEARCH_ENGINE_THALIA 	= 24;
 	
 	/**
 	 * Der Context, aus welchem das Fetching aufgerufen wurde. Wird nur für das
@@ -49,12 +58,12 @@ public class VideoDataFetching implements Observer {
 	private int fetcherCounter = 0;
 	
 	/**
-	 * Startet das Fetching mit dem Standard-Fetcher.
+	 * Startet das Fetching mit dem Standard-Fetcher (Google Product Search).
 	 * @param context Context Der Context, aus dem das Fetching gestartet wurde.
 	 * @param ean String Die EAN, zu welcher Daten eingeholt werden.
 	 */
-	public VideoDataFetching(final Context context, final String ean) {
-		this(context, ean, SEARCH_ENGINE_OFDB);
+	public Fetching(final Context context, final String ean) {
+		this(context, ean, SEARCH_ENGINE_GOOGLE);
 	}
 	
 	/**
@@ -65,14 +74,16 @@ public class VideoDataFetching implements Observer {
 	 * @param searchEnginge Die Konstante beschreibt die verschiedenen Fetching-
 	 * 	Dienste und somit -Klassen.
 	 */
-	public VideoDataFetching(final Context context, 
+	public Fetching(final Context context, 
 			final String ean, final int searchEnginge) {
 		this.context = context;
 		switch (searchEnginge) {
-		case SEARCH_ENGINE_OFDB:
-			this.fetcher = new OFDb(ean); break;
 		case SEARCH_ENGINE_GOOGLE:
 			this.fetcher = new Google(ean); break;
+		case SEARCH_ENGINE_OFDB:
+			this.fetcher = new OFDb(ean); break;		
+		case SEARCH_ENGINE_THALIA:
+			this.fetcher = new Thalia(ean); break;
 		}
 		this.fetcher.addObserver(this);
         new Thread(this.fetcher).start();
@@ -90,8 +101,17 @@ public class VideoDataFetching implements Observer {
 	public void updateObserver(boolean statusOkay) {
 		this.fetcherCounter = this.fetcherCounter + 1;
 		if (this.fetcherCounter == 2) {
-			Toast.makeText(this.context, this.fetcher.get("title") + " ("
-					+ this.fetcher.get("year") + ")", Toast.LENGTH_LONG).show();
+			String test = null;
+			if (this.fetcher.get("artist") != null) {
+				Log.e("t", "cd");
+				test = this.fetcher.get("title") + " - " 
+					+ this.fetcher.get("artist") + " (" 
+					+ this.fetcher.get("year") + ")";
+			} else {
+				test = this.fetcher.get("title") + " ("
+				+ this.fetcher.get("year") + ")";
+			}
+			Toast.makeText(this.context, test, Toast.LENGTH_LONG).show();
 			Toast.makeText(this.context, "" + this.imgFetcher.get("cover"), 
 					Toast.LENGTH_LONG).show();
 		}

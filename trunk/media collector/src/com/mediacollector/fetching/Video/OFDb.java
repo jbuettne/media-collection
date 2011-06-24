@@ -1,9 +1,12 @@
-package com.mediacollector.fetching;
+package com.mediacollector.fetching.Video;
 
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.mediacollector.fetching.DataFetcher;
+import com.mediacollector.fetching.WebParsing;
 
 /**
  * Data-Fetcher, welcher Daten von OFDb einholt. Siehe auch: DataFetcher.java
