@@ -2,6 +2,7 @@ package com.mediacollector;
 
 import com.mediacollector.collection.audio.AlbumData;
 import com.mediacollector.collection.audio.ArtistData;
+import com.mediacollector.collection.video.FilmData;
 import com.mediacollector.tools.RegisteredActivity;
 
 import android.os.Bundle;
@@ -9,12 +10,14 @@ import android.os.Bundle;
 public class TestDBEntry extends RegisteredActivity {
 	ArtistData artist;
 	AlbumData album;
+	FilmData film;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         artist = new ArtistData(this);
         album = new AlbumData(this);
+        film = new FilmData(this);
 
 //        for (Integer i = 0; i <= 9; i++) {
 //        	artist.insertArtist("kjjh800" + i, "Fanta 00" + i, "bild.jpg");
@@ -37,6 +40,7 @@ public class TestDBEntry extends RegisteredActivity {
         album.insertAlbum("ghijkl", "Strings N Stripes", "123456", 2011, "bild.jpg");
         album.insertAlbum("fdgfdgas", "Beyond Hell - Above Heaven", "567890", 2010, "bild.jpg");
         album.insertAlbum("bjgjhgjk", "Rock the Rebel - Metal the Devil", "567890", 2007, "bild.jpg");
+        film.insertFilm("tt068678", "Es war einmal in Amerika", 1984, "bild.jpg");
         
         
         
@@ -45,6 +49,7 @@ public class TestDBEntry extends RegisteredActivity {
     protected void onDestroy() {
         artist.close();
         album.close();
+        film.close();
         super.onDestroy();
     }
 }

@@ -27,7 +27,6 @@ public class SearchListing extends SearchResult{
 		db = new Database(this);
 		if ("".equals(Start.getEditText())) {
 			searchResult = new ArrayList<Data>();
-			Log.e("TAG", "HALLO!");
 		} else {
 			searchResult = db.getSearchResult(
 				Start.getEditText());

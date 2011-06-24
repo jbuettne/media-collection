@@ -39,7 +39,7 @@ public class AlbumData{
 	public AlbumData(Context context) {
 		this.context = context;
 		dbHelper = new DatabaseHelper(context);
-		open();
+		//open();
 		Log.d(TAG, "Albenspeicher angelegt.");
 	}
 
@@ -192,13 +192,13 @@ public class AlbumData{
 		return deleteCount == 1;
 	}
 
-	public Album getAlbum(long id) {
+	public Album getAlbum(String mbId) {
 		Album album = null;
 		Cursor c = null;
 		try {
 			c = dbHelper.getReadableDatabase().rawQuery(
 					"SELECT * FROM " + AlbumTbl.TABLE_NAME
-					+ " WHERE _id = '" + id + "'", null);
+					+ " WHERE mbId = '" + mbId + "'", null);
 			if (c.moveToFirst() == false) {
 				return null;
 			}
@@ -208,6 +208,33 @@ public class AlbumData{
 				c.close();
 			}
 		}
+		return album;
+	}
+
+	/**
+	 * Lädt den Geo-Kontakt aus dem GeoKontaktTbl-Datensatz, auf dem der Cursor
+	 * gerade steht.
+	 * <p>
+	 * Der Cursor wird anschließend deaktiviert, da er im GeoKontaktSpeicher nur
+	 * intern als "letzter Aufruf" aufgerufen wird.
+	 * 
+	 * @param c
+	 *            aktuelle Cursorposition != null
+	 * @return Exemplar von GeoKontakt.
+	 */
+	public Album getAlbum(Cursor dbCursor) {
+		final Album album = new Album();
+
+		album.mbId = dbCursor.getString(dbCursor
+				.getColumnIndex(AlbumTbl.COL_ALBUM_ID));
+		album.name = dbCursor.getString(dbCursor
+				.getColumnIndex(AlbumTbl.COL_ALBUM_NAME));
+		album.artist = dbCursor.getString(dbCursor
+				.getColumnIndex(AlbumTbl.COL_ALBUM_ARTIST));
+		album.year = dbCursor.getLong(dbCursor
+				.getColumnIndex(AlbumTbl.COL_ALBUM_YEAR));
+		album.imgPath = dbCursor.getString(dbCursor
+				.getColumnIndex(AlbumTbl.COL_ALBUM_IMAGE));
 		return album;
 	}
 
@@ -283,33 +310,6 @@ public class AlbumData{
 		}
 		return albums;
 	}	
-
-	/**
-	 * Lädt den Geo-Kontakt aus dem GeoKontaktTbl-Datensatz, auf dem der Cursor
-	 * gerade steht.
-	 * <p>
-	 * Der Cursor wird anschließend deaktiviert, da er im GeoKontaktSpeicher nur
-	 * intern als "letzter Aufruf" aufgerufen wird.
-	 * 
-	 * @param c
-	 *            aktuelle Cursorposition != null
-	 * @return Exemplar von GeoKontakt.
-	 */
-	public Album getAlbum(Cursor dbCursor) {
-		final Album album = new Album();
-
-		album.mbId = dbCursor.getString(dbCursor
-				.getColumnIndex(AlbumTbl.COL_ALBUM_ID));
-		album.name = dbCursor.getString(dbCursor
-				.getColumnIndex(AlbumTbl.COL_ALBUM_NAME));
-		album.artist = dbCursor.getString(dbCursor
-				.getColumnIndex(AlbumTbl.COL_ALBUM_ARTIST));
-		album.year = dbCursor.getLong(dbCursor
-				.getColumnIndex(AlbumTbl.COL_ALBUM_YEAR));
-		album.imgPath = dbCursor.getString(dbCursor
-				.getColumnIndex(AlbumTbl.COL_ALBUM_IMAGE));
-		return album;
-	}
 
 	/**
 	 * Gibt die Anzahl der Alben in der Datenbank zurueck. <br>

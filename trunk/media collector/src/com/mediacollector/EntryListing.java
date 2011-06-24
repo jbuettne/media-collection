@@ -124,7 +124,12 @@ public abstract class EntryListing extends ExpandableListActivity {
         list.setOnChildClickListener(new OnChildClickListener(){
         	public boolean onChildClick(ExpandableListView parent, View v,
         			int groupPosition, int childPosition, long id) {
-        		// tue etwas...
+        	  Intent entryDetails = new Intent(getBaseContext(),
+        			  EntryDetails.class);
+        	  entryDetails.putExtra("name", (String) childData.get(groupPosition).get(childPosition).get(TEXT));
+        	  entryDetails.putExtra("details", (String) childData.get(groupPosition).get(childPosition).get(YEAR));
+        	  entryDetails.putExtra("extra", groupData.get(groupPosition).get(TEXT));
+      		startActivity(entryDetails);
         		return true;
         	}
         });
