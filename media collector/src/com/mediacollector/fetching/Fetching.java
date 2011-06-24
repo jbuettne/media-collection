@@ -1,7 +1,6 @@
 package com.mediacollector.fetching;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.mediacollector.fetching.Audio.Thalia;
@@ -88,7 +87,7 @@ public class Fetching implements Observer {
 		this.fetcher.addObserver(this);
         new Thread(this.fetcher).start();
         
-        this.imgFetcher = new ImagesGoogle(context, ean);
+        this.imgFetcher = new ImagesGoogle(ean);
         this.imgFetcher.addObserver(this);
         new Thread(this.imgFetcher).start();
 	}
@@ -103,9 +102,8 @@ public class Fetching implements Observer {
 		if (this.fetcherCounter == 2) {
 			String test = null;
 			if (this.fetcher.get("artist") != null) {
-				Log.e("t", "cd");
-				test = this.fetcher.get("title") + " - " 
-					+ this.fetcher.get("artist") + " (" 
+				test = this.fetcher.get("artist") + " - " 
+					+ this.fetcher.get("title") + " (" 
 					+ this.fetcher.get("year") + ")";
 			} else {
 				test = this.fetcher.get("title") + " ("

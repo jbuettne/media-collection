@@ -78,10 +78,9 @@ public class Start extends RegisteredActivity {
         });
         
         // Es war einmal in Amerika
-//        new Fetching(this, "7321921200267", 
-//        		Fetching.SEARCH_ENGINE_OFDB);    
+        new Fetching(this, "7321921200267", Fetching.SEARCH_ENGINE_OFDB);    
         // Geist - Galeere
-        new Fetching(this, "4039053403328",Fetching.SEARCH_ENGINE_THALIA);
+        //new Fetching(this, "4039053403328",Fetching.SEARCH_ENGINE_THALIA);
         
         Button searchButton = (Button) findViewById(
         		R.id.searchButton);
