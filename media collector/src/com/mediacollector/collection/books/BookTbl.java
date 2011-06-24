@@ -1,6 +1,6 @@
 package com.mediacollector.collection.books;
 
-public class BookTbl {
+public interface BookTbl {
 
 	public static final String COL_BOOK_ID = "id";
 	public static final String COL_BOOK_NAME = "name";

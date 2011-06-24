@@ -35,7 +35,7 @@ public class ArtistData{
 
 	public ArtistData(Context context) {
 		dbHelper = new DatabaseHelper(context);
-		open();
+		//open();
 		Log.d(TAG, "Artistspeicher angelegt.");
 	}
 
@@ -188,6 +188,29 @@ public class ArtistData{
 		return artist;
 	}
 
+	  /**
+	   * Lädt den Geo-Kontakt aus dem GeoKontaktTbl-Datensatz, 
+	   * auf dem der Cursor gerade steht.
+	   * <p>
+	   * Der Cursor wird anschließend deaktiviert, da er im
+	   * GeoKontaktSpeicher nur intern als "letzter Aufruf"
+	   * aufgerufen wird.
+	   * 
+	   * @param c aktuelle Cursorposition != null
+	   * @return Exemplar von GeoKontakt.
+	   */
+	  public Artist getArtist(Cursor dbCursor) {
+	    final Artist artist = new Artist();
+
+	    artist.name = dbCursor.getString(dbCursor
+	        .getColumnIndex(ArtistTbl.COL_ARTIST_NAME));
+	    artist.imgPath = dbCursor.getString(dbCursor
+	        .getColumnIndex(ArtistTbl.COL_ARTIST_IMAGE));
+	    artist.mbId = dbCursor.getString(dbCursor
+	        .getColumnIndex(ArtistTbl.COL_ARTIST_ID));
+	    return artist;
+	  }
+
 	public Cursor getArtistDetails(String name) {
 		if (name == null) {
 			return null;
@@ -253,29 +276,6 @@ public class ArtistData{
 		}
 	    return artists; 
 	}	
-
-	  /**
-	   * Lädt den Geo-Kontakt aus dem GeoKontaktTbl-Datensatz, 
-	   * auf dem der Cursor gerade steht.
-	   * <p>
-	   * Der Cursor wird anschließend deaktiviert, da er im
-	   * GeoKontaktSpeicher nur intern als "letzter Aufruf"
-	   * aufgerufen wird.
-	   * 
-	   * @param c aktuelle Cursorposition != null
-	   * @return Exemplar von GeoKontakt.
-	   */
-	  public Artist getArtist(Cursor dbCursor) {
-	    final Artist artist = new Artist();
-
-	    artist.name = dbCursor.getString(dbCursor
-	        .getColumnIndex(ArtistTbl.COL_ARTIST_NAME));
-	    artist.imgPath = dbCursor.getString(dbCursor
-	        .getColumnIndex(ArtistTbl.COL_ARTIST_IMAGE));
-	    artist.mbId = dbCursor.getString(dbCursor
-	        .getColumnIndex(ArtistTbl.COL_ARTIST_ID));
-	    return artist;
-	  }
 	  
 
 	  /**

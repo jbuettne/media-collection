@@ -1,6 +1,9 @@
 package com.mediacollector.collection;
 
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import com.mediacollector.Start;
@@ -12,7 +15,11 @@ import com.mediacollector.collection.audio.ArtistData;
 import com.mediacollector.collection.audio.ArtistTbl;
 import com.mediacollector.collection.audio.TrackData;
 import com.mediacollector.collection.books.AuthorData;
+import com.mediacollector.collection.books.AuthorTbl;
 import com.mediacollector.collection.books.BookData;
+import com.mediacollector.collection.books.BookTbl;
+import com.mediacollector.collection.video.FilmData;
+import com.mediacollector.collection.video.FilmTbl;
 
 import android.app.Activity;
 import android.content.Context;
@@ -43,6 +50,7 @@ public class Database{
 	private TrackData track;
 	private BookData book;
 	private AuthorData author;
+	private FilmData film;
 
 
 	public ArtistData getArtist() {
@@ -64,11 +72,15 @@ public class Database{
 	public AuthorData getAuthor() {
 		return author;
 	}
+	
+	public FilmData getFilm() {
+		return film;
+	}
 
 	public Database(Context context) {
 		artist = new ArtistData(context);
 		album = new AlbumData(context);
-		track = new TrackData(context);
+		film = new FilmData(context);
 		dbHelper = new DatabaseHelper(context);
 //		book = new BookData(context);
 //		author = new AuthorData(context);
@@ -80,24 +92,45 @@ public class Database{
 		Cursor dbCursor = null;
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
-					"SELECT a.* " 								+
+					"SELECT a.* , ar.name "						+
 					"FROM " + AlbumTbl.TABLE_NAME + " As a " 	+
 					"JOIN " + ArtistTbl.TABLE_NAME + " As ar " 	+
 					"ON (a.artist = ar.mbId) " 					+
 					"WHERE a.name LIKE  '%" + search + "%' " 	+
 					"OR ar.name LIKE  '%" + search + "%'", null);
-			if (dbCursor.moveToFirst() == false) {
-				return new ArrayList<Data>();
-			}	
-	    	searchResult.add(new Data(dbCursor.getString(0),
-	    			dbCursor.getString(1), dbCursor.getLong(3),
-	    			dbCursor.getString(4), AlbumTbl.TABLE_NAME));
-	    	//artists.add(dbCursor.getString(0));
-		    while (dbCursor.moveToNext() == true) {
+			if (dbCursor.moveToFirst() == true) {
 		    	searchResult.add(new Data(dbCursor.getString(0),
 		    			dbCursor.getString(1), dbCursor.getLong(3),
-		    			dbCursor.getString(4), AlbumTbl.TABLE_NAME));
-		    }
+		    			dbCursor.getString(4), AlbumTbl.TABLE_NAME, 
+		    			dbCursor.getString(5)));
+		    	//artists.add(dbCursor.getString(0));
+			    while (dbCursor.moveToNext() == true) {
+			    	searchResult.add(new Data(dbCursor.getString(0),
+			    			dbCursor.getString(1), dbCursor.getLong(3),
+			    			dbCursor.getString(4), AlbumTbl.TABLE_NAME, 
+			    			dbCursor.getString(5)));
+			    }
+			}	
+			dbCursor = dbHelper.getReadableDatabase().rawQuery(
+					"SELECT * "									+
+					"FROM " + FilmTbl.TABLE_NAME				+
+					" WHERE name LIKE  '%" + search + "%' ", null);
+			if (dbCursor.moveToFirst() == true) {
+		    	searchResult.add(new Data(dbCursor.getString(0),
+		    			dbCursor.getString(1), dbCursor.getLong(2),
+		    			dbCursor.getString(3), FilmTbl.TABLE_NAME, 
+		    			""));
+		    	//artists.add(dbCursor.getString(0));
+			    while (dbCursor.moveToNext() == true) {
+			    	searchResult.add(new Data(dbCursor.getString(0),
+			    			dbCursor.getString(1), dbCursor.getLong(2),
+			    			dbCursor.getString(3), FilmTbl.TABLE_NAME, 
+			    			""));
+			    }
+			}	
+			if (searchResult.isEmpty()) {
+				return new ArrayList<Data>();
+			}
   
 		} finally {
 			if (dbCursor != null) {
@@ -106,7 +139,42 @@ public class Database{
 		}
 		return searchResult;
 	}
-	
+
+	public final void writeCsv(String csvFile, String encoding) {
+		final String[] dataTables = { ArtistTbl.TABLE_NAME,
+				AlbumTbl.TABLE_NAME, BookTbl.TABLE_NAME, FilmTbl.TABLE_NAME };
+		Cursor dbCursor = null;
+		try {
+			BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(csvFile), encoding));
+			try {
+				for (String table : dataTables) {
+					dbCursor = dbHelper.getReadableDatabase().rawQuery(
+							"SELECT * FROM " + table, null);
+					while (dbCursor.moveToNext() == true) {
+						out.write(table +";");
+						for (int i = 0; i < dbCursor.getColumnCount(); i++) {
+							try {
+								out.write(dbCursor.getString(i) + ";");
+							} catch (Throwable ex) {
+								out.write(String.valueOf(dbCursor.getLong(i))
+										+ ";");
+							}
+						}
+						out.newLine();
+					}
+				}
+				out.newLine();
+			} finally {
+				out.close();
+				dbCursor.close();
+			}
+			Log.e(TAG, "\n" + csvFile + " erzeugt.");
+		} catch (Exception ex) {
+			Log.e(TAG, "\nFehler beim Erzeugen der CSV-Datei '"
+					+ csvFile + "': " + ex);
+		}
+	}
 	
 	/**
 	 * schlie�e die Datenbankverbindung
@@ -115,6 +183,7 @@ public class Database{
 		artist.close();
 		album.close();
 		track.close();
+		film.close();
 		dbHelper.close();
 //		book.close();
 //		author.close();

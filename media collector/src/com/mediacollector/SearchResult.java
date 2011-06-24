@@ -68,9 +68,18 @@ public abstract class SearchResult extends ListActivity {
         lv.setOnItemClickListener(new OnItemClickListener() {
           public void onItemClick(AdapterView<?> parent, View view,
               int position, long id) {
+        	  Intent entryDetails = new Intent(getBaseContext(),
+        			  EntryDetails.class);
+        	  entryDetails.putExtra("name", searchResult.get(position).name);
+        	  entryDetails.putExtra("details", searchResult.get(position).year);
+        	  entryDetails.putExtra("extra", searchResult.get(position).extra);
+      		startActivity(entryDetails);
+        	  //entryDetails.putExtra("image", (Drawable) getResources()
+				//		.getDrawable(R.drawable.color_red));
             // When clicked, show a toast with the TextView text
-            Toast.makeText(getApplicationContext(), ((TextView) view).getText(),
-                Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), ((TextView)
+//      			  view.findViewById(R.id.name)).getText(),
+//                Toast.LENGTH_SHORT).show();
           }
         });
     }	
