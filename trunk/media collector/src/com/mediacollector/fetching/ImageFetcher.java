@@ -1,18 +1,23 @@
 package com.mediacollector.fetching;
 
-//import java.io.FileOutputStream;
-import java.io.IOException;
-//import java.io.InputStream;
-//import java.net.HttpURLConnection;
-//import java.net.MalformedURLException;
-//import java.net.URL;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 
-import android.content.Context;
-//import android.graphics.Bitmap;
-//import android.graphics.Bitmap.CompressFormat;
-//import android.graphics.BitmapFactory;
-//import android.os.Environment;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
+
+/**
+ * Der allgemeine Image-Fetcher. Kann für alle Sammlungstypen genutzt werden.
+ * @author Philipp Dermitzel
+ */
 abstract class ImageFetcher extends DataFetcher {
 	
 	/**
@@ -26,54 +31,60 @@ abstract class ImageFetcher extends DataFetcher {
 	 * Videos in der Data-HashMap gespeichert wird.
 	 */
 	protected static final String COVER_PATH = "cover_path";
-	
-//	/**
-//	 * Der Context, aus welchem der Fetcher aufgerufen wird. Wird für das 
-//	 * Speichern des Bildes benötigt.
-//	 */
-//	private Context context = null;
 
-	public ImageFetcher(final Context context, String ean) {
+	/**
+	 * Der Konstruktor.
+	 * Setzt die EAN (Product-ID).
+	 * @param ean String Die EAN, zu welchem ein Cover gesucht werden soll.
+	 */
+	public ImageFetcher(String ean) {
 		super(ean);
-//		this.context = context;
 	}
 	
 	/**
-	 * Wird noch auf Funktion geprüft und überarbeitet. 
-	 * =========
-	 * BITTE NICHT ÄNDERN!
-	 * =========
-	 * @throws IOException
+	 * Holt das Bild und speichert es auf der SD-Card im Ordner MediaCollector.
 	 */
-	protected void getImage() 
-	throws IOException {
-//		Bitmap 	bmImg = null;
-//		URL 	myFileUrl 	= null;
-//	    try {
-//	        myFileUrl = new URL(COVER_STRING);
-//	    } catch (MalformedURLException e) {}
-//	    try {
-//	        HttpURLConnection conn = (HttpURLConnection) myFileUrl
-//	        	.openConnection();
-//	        conn.setDoInput(true);
-//	        conn.connect();
-//	        int length = conn.getContentLength();
-//	        InputStream is = conn.getInputStream();
-//	        bmImg = BitmapFactory.decodeStream(is);
-//	    } catch (IOException e) {}
-//	    try {
-	        /* Speichern auf der SD-Card
-	         * ---
-	         * String filepath = Environment.getExternalStorageDirectory()
-	         * 	.getAbsolutePath();*/
-	    	// Speichern in der Sandbox
-//	    	String filepath = this.context.getFilesDir().getAbsolutePath();
-//	        FileOutputStream fos = new FileOutputStream(filepath + "/" 
-//	        		+ "output.jpg"); 
-//	        bmImg.compress(CompressFormat.JPEG, 75, fos);
-//	        fos.flush();
-//	        fos.close();
-//	    } catch (Exception e) {}	    
+	protected void getImage() {
+		final String url = (String) this.get(COVER_STRING);
+		final String name = (System.currentTimeMillis() / 1000) + "-" 
+			+ url.substring(url.lastIndexOf("/") + 1);
+		this.set(COVER_PATH, Environment.getExternalStorageDirectory() 
+				+ "/MediaCollector/");
+		
+        final DefaultHttpClient client = new DefaultHttpClient();
+        final HttpGet getRequest = new HttpGet(url);
+
+        try {
+            HttpResponse response = client.execute(getRequest);
+            final int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode != HttpStatus.SC_OK) return;
+
+            final HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                InputStream inputStream = null;
+                try {
+                    inputStream = entity.getContent();
+                    Bitmap bmp = BitmapFactory.decodeStream(inputStream);
+                    try {
+                    	// >>> Dieser Teil sollte noch entfernt werden
+                    	File cp = new File((String) this.get(COVER_PATH));
+                    	if (!cp.exists()) cp.mkdir();
+                    	// <<< Dieser Teil sollte noch entfernt werden
+                    	FileOutputStream out = 
+                    		new FileOutputStream(this.get(COVER_PATH) + name);
+                        bmp.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                    } catch (Exception e) {}
+                    this.set(COVER_PATH, Environment
+                    		.getExternalStorageDirectory() + "/MediaCollector/"
+                    		+ name);
+                    return;
+                } finally {
+                    if (inputStream != null) inputStream.close();
+                    entity.consumeContent();
+                }
+            }
+        } catch (Exception e) {}
+        return;
 	}
-	
+
 } 

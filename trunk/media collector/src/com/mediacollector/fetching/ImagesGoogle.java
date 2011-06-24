@@ -5,8 +5,6 @@ import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.content.Context;
-
 /**
  * Image-Fetcher, welcher Daten von Googles Bildersuche einholt. 
  * Siehe auch: DataFetcher.java
@@ -47,8 +45,8 @@ public class ImagesGoogle extends ImageFetcher {
 	 * Der Konstruktor. 
 	 * Setzt die EAN (Product-ID).
 	 */
-	public ImagesGoogle(final Context context, String ean) {
-		super(context, ean);
+	public ImagesGoogle(String ean) {
+		super(ean);
 	}
 	
 	/***************************************************************************
