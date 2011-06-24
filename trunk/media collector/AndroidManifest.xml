@@ -30,6 +30,10 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".EntryDetails"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".SearchResult"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
