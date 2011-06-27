@@ -13,6 +13,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.mediacollector.collection.SearchListing;
 import com.mediacollector.collection.audio.listings.ArtistListing;
+import com.mediacollector.fetching.Fetching;
 //import com.mediacollector.fetching.Fetching;
 import com.mediacollector.sync.SyncActivity;
 import com.mediacollector.tools.ImageResizer;
@@ -23,6 +24,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageFormat;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -49,6 +51,8 @@ public class Start extends RegisteredActivity {
 			"Wanted"
 	};
 	AlertDialog alert;
+	
+	public static String t;
 	
 	private static String editText;	
 	
@@ -122,7 +126,7 @@ public class Start extends RegisteredActivity {
         // Es war einmal in Amerika
         //new Fetching(this, "7321921200267", Fetching.SEARCH_ENGINE_OFDB);    
         // Geist - Galeere
-        //new Fetching(this, "4039053403328",Fetching.SEARCH_ENGINE_THALIA);
+        //new Fetching(this, "4039053403328", Fetching.SEARCH_ENGINE_THALIA);
         
         Button searchButton = (Button) findViewById(
         		R.id.searchButton);
