@@ -2,10 +2,12 @@ package com.mediacollector;
 
 import com.mediacollector.collection.SearchListing;
 import com.mediacollector.collection.audio.listings.ArtistListing;
-import com.mediacollector.fetching.Fetching;
+//import com.mediacollector.fetching.Fetching;
 import com.mediacollector.sync.SyncActivity;
 import com.mediacollector.tools.RegisteredActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+//import android.widget.Toast;
 
 /**
  * Der Start-Screen der Applikation. Sie zeigt die Hauptbuttons zum Scannen von
@@ -21,14 +24,46 @@ import android.widget.LinearLayout;
  */
 public class Start extends RegisteredActivity {
 	
+	final CharSequence[] items = {
+			"Audio", 
+			"Video", 
+			"Books", 
+			"Games",
+			"Wanted"
+	};
+	AlertDialog alert;
+	
+	private static String editText;	
+	
+    public static String getEditText() {
+    	return editText;
+	}
+
+	public void setEditText(String editText) {
+		Start.editText = editText;
+	}
+ 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    	super.onCreate(savedInstanceState);
         setContentView(R.layout.start);
+        
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.ADD_choose);
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+            	Intent intent = new Intent(getApplicationContext(), 
+            			ScanBarcode.class);
+            	intent.putExtra("collection", items[item]);
+            	startActivity(intent);
+            }
+        });
+        alert = builder.create();
+        
         LinearLayout addField = (LinearLayout) findViewById(R.id.addField);
         addField.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-               startActivity(new Intent(getBaseContext(), ScanBarcode.class));
+                alert.show();
             }
         });
         LinearLayout browseAudioField = (LinearLayout) findViewById(
