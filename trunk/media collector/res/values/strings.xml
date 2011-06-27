@@ -14,4 +14,6 @@
     <string name="SYNC_Local">Local changes have been uploaded.</string>
     <string name="SYNC_Okay">The collections are up to date.</string>
     <string name="SYNC_Remote">The collections have been updated.</string>
+    
+    <string name="ADD_choose">Choose the Collection</string>
 </resources>
