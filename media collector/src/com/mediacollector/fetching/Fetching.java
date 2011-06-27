@@ -110,8 +110,8 @@ public class Fetching implements Observer {
 				+ this.fetcher.get("year") + ")";
 			}
 			Toast.makeText(this.context, test, Toast.LENGTH_LONG).show();
-			Toast.makeText(this.context, "" + this.imgFetcher.get("cover"), 
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, "" + this.imgFetcher
+					.get(ImageFetcher.COVER_STRING), Toast.LENGTH_LONG).show();
 		}
 	}
 

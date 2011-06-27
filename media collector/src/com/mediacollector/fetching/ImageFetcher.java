@@ -10,6 +10,8 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import com.mediacollector.tools.ImageResizer;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
@@ -43,13 +45,18 @@ abstract class ImageFetcher extends DataFetcher {
 	
 	/**
 	 * Holt das Bild und speichert es auf der SD-Card im Ordner MediaCollector.
+	 * Es wird außerdem auch eine verkleinerte Version mit max. 100px angelegt.
+	 * Siehe dazu com.mediacollector.tools.ImageResizer
 	 */
 	protected void getImage() {
 		final String url = (String) this.get(COVER_STRING);
 		final String name = (System.currentTimeMillis() / 1000) + "-" 
 			+ url.substring(url.lastIndexOf("/") + 1);
+		final String nameSmall = name.substring(0, name.lastIndexOf(".")) 
+			+ "_small" + name.substring(name.lastIndexOf("."));
 		this.set(COVER_PATH, Environment.getExternalStorageDirectory() 
 				+ "/MediaCollector/");
+		this.set("test", this.get(COVER_PATH) + nameSmall);
 		
         final DefaultHttpClient client = new DefaultHttpClient();
         final HttpGet getRequest = new HttpGet(url);
@@ -73,6 +80,7 @@ abstract class ImageFetcher extends DataFetcher {
                     	FileOutputStream out = 
                     		new FileOutputStream(this.get(COVER_PATH) + name);
                         bmp.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                        new ImageResizer(bmp, 100, 100, nameSmall);
                     } catch (Exception e) {}
                     this.set(COVER_PATH, Environment
                     		.getExternalStorageDirectory() + "/MediaCollector/"
