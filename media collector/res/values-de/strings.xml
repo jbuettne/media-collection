@@ -14,4 +14,6 @@
     <string name="SYNC_Local">Lokale Änderungen wurden synchronisiert.</string>
     <string name="SYNC_Okay">Die Sammlungen sind auf dem neusten Stand.</string>
     <string name="SYNC_Remote">Die Sammlungen wurden auf den neusten Stand gebracht.</string>
+    
+    <string name="ADD_choose">Bitte Sammlung wählen</string>
 </resources>
