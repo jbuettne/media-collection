@@ -24,8 +24,6 @@ public class ScanResult extends Activity {
         
         final Bundle extras = getIntent().getExtras();
         
-        String barcode = null;
-        
         if (extras != null)
         	new Fetching(this, 
         			extras.getString("BARCODE"), 

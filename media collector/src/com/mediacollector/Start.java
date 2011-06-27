@@ -1,20 +1,37 @@
 package com.mediacollector;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 import com.mediacollector.collection.SearchListing;
 import com.mediacollector.collection.audio.listings.ArtistListing;
 //import com.mediacollector.fetching.Fetching;
 import com.mediacollector.sync.SyncActivity;
+import com.mediacollector.tools.ImageResizer;
 import com.mediacollector.tools.RegisteredActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 //import android.widget.Toast;
 
 /**

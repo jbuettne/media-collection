@@ -24,7 +24,7 @@ public class Thalia extends DataFetcher {
 	 * Die Grund-URL, über welche der Film - mittels der EAN - gesucht wird.
 	 */
 	private static final String BASE_URI = "http://www.thalia.de/shop/tha_"
-			+ "homestartseite/suche/?sswg=MUSIK&sq=";
+			+ "homestartseite/suche/?sswg=ANY&sq=";
 	
 	/**
 	 * Anhang an die URL nach der EAN.
