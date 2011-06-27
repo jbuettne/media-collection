@@ -1,40 +1,19 @@
 package com.mediacollector;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
 import com.mediacollector.collection.SearchListing;
 import com.mediacollector.collection.audio.listings.ArtistListing;
-import com.mediacollector.fetching.Fetching;
-//import com.mediacollector.fetching.Fetching;
 import com.mediacollector.sync.SyncActivity;
-import com.mediacollector.tools.ImageResizer;
 import com.mediacollector.tools.RegisteredActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.ImageFormat;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
-//import android.widget.Toast;
 
 /**
  * Der Start-Screen der Applikation. Sie zeigt die Hauptbuttons zum Scannen von
@@ -43,18 +22,13 @@ import android.widget.Toast;
  */
 public class Start extends RegisteredActivity {
 	
-	final CharSequence[] items = {
-			"Audio", 
-			"Video", 
-			"Books", 
-			"Games",
-			"Wanted"
-	};
-	AlertDialog alert;
+	/**
+	 * Die verschiedenen Sammlungen, die das Programm verwaltet. Die letzte 
+	 * steht hierbei für die (experimentelle) "Wishlist".
+	 */
 	
-	public static String t;
-	
-	private static String editText;	
+	private static String editText;
+	private static AlertDialog alert;
 	
     public static String getEditText() {
     	return editText;
@@ -69,13 +43,20 @@ public class Start extends RegisteredActivity {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.start);
         
+        final String[] collections = {
+        		getString(R.string.COLLECTION_Audio), 
+        		getString(R.string.COLLECTION_Video), 
+        		getString(R.string.COLLECTION_Books), 
+        		getString(R.string.COLLECTION_Games), 
+        		getString(R.string.COLLECTION_Wishlist) 
+        };
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.ADD_choose);
-        builder.setItems(items, new DialogInterface.OnClickListener() {
+        builder.setTitle(R.string.COLLECTION_Choose);
+        builder.setItems(collections, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
             	Intent intent = new Intent(getApplicationContext(), 
             			ScanBarcode.class);
-            	intent.putExtra("collection", items[item]);
+            	intent.putExtra("collection", collections[item]);
             	startActivity(intent);
             }
         });

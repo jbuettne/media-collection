@@ -15,5 +15,10 @@
     <string name="SYNC_Okay">Die Sammlungen sind auf dem neusten Stand.</string>
     <string name="SYNC_Remote">Die Sammlungen wurden auf den neusten Stand gebracht.</string>
     
-    <string name="ADD_choose">Bitte Sammlung wählen</string>
+    <string name="COLLECTION_Choose">Bitte Sammlung wählen:</string>    
+    <string name="COLLECTION_Audio">Audio</string>
+    <string name="COLLECTION_Video">Video</string>
+    <string name="COLLECTION_Books">Bücher</string>
+    <string name="COLLECTION_Games">Spiele</string>
+    <string name="COLLECTION_Wishlist">Wunschzettel</string>
 </resources>

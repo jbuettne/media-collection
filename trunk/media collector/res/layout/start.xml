@@ -117,7 +117,7 @@
                        android:layout_marginBottom="5sp"></ImageView>
             <TextView android:id="@+id/textView4" 
                       android:layout_height="wrap_content" 
-                      android:text="Audio" 
+                      android:text="@string/COLLECTION_Audio" 
                       android:layout_width="wrap_content"
                       android:textColor="#ffff"
                       android:textSize="14sp"
@@ -140,7 +140,7 @@
                        android:layout_marginBottom="5sp"></ImageView>
             <TextView android:id="@+id/textView5" 
                       android:layout_height="wrap_content" 
-                      android:text="Video" 
+                      android:text="@string/COLLECTION_Video" 
                       android:layout_width="wrap_content"
                       android:textColor="#ffff"
                       android:textSize="14sp"
@@ -162,7 +162,7 @@
                        android:layout_marginBottom="5sp"></ImageView>
             <TextView android:id="@+id/textView6" 
                       android:layout_height="wrap_content" 
-                      android:text="Books" 
+                      android:text="@string/COLLECTION_Books" 
                       android:layout_width="wrap_content"
                       android:textColor="#ffff"
                       android:textSize="14sp"
@@ -184,7 +184,7 @@
                        android:layout_marginBottom="5sp"></ImageView>
             <TextView android:id="@+id/textView7" 
                       android:layout_height="wrap_content" 
-                      android:text="Games" 
+                      android:text="@string/COLLECTION_Games" 
                       android:layout_width="wrap_content"
                       android:textColor="#ffff"
                       android:textSize="14sp"
