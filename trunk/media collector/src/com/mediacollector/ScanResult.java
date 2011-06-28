@@ -1,11 +1,5 @@
 package com.mediacollector;
 
-//import java.io.IOException;
-//import java.io.InputStream;
-//import java.net.URL;
-
-//import com.mediacollector.fetching.Audio;
-
 import com.mediacollector.fetching.Fetching;
 
 import android.app.Activity;
@@ -23,11 +17,11 @@ public class ScanResult extends Activity {
         setContentView(R.layout.scan_result);
         
         final Bundle extras = getIntent().getExtras();
-        
+  
         if (extras != null)
         	new Fetching(this, 
         			extras.getString("BARCODE"), 
-        			Fetching.SEARCH_ENGINE_THALIA);
+        			Fetching.SEARCH_ENGINE_OFDB);
         
         
         
