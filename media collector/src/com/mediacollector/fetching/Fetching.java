@@ -1,9 +1,11 @@
 package com.mediacollector.fetching;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.mediacollector.fetching.Audio.Thalia;
+import com.mediacollector.fetching.Game.EANsearch;
 import com.mediacollector.fetching.Video.OFDb;
 import com.mediacollector.tools.Observer;
 
@@ -32,6 +34,12 @@ public class Fetching implements Observer {
 	 * http://www.thalia.de  -- Thalia.java
 	 */
 	public static final int SEARCH_ENGINE_THALIA 	= 24;
+	
+	/**
+	 * Die verschiedenen Search-Engine-Klassen. Hier Gameseek;
+	 * http://www.gamesseek.co.uk  -- Gameseek.java
+	 */
+	public static final int SEARCH_ENGINE_EANSEARCH 	= 25;
 	
 	/**
 	 * Der Context, aus welchem das Fetching aufgerufen wurde. Wird nur für das
@@ -83,6 +91,8 @@ public class Fetching implements Observer {
 			this.fetcher = new OFDb(ean); break;		
 		case SEARCH_ENGINE_THALIA:
 			this.fetcher = new Thalia(ean); break;
+		case SEARCH_ENGINE_EANSEARCH:
+			this.fetcher = new EANsearch(ean); break;
 		}
 		this.fetcher.addObserver(this);
         new Thread(this.fetcher).start();
