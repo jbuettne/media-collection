@@ -23,11 +23,11 @@ public class tagtoad extends DataFetcher {
 	/**
 	 * Die Grund-URL, über welche das Spiel - mittels des Barcodes - gesucht wird.
 	 */
-	private static final String BASE_URI = "http://tagtoad.com/conv.php?tag=";
+	private static final String BASE_URI = "http://openean.kaufkauf.net/index.php?cmd=ean1&sid=&ean=";
 	/**
 	 * Das Pattern zum Suchen des Titels des Spiel-Datenträgers.
 	 */
-	private static final Pattern PATTERN_TITLE = Pattern.compile("Description </b></td><td>([^<]+)");
+	private static final Pattern PATTERN_TITLE = Pattern.compile("<INPUT TYPE=HIDDEN NAME=\"fullname\" VALUE=\"([^\"]+)");
 	
 	/***************************************************************************
 	 * Konstruktor/On-Create-Methode
