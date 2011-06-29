@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 /**
  * Image-Fetcher, welcher Daten von Googles Bildersuche einholt. 
  * Siehe auch: DataFetcher.java

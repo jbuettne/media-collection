@@ -2,11 +2,10 @@ package com.mediacollector;
 
 import com.mediacollector.collection.SearchListing;
 import com.mediacollector.collection.audio.listings.ArtistListing;
+import com.mediacollector.fetching.Fetching;
 import com.mediacollector.sync.SyncActivity;
 import com.mediacollector.tools.RegisteredActivity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,46 +20,11 @@ import android.widget.LinearLayout;
  * @author Philipp Dermitzel
  */
 public class Start extends RegisteredActivity {
-	
-	/**
-	 * Die verschiedenen Sammlungen, die das Programm verwaltet. Die letzte 
-	 * steht hierbei für die (experimentelle) "Wishlist".
-	 */
-	
-	private static String editText;
-	private static AlertDialog alert;
-	
-    public static String getEditText() {
-    	return editText;
-	}
-
-	public void setEditText(String editText) {
-		Start.editText = editText;
-	}
  
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.start);
-        
-        final String[] collections = {
-        		getString(R.string.COLLECTION_Audio), 
-        		getString(R.string.COLLECTION_Video), 
-        		getString(R.string.COLLECTION_Books), 
-        		getString(R.string.COLLECTION_Games), 
-        		getString(R.string.COLLECTION_Wishlist) 
-        };
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.COLLECTION_Choose);
-        builder.setItems(collections, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-            	Intent intent = new Intent(getApplicationContext(), 
-            			ScanBarcode.class);
-            	intent.putExtra("collection", collections[item]);
-            	startActivity(intent);
-            }
-        });
-        alert = builder.create();
         
         LinearLayout addField = (LinearLayout) findViewById(R.id.addField);
         addField.setOnClickListener(new Button.OnClickListener() {
@@ -104,10 +68,32 @@ public class Start extends RegisteredActivity {
 		   	}
         });
         
-        // Es war einmal in Amerika
+        // Es war einmal in Amerika	- ok
         //new Fetching(this, "7321921200267", Fetching.SEARCH_ENGINE_OFDB);    
-        // Geist - Galeere
+        
+        // Geist - Galeere			- ok
         //new Fetching(this, "4039053403328", Fetching.SEARCH_ENGINE_THALIA);
+        // Phil Collins - Going Back- ok
+        //new Fetching(this, "0075678924484", Fetching.SEARCH_ENGINE_THALIA);        
+        // Half-Life 2				- ok
+        //new Fetching(this, "5030930058937", Fetching.SEARCH_ENGINE_TAGTOAD);
+        // Gothic III				- fehler
+        //new Fetching(this, "4020628081492", Fetching.SEARCH_ENGINE_TAGTOAD);
+        // Baldurs Gate Collection	- ok
+        //new Fetching(this, "3546430126882", Fetching.SEARCH_ENGINE_TAGTOAD);
+        // Mafia					- ok
+        //new Fetching(this, "5026555033862", Fetching.SEARCH_ENGINE_TAGTOAD);
+        // Commandos Dir. Cut		- ok
+        //new Fetching(this, "5032921015196", Fetching.SEARCH_ENGINE_TAGTOAD);
+        // Red Faction				- ok
+        //new Fetching(this, "4005209031196", Fetching.SEARCH_ENGINE_TAGTOAD);
+        // Anno 1503				- name schlecht
+        //new Fetching(this, "4020628081881", Fetching.SEARCH_ENGINE_TAGTOAD);
+        // Tribes2					- name schlecht
+        //new Fetching(this, "3348542128323", Fetching.SEARCH_ENGINE_TAGTOAD);
+        // Star Wars Racer			- name schlecht
+        //new Fetching(this, "4012160460965", Fetching.SEARCH_ENGINE_TAGTOAD);
+        
         
         Button searchButton = (Button) findViewById(
         		R.id.searchButton);

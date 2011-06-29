@@ -1,4 +1,4 @@
-package com.mediacollector.fetching.Audio;
+package com.mediacollector.fetching.fetcher;
 
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -43,6 +43,11 @@ public class Thalia extends DataFetcher {
 	private static final Pattern PATTERN_ARTIST = Pattern.compile("https://ssl."
 			+ "buch.de/pagstract/textimage/\\?s=artikel-person-details&t=von"
 			+ "\\+([^&]+)");
+	/**
+	 * Alternatives Pattern zum Suchen des Artists des Audio-Datenträgers.
+	 */
+	private static final Pattern PATTERN_ARTIST_ALT = Pattern.compile(
+			"<strong>Komponist: </strong>([^<]+)");
 	
 	/**
 	 * Das Pattern zum Suchen des Erscheinungsjahres Audio-Datenträgers. Findet
@@ -77,10 +82,17 @@ public class Thalia extends DataFetcher {
 		String webContent	= WebParsing.getWebContent(completeURI);
 		Matcher	matcher_t	= PATTERN_TITLE.matcher(webContent);
 		Matcher	matcher_a	= PATTERN_ARTIST.matcher(webContent);
+		Matcher	matcher_aa	= PATTERN_ARTIST_ALT.matcher(webContent);
 		Matcher matcher_y	= PATTERN_YEAR.matcher(webContent);
-		if (matcher_t.find() && matcher_y.find() && matcher_a.find()) {
+		if (matcher_t.find() && matcher_y.find()) {
+			String artist = null;
+			if (matcher_a.find()) 
+				artist = URLDecoder.decode(matcher_a.group(1));
+			else if (matcher_aa.find())
+				artist = URLDecoder.decode(matcher_aa.group(1));
+			else artist = "Unknown Artist";
 			this.set(TITLE_STRING, URLDecoder.decode(matcher_t.group(1)));
-			this.set(ARTIST_STRING, URLDecoder.decode(matcher_a.group(1)));
+			this.set(ARTIST_STRING, artist);
 			this.set(YEAR_STRING, URLDecoder.decode(matcher_y.group(1)));
 			notifyObserver(true);
 		} else notifyObserver(false);

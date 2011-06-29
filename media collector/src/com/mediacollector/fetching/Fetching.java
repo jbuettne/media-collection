@@ -4,10 +4,10 @@ import android.content.Context;
 //import android.util.Log;
 import android.widget.Toast;
 
-import com.mediacollector.fetching.Audio.Thalia;
-import com.mediacollector.fetching.Game.tagtoad;
-import com.mediacollector.fetching.Game.kaufkauf;
-import com.mediacollector.fetching.Video.OFDb;
+import com.mediacollector.fetching.fetcher.Google;
+import com.mediacollector.fetching.fetcher.OFDb;
+import com.mediacollector.fetching.fetcher.Thalia;
+import com.mediacollector.fetching.fetcher.Tagtoad;
 import com.mediacollector.tools.Observer;
 
 /**
@@ -99,9 +99,9 @@ public class Fetching implements Observer {
 		case SEARCH_ENGINE_THALIA:
 			this.fetcher = new Thalia(ean); break;
 		case SEARCH_ENGINE_TAGTOAD:
-			this.fetcher = new tagtoad(ean); break;
-		case SEARCH_ENGINE_KAUFKAUF:
-			this.fetcher = new kaufkauf(ean); break;
+			this.fetcher = new Tagtoad(ean); break;
+		/*case SEARCH_ENGINE_KAUFKAUF:
+			this.fetcher = new kaufkauf(ean); break;*/
 		}
 		this.fetcher.addObserver(this);
         new Thread(this.fetcher).start();

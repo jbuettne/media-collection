@@ -9,12 +9,13 @@ import com.mediacollector.sync.SyncActivity;
 import com.mediacollector.tools.ActivityRegistry;
 import com.mediacollector.tools.Preferences;
 
+import android.app.AlertDialog;
 import android.app.ExpandableListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,14 +36,15 @@ import android.widget.TextView;
  */
 public abstract class EntryListing extends ExpandableListActivity {
 	
-	private final String 				TEXT	 	= "name";
-	private final String 				IMAGE	 	= "image";
-	private final String 				YEAR	 	= "year";
-	private final String 				TRACKCOUNT	= "trackcount";
+	private final 	String 				TEXT	 	= "name";
+	private final 	String 				IMAGE	 	= "image";
+	private final 	String 				YEAR	 	= "year";
+	private final 	String 				TRACKCOUNT	= "trackcount";
 	
-	protected	  String[] 				groups 		= null;
-	protected 	  TextImageEntry[][] 	children 	= null;
-	protected	  ImageView				more		= null;
+	protected	  	String[] 			groups 		= null;
+	protected 	  	TextImageEntry[][] 	children 	= null;
+	protected	  	ImageView			more		= null;
+	protected	 	AlertDialog			alert		= null; 
 	
 	protected abstract void setData();
 	
@@ -52,6 +54,39 @@ public abstract class EntryListing extends ExpandableListActivity {
 		ActivityRegistry.registerActivity(this);
 		this.setData();
         setContentView(R.layout.entry_layout);
+        
+        final String[] collections = {
+        		getString(R.string.COLLECTION_Audio), 
+        		getString(R.string.COLLECTION_Video), 
+        		getString(R.string.COLLECTION_Books), 
+        		getString(R.string.COLLECTION_Games), 
+        		getString(R.string.COLLECTION_Wishlist) 
+        };
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.COLLECTION_Choose);
+        builder.setItems(collections, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+            	Intent intent = new Intent(getApplicationContext(), 
+            			ScanBarcode.class);
+            	if (collections[item] == getString(R.string
+            			.COLLECTION_Audio)) intent.putExtra("collection", 
+            					R.string.COLLECTION_Audio);
+            	else if (collections[item] == getString(R.string
+            			.COLLECTION_Video)) intent.putExtra("collection", 
+            					R.string.COLLECTION_Video);
+            	else if (collections[item] == getString(R.string
+            			.COLLECTION_Books)) intent.putExtra("collection", 
+            					R.string.COLLECTION_Books);
+            	else if (collections[item] == getString(R.string
+            			.COLLECTION_Games)) intent.putExtra("collection", 
+            					R.string.COLLECTION_Games);
+            	else 
+            		intent.putExtra("collection", 
+            				R.string.COLLECTION_Wishlist);
+            	startActivity(intent);
+            }
+        });
+        alert = builder.create();
         
         LinearLayout header = (LinearLayout) findViewById(R.id.overall_header);        
         header.setOnClickListener(new OnClickListener() {
@@ -159,7 +194,7 @@ public abstract class EntryListing extends ExpandableListActivity {
 			startActivity(new Intent(getBaseContext(), SyncActivity.class));
 			return true;
 		case R.id.menu_scan:
-			startActivity(new Intent(getBaseContext(), ScanBarcode.class));
+			alert.show();
 			return true;
 		case R.id.menu_settings:    			
 			startActivity(new Intent(getBaseContext(), Preferences.class));
