@@ -5,6 +5,7 @@ import com.mediacollector.fetching.Fetching;
 import android.app.Activity;
 //import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.widget.Toast;
 //import android.widget.ImageView;
 //import android.widget.TextView;
 //import android.widget.Toast;
@@ -18,12 +19,15 @@ public class ScanResult extends Activity {
         
         final Bundle extras = getIntent().getExtras();
   
-        if (extras != null)
+        if (extras != null) {
+        	
+        	Toast toast = Toast.makeText(getBaseContext() , "lade daten", Toast.LENGTH_LONG);
+        	toast.show();
         	new Fetching(this, 
         			extras.getString("BARCODE"), 
-        			Fetching.SEARCH_ENGINE_OFDB);
+        			Fetching.SEARCH_ENGINE_TAGTOAD);
         
-        
+        }
         
 //    	final Audio audio = new Audio();
 //		audio.setBarcode(barcode);
