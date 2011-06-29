@@ -3,6 +3,7 @@ package com.mediacollector.fetching;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.net.URLEncoder;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -59,7 +60,7 @@ abstract class ImageFetcher extends DataFetcher {
 		this.set("test", this.get(COVER_PATH) + nameSmall);
 		
         final DefaultHttpClient client = new DefaultHttpClient();
-        final HttpGet getRequest = new HttpGet(url);
+        final HttpGet getRequest = new HttpGet(URLEncoder.encode(url));
 
         try {
             HttpResponse response = client.execute(getRequest);
