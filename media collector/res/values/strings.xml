@@ -21,4 +21,6 @@
     <string name="COLLECTION_Books">Books</string>
     <string name="COLLECTION_Games">Games</string>
     <string name="COLLECTION_Wishlist">Wishlist</string>
+    
+    <string name="EXCEPTION_unknown">Unknown Error</string>
 </resources>
