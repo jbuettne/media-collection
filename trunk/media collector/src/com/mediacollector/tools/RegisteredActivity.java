@@ -6,6 +6,8 @@ import com.mediacollector.ScanBarcode;
 import com.mediacollector.sync.SyncActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,10 +20,45 @@ import android.view.MenuItem;
  */
 public class RegisteredActivity extends Activity {
 	
+	protected AlertDialog alert;
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityRegistry.registerActivity(this);
+        
+        final String[] collections = {
+        		getString(R.string.COLLECTION_Audio), 
+        		getString(R.string.COLLECTION_Video), 
+        		getString(R.string.COLLECTION_Books), 
+        		getString(R.string.COLLECTION_Games), 
+        		getString(R.string.COLLECTION_Wishlist) 
+        };
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.COLLECTION_Choose);
+        builder.setItems(collections, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+            	Intent intent = new Intent(getApplicationContext(), 
+            			ScanBarcode.class);
+            	if (collections[item] == getString(R.string
+            			.COLLECTION_Audio)) intent.putExtra("collection", 
+            					R.string.COLLECTION_Audio);
+            	else if (collections[item] == getString(R.string
+            			.COLLECTION_Video)) intent.putExtra("collection", 
+            					R.string.COLLECTION_Video);
+            	else if (collections[item] == getString(R.string
+            			.COLLECTION_Books)) intent.putExtra("collection", 
+            					R.string.COLLECTION_Books);
+            	else if (collections[item] == getString(R.string
+            			.COLLECTION_Games)) intent.putExtra("collection", 
+            					R.string.COLLECTION_Games);
+            	else 
+            		intent.putExtra("collection", 
+            				R.string.COLLECTION_Wishlist);
+            	startActivity(intent);
+            }
+        });
+        alert = builder.create();
 	}
 	
 	@Override
@@ -38,7 +75,7 @@ public class RegisteredActivity extends Activity {
     			startActivity(new Intent(getBaseContext(), SyncActivity.class));
     			return true;
     		case R.id.menu_scan:
-    			startActivity(new Intent(getBaseContext(), ScanBarcode.class));
+    			alert.show();
     			return true;
     		case R.id.menu_settings:    			
     			startActivity(new Intent(getBaseContext(), Preferences.class));

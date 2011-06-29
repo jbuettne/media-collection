@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.widget.Toast;
 
 /**
  * 
@@ -40,14 +39,13 @@ public class ScanBarcode extends RegisteredActivity {
         intentScan.setPackage(BS_PACKAGE);
         intentScan.putExtra("SCAN_MODE", "PRODUCT_MODE");
         intentScan.putExtra("ENCODE_DATA","ENCODE_FORMATE");
-        //intentScan.addCategory(Intent.C )
         intentScan.addCategory(Intent.CATEGORY_DEFAULT);
         try {
         	startActivityForResult(intentScan, 0);
         } catch (ActivityNotFoundException e) {
         	showDownloadDialog();
         } catch (Exception ex) {
-        	System.out.println("HAJA" + ex);
+        	// fehlerbehandlung... 
         }
 	}
 	
@@ -75,22 +73,18 @@ public class ScanBarcode extends RegisteredActivity {
     	});
     	return downloadDialog.show();
     }
+    
     @Override
     public void onActivityResult(int requestCode, int resultCode, 
     		Intent intent) {
         if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
-            	
             	String contents = intent.getStringExtra("SCAN_RESULT");
-            	String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
-                
-                final Intent scanresult = new Intent(this, ScanResult.class);
+            	final Intent scanresult = new Intent(this, ScanResult.class);
                 scanresult.putExtra("BARCODE", contents);
-                scanresult.putExtra("FORMAT", format);
-                startActivity(scanresult);        	
-                Toast toast = Toast.makeText(getBaseContext() , contents + " " + format, Toast.LENGTH_LONG);
-            	toast.show();
-            	
+                scanresult.putExtra("collection", 
+                		getIntent().getExtras().getInt("collection"));
+                startActivity(scanresult);            	
             } 
         }
     }

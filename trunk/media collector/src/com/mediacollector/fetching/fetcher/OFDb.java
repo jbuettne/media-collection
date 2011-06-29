@@ -1,4 +1,4 @@
-package com.mediacollector.fetching.Video;
+package com.mediacollector.fetching.fetcher;
 
 import java.io.IOException;
 import java.net.URLDecoder;
