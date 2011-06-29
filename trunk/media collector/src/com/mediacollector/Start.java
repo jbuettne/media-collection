@@ -2,7 +2,6 @@ package com.mediacollector;
 
 import com.mediacollector.collection.SearchListing;
 import com.mediacollector.collection.audio.listings.ArtistListing;
-import com.mediacollector.fetching.Fetching;
 import com.mediacollector.sync.SyncActivity;
 import com.mediacollector.tools.RegisteredActivity;
 
@@ -92,8 +91,7 @@ public class Start extends RegisteredActivity {
         // Tribes2					- name schlecht
         //new Fetching(this, "3348542128323", Fetching.SEARCH_ENGINE_TAGTOAD);
         // Star Wars Racer			- name schlecht
-        //new Fetching(this, "4012160460965", Fetching.SEARCH_ENGINE_TAGTOAD);
-        
+        //new Fetching(this, "4012160460965", Fetching.SEARCH_ENGINE_TAGTOAD);        
         
         Button searchButton = (Button) findViewById(
         		R.id.searchButton);
