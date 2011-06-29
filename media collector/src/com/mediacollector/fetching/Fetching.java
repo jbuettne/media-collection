@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.mediacollector.fetching.Audio.Thalia;
 import com.mediacollector.fetching.Game.tagtoad;
+import com.mediacollector.fetching.Game.kaufkauf;
 import com.mediacollector.fetching.Video.OFDb;
 import com.mediacollector.tools.Observer;
 
@@ -36,10 +37,16 @@ public class Fetching implements Observer {
 	public static final int SEARCH_ENGINE_THALIA 	= 24;
 	
 	/**
-	 * Die verschiedenen Search-Engine-Klassen. Hier Gameseek;
-	 * http://www.gamesseek.co.uk  -- Gameseek.java
+	 * Die verschiedenen Search-Engine-Klassen. Hier Tagtoad;
+	 * http://www.tagtoad.com  -- tagtoad.java
 	 */
 	public static final int SEARCH_ENGINE_TAGTOAD	= 25;
+	
+	/**
+	 * Die verschiedenen Search-Engine-Klassen. Hier Kaufkauf;
+	 * http://www.kaufkauf.net  -- kaufkauf.java
+	 */
+	public static final int SEARCH_ENGINE_KAUFKAUF	= 26;
 	
 	/**
 	 * Der Context, aus welchem das Fetching aufgerufen wurde. Wird nur für das
@@ -78,13 +85,13 @@ public class Fetching implements Observer {
 	 * Fetching-Dienst.
 	 * @param context Context Der Context, aus dem das Fetching gestartet wurde.
 	 * @param ean String Die EAN, zu welcher Daten eingeholt werden.
-	 * @param searchEnginge Die Konstante beschreibt die verschiedenen Fetching-
+	 * @param searchEngine Die Konstante beschreibt die verschiedenen Fetching-
 	 * 	Dienste und somit -Klassen.
 	 */
 	public Fetching(final Context context, 
-			final String ean, final int searchEnginge) {
+			final String ean, final int searchEngine) {
 		this.context = context;
-		switch (searchEnginge) {
+		switch (searchEngine) {
 		case SEARCH_ENGINE_GOOGLE:
 			this.fetcher = new Google(ean); break;
 		case SEARCH_ENGINE_OFDB:
@@ -93,6 +100,8 @@ public class Fetching implements Observer {
 			this.fetcher = new Thalia(ean); break;
 		case SEARCH_ENGINE_TAGTOAD:
 			this.fetcher = new tagtoad(ean); break;
+		case SEARCH_ENGINE_KAUFKAUF:
+			this.fetcher = new kaufkauf(ean); break;
 		}
 		this.fetcher.addObserver(this);
         new Thread(this.fetcher).start();

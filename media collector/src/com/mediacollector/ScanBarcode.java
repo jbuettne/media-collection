@@ -86,9 +86,9 @@ public class ScanBarcode extends RegisteredActivity {
                 
                 final Intent scanresult = new Intent(this, ScanResult.class);
                 scanresult.putExtra("BARCODE", contents);
-                startActivity(scanresult);
-                String test = contents + " " + format;            	
-                Toast toast = Toast.makeText(getBaseContext() , test, Toast.LENGTH_LONG);
+                scanresult.putExtra("FORMAT", format);
+                startActivity(scanresult);        	
+                Toast toast = Toast.makeText(getBaseContext() , contents + " " + format, Toast.LENGTH_LONG);
             	toast.show();
             	
             } 
