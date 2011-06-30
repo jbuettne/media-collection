@@ -221,7 +221,7 @@
                   android:layout_width="fill_parent" 
                   android:layout_height="45sp"
                   android:layout_marginRight="110sp"></EditText>
-        <Button android:text="Search" 
+        <Button android:text="@string/COLLECTION_search" 
                 android:id="@+id/searchButton" 
                 android:layout_width="100sp" 
                 android:layout_height="42sp"
