@@ -3,7 +3,11 @@ package com.mediacollector;
 import com.mediacollector.fetching.Fetching;
 import com.mediacollector.tools.RegisteredActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 
 public class ScanResult extends RegisteredActivity {
 	
@@ -11,6 +15,15 @@ public class ScanResult extends RegisteredActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scan_result);
+        
+        LinearLayout bachToStart = (LinearLayout) findViewById(
+            	R.id.back_to_start);
+    	bachToStart.setOnClickListener(new OnClickListener() {
+        	public void onClick(View v) {
+        		finish();
+        		startActivity(new Intent(getBaseContext(), Start.class));
+        	}
+        });
         
         final Bundle extras = getIntent().getExtras();  
         if (extras != null) {        	
@@ -28,6 +41,15 @@ public class ScanResult extends RegisteredActivity {
         		new Fetching(this, extras.getString("BARCODE"));
         	else new Fetching(this, extras.getString("BARCODE"), searchEngine);       	
         }
+        
+        LinearLayout addToCollection = (LinearLayout) findViewById(
+            	R.id.add_to_collection);
+        addToCollection.setOnClickListener(new OnClickListener() {
+        	public void onClick(View v) {
+        		startActivity(new Intent(getBaseContext(), Start.class));
+        	}
+        });
+        
 	}
 
 }
