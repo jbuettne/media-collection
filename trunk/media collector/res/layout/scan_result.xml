@@ -31,8 +31,7 @@
         android:layout_width="match_parent" 
         android:orientation="vertical" 
         android:layout_marginLeft="20sp">
-        <ImageView android:src="@drawable/aa_cover" 
-            android:id="@+id/cover" 
+        <ImageView android:id="@+id/cover" 
             android:layout_width="225sp"
             android:layout_height="225sp"></ImageView>
         <TextView
@@ -44,14 +43,14 @@
 	        android:layout_height="match_parent" 
 	        android:layout_width="match_parent"
 	        android:layout_marginRight="20sp">
-	        <TextView android:text="Amon Amarth" 
+	        <TextView android:text="" 
 	            android:layout_width="wrap_content" 
 	            android:layout_height="wrap_content" 
 	            android:textSize="14sp"
 	            android:layout_marginTop="20sp"
 	            android:layout_alignParentLeft="true"
 	            android:id="@+id/artist"></TextView>
-	        <TextView android:text="2008" 
+	        <TextView android:text="" 
 	            android:layout_width="wrap_content" 
 	            android:layout_height="wrap_content" 
 	            android:textSize="14sp"
@@ -59,7 +58,7 @@
 	            android:layout_alignParentRight="true"
 	            android:id="@+id/year"></TextView>
         </RelativeLayout>    
-        <TextView android:text="Surtur Rising (Limited Edition)" 
+        <TextView android:text="" 
             android:layout_width="wrap_content" 
             android:layout_height="wrap_content" 
             android:id="@+id/release"

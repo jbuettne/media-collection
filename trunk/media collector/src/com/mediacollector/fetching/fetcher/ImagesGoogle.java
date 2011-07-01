@@ -1,11 +1,15 @@
-package com.mediacollector.fetching;
+package com.mediacollector.fetching.fetcher;
 
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.mediacollector.fetching.ImageFetcher;
+import com.mediacollector.fetching.WebParsing;
+
 import android.content.Context;
+import android.widget.Toast;
 
 
 /**
@@ -24,7 +28,7 @@ public class ImagesGoogle extends ImageFetcher {
 	 * dieser URL angehängt.
 	 */
 	private static final String BASE_URI = "https://ajax.googleapis.com/ajax/"
-		+ "services/search/images?v=1.0&q=";
+		+ "services/search/images?v=2.0&imgsz=medium&q=";
 	
 	/**
 	 * Das anhängen des Suchbegriffes "cover" an die EAN erhöht die 
