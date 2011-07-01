@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.mediacollector.fetching.DataFetcher;
 import com.mediacollector.fetching.WebParsing;
@@ -48,8 +49,14 @@ public class Thalia extends DataFetcher {
 	/**
 	 * Alternatives Pattern zum Suchen des Artists des Audio-Datenträgers.
 	 */
-	private static final Pattern PATTERN_ARTIST_ALT = Pattern.compile(
+	private static final Pattern PATTERN_ARTIST_ALT_KOM = Pattern.compile(
 			"<strong>Komponist: </strong>([^<]+)");
+	
+	/**
+	 * Alternatives Pattern zum Suchen des Artists des Audio-Datenträgers.
+	 */
+	private static final Pattern PATTERN_ARTIST_ALT_SOL = Pattern.compile(
+			"<strong>Solist:</strong>([^<]+)");
 	
 	/**
 	 * Das Pattern zum Suchen des Erscheinungsjahres Audio-Datenträgers. Findet
@@ -84,15 +91,19 @@ public class Thalia extends DataFetcher {
 		String webContent	= WebParsing.getWebContent(completeURI);
 		Matcher	matcher_t	= PATTERN_TITLE.matcher(webContent);
 		Matcher	matcher_a	= PATTERN_ARTIST.matcher(webContent);
-		Matcher	matcher_aa	= PATTERN_ARTIST_ALT.matcher(webContent);
+		Matcher	matcher_ak	= PATTERN_ARTIST_ALT_KOM.matcher(webContent);
+		Matcher	matcher_as	= PATTERN_ARTIST_ALT_SOL.matcher(webContent);
 		Matcher matcher_y	= PATTERN_YEAR.matcher(webContent);
 		if (matcher_t.find() && matcher_y.find()) {
 			String artist = null;
-			if (matcher_a.find()) 
+			if (matcher_ak.find()) 
+				artist = URLDecoder.decode(matcher_ak.group(1));
+			else if (matcher_as.find())
+				artist = URLDecoder.decode(matcher_as.group(1));
+			else if (matcher_a.find())
 				artist = URLDecoder.decode(matcher_a.group(1));
-			else if (matcher_aa.find())
-				artist = URLDecoder.decode(matcher_aa.group(1));
 			else artist = "Unknown Artist";
+			
 			this.set(TITLE_STRING, URLDecoder.decode(matcher_t.group(1)));
 			this.set(ARTIST_STRING, artist);
 			this.set(YEAR_STRING, URLDecoder.decode(matcher_y.group(1)));

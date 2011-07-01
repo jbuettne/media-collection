@@ -1,14 +1,14 @@
 package com.mediacollector.fetching;
 
 import android.content.Context;
-//import android.util.Log;
-import android.widget.Toast;
 
 import com.mediacollector.R;
 import com.mediacollector.fetching.fetcher.Google;
+import com.mediacollector.fetching.fetcher.ImagesGoogle;
 import com.mediacollector.fetching.fetcher.OFDb;
 import com.mediacollector.fetching.fetcher.Thalia;
 import com.mediacollector.fetching.fetcher.Tagtoad;
+import com.mediacollector.tools.Observable;
 import com.mediacollector.tools.Observer;
 import com.mediacollector.tools.Exceptions.MCFetchingException;
 
@@ -18,7 +18,7 @@ import com.mediacollector.tools.Exceptions.MCFetchingException;
  * Callback-Handling mittels der updateObserver-Methode.
  * @author Philipp Dermitzel
  */
-public class Fetching implements Observer {
+public class Fetching extends Observable implements Observer {
 	
 	/**
 	 * Die verschiedenen Search-Engine-Klassen. Hier Google Product Search;
@@ -57,6 +57,16 @@ public class Fetching implements Observer {
 	private Context context = null;
 	
 	/**
+	 * Die zu nutzenden Search-Engine. Wird über den Kosntruktor gesetzt.
+	 */
+	private int searchEngine = -1;
+	
+	/**
+	 * Die EAN, zu welcher die Daten eingeholt werden.
+	 */
+	private String ean = null;
+	
+	/**
 	 * Der arbeitenden Fetcher. Welche Klasse genutzt wird, wird mittels des
 	 * Konstruktors definiert.
 	 */
@@ -73,50 +83,64 @@ public class Fetching implements Observer {
 	 */
 	private int fetcherCounter = 0;
 	
+	public DataFetcher getDataFetcher() {
+		return this.fetcher;
+	}
+	
+	public DataFetcher getImageFetcher() {
+		return this.imgFetcher;
+	}
+	
 	/**
-	 * Startet das Fetching mit dem Standard-Fetcher (Google Product Search).
+	 * Setzt den Standard-Fetcher (Google Product Search).
 	 * @param context Context Der Context, aus dem das Fetching gestartet wurde.
 	 * @param ean String Die EAN, zu welcher Daten eingeholt werden.
 	 * @throws MCFetchingException 
 	 */
-	public Fetching(final Context context, final String ean) 
-	throws MCFetchingException {
+	public Fetching(final Context context, final String ean) {
 		this(context, ean, SEARCH_ENGINE_GOOGLE);
 	}
 	
 	/**
-	 * Der komplette Konstruktor. Startet das Fetching mit dem ausgewählten
-	 * Fetching-Dienst.
+	 * Der komplette Konstruktor. 
 	 * @param context Context Der Context, aus dem das Fetching gestartet wurde.
 	 * @param ean String Die EAN, zu welcher Daten eingeholt werden.
 	 * @param searchEngine Die Konstante beschreibt die verschiedenen Fetching-
 	 * 	Dienste und somit -Klassen.
-	 * @throws MCFetchingException .
 	 */
 	public Fetching(final Context context, final String ean, 
-			final int searchEngine) throws MCFetchingException {
+			final int searchEngine) {
+		this.ean = ean;
 		this.context = context;
+		this.searchEngine = searchEngine;
+	}
+	
+	/**
+	 * Die Methode, welche das Fetching mit dem ausgewählten Fetching-Dienst 
+	 * endgültig startet.
+	 * @throws MCFetchingException .
+	 */
+	public void fetchData() 
+	throws MCFetchingException {
 		switch (searchEngine) {
 		case SEARCH_ENGINE_GOOGLE:
-			this.fetcher = new Google(context, ean); break;
+			this.fetcher = new Google(context, this.ean); break;
 		case SEARCH_ENGINE_OFDB:
-			this.fetcher = new OFDb(context, ean); break;		
+			this.fetcher = new OFDb(context, this.ean); break;		
 		case SEARCH_ENGINE_THALIA:
-			this.fetcher = new Thalia(context, ean); break;
+			this.fetcher = new Thalia(context, this.ean); break;
 		case SEARCH_ENGINE_TAGTOAD:
-			this.fetcher = new Tagtoad(context, ean); break;
-		/*case SEARCH_ENGINE_KAUFKAUF:
-			this.fetcher = new kaufkauf(ean); break;*/
+			this.fetcher = new Tagtoad(context, this.ean); break;
 		default: 
 			throw new MCFetchingException(this.context.getString(
-					R.string.EXCEPTION_Fetching_2_1) + " '" +searchEngine 
+					R.string.EXCEPTION_Fetching_2_1) + " '" + this.searchEngine 
 					+ "' " + this.context.getString(
 					R.string.EXCEPTION_Fetching_2_2));
 		}
 		this.fetcher.addObserver(this);
         new Thread(this.fetcher).start();
         
-        this.imgFetcher = new ImagesGoogle(context, ean);
+        this.imgFetcher = new ImagesGoogle(context, this.ean);
         this.imgFetcher.addObserver(this);
         new Thread(this.imgFetcher).start();
 	}
@@ -125,23 +149,13 @@ public class Fetching implements Observer {
 	 * Die Callback-Methode. 
 	 * Sie wird nach dem erfolgreichen Holen der Daten aufgerufen und kann das
 	 * weitere Vorgehen definieren.
+	 * Im Augenblick wird bei erfolgreichem Holen von Daten und Cover der 
+	 * eingesetzte Observer benachrichtigt, um in der entsprechenden Activity
+	 * eben diese darzustellen. 
 	 */
 	public void updateObserver(boolean statusOkay) {
 		this.fetcherCounter = this.fetcherCounter + 1;
-		if (this.fetcherCounter == 2) {
-			String test = null;
-			if (this.fetcher.get("artist") != null) {
-				test = this.fetcher.get("artist") + " - " 
-					+ this.fetcher.get("title") + " (" 
-					+ this.fetcher.get("year") + ")";
-			} else {
-				test = this.fetcher.get("title") + " ("
-				+ this.fetcher.get("year") + ")";
-			}
-			Toast.makeText(this.context, test, Toast.LENGTH_LONG).show();
-			Toast.makeText(this.context, "" + this.imgFetcher
-					.get(ImageFetcher.COVER_STRING), Toast.LENGTH_LONG).show();
-		}
+		if (this.fetcherCounter == 2) this.notifyObserver(statusOkay);
 	}
 
 }

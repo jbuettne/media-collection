@@ -1,16 +1,31 @@
 package com.mediacollector;
 
+import com.mediacollector.fetching.DataFetcher;
 import com.mediacollector.fetching.Fetching;
+import com.mediacollector.fetching.ImageFetcher;
+import com.mediacollector.tools.Observer;
 import com.mediacollector.tools.RegisteredActivity;
 import com.mediacollector.tools.Exceptions.MCFetchingException;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
-public class ScanResult extends RegisteredActivity {
+/**
+ * 
+ * @author Philipp Dermitzel
+ */
+public class ScanResult extends RegisteredActivity implements Observer {
+	
+	private Handler guiHandler = new Handler();
+	
+	private Fetching fetching;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,18 +54,23 @@ public class ScanResult extends RegisteredActivity {
         		searchEngine = Fetching.SEARCH_ENGINE_TAGTOAD; break;
         	}
         	if (searchEngine == -1) {
-        		try {
-					new Fetching(this, extras.getString("BARCODE"));
-				} catch (MCFetchingException e) {
-					new MCFetchingException(this, e.getMessage());
-				}
+        		try { 
+        			this.fetching = new Fetching(this, 
+        					extras.getString("BARCODE"));
+        			this.fetching.addObserver(this);
+        			this.fetching.fetchData();
+        		} catch (MCFetchingException e) {
+        			new MCFetchingException(this, e.getMessage());
+        		}
         	} else {
         		try {
-					new Fetching(this, extras.getString("BARCODE"), 
-							searchEngine);
-				} catch (MCFetchingException e) {
-					new MCFetchingException(this, e.getMessage());
-				}       	
+        			this.fetching = new Fetching(this, 
+        					extras.getString("BARCODE"), searchEngine);
+        			this.fetching.addObserver(this);
+        			this.fetching.fetchData();
+        		} catch (MCFetchingException e) {
+        			new MCFetchingException(this, e.getMessage());
+        		}       	
         	}
         }
         
@@ -62,6 +82,25 @@ public class ScanResult extends RegisteredActivity {
         	}
         });
         
+	}
+
+	public void updateObserver(boolean statusOkay) {
+		guiHandler.post(new Runnable() {			
+			public void run() {
+				ImageView cover = (ImageView) findViewById(R.id.cover);
+				cover.setImageBitmap(BitmapFactory.decodeFile((String) 
+						fetching.getImageFetcher().get(ImageFetcher.COVER_PATH)));
+				TextView artist = (TextView) findViewById(R.id.artist);
+				artist.setText((String) 
+						fetching.getDataFetcher().get(DataFetcher.ARTIST_STRING));
+				TextView release = (TextView) findViewById(R.id.release);
+				release.setText((String) 
+						fetching.getDataFetcher().get(DataFetcher.TITLE_STRING));
+				TextView year = (TextView) findViewById(R.id.year);
+				year.setText((String) 
+						fetching.getDataFetcher().get(DataFetcher.YEAR_STRING));
+			}
+		});
 	}
 
 }
