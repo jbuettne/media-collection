@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.mediacollector.collection.Data;
 import com.mediacollector.tools.ActivityRegistry;
+import com.mediacollector.tools.ScanBarcode;
 
 import android.app.ListActivity;
 import android.content.Context;
@@ -22,8 +23,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 /**
  * 
  * @author Philipp Dermitzel

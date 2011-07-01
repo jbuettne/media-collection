@@ -8,6 +8,7 @@ import com.mediacollector.collection.TextImageEntry;
 import com.mediacollector.sync.SyncActivity;
 import com.mediacollector.tools.ActivityRegistry;
 import com.mediacollector.tools.Preferences;
+import com.mediacollector.tools.ScanBarcode;
 
 import android.app.AlertDialog;
 import android.app.ExpandableListActivity;
