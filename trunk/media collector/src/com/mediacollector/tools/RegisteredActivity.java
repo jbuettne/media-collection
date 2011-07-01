@@ -2,7 +2,7 @@ package com.mediacollector.tools;
 
 import com.mediacollector.InfoPopUp;
 import com.mediacollector.R;
-import com.mediacollector.ScanBarcode;
+import com.mediacollector.Scan;
 import com.mediacollector.sync.SyncActivity;
 
 import android.app.Activity;
@@ -39,7 +39,7 @@ public class RegisteredActivity extends Activity {
         builder.setItems(collections, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
             	Intent intent = new Intent(getApplicationContext(), 
-            			ScanBarcode.class);
+            			Scan.class);
             	if (collections[item] == getString(R.string
             			.COLLECTION_Audio)) intent.putExtra("collection", 
             					R.string.COLLECTION_Audio);

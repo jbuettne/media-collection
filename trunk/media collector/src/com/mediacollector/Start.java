@@ -42,7 +42,7 @@ public class Start extends RegisteredActivity {
         	R.id.browseGamesField);
         browseGamesField.setOnClickListener(new OnClickListener() {
         	public void onClick(View v) {
-        		startActivity(new Intent(getBaseContext(), ScanResult.class));
+        		startActivity(new Intent(getBaseContext(), Scan.class));
         	}
         });
         LinearLayout browseBooksField = (LinearLayout) findViewById(
