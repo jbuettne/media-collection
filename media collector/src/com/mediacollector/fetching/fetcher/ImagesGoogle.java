@@ -9,7 +9,6 @@ import com.mediacollector.fetching.ImageFetcher;
 import com.mediacollector.fetching.WebParsing;
 
 import android.content.Context;
-import android.widget.Toast;
 
 
 /**
