@@ -67,11 +67,20 @@ public class MCException extends Exception {
 	 **************************************************************************/
 	
 	/**
+	 * Minimal-Konstruktor, welcher nur für das "Durchwerfen" von Exceptions
+	 * genutzt werden sollte. Er erzeugt keine Log und keine grafischen 
+	 * Hinweise für den User!
+	 */
+	public MCException(final String errorMsg) { 
+		this.errorMsg = errorMsg; 
+	}
+	
+	/**
 	 * Der einfachste Konstruktor. Gibt eine Warnung mit der Fehlerbeschreibung
 	 * "Unbekannter Fehler" aus.
-	 * @param context Context Der Context, in dem die Exception ausgelöst wurde.
+	 * @param Context context Der Context, in dem die Exception ausgelöst wurde.
 	 */
-	public MCException(Context context) {
+	public MCException(final Context context) {
 		this(context, context.getString(R.string.EXCEPTION_unknown), WARNING, 
 				false);
 	}
@@ -79,20 +88,20 @@ public class MCException extends Exception {
 	/**
 	 * Ein einfacher Konstruktor, welcher eine Warnung mit definierter Fehler-
 	 * beschreibung ausgibt.
-	 * @param context Context Der Context, in dem die Exception ausgelöst wurde.
+	 * @param Context context Der Context, in dem die Exception ausgelöst wurde.
 	 * @param errorMsg String Die Fehlerbeschreibung.
 	 */
-	public MCException(Context context, final String errorMsg) {
+	public MCException(final Context context, final String errorMsg) {
 		this(context, errorMsg, WARNING, false);
 	}
 	
 	/**
 	 * Ein einfacher Konstruktor, welcher eine Exception mit definiertem Status
 	 * und "unbekannter" Fehlerbeschreibung ausgibt.
-	 * @param context Context Der Context, in dem die Exception ausgelöst wurde.
+	 * @param Context context Der Context, in dem die Exception ausgelöst wurde.
 	 * @param status int Der Status der Exception.
 	 */
-	public MCException(Context context, final int status) {
+	public MCException(final Context context, final int status) {
 		this(context, context.getString(R.string.EXCEPTION_unknown), status, 
 				false);
 	}
@@ -100,11 +109,11 @@ public class MCException extends Exception {
 	/**
 	 * Der Standard-Konstruktor. Über diesen können Status und Fehler-
 	 * beschreibung definiert werden. Kritische Fehler werden geloggt.
-	 * @param context Context Der Context, in dem die Exception ausgelöst wurde.
+	 * @param Context context Der Context, in dem die Exception ausgelöst wurde.
 	 * @param errorMsg String Die Fehlerbeschreibung.
 	 * @param status int Der Status der Exception.
 	 */
-	public MCException(Context context, final String errorMsg, 
+	public MCException(final Context context, final String errorMsg, 
 			final int status) {		
 		this(context, errorMsg, status, false);
 	}
@@ -112,12 +121,12 @@ public class MCException extends Exception {
 	/**
 	 * Der Konstruktor zum Erzwingen des Loggings. Über den Parameter log kann
 	 * das Logging auch bei nicht-kritischen Fehlern erzwungen werden.
-	 * @param context Context Der Context, in dem die Exception ausgelöst wurde.
+	 * @param Context context Der Context, in dem die Exception ausgelöst wurde.
 	 * @param errorMsg String Die Fehlerbeschreibung.
 	 * @param status int Der Status der Exception.
 	 * @param log boolean Logging auch bei nicht-kritischen Fehlern aktiviert.
 	 */
-	public MCException(Context context, final String errorMsg, 
+	public MCException(final Context context, final String errorMsg, 
 			final int status, boolean log) {		
 		this.context 	= context;
 		this.errorMsg 	= errorMsg;
@@ -127,13 +136,25 @@ public class MCException extends Exception {
 					Toast.LENGTH_LONG).show(); break;
 		case WARNING:
 			// Dialog...
+			Toast.makeText(context, "Warning: \"" + errorMsg + "\"", 
+					Toast.LENGTH_LONG).show(); 
 			break;
 		case CRITICAL:
-			// Dialog + Beenden
+			// Dialog, nur ok -> programm beenden
+			Toast.makeText(context, "Error: \"" + errorMsg + "\"", 
+					Toast.LENGTH_LONG).show();
 			log = true;
 			break;
 		}
 		if (log) this.logException();
+	}
+	
+	/***************************************************************************
+	 * Getter und Setter
+	 **************************************************************************/
+	
+	public String getMessage() {
+		return this.errorMsg;		
 	}
 	
 	/***************************************************************************

@@ -17,14 +17,16 @@ public class MCSQLException extends MCException {
 	/**
 	 * Die Konstruktoren. Siehe hierfür die Elternklasse MCException.
 	 */
-	public MCSQLException(Context context) { super(context); }	
-	public MCSQLException(Context context, String errorMsg) { 
+	public MCSQLException(final String errorMsg) { super(errorMsg); }	
+	public MCSQLException(final Context context) { super(context); }	
+	public MCSQLException(final Context context, final String errorMsg) { 
 		super(context, errorMsg); }	
-	public MCSQLException(Context context, int status) {
+	public MCSQLException(final Context context, final int status) {
 		super(context, status); }	
-	public MCSQLException(Context context, String errorMsg, int status) {
-		super(context, errorMsg, status); }
-	public MCSQLException(Context context, String errorMsg, int status,
-			boolean log) { super(context, errorMsg, status, log); }
+	public MCSQLException(final Context context, final String errorMsg, 
+			final int status) { super(context, errorMsg, status); }
+	public MCSQLException(final Context context, final String errorMsg, 
+			final int status, final boolean log) { 
+		super(context, errorMsg, status, log); }
 
 }

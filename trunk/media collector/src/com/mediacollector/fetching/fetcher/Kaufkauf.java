@@ -5,16 +5,17 @@ import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.mediacollector.fetching.DataFetcher;
 import com.mediacollector.fetching.WebParsing;
 
 /**
- * Data-Fetcher, welcher Daten von ean-search.org einholt. Siehe auch: DataFetcher.java.
+ * Data-Fetcher, welcher Daten von tagtoad.com einholt. Siehe auch: DataFetcher.java.
  * @author David Pollehn
  */
-public class EANsearch extends DataFetcher {
+public class Kaufkauf extends DataFetcher {
 	
 	/***************************************************************************
 	 * Klassenvariablen
@@ -23,12 +24,12 @@ public class EANsearch extends DataFetcher {
 	/**
 	 * Die Grund-URL, über welche das Spiel - mittels des Barcodes - gesucht wird.
 	 */
-	private static final String BASE_URI = "http://www.ean-search.org/perl/ean-search.pl?q=";
-	//http://www.ean-search.org/perl/ean-search.pl?q=5030930048365
+	private static final String BASE_URI = "http://openean.kaufkauf.net/index.php?cmd=ean1&sid=&ean=";
 	/**
 	 * Das Pattern zum Suchen des Titels des Spiel-Datenträgers.
 	 */
-	private static final Pattern PATTERN_TITLE = Pattern.compile("/perl/ean-info.pl[^>]*>([^<]+)");
+	private static final Pattern PATTERN_TITLE = 
+		Pattern.compile("<INPUT TYPE=HIDDEN NAME=\"fullname\" VALUE=\"([^\"]+)");
 	
 	/***************************************************************************
 	 * Konstruktor/On-Create-Methode
@@ -38,9 +39,9 @@ public class EANsearch extends DataFetcher {
 	 * Der Konstruktor. 
 	 * Setzt die EAN (Product-ID).
 	 */
-	public EANsearch(String ean) {
-		super(ean);
-	}	
+	public Kaufkauf(final Context context, final String ean) {
+		super(context, ean);
+	}
 	
 	/***************************************************************************
 	 * Klassenmethoden
@@ -52,16 +53,12 @@ public class EANsearch extends DataFetcher {
 	protected void getData() throws IOException {
 		String encPart		= URLEncoder.encode(this.ean, "UTF-8");
 		String completeURI	= BASE_URI + encPart;
-		//Log.i("Media Collector", "URL to parse: " + completeURI);
+		Log.i("MediaCollector", "URL to parse: " + completeURI);
 		String webContent	= WebParsing.getWebContent(completeURI);
-		//webContent = "12";
-		//this.set(TITLE_STRING, String.valueOf(webContent.length()));
-		//this.set(TITLE_STRING, completeURI);
-		//notifyObserver(true);
-		Log.e("w", webContent);
 		Matcher	matcher	= PATTERN_TITLE.matcher(webContent);
 		if (matcher.find()) {
 			this.set(TITLE_STRING, matcher.group(1));
+			Log.i("MediaCollector", "Item: " + this.get(TITLE_STRING));
 			notifyObserver(true);
 		} else notifyObserver(false);
 	}

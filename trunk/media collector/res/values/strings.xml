@@ -27,4 +27,7 @@
     <string name="SCAN_add">add to collection 〉</string>
     
     <string name="EXCEPTION_unknown">Unknown Error</string>
+    <string name="EXCEPTION_Fetching">Couldn\'t fetch Web-Data</string>
+    <string name="EXCEPTION_Fetching_2_1">Couldn\'t find Search-Engine</string>
+    <string name="EXCEPTION_Fetching_2_2"></string>
 </resources>

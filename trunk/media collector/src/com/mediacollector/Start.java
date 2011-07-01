@@ -67,32 +67,6 @@ public class Start extends RegisteredActivity {
 		   	}
         });
         
-        // Es war einmal in Amerika	- ok
-        //new Fetching(this, "7321921200267", Fetching.SEARCH_ENGINE_OFDB);    
-        
-        // Geist - Galeere			- ok
-        //new Fetching(this, "4039053403328", Fetching.SEARCH_ENGINE_THALIA);
-        // Phil Collins - Going Back- ok
-        //new Fetching(this, "0075678924484", Fetching.SEARCH_ENGINE_THALIA);        
-        // Half-Life 2				- ok
-        //new Fetching(this, "5030930058937", Fetching.SEARCH_ENGINE_TAGTOAD);
-        // Gothic III				- fehler
-        //new Fetching(this, "4020628081492", Fetching.SEARCH_ENGINE_TAGTOAD);
-        // Baldurs Gate Collection	- ok
-        //new Fetching(this, "3546430126882", Fetching.SEARCH_ENGINE_TAGTOAD);
-        // Mafia					- ok
-        //new Fetching(this, "5026555033862", Fetching.SEARCH_ENGINE_TAGTOAD);
-        // Commandos Dir. Cut		- ok
-        //new Fetching(this, "5032921015196", Fetching.SEARCH_ENGINE_TAGTOAD);
-        // Red Faction				- ok
-        //new Fetching(this, "4005209031196", Fetching.SEARCH_ENGINE_TAGTOAD);
-        // Anno 1503				- name schlecht
-        //new Fetching(this, "4020628081881", Fetching.SEARCH_ENGINE_TAGTOAD);
-        // Tribes2					- name schlecht
-        //new Fetching(this, "3348542128323", Fetching.SEARCH_ENGINE_TAGTOAD);
-        // Star Wars Racer			- name schlecht
-        //new Fetching(this, "4012160460965", Fetching.SEARCH_ENGINE_TAGTOAD);        
-        
         Button searchButton = (Button) findViewById(
         		R.id.searchButton);
         final EditText searchText = (EditText) findViewById(

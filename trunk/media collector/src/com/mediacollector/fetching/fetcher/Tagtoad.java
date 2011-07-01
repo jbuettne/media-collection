@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.mediacollector.fetching.DataFetcher;
@@ -37,9 +38,9 @@ public class Tagtoad extends DataFetcher {
 	 * Der Konstruktor. 
 	 * Setzt die EAN (Product-ID).
 	 */
-	public Tagtoad(String ean) {
-		super(ean);
-	}	
+	public Tagtoad(final Context context, final String ean) {
+		super(context, ean);
+	}
 	
 	/***************************************************************************
 	 * Klassenmethoden
