@@ -13,6 +13,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.mediacollector.tools.ImageResizer;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
@@ -40,8 +41,8 @@ abstract class ImageFetcher extends DataFetcher {
 	 * Setzt die EAN (Product-ID).
 	 * @param ean String Die EAN, zu welchem ein Cover gesucht werden soll.
 	 */
-	public ImageFetcher(String ean) {
-		super(ean);
+	public ImageFetcher(final Context context, String ean) {
+		super(context, ean);
 	}
 	
 	/**

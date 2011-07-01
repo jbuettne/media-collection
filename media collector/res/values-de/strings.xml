@@ -26,4 +26,7 @@
     <string name="SCAN_add">hinzufügen 〉</string>
     
     <string name="EXCEPTION_unknown">Unbekannter Fehler</string>
+    <string name="EXCEPTION_Fetching">Konnte keine Daten einholen</string>
+    <string name="EXCEPTION_Fetching_2_1">Die Search-Engine</string>
+    <string name="EXCEPTION_Fetching_2_2">konnte nicht gefunden werden</string>
 </resources>

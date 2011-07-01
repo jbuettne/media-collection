@@ -6,6 +6,8 @@ import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.content.Context;
+
 import com.mediacollector.fetching.DataFetcher;
 import com.mediacollector.fetching.WebParsing;
 
@@ -64,9 +66,9 @@ public class Thalia extends DataFetcher {
 	 * Der Konstruktor. 
 	 * Setzt die EAN (Product-ID).
 	 */
-	public Thalia(String ean) {
-		super(ean);
-	}	
+	public Thalia(final Context context, final String ean) {
+		super(context, ean);
+	}
 	
 	/***************************************************************************
 	 * Klassenmethoden

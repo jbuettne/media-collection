@@ -6,6 +6,8 @@ import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.content.Context;
+
 import com.mediacollector.fetching.DataFetcher;
 import com.mediacollector.fetching.WebParsing;
 
@@ -58,9 +60,9 @@ public class OFDb extends DataFetcher {
 	 * Der Konstruktor. 
 	 * Setzt die EAN (Product-ID).
 	 */
-	public OFDb(String ean) {
-		super(ean);
-	}	
+	public OFDb(final Context context, final String ean) {
+		super(context, ean);
+	}
 	
 	/***************************************************************************
 	 * Klassenmethoden

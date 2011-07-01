@@ -4,11 +4,13 @@ import android.content.Context;
 //import android.util.Log;
 import android.widget.Toast;
 
+import com.mediacollector.R;
 import com.mediacollector.fetching.fetcher.Google;
 import com.mediacollector.fetching.fetcher.OFDb;
 import com.mediacollector.fetching.fetcher.Thalia;
 import com.mediacollector.fetching.fetcher.Tagtoad;
 import com.mediacollector.tools.Observer;
+import com.mediacollector.tools.Exceptions.MCFetchingException;
 
 /**
  * Data-Fetching-Factory. Diese Klasse definiert die vorhandenen Search-Enginges
@@ -75,8 +77,10 @@ public class Fetching implements Observer {
 	 * Startet das Fetching mit dem Standard-Fetcher (Google Product Search).
 	 * @param context Context Der Context, aus dem das Fetching gestartet wurde.
 	 * @param ean String Die EAN, zu welcher Daten eingeholt werden.
+	 * @throws MCFetchingException 
 	 */
-	public Fetching(final Context context, final String ean) {
+	public Fetching(final Context context, final String ean) 
+	throws MCFetchingException {
 		this(context, ean, SEARCH_ENGINE_GOOGLE);
 	}
 	
@@ -87,26 +91,32 @@ public class Fetching implements Observer {
 	 * @param ean String Die EAN, zu welcher Daten eingeholt werden.
 	 * @param searchEngine Die Konstante beschreibt die verschiedenen Fetching-
 	 * 	Dienste und somit -Klassen.
+	 * @throws MCFetchingException .
 	 */
-	public Fetching(final Context context, 
-			final String ean, final int searchEngine) {
+	public Fetching(final Context context, final String ean, 
+			final int searchEngine) throws MCFetchingException {
 		this.context = context;
 		switch (searchEngine) {
 		case SEARCH_ENGINE_GOOGLE:
-			this.fetcher = new Google(ean); break;
+			this.fetcher = new Google(context, ean); break;
 		case SEARCH_ENGINE_OFDB:
-			this.fetcher = new OFDb(ean); break;		
+			this.fetcher = new OFDb(context, ean); break;		
 		case SEARCH_ENGINE_THALIA:
-			this.fetcher = new Thalia(ean); break;
+			this.fetcher = new Thalia(context, ean); break;
 		case SEARCH_ENGINE_TAGTOAD:
-			this.fetcher = new Tagtoad(ean); break;
+			this.fetcher = new Tagtoad(context, ean); break;
 		/*case SEARCH_ENGINE_KAUFKAUF:
 			this.fetcher = new kaufkauf(ean); break;*/
+		default: 
+			throw new MCFetchingException(this.context.getString(
+					R.string.EXCEPTION_Fetching_2_1) + " '" +searchEngine 
+					+ "' " + this.context.getString(
+					R.string.EXCEPTION_Fetching_2_2));
 		}
 		this.fetcher.addObserver(this);
         new Thread(this.fetcher).start();
         
-        this.imgFetcher = new ImagesGoogle(ean);
+        this.imgFetcher = new ImagesGoogle(context, ean);
         this.imgFetcher.addObserver(this);
         new Thread(this.imgFetcher).start();
 	}

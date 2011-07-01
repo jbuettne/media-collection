@@ -3,9 +3,12 @@ package com.mediacollector.fetching;
 import java.io.IOException;
 import java.util.HashMap;
 
+import android.content.Context;
 import android.os.Looper;
 
+import com.mediacollector.R;
 import com.mediacollector.tools.Observable;
+import com.mediacollector.tools.Exceptions.MCFetchingException;
 
 /**
  * Der allgemeine Data-Fetcher. Ist gültig für alle verschiedenen Sammlungs-
@@ -45,6 +48,12 @@ public abstract class DataFetcher extends Observable implements Runnable {
 	protected String ean;
 	
 	/**
+	 * Der Context, aus dem das Fetching aufgerufen wird. Wichtig für
+	 * möglicherweise auftretende Fehler (-> Exceptions)
+	 */
+	protected Context context;
+	
+	/**
 	 * Die Daten, die eingeholt werden. Sie können über die allgemeinen Getter-
 	 * und Setter-Methoden ausgelesen und gesetzt werden.
 	 */
@@ -81,8 +90,9 @@ public abstract class DataFetcher extends Observable implements Runnable {
 	 * Vorgang wird manuell als Thread gestartet.
 	 * @param ean String Die im Barcode codierte EAN.
 	 */
-	public DataFetcher(final String ean) {
+	public DataFetcher(final Context context, final String ean) {
 		this.ean = ean;
+		this.context = context;
 	}
 	
 	/**
@@ -92,7 +102,10 @@ public abstract class DataFetcher extends Observable implements Runnable {
 		Looper.prepare();
 		try {
 			this.getData();
-		} catch (IOException e) {}
+		} catch (IOException e) {
+			new MCFetchingException(this.context, this.context.getString(
+					R.string.EXCEPTION_Fetching));
+		}
 		Looper.loop();
 	}
 	

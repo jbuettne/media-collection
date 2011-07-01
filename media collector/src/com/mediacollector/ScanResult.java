@@ -2,6 +2,7 @@ package com.mediacollector;
 
 import com.mediacollector.fetching.Fetching;
 import com.mediacollector.tools.RegisteredActivity;
+import com.mediacollector.tools.Exceptions.MCFetchingException;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,9 +38,20 @@ public class ScanResult extends RegisteredActivity {
         	case R.string.COLLECTION_Games:
         		searchEngine = Fetching.SEARCH_ENGINE_TAGTOAD; break;
         	}
-        	if (searchEngine == -1) 
-        		new Fetching(this, extras.getString("BARCODE"));
-        	else new Fetching(this, extras.getString("BARCODE"), searchEngine);       	
+        	if (searchEngine == -1) {
+        		try {
+					new Fetching(this, extras.getString("BARCODE"));
+				} catch (MCFetchingException e) {
+					new MCFetchingException(this, e.getMessage());
+				}
+        	} else {
+        		try {
+					new Fetching(this, extras.getString("BARCODE"), 
+							searchEngine);
+				} catch (MCFetchingException e) {
+					new MCFetchingException(this, e.getMessage());
+				}       	
+        	}
         }
         
         LinearLayout addToCollection = (LinearLayout) findViewById(
