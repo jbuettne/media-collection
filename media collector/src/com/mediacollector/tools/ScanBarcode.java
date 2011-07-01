@@ -1,13 +1,16 @@
-package com.mediacollector;
+package com.mediacollector.tools;
 
-import com.mediacollector.tools.RegisteredActivity;
+import com.mediacollector.R;
+//import com.mediacollector.R.string;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 /**
  * 
@@ -41,7 +44,8 @@ public class ScanBarcode extends RegisteredActivity {
         intentScan.putExtra("ENCODE_DATA","ENCODE_FORMATE");
         intentScan.addCategory(Intent.CATEGORY_DEFAULT);
         try {
-        	startActivityForResult(intentScan, 0);
+        	startActivityForResult(intentScan, 2);
+        	//finish();
         } catch (ActivityNotFoundException e) {
         	showDownloadDialog();
         } catch (Exception ex) {
@@ -73,18 +77,37 @@ public class ScanBarcode extends RegisteredActivity {
     	});
     	return downloadDialog.show();
     }
-    
+    /*
     @Override
     public void onActivityResult(int requestCode, int resultCode, 
     		Intent intent) {
         if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
             	String contents = intent.getStringExtra("SCAN_RESULT");
+            	String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
             	final Intent scanresult = new Intent(this, ScanResult.class);
                 scanresult.putExtra("BARCODE", contents);
+                scanresult.putExtra("FORMAT", format);
                 scanresult.putExtra("collection", 
                 		getIntent().getExtras().getInt("collection"));
-                startActivity(scanresult);            	
+    			Log.i("MediaCollector", "Barcode: " + contents + " Format: " +  format);
+                startActivity(scanresult);
+            } 
+        }
+    }*/
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, 
+    		Intent intent) {
+        if (requestCode == 2) {
+            if (resultCode == RESULT_OK) {
+            	String contents = intent.getStringExtra("SCAN_RESULT");
+            	String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+            	final Intent scanresult = new Intent();
+                scanresult.putExtra("BARCODE", contents);
+                scanresult.putExtra("FORMAT", format);
+    			Log.i("MediaCollector", "Barcode: " + contents + " Format: " +  format);
+                setResult(Activity.RESULT_OK,scanresult);
+                finish();
             } 
         }
     }
