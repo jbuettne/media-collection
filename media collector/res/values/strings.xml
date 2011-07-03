@@ -19,6 +19,7 @@
     <string name="COLLECTION_Audio">Audio</string>
     <string name="COLLECTION_Video">Video</string>
     <string name="COLLECTION_Books">Books</string>
+    <string name="COLLECTION_Books_Man">Books (manual ISBN-Input)</string>
     <string name="COLLECTION_Games">Games</string>
     <string name="COLLECTION_Wishlist">Wishlist</string>
     <string name="COLLECTION_search">Search</string>
