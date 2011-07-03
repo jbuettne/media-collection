@@ -87,7 +87,7 @@ public class ScanBarcode extends RegisteredActivity {
             	final Intent scanresult = new Intent();
                 scanresult.putExtra("BARCODE", contents);
                 scanresult.putExtra("FORMAT", format);
-                setResult(Activity.RESULT_OK,scanresult);
+                setResult(Activity.RESULT_OK, scanresult);
                 finish();
             } 
         }

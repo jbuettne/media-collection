@@ -13,7 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +35,7 @@ public abstract class SearchResult extends ListActivity {
         super.onCreate(savedInstanceState);
 		ActivityRegistry.registerActivity(this);
 		this.setData();
-        setContentView(R.layout.search_result);
-        
+        setContentView(R.layout.search_result);        
         setListAdapter(new ArrayAdapter<Data>(this, 
         		R.layout.group_row, searchResult) {
         	@Override
@@ -63,33 +61,25 @@ public abstract class SearchResult extends ListActivity {
 		});
         ListView lv = getListView();
         lv.setTextFilterEnabled(true);
-
         lv.setOnItemClickListener(new OnItemClickListener() {
-          public void onItemClick(AdapterView<?> parent, View view,
-              int position, long id) {
-        	  Intent entryDetails = new Intent(getBaseContext(),
-        			  EntryDetails.class);
-        	  entryDetails.putExtra("name", searchResult.get(position).name);
-        	  entryDetails.putExtra("details", String.valueOf(searchResult.get(position).year));
-        	  entryDetails.putExtra("extra", searchResult.get(position).extra);
-      		startActivity(entryDetails);
-        	  //entryDetails.putExtra("image", (Drawable) getResources()
-				//		.getDrawable(R.drawable.color_red));
-            // When clicked, show a toast with the TextView text
-//            Toast.makeText(getApplicationContext(), ((TextView)
-//      			  view.findViewById(R.id.name)).getText(),
-//                Toast.LENGTH_SHORT).show();
-          }
+        	public void onItemClick(AdapterView<?> parent, View view,
+        			int position, long id) {
+        		Intent entryDetails = new Intent(getBaseContext(),
+        				EntryDetails.class);
+        		entryDetails.putExtra("name", searchResult.get(position).name);
+        		entryDetails.putExtra("details", String.valueOf(
+        				searchResult.get(position).year));
+        		entryDetails.putExtra("extra", searchResult.get(position).extra);
+        		startActivity(entryDetails);
+        	}
         });
     }	
 	
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
+		getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
-    }
-    
+    }    
 	
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

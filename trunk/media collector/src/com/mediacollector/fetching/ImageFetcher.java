@@ -62,10 +62,8 @@ public abstract class ImageFetcher extends DataFetcher {
 				+ "/MediaCollector/");
 		
         final DefaultHttpClient client = new DefaultHttpClient();
-        final HttpGet getRequest 	= new HttpGet(url);
-        final HttpGet getRequestEnc	= new HttpGet(URLEncoder.encode(url));
-
         try {
+        	final HttpGet getRequest 	= new HttpGet(url);
             HttpResponse response = client.execute(getRequest);            
             final int sc1 = response.getStatusLine().getStatusCode();            
             if (sc1 != HttpStatus.SC_OK) return;
@@ -77,6 +75,8 @@ public abstract class ImageFetcher extends DataFetcher {
             		MCException.INFO);
         } catch (Exception e) {
         	try {
+        		final HttpGet getRequestEnc	= 
+        			new HttpGet(URLEncoder.encode(url));
         		HttpResponse responseEnc 	= client.execute(getRequestEnc);
         		final int sc2 = responseEnc.getStatusLine().getStatusCode();
         		if (sc2 != HttpStatus.SC_OK) return;
