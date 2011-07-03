@@ -9,9 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
-import com.mediacollector.R;
 import com.mediacollector.collection.DatabaseHelper;
-import com.mediacollector.collection.TextImageEntry;
 
 /**
  * OR-Mapper für 'Artist'. ----------------------- Die Artist-Klasse
