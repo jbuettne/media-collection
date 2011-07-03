@@ -38,8 +38,7 @@ public class RegisteredActivity extends Activity {
         builder.setTitle(R.string.COLLECTION_Choose);
         builder.setItems(collections, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
-            	Intent intent = new Intent(getApplicationContext(), 
-            			Scan.class);
+            	Intent intent = new Intent(getBaseContext(), Scan.class);
             	if (collections[item] == getString(R.string
             			.COLLECTION_Audio)) intent.putExtra("collection", 
             					R.string.COLLECTION_Audio);
