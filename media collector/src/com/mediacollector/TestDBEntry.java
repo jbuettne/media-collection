@@ -40,7 +40,7 @@ public class TestDBEntry extends RegisteredActivity {
         album.insertAlbum("ghijkl", "Strings N Stripes", "123456", 2011, "bild.jpg");
         album.insertAlbum("fdgfdgas", "Beyond Hell - Above Heaven", "567890", 2010, "bild.jpg");
         album.insertAlbum("bjgjhgjk", "Rock the Rebel - Metal the Devil", "567890", 2007, "bild.jpg");
-        //film.insertFilm("tt068678", "Es war einmal in Amerika", 1984, "bild.jpg");
+        film.insertFilm("tt068678", "Es war einmal in Amerika", 1984, "bild.jpg");
         
         
         

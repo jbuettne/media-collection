@@ -30,10 +30,22 @@ public abstract class DataFetcher extends Observable implements Runnable {
 	public static final String TITLE_STRING = "title";
 	
 	/**
+	 * Definiert den Schlüsselwert, unter welchem die ID des Titel des Eintrags 
+	 * in der Data-HashMap gespeichert wird.
+	 */
+	public static final String TITLE_ID_STRING = "titleId";
+	
+	/**
 	 * Definiert den Schlüsselwert, unter welchem das Erscheinungsjahr des 
 	 * Eintrags in der Data-HashMap gespeichert wird.
 	 */
 	public static final String YEAR_STRING = "year";
+	
+	/**
+	 * Definiert den Schlüsselwert, unter welchem die ID des Artists
+	 * des Eintrags in der Data-HashMap gespeichert wird.
+	 */
+	public static final String ARTIST_ID_STRING = "artistId";
 	
 	/**
 	 * Definiert den Schlüsselwert, unter welchem der Artists des Eintrags in

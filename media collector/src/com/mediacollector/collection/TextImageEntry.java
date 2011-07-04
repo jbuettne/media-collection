@@ -8,16 +8,20 @@ public class TextImageEntry {
 	
 	private HashMap<String, Object> data = new HashMap<String, Object>();
 	
-	public TextImageEntry(String text, Drawable image, int year,
-			int trackCount) {
+	public TextImageEntry(String id, String text, Drawable image, int year) {
+		this.data.put("id", id);
 		this.data.put("text", text);
 		this.data.put("image", image);
 		this.data.put("year", String.valueOf(year));
-		this.data.put("trackCount", String.valueOf(trackCount));
+		//this.data.put("trackCount", String.valueOf(trackCount));
 	}
 	
 	public HashMap<String, Object>getMap() {
 		return data;
+	}
+	
+	public String getId() {
+		return (String) this.data.get("id");
 	}
 	
 	public String getText() {

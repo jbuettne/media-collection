@@ -9,7 +9,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
+import com.mediacollector.R;
 import com.mediacollector.collection.DatabaseHelper;
+import com.mediacollector.collection.TextImageEntry;
 
 /**
  * OR-Mapper für 'Artist'. ----------------------- Die Artist-Klasse
@@ -161,7 +163,7 @@ public class FilmData{
 		try {
 			deleteCount = db.delete(FilmTbl.TABLE_NAME, "_id = '" + id + "'",
 					null);
-			Log.i(TAG, "Album id=" + id + " deleted.");
+			Log.i(TAG, "Film id=" + id + " deleted.");
 		} finally {
 			db.close();
 		}
@@ -242,7 +244,7 @@ public class FilmData{
 					+ " WHERE name = '" + name + "'", null);
 	}
 
-	public Cursor getAlbumDetails(String id) {
+	public Cursor getFilmDetails(String id) {
 		if (id == null) {
 			return null;
 		}
@@ -299,36 +301,38 @@ public class FilmData{
 		return films;
 	}
 	
-//	public ArrayList<TextImageEntry> getAlbumsTI(Artist artist) {
-//		ArrayList<TextImageEntry> albums = new ArrayList<TextImageEntry>();
-//		Cursor dbCursor = null;
-//		try {
-//			dbCursor = dbHelper.getReadableDatabase().rawQuery(
-//					"SELECT name, year, imgPath FROM " + AlbumTbl.TABLE_NAME
-//					+ " WHERE artist = '" + artist.mbId + "'", null);
-//			if (dbCursor.moveToFirst() == false) {
-//				return null;
-//			}
-//			albums.add(new TextImageEntry(dbCursor.getString(0),
-//					context.getResources().getDrawable(
-//							R.drawable.color_red), dbCursor.getInt(1),10));
-//			while (dbCursor.moveToNext() == true) {
-////				tempAlbum = new TextImageEntry(dbCursor.getString(0),
-////						getResources().getDrawable(dbCursor.getString(1)),
-////						dbCursor.getInt(2),getTrackCount...));
-//				albums.add(new TextImageEntry(dbCursor.getString(0),
-//						context.getResources().getDrawable(
-//    							R.drawable.color_red), dbCursor.getInt(1),10));
-//			}
-//		} catch(Throwable ex) {
-//			Log.e("TAG", "Konnte Alben nicht lesen", ex);
-//		} finally {
-//			if (dbCursor != null) {
-//				dbCursor.close();
-//			}
-//		}
-//		return albums;
-//	}	
+	public ArrayList<TextImageEntry> getFilmsTI() {
+		ArrayList<TextImageEntry> albums = new ArrayList<TextImageEntry>();
+		Cursor dbCursor = null;
+		try {
+			dbCursor = dbHelper.getReadableDatabase().rawQuery(
+					"SELECT id, name, year, imgPath FROM " + FilmTbl.TABLE_NAME
+					, null);
+			if (dbCursor.moveToFirst() == false) {
+				return null;
+			}
+			albums.add(new TextImageEntry(dbCursor.getString(0),
+					dbCursor.getString(1),
+					context.getResources().getDrawable(
+							R.drawable.color_red), dbCursor.getInt(1)));
+			while (dbCursor.moveToNext() == true) {
+//				tempAlbum = new TextImageEntry(dbCursor.getString(0),
+//						getResources().getDrawable(dbCursor.getString(1)),
+//						dbCursor.getInt(2)));
+				albums.add(new TextImageEntry(dbCursor.getString(0),
+						dbCursor.getString(1),
+						context.getResources().getDrawable(
+    							R.drawable.color_red), dbCursor.getInt(1)));
+			}
+		} catch(Throwable ex) {
+			Log.e("TAG", "Konnte Alben nicht lesen", ex);
+		} finally {
+			if (dbCursor != null) {
+				dbCursor.close();
+			}
+		}
+		return albums;
+	}	
 
 	/**
 	 * Gibt die Anzahl der Alben in der Datenbank zurueck. <br>

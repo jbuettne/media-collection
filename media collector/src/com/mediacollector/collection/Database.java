@@ -12,6 +12,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import com.mediacollector.R;
 import com.mediacollector.Start;
 import com.mediacollector.collection.audio.Album;
 import com.mediacollector.collection.audio.AlbumData;
@@ -85,14 +86,19 @@ public class Database{
 	}
 
 	public Database(Context context) {
+		dbHelper = new DatabaseHelper(context);
 		artist = new ArtistData(context);
 		album = new AlbumData(context);
 		film = new FilmData(context);
-		dbHelper = new DatabaseHelper(context);
-//		book = new BookData(context);
+		book = new BookData(context);
+		board = new BoardGameData(context);
 		
 	}
 	
+    final String[] tables = {
+    		FilmTbl.TABLE_NAME, BoardGameTbl.TABLE_NAME
+    };
+    
 	public ArrayList<Data> getSearchResult(String search) {
 		ArrayList<Data> searchResult = new ArrayList<Data>();
 		Cursor dbCursor = null;
@@ -105,35 +111,46 @@ public class Database{
 					"WHERE a.name LIKE  '%" + search + "%' " 	+
 					"OR ar.name LIKE  '%" + search + "%'", null);
 			if (dbCursor.moveToFirst() == true) {
-		    	searchResult.add(new Data(dbCursor.getString(0),
-		    			dbCursor.getString(1), dbCursor.getLong(3),
-		    			dbCursor.getString(4), AlbumTbl.TABLE_NAME, 
-		    			dbCursor.getString(5)));
-		    	//artists.add(dbCursor.getString(0));
-			    while (dbCursor.moveToNext() == true) {
-			    	searchResult.add(new Data(dbCursor.getString(0),
-			    			dbCursor.getString(1), dbCursor.getLong(3),
-			    			dbCursor.getString(4), AlbumTbl.TABLE_NAME, 
-			    			dbCursor.getString(5)));
-			    }
-			}	
+				searchResult.add(new Data(dbCursor.getString(0), dbCursor
+						.getString(1), dbCursor.getLong(3), dbCursor
+						.getString(4), AlbumTbl.TABLE_NAME, dbCursor
+						.getString(5)));
+			}
+			while (dbCursor.moveToNext() == true) {
+				searchResult.add(new Data(dbCursor.getString(0), dbCursor
+						.getString(1), dbCursor.getLong(3), dbCursor
+						.getString(4), AlbumTbl.TABLE_NAME, dbCursor
+						.getString(5)));
+			}
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
-					"SELECT * "									+
-					"FROM " + FilmTbl.TABLE_NAME				+
-					" WHERE name LIKE  '%" + search + "%' ", null);
+					"SELECT * " + "FROM " + BookTbl.TABLE_NAME
+							+ " WHERE name LIKE  '%" + search
+							+ "%' OR author LIKE '%" + search + "%'", null);
 			if (dbCursor.moveToFirst() == true) {
-		    	searchResult.add(new Data(dbCursor.getString(0),
-		    			dbCursor.getString(1), dbCursor.getLong(2),
-		    			dbCursor.getString(3), FilmTbl.TABLE_NAME, 
-		    			""));
-		    	//artists.add(dbCursor.getString(0));
-			    while (dbCursor.moveToNext() == true) {
-			    	searchResult.add(new Data(dbCursor.getString(0),
-			    			dbCursor.getString(1), dbCursor.getLong(2),
-			    			dbCursor.getString(3), FilmTbl.TABLE_NAME, 
-			    			""));
-			    }
-			}	
+				searchResult.add(new Data(dbCursor.getString(0), dbCursor
+						.getString(1), dbCursor.getLong(2), dbCursor
+						.getString(3), BookTbl.TABLE_NAME, ""));
+			}
+			while (dbCursor.moveToNext() == true) {
+				searchResult.add(new Data(dbCursor.getString(0), dbCursor
+						.getString(1), dbCursor.getLong(2), dbCursor
+						.getString(3), BookTbl.TABLE_NAME, ""));
+			}
+			for (String table : tables) {
+				dbCursor = dbHelper.getReadableDatabase().rawQuery(
+						"SELECT * " + "FROM " + table + " WHERE name LIKE  '%"
+								+ search + "%' ", null);
+				if (dbCursor.moveToFirst() == true) {
+					searchResult.add(new Data(dbCursor.getString(0), dbCursor
+							.getString(1), dbCursor.getLong(2), dbCursor
+							.getString(3), table, ""));
+				}
+				while (dbCursor.moveToNext() == true) {
+					searchResult.add(new Data(dbCursor.getString(0), dbCursor
+							.getString(1), dbCursor.getLong(2), dbCursor
+							.getString(3), table, ""));
+				}
+			}
 			if (searchResult.isEmpty()) {
 				return new ArrayList<Data>();
 			}
@@ -148,8 +165,8 @@ public class Database{
 
 	public final void writeToCsv(String csvFile, String encoding) {
 		final String[] dataTables = { ArtistTbl.TABLE_NAME, FilmTbl.TABLE_NAME,
-				AlbumTbl.TABLE_NAME/*, BookTbl.TABLE_NAME,
-				BoardGameTbl.TABLE_NAME, VideoGameTbl.TABLE_NAME*/};
+				AlbumTbl.TABLE_NAME, BookTbl.TABLE_NAME,
+				BoardGameTbl.TABLE_NAME, /*VideoGameTbl.TABLE_NAME*/};
 		Cursor dbCursor = null;
 		try {
 			BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
@@ -196,15 +213,15 @@ public class Database{
 				} else if(tmpArray[0].equals("Album")) {
 					album.insertAlbum(tmpArray[1], tmpArray[2], tmpArray[3],
 							Long.valueOf(tmpArray[4]), tmpArray[5]);
-//				} else if(tmpArray[0] == "Book") {
-//					book.insertAlbum(tmpArray[1], tmpArray[2], tmpArray[3],
-//							Long.valueOf(tmpArray[4]), tmpArray[5]);
-//				} else if(tmpArray[0] == "Film") {
-//					film.insertFilm(tmpArray[1], tmpArray[2], tmpArray[3],
-//							Long.valueOf(tmpArray[4]), tmpArray[5]);
-//				} else if(tmpArray[0] == "BoardGame") {
-//					album.insertAlbum(tmpArray[1], tmpArray[2], tmpArray[3],
-//							Long.valueOf(tmpArray[4]), tmpArray[5]);
+				} else if(tmpArray[0] == "Book") {
+					book.insertBook(tmpArray[1], tmpArray[2], tmpArray[3],
+							Long.valueOf(tmpArray[4]), tmpArray[5]);
+				} else if(tmpArray[0] == "Film") {
+					film.insertFilm(tmpArray[1], tmpArray[2],
+							Long.valueOf(tmpArray[3]), tmpArray[4]);
+				} else if(tmpArray[0] == "BoardGame") {
+					board.insertBoardGame(tmpArray[1], tmpArray[2],
+							Long.valueOf(tmpArray[3]), tmpArray[4]);
 //				} else if(tmpArray[0] == "VideoGame") {
 //					album.insertAlbum(tmpArray[1], tmpArray[2], tmpArray[3],
 //							Long.valueOf(tmpArray[4]), tmpArray[5]);
@@ -227,9 +244,9 @@ public class Database{
 		artist.close();
 		album.close();
 		film.close();
+		book.close();
+		board.close();
 		dbHelper.close();
-//		book.close();
-//		author.close();
 	}
 
 }

@@ -21,7 +21,7 @@ import com.mediacollector.collection.DatabaseHelper;
 public class SearchListing extends SearchResult{
 
 	Database db = null;
-	EditText searchText = null;
+	
 	@Override
 	protected void setData() {
 		ArrayList<Data> searchResult;
