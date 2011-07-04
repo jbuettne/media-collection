@@ -286,22 +286,24 @@ public class AlbumData{
 		Cursor dbCursor = null;
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
-					"SELECT name, year, imgPath FROM " + AlbumTbl.TABLE_NAME
+					"SELECT id, name, year, imgPath FROM " + AlbumTbl.TABLE_NAME
 					+ " WHERE artist = '" + artist.mbId + "' " +
 					"ORDER BY name", null);
 			if (dbCursor.moveToFirst() == false) {
 				return null;
 			}
 			albums.add(new TextImageEntry(dbCursor.getString(0),
+					dbCursor.getString(1),
 					context.getResources().getDrawable(
-							R.drawable.color_red), dbCursor.getInt(1),10));
+							R.drawable.color_red), dbCursor.getInt(2)));
 			while (dbCursor.moveToNext() == true) {
 //				tempAlbum = new TextImageEntry(dbCursor.getString(0),
 //						getResources().getDrawable(dbCursor.getString(1)),
 //						dbCursor.getInt(2),getTrackCount...));
 				albums.add(new TextImageEntry(dbCursor.getString(0),
+						dbCursor.getString(1),
 						context.getResources().getDrawable(
-    							R.drawable.color_red), dbCursor.getInt(1),10));
+    							R.drawable.color_red), dbCursor.getInt(2)));
 			}
 		} catch(Throwable ex) {
 			Log.e("TAG", "Konnte Alben nicht lesen", ex);

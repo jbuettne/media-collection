@@ -2,15 +2,17 @@ package com.mediacollector.collection.audio.listings;
 
 import java.util.ArrayList;
 
-import com.mediacollector.EntryListing;
+import com.mediacollector.EntryListingExp;
 import com.mediacollector.collection.TextImageEntry;
 import com.mediacollector.collection.audio.AlbumData;
 import com.mediacollector.collection.audio.Artist;
 import com.mediacollector.collection.audio.ArtistData;
 
-public class ArtistListing extends EntryListing {
-	ArtistData artists;
-	AlbumData albums;
+public class ArtistListing extends EntryListingExp {
+	
+	ArtistData artistDB;
+	AlbumData albumDB;
+	
 	@Override
 	protected void setData() {
 		/*
@@ -19,16 +21,16 @@ public class ArtistListing extends EntryListing {
 		 * Groups bezeichnet hier die Artists, children die zum Artist 
 		 * gehörenden Alben, images die entsprechenden Alben-Cover.
 		 */
-		artists = new ArtistData(this);
-		albums = new AlbumData(this);
+		artistDB = new ArtistData(this);
+		albumDB = new AlbumData(this);
 		
-		ArrayList<String> groups = artists.getArtistsName();
-		ArrayList<Artist> groupsA = artists.getArtistsAll();
+		ArrayList<String> groups = artistDB.getArtistsName();
+		ArrayList<Artist> groupsA = artistDB.getArtistsAll();
 		
 		ArrayList<TextImageEntry[]> groupsTI =
 			new ArrayList<TextImageEntry[]>();
 		for (Artist artist : groupsA) {
-			ArrayList<TextImageEntry> tempGroup = albums.getAlbumsTI(artist);
+			ArrayList<TextImageEntry> tempGroup = albumDB.getAlbumsTI(artist);
 //			boolean addedGroup = 
 				groupsTI.add(tempGroup.toArray(new TextImageEntry[0]));
 		}
@@ -36,10 +38,11 @@ public class ArtistListing extends EntryListing {
 		this.groups = groups.toArray(new String[0]);
 		this.children = groupsTI.toArray(new TextImageEntry[0][0]);
 	}
+	
 	@Override
 	protected void onDestroy() {
-		artists.close();
-		albums.close();
+		artistDB.close();
+		albumDB.close();
 		super.onDestroy();
 	}
 }

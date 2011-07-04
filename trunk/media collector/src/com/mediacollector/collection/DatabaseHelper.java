@@ -4,6 +4,7 @@ import com.mediacollector.collection.audio.AlbumTbl;
 import com.mediacollector.collection.audio.ArtistTbl;
 import com.mediacollector.collection.audio.TrackTbl;
 import com.mediacollector.collection.books.BookTbl;
+import com.mediacollector.collection.games.BoardGameTbl;
 import com.mediacollector.collection.video.FilmTbl;
 
 import android.content.Context;
@@ -23,15 +24,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(ArtistTbl.SQL_CREATE);
 		db.execSQL(AlbumTbl.SQL_CREATE);
-		//db.execSQL(BookTbl.SQL_CREATE);
+		db.execSQL(BookTbl.SQL_CREATE);
 		db.execSQL(FilmTbl.SQL_CREATE);
+		db.execSQL(BoardGameTbl.SQL_CREATE);
 	}
 
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		db.execSQL("DROP TABLE IF EXISTS " + ArtistTbl.TABLE_NAME);
 		db.execSQL("DROP TABLE IF EXISTS " + AlbumTbl.TABLE_NAME);
-		//db.execSQL("DROP TABLE IF EXISTS " + BookTbl.TABLE_NAME);
+		db.execSQL("DROP TABLE IF EXISTS " + BookTbl.TABLE_NAME);
 		db.execSQL("DROP TABLE IF EXISTS " + FilmTbl.TABLE_NAME);
+		db.execSQL("DROP TABLE IF EXISTS " + BoardGameTbl.TABLE_NAME);
 		onCreate(db);
 	}
 }
