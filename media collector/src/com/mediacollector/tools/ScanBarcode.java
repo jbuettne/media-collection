@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 /**
  * 
@@ -88,8 +89,10 @@ public class ScanBarcode extends RegisteredActivity {
                 scanresult.putExtra("BARCODE", contents);
                 scanresult.putExtra("FORMAT", format);
                 setResult(Activity.RESULT_OK, scanresult);
-                finish();
-            } 
+            } else {
+            	setResult(Activity.RESULT_CANCELED);
+            }
+        	finish();
         }
     }
 
