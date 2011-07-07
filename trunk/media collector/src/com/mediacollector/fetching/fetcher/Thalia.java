@@ -7,7 +7,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.mediacollector.fetching.DataFetcher;
 import com.mediacollector.fetching.WebParsing;
@@ -97,7 +96,6 @@ public class Thalia extends DataFetcher {
 		Matcher matcher_y	= PATTERN_YEAR.matcher(webContent);
 		if (matcher_t.find() && matcher_y.find()) {
 			String artist = null;
-			String id = null;
 			if (matcher_ak.find()) 
 				artist = URLDecoder.decode(matcher_ak.group(1));
 			else if (matcher_as.find())
