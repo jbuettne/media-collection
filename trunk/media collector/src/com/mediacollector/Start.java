@@ -3,6 +3,7 @@ package com.mediacollector;
 import com.mediacollector.collection.SearchListing;
 import com.mediacollector.collection.audio.listings.ArtistListing;
 import com.mediacollector.sync.SyncActivity;
+import com.mediacollector.test.FetchingTest;
 import com.mediacollector.tools.RegisteredActivity;
 
 import android.content.Intent;
@@ -56,7 +57,7 @@ public class Start extends RegisteredActivity {
         	R.id.browseVideoField);
         browseVideoField.setOnClickListener(new OnClickListener() { 
         	public void onClick(View v) {
-        		startActivity(new Intent(getBaseContext(), TestDBDelete.class));
+        		startActivity(new Intent(getBaseContext(), FetchingTest.class));
         	}
         });
         LinearLayout syncField = (LinearLayout) findViewById(
