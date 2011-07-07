@@ -22,15 +22,18 @@ public class Kaufkauf extends DataFetcher {
 	 **************************************************************************/
 
 	/**
-	 * Die Grund-URL, über welche das Spiel - mittels des Barcodes - gesucht wird.
+	 * Die Grund-URL, über welche das Spiel - mittels des Barcodes - gesucht
+	 * wird.
 	 */
-	private static final String BASE_URI = "http://openean.kaufkauf.net/index.php?cmd=ean1&sid=&ean=";
+	private static final String BASE_URI = "http://openean.kaufkauf.net" +
+			"/index.php?cmd=ean1&sid=&ean=";
+
 	/**
 	 * Das Pattern zum Suchen des Titels des Spiel-Datenträgers.
 	 */
-	private static final Pattern PATTERN_TITLE = 
-		Pattern.compile("<INPUT TYPE=HIDDEN NAME=\"fullname\" VALUE=\"([^\"]+)");
-	
+	private static final Pattern PATTERN_TITLE = Pattern
+			.compile("<INPUT TYPE=HIDDEN NAME=\"fullname\" VALUE=\"([^\"]+)");
+
 	/***************************************************************************
 	 * Konstruktor/On-Create-Methode
 	 **************************************************************************/
@@ -58,6 +61,8 @@ public class Kaufkauf extends DataFetcher {
 		Matcher	matcher	= PATTERN_TITLE.matcher(webContent);
 		if (matcher.find()) {
 			this.set(TITLE_STRING, matcher.group(1));
+			this.set(TITLE_ID_STRING, this.ean);
+			this.set(ARTIST_STRING, "Video");
 			Log.i("MediaCollector", "Item: " + this.get(TITLE_STRING));
 			notifyObserver(true);
 		} else notifyObserver(false);

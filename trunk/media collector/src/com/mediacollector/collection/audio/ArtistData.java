@@ -42,7 +42,7 @@ public class ArtistData{
 	private ArtistData() {
 	}
 
-	public long insertArtist(String mbId, String name, String imgPath) {
+	public long insertArtist(String mbId, String name) {
 
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 		SQLiteStatement stmtInsert = db
@@ -51,7 +51,6 @@ public class ArtistData{
 		try {
 			stmtInsert.bindString(1, mbId);
 			stmtInsert.bindString(2, name);
-			stmtInsert.bindString(3, imgPath);
 			long id = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
 			Log.i(TAG, "Artist mit mbId=" + mbId + " erzeugt.");
@@ -81,8 +80,7 @@ public class ArtistData{
 	  public long insertArtist(Artist artist) {
 	      return insertArtist(
 	          artist.name,
-	          artist.imgPath,
-	          artist.mbId);
+	          artist.imgPath);
 	    }
 //	    } else {
 //	      updateArtist(
@@ -264,11 +262,11 @@ public class ArtistData{
 				return new ArrayList<Artist>();
 			}	
 	    	artists.add(new Artist(dbCursor.getString(0),
-	    			dbCursor.getString(1), dbCursor.getString(2)));
+	    			dbCursor.getString(1)));
 	    	//artists.add(dbCursor.getString(0));
 		    while (dbCursor.moveToNext() == true) {
 		    	artists.add(new Artist(dbCursor.getString(0),
-		    			dbCursor.getString(1), dbCursor.getString(2)));
+		    			dbCursor.getString(1)));
 			}
   
 		} finally {

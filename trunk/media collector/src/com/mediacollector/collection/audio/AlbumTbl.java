@@ -15,7 +15,7 @@ public interface AlbumTbl {
 			+ "	name	VARCHAR(500)	NOT NULL,						"
 			+ "	artist	VARCHAR(63) 	REFERENCES Artist(mbId)         " 
 			+ " 	ON DELETE CASCADE ON UPDATE CASCADE,				"
-			+ "	year	INTEGER(4),										"
+			+ "	year	VARCHAR(4),										"
 			+ "	imgPath	VARCHAR(500)									"
 			+ ");";
 

@@ -5,6 +5,7 @@ import com.mediacollector.collection.audio.ArtistTbl;
 import com.mediacollector.collection.audio.TrackTbl;
 import com.mediacollector.collection.books.BookTbl;
 import com.mediacollector.collection.games.BoardGameTbl;
+import com.mediacollector.collection.games.VideoGameTbl;
 import com.mediacollector.collection.video.FilmTbl;
 
 import android.content.Context;
@@ -27,6 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL(BookTbl.SQL_CREATE);
 		db.execSQL(FilmTbl.SQL_CREATE);
 		db.execSQL(BoardGameTbl.SQL_CREATE);
+		db.execSQL(VideoGameTbl.SQL_CREATE);
 	}
 
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -35,6 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + BookTbl.TABLE_NAME);
 		db.execSQL("DROP TABLE IF EXISTS " + FilmTbl.TABLE_NAME);
 		db.execSQL("DROP TABLE IF EXISTS " + BoardGameTbl.TABLE_NAME);
+		db.execSQL("DROP TABLE IF EXISTS " + VideoGameTbl.TABLE_NAME);
 		onCreate(db);
 	}
 }

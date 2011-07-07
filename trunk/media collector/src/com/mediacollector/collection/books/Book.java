@@ -8,11 +8,11 @@ public class Book {
 
 	public String author;
 
-	public long year;
+	public String year;
 
 	public String imgPath;
 	
-	public Book(String id, String name, String author, long year, 
+	public Book(String id, String name, String author, String year, 
 			String imgPath){
 		this.id = id;
 		this.name = name;

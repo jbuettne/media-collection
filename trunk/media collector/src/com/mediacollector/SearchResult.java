@@ -42,8 +42,7 @@ public abstract class SearchResult extends ListActivity {
         super.onCreate(savedInstanceState);
 		ActivityRegistry.registerActivity(this);
 		this.setData();
-        setContentView(R.layout.search_result);      
-
+        setContentView(R.layout.search_result);    
         
         final String[] collections = {
         		getString(R.string.COLLECTION_Audio), 
@@ -96,8 +95,7 @@ public abstract class SearchResult extends ListActivity {
 				Data o = searchResult.get(position);
 				if (o != null) {
 					((TextView) v.findViewById(R.id.name)).setText(o.name);
-					((TextView) v.findViewById(R.id.details)).setText(String
-							.valueOf(o.year));
+					((TextView) v.findViewById(R.id.details)).setText(o.year);
 					((ImageView) v.findViewById(R.id.image))
 							.setImageDrawable((Drawable) getResources()
 									.getDrawable(R.drawable.color_red));

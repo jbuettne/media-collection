@@ -75,7 +75,7 @@ public class Fetching extends Observable implements Observer {
 	/**
 	 * Der Image-Fetcher. Holt ein zum Video passendes Cover.
 	 */
-	private DataFetcher imgFetcher = null;
+	private ImageFetcher imgFetcher = null;
 	
 	/**
 	 * Ein Counter, der sicherstellt, dass beide Fetcher gelaufen sind, bevor
@@ -87,7 +87,7 @@ public class Fetching extends Observable implements Observer {
 		return this.fetcher;
 	}
 	
-	public DataFetcher getImageFetcher() {
+	public ImageFetcher getImageFetcher() {
 		return this.imgFetcher;
 	}
 	

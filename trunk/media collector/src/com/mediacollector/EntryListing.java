@@ -115,8 +115,8 @@ public abstract class EntryListing extends ListActivity {
         		Intent entryDetails = new Intent(getBaseContext(),
         				EntryDetails.class);
         		entryDetails.putExtra("name", entries.get(position).getText());
-        		entryDetails.putExtra("details", String.valueOf(
-        				entries.get(position).getYear()));
+        		entryDetails.putExtra("details", 
+        				entries.get(position).getYear());
         		entryDetails.putExtra("extras", "");
         		entryDetails.putExtra("image", entries.get(position).getImage()
         				.toString());

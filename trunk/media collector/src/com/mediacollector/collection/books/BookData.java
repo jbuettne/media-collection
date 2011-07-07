@@ -49,7 +49,7 @@ public class BookData{
 	private BookData() {
 	}
 
-	public long insertBook(String id, String name, String author, long year,
+	public long insertBook(String id, String name, String author, String year,
 			String imgPath) {
 
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -60,7 +60,7 @@ public class BookData{
 			stmtInsert.bindString(1, id);
 			stmtInsert.bindString(2, name);
 			stmtInsert.bindString(3, author);
-			stmtInsert.bindLong(4, year);
+			stmtInsert.bindString(4, year);
 			stmtInsert.bindString(5, imgPath);
 			long pos = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
@@ -161,7 +161,7 @@ public class BookData{
 				.getColumnIndex(BookTbl.COL_BOOK_NAME));
 		book.author = dbCursor.getString(dbCursor
 				.getColumnIndex(BookTbl.COL_BOOK_AUTHOR));
-		book.year = dbCursor.getLong(dbCursor
+		book.year = dbCursor.getString(dbCursor
 				.getColumnIndex(BookTbl.COL_BOOK_YEAR));
 		book.imgPath = dbCursor.getString(dbCursor
 				.getColumnIndex(BookTbl.COL_BOOK_IMAGE));
@@ -196,11 +196,11 @@ public class BookData{
 				return null;
 			}
 			books.add(new Book(dbCursor.getString(0),dbCursor.getString(1),
-					dbCursor.getString(2),dbCursor.getLong(3),
+					dbCursor.getString(2),dbCursor.getString(3),
 					dbCursor.getString(4)));
 			while (dbCursor.moveToNext() == true) {
 				books.add(new Book(dbCursor.getString(0),dbCursor.getString(1),
-						dbCursor.getString(2),dbCursor.getLong(3),
+						dbCursor.getString(2),dbCursor.getString(3),
 						dbCursor.getString(4)));
 			}
 		} catch(Throwable ex) {
@@ -251,7 +251,7 @@ public class BookData{
 			books.add(new TextImageEntry(dbCursor.getString(0),
 					dbCursor.getString(1),
 					context.getResources().getDrawable(
-							R.drawable.color_red), dbCursor.getInt(2)));
+							R.drawable.color_red), dbCursor.getString(2)));
 			while (dbCursor.moveToNext() == true) {
 //				tempAlbum = new TextImageEntry(dbCursor.getString(0),
 //						getResources().getDrawable(dbCursor.getString(1)),
@@ -259,7 +259,7 @@ public class BookData{
 				books.add(new TextImageEntry(dbCursor.getString(0),
 						dbCursor.getString(1),
 						context.getResources().getDrawable(
-    							R.drawable.color_red), dbCursor.getInt(2)));
+    							R.drawable.color_red), dbCursor.getString(2)));
 			}
 		} catch(Throwable ex) {
 			Log.e("TAG", "Konnte Buecher nicht lesen", ex);

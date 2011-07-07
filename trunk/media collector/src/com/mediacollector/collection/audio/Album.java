@@ -8,11 +8,11 @@ public class Album {
 
 	public String artist;
 
-	public long year;
+	public String year;
 
 	public String imgPath;
 	
-	public Album(String mbId, String name, String artist, long year, 
+	public Album(String mbId, String name, String artist, String year, 
 			String imgPath){
 		this.mbId = mbId;
 		this.name = name;

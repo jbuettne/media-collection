@@ -31,7 +31,6 @@ public class BoardGameData{
 	 * entsprechenden getter und setter gelesen/gesetzt werden.
 	 */
 	
-	private HashMap<String, Object> data = new HashMap<String, Object>();
 	private static final String TAG = "BoardGameData";
 	private DatabaseHelper dbHelper;
 	private Context context;
@@ -46,7 +45,7 @@ public class BoardGameData{
 	private BoardGameData() {
 	}
 
-	public long insertBoardGame(String id, String name, long year,
+	public long insertBoardGame(String id, String name, String year,
 			String imgPath) {
 
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -56,7 +55,7 @@ public class BoardGameData{
 		try {
 			stmtInsert.bindString(1, id);
 			stmtInsert.bindString(2, name);
-			stmtInsert.bindLong(3, year);
+			stmtInsert.bindString(3, year);
 			stmtInsert.bindString(4, imgPath);
 			long pos = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
@@ -228,7 +227,7 @@ public class BoardGameData{
 				.getColumnIndex(BoardGameTbl.COL_BOARD_ID));
 		game.name = dbCursor.getString(dbCursor
 				.getColumnIndex(BoardGameTbl.COL_BOARD_NAME));
-		game.year = dbCursor.getLong(dbCursor
+		game.year = dbCursor.getString(dbCursor
 				.getColumnIndex(BoardGameTbl.COL_BOARD_YEAR));
 		game.imgPath = dbCursor.getString(dbCursor
 				.getColumnIndex(BoardGameTbl.COL_BOARD_IMAGE));
@@ -263,10 +262,10 @@ public class BoardGameData{
 				return null;
 			}
 			games.add(new BoardGame(dbCursor.getString(0),dbCursor.getString(1),
-					dbCursor.getLong(2),dbCursor.getString(3)));
+					dbCursor.getString(2),dbCursor.getString(3)));
 			while (dbCursor.moveToNext() == true) {
 				games.add(new BoardGame(dbCursor.getString(0),dbCursor.getString(1),
-						dbCursor.getLong(2),dbCursor.getString(3)));
+						dbCursor.getString(2),dbCursor.getString(3)));
 			}
 		} catch(Throwable ex) {
 			Log.e("TAG", "Konnte BoardGamee nicht lesen", ex);
@@ -279,7 +278,7 @@ public class BoardGameData{
 	}
 	
 	public ArrayList<TextImageEntry> getBoardGamesTI() {
-		ArrayList<TextImageEntry> albums = new ArrayList<TextImageEntry>();
+		ArrayList<TextImageEntry> games = new ArrayList<TextImageEntry>();
 		Cursor dbCursor = null;
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
@@ -288,25 +287,25 @@ public class BoardGameData{
 			if (dbCursor.moveToFirst() == false) {
 				return null;
 			}
-			albums.add(new TextImageEntry(dbCursor.getString(0), dbCursor
+			games.add(new TextImageEntry(dbCursor.getString(0), dbCursor
 					.getString(1), context.getResources().getDrawable(
-					R.drawable.color_red), dbCursor.getInt(1)));
+					R.drawable.color_red), dbCursor.getString(2)));
 			while (dbCursor.moveToNext() == true) {
 				// tempAlbum = new TextImageEntry(dbCursor.getString(0),
 				// getResources().getDrawable(dbCursor.getString(1)),
 				// dbCursor.getInt(2)));
-				albums.add(new TextImageEntry(dbCursor.getString(0), dbCursor
+				games.add(new TextImageEntry(dbCursor.getString(0), dbCursor
 						.getString(1), context.getResources().getDrawable(
-						R.drawable.color_red), dbCursor.getInt(1)));
+								R.drawable.color_red), dbCursor.getString(2)));
 			}
 		} catch (Throwable ex) {
-			Log.e("TAG", "Konnte Alben nicht lesen", ex);
+			Log.e("TAG", "Konnte Spiele nicht lesen", ex);
 		} finally {
 			if (dbCursor != null) {
 				dbCursor.close();
 			}
 		}
-		return albums;
+		return games;
 	}
 
 	/**

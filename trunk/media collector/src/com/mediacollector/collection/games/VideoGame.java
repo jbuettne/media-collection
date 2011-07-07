@@ -4,15 +4,15 @@ public class VideoGame {
 		  
 	public String name;
 	
-	public String platform;
+	public String id;
 
-	public long year;
+	public String year;
 
 	public String imgPath;
 	
-	public VideoGame(String name, String platform, long year, String imgPath){
+	public VideoGame(String id, String name, String year, String imgPath){
+		this.id = id;
 		this.name = name;
-		this.platform = platform;
 		this.year = year;
 		this.imgPath = imgPath;
 	}

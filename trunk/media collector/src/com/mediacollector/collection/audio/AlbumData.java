@@ -46,7 +46,7 @@ public class AlbumData{
 	private AlbumData() {
 	}
 
-	public long insertAlbum(String mbId, String name, String artist, long year,
+	public long insertAlbum(String mbId, String name, String artist, String year,
 			String imgPath) {
 
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -57,7 +57,7 @@ public class AlbumData{
 			stmtInsert.bindString(1, mbId);
 			stmtInsert.bindString(2, name);
 			stmtInsert.bindString(3, artist);
-			stmtInsert.bindLong(4, year);
+			stmtInsert.bindString(4, year);
 			stmtInsert.bindString(5, imgPath);
 			long id = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
@@ -249,7 +249,7 @@ public class AlbumData{
 				.getColumnIndex(AlbumTbl.COL_ALBUM_NAME));
 		album.artist = dbCursor.getString(dbCursor
 				.getColumnIndex(AlbumTbl.COL_ALBUM_ARTIST));
-		album.year = dbCursor.getLong(dbCursor
+		album.year = dbCursor.getString(dbCursor
 				.getColumnIndex(AlbumTbl.COL_ALBUM_YEAR));
 		album.imgPath = dbCursor.getString(dbCursor
 				.getColumnIndex(AlbumTbl.COL_ALBUM_IMAGE));
@@ -295,7 +295,7 @@ public class AlbumData{
 			albums.add(new TextImageEntry(dbCursor.getString(0),
 					dbCursor.getString(1),
 					context.getResources().getDrawable(
-							R.drawable.color_red), dbCursor.getInt(2)));
+							R.drawable.color_red), dbCursor.getString(2)));
 			while (dbCursor.moveToNext() == true) {
 //				tempAlbum = new TextImageEntry(dbCursor.getString(0),
 //						getResources().getDrawable(dbCursor.getString(1)),
@@ -303,7 +303,7 @@ public class AlbumData{
 				albums.add(new TextImageEntry(dbCursor.getString(0),
 						dbCursor.getString(1),
 						context.getResources().getDrawable(
-    							R.drawable.color_red), dbCursor.getInt(2)));
+    							R.drawable.color_red), dbCursor.getString(2)));
 			}
 		} catch(Throwable ex) {
 			Log.e("TAG", "Konnte Alben nicht lesen", ex);

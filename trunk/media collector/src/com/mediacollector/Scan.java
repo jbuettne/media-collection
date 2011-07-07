@@ -1,5 +1,6 @@
 package com.mediacollector;
 
+import com.mediacollector.collection.Database;
 import com.mediacollector.fetching.DataFetcher;
 import com.mediacollector.fetching.Fetching;
 import com.mediacollector.fetching.ImageFetcher;
@@ -18,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * 
@@ -30,6 +32,8 @@ public class Scan extends RegisteredActivity implements Observer {
 	private Fetching fetching;
 	
 	public int collection;
+	
+	private Database dBase;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +48,7 @@ public class Scan extends RegisteredActivity implements Observer {
 	
 	@Override
 	protected void onActivityResult(int requestCode, 
-			int resultCode, Intent data) {	
+			final int resultCode, Intent data) {	
 		switch (resultCode) {
 			case Activity.RESULT_OK:
     			int searchEngine;
@@ -87,8 +91,146 @@ public class Scan extends RegisteredActivity implements Observer {
         LinearLayout addToCollection = 
         	(LinearLayout) findViewById(R.id.add_to_collection);
         addToCollection.setOnClickListener(new OnClickListener() {
-        	public void onClick(View v) {
-        		startActivity(new Intent(getBaseContext(), Start.class));
+
+			public void onClick(View v) {
+		        dBase = new Database(getBaseContext());
+				if (resultCode == Activity.RESULT_OK) {
+					if (collection == R.string.COLLECTION_Audio) {
+						dBase.getArtist().insertArtist(
+								(String) fetching.getDataFetcher().get(
+										DataFetcher.ARTIST_ID_STRING),
+								(String) fetching.getDataFetcher().get(
+										DataFetcher.ARTIST_STRING));
+						dBase.getAlbum().insertAlbum(
+								(String) fetching.getDataFetcher().get(
+										DataFetcher.TITLE_ID_STRING),
+								(String) fetching.getDataFetcher().get(
+										DataFetcher.TITLE_STRING),
+								(String) fetching.getDataFetcher().get(
+										DataFetcher.ARTIST_ID_STRING),
+								(String) fetching.getDataFetcher().get(
+										DataFetcher.YEAR_STRING),
+								(String) fetching.getImageFetcher().get(
+										ImageFetcher.COVER_PATH));
+						Toast.makeText(getBaseContext(),
+								"Album zur Datenbank hinzugefügt",
+								Toast.LENGTH_LONG).show();
+					} else if (collection == R.string.COLLECTION_Books) {
+						dBase.getBook().insertBook(
+								(String) fetching.getDataFetcher().get(
+										DataFetcher.TITLE_ID_STRING),
+								(String) fetching.getDataFetcher().get(
+										DataFetcher.TITLE_STRING),
+								(String) fetching.getDataFetcher().get(
+										DataFetcher.ARTIST_STRING),
+								(String) fetching.getDataFetcher().get(
+										DataFetcher.YEAR_STRING),
+								(String) fetching.getImageFetcher().get(
+										ImageFetcher.COVER_PATH));
+						Toast.makeText(getBaseContext(),
+								"Buch zur Datenbank hinzugefügt",
+								Toast.LENGTH_LONG).show();
+					} else if (collection == R.string.COLLECTION_Video) {
+						dBase.getFilm().insertFilm(
+								(String) fetching.getDataFetcher().get(
+										DataFetcher.TITLE_ID_STRING),
+								(String) fetching.getDataFetcher().get(
+										DataFetcher.TITLE_STRING),
+								(String) fetching.getDataFetcher().get(
+										DataFetcher.YEAR_STRING),
+								(String) fetching.getImageFetcher().get(
+										ImageFetcher.COVER_PATH));
+						Toast.makeText(getBaseContext(),
+								"Film zur Datenbank hinzugefügt",
+								Toast.LENGTH_LONG).show();
+					} else if (collection == R.string.COLLECTION_Games) {
+						if ((String) fetching.getDataFetcher()
+								.get(DataFetcher.ARTIST_STRING) == "Video") {
+							dBase.getVideoGame().insertVideoGame(
+									(String) fetching.getDataFetcher().get(
+											DataFetcher.TITLE_ID_STRING),
+									(String) fetching.getDataFetcher().get(
+											DataFetcher.TITLE_STRING),
+									(String) fetching.getDataFetcher().get(
+											DataFetcher.YEAR_STRING),
+									(String) fetching.getImageFetcher().get(
+											ImageFetcher.COVER_PATH));
+							Toast.makeText(getBaseContext(),
+									"PC-Spiel zur Datenbank hinzugefügt",
+									Toast.LENGTH_LONG).show();
+						} else {
+							dBase.getBoardGame().insertBoardGame(
+									(String) fetching.getDataFetcher().get(
+											DataFetcher.TITLE_ID_STRING),
+									(String) fetching.getDataFetcher().get(
+											DataFetcher.TITLE_STRING),
+									(String) fetching.getDataFetcher().get(
+											DataFetcher.YEAR_STRING),
+									(String) fetching.getImageFetcher().get(
+											ImageFetcher.COVER_PATH));
+							Toast.makeText(getBaseContext(),
+									"Brettspiel zur Datenbank hinzugefügt",
+									Toast.LENGTH_LONG).show();
+						}
+							
+					}
+						
+				}
+//				switch (resultCode) {
+//				case Activity.RESULT_OK:
+//					switch (collection) {
+//					case R.string.COLLECTION_Audio:
+//						dBase.getArtist().insertArtist(
+//								DataFetcher.ARTIST_ID_STRING,
+//								DataFetcher.ARTIST_STRING);
+//						dBase.getAlbum().insertAlbum(
+//								DataFetcher.TITLE_ID_STRING,
+//								DataFetcher.TITLE_STRING,
+//								DataFetcher.ARTIST_ID_STRING,
+//								Long.valueOf(DataFetcher.YEAR_STRING),
+//								ImageFetcher.COVER_PATH);
+//						break;
+//					case R.string.COLLECTION_Books:
+//						dBase.getBook().insertBook(DataFetcher.TITLE_ID_STRING,
+//								DataFetcher.TITLE_STRING,
+//								DataFetcher.ARTIST_STRING,
+//								Long.valueOf(DataFetcher.YEAR_STRING),
+//								ImageFetcher.COVER_PATH);
+//						break;
+//					case R.string.COLLECTION_Video:
+//						dBase.getFilm().insertFilm(DataFetcher.TITLE_ID_STRING,
+//								DataFetcher.TITLE_STRING,
+//								Long.valueOf(DataFetcher.YEAR_STRING),
+//								ImageFetcher.COVER_PATH);
+//						break;
+//					case R.string.COLLECTION_Games:
+//						if (DataFetcher.ARTIST_STRING == "Video") {
+//							dBase.getVideoGame().insertVideoGame(
+//									DataFetcher.TITLE_ID_STRING,
+//									DataFetcher.TITLE_STRING,
+//									"",
+//									ImageFetcher.COVER_PATH);
+//						} else {
+//							dBase.getBoardGame().insertBoardGame(
+//									DataFetcher.TITLE_ID_STRING, 
+//									DataFetcher.TITLE_STRING,
+//									Long.valueOf(DataFetcher.YEAR_STRING),
+//									ImageFetcher.COVER_PATH);
+//						};
+//						break;
+//					default:
+//						Toast.makeText(getBaseContext(),
+//								"Zur Datenbank hinzugefügt", 
+//								Toast.LENGTH_LONG).show();
+//						break;
+//					}
+//					break;
+//				case Activity.RESULT_CANCELED:
+//					break;
+//				default:
+//					break;
+//				}
+        		//startActivity(new Intent(getBaseContext(), Start.class));
         	}
         });
         
@@ -109,5 +251,10 @@ public class Scan extends RegisteredActivity implements Observer {
 			}
 		});
 	}
-
+	
+    @Override
+    protected void onDestroy() {
+        dBase.closeConnection();
+        super.onDestroy();
+    }
 }

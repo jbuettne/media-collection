@@ -6,12 +6,12 @@ public class BoardGame {
 	
 	public String name;
 
-	public long year;
+	public String year;
 
 	public String imgPath;
 	
 	
-	public BoardGame(String id, String name, long year, String imgPath){
+	public BoardGame(String id, String name, String year, String imgPath){
 		this.id = id;
 		this.name = name;
 		this.year = year;
