@@ -6,11 +6,11 @@ public class Film {
   
 	public String name;
 
-	public long year;
+	public String year;
 
 	public String imgPath;
 	
-	public Film(String id, String name, long year, 
+	public Film(String id, String name, String year, 
 			String imgPath){
 		this.id = id;
 		this.name = name;

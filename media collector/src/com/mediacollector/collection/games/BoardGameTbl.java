@@ -12,7 +12,7 @@ public interface BoardGameTbl {
 	static final String SQL_CREATE = "CREATE TABLE BoardGame (				"
 			+ "	id			VARCHAR(63)		PRIMARY KEY,					"
 			+ "	name		VARCHAR(500)	NOT NULL,					"
-			+ "	year		INTEGER(4),									"
+			+ "	year		VARCHAR(4),									"
 			+ "	imgPath		VARCHAR(500)								"
 			+ ");";
 

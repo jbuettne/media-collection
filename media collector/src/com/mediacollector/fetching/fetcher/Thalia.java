@@ -108,6 +108,7 @@ public class Thalia extends DataFetcher {
 			this.set(TITLE_STRING, URLDecoder.decode(matcher_t.group(1)));
 			this.set(TITLE_ID_STRING, URLDecoder.decode(matcher_t.group(2)));
 			this.set(ARTIST_ID_STRING, URLDecoder.decode(matcher_a.group(2)));
+			//this.set(ARTIST_ID_STRING, "fs2f3H705Wsxg");
 			this.set(ARTIST_STRING, artist);
 			this.set(YEAR_STRING, URLDecoder.decode(matcher_y.group(1)));
 			notifyObserver(true);

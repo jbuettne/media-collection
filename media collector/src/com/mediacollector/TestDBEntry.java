@@ -34,13 +34,13 @@ public class TestDBEntry extends RegisteredActivity {
 //        	album.insertAlbum("kjjh750" + i, "Lauschgift 50" + i, "kjjh850" + i,
 //        			2011, "bild.jpg");
 //        }
-        artist.insertArtist("123456", "The Baseballs", "bild.jpg");
-        artist.insertArtist("567890", "Volbeat", "bild.jpg");
-        album.insertAlbum("abcdef", "Strike", "123456", 2009, "bild.jpg");
-        album.insertAlbum("ghijkl", "Strings N Stripes", "123456", 2011, "bild.jpg");
-        album.insertAlbum("fdgfdgas", "Beyond Hell - Above Heaven", "567890", 2010, "bild.jpg");
-        album.insertAlbum("bjgjhgjk", "Rock the Rebel - Metal the Devil", "567890", 2007, "bild.jpg");
-        film.insertFilm("tt068678", "Es war einmal in Amerika", 1984, "bild.jpg");
+        artist.insertArtist("123456", "The Baseballs");
+        artist.insertArtist("567890", "Volbeat");
+        album.insertAlbum("abcdef", "Strike", "123456", "2009", "bild.jpg");
+        album.insertAlbum("ghijkl", "Strings N Stripes", "123456", "2011", "bild.jpg");
+        album.insertAlbum("fdgfdgas", "Beyond Hell - Above Heaven", "567890", "2010", "bild.jpg");
+        album.insertAlbum("bjgjhgjk", "Rock the Rebel - Metal the Devil", "567890", "2007", "bild.jpg");
+        film.insertFilm("tt068678", "Es war einmal in Amerika", "1984", "bild.jpg");
         
         
         

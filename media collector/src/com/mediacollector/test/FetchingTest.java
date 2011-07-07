@@ -120,7 +120,6 @@ public class FetchingTest extends RegisteredActivity implements Observer {
         return true;
     }
 
-	@Override
 	public void updateObserver(boolean statusOkay) {
 	}
 }

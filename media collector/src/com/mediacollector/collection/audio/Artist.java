@@ -8,9 +8,8 @@ public class Artist {
 
 	public String imgPath;
 	
-	public Artist(String mbId, String name, String imgPath){
+	public Artist(String mbId, String name){
 		this.name = name;
-		this.imgPath = imgPath;
 		this.mbId = mbId;
 	}
 	public Artist(){

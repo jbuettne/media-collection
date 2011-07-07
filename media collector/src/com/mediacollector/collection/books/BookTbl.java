@@ -14,7 +14,7 @@ public interface BookTbl {
 			+ "	id			INTEGER		PRIMARY KEY ,					"
 			+ "	name		VARCHAR(500)	NOT NULL,					"
 			+ "	author		VARCHAR(63),								"
-			+ "	year		INTEGER(4),									"
+			+ "	year		VARCHAR(4),									"
 			+ "	imgPath		VARCHAR(500)								"
 			+ ");";
 

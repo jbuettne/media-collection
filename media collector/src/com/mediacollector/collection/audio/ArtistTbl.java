@@ -9,14 +9,13 @@ public interface ArtistTbl {
 		static final String TABLE_NAME = "Artist";
 
 		static final String SQL_CREATE = "CREATE TABLE Artist (				"
-				+ "	mbId		VARCHAR(63)		PRIMARY KEY ,		"
-				+ "	name	VARCHAR(500)	NOT NULL,						"
-				+ "	imgPath	VARCHAR(500)									"
+				+ "	mbId	VARCHAR(63)		PRIMARY KEY ,					"
+				+ "	name	VARCHAR(500)	NOT NULL						"
 				+ ");";
 
 		static final String STMT_FULL_INSERT = "INSERT INTO Artist (		"
-				+ "	mbId, name, imgPath)  									"
-				+ " 	values (?,?,?)";
+				+ "	mbId, name)  									"
+				+ " 	values (?,?)";
 		
 		static final String STMT_DELETE = "DELETE FROM Artist WHERE ?";
 	}

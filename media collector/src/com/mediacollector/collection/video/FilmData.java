@@ -46,7 +46,7 @@ public class FilmData{
 	private FilmData() {
 	}
 
-	public long insertFilm(String id, String name, long year,
+	public long insertFilm(String id, String name, String year,
 			String imgPath) {
 
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -56,7 +56,7 @@ public class FilmData{
 		try {
 			stmtInsert.bindString(1, id);
 			stmtInsert.bindString(2, name);
-			stmtInsert.bindLong(3, year);
+			stmtInsert.bindString(3, year);
 			stmtInsert.bindString(4, imgPath);
 			long pos = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
@@ -228,7 +228,7 @@ public class FilmData{
 				.getColumnIndex(FilmTbl.COL_FILM_ID));
 		film.name = dbCursor.getString(dbCursor
 				.getColumnIndex(FilmTbl.COL_FILM_NAME));
-		film.year = dbCursor.getLong(dbCursor
+		film.year = dbCursor.getString(dbCursor
 				.getColumnIndex(FilmTbl.COL_FILM_YEAR));
 		film.imgPath = dbCursor.getString(dbCursor
 				.getColumnIndex(FilmTbl.COL_FILM_IMAGE));
@@ -286,10 +286,10 @@ public class FilmData{
 				return null;
 			}
 			films.add(new Film(dbCursor.getString(0),dbCursor.getString(1),
-					dbCursor.getLong(2),dbCursor.getString(3)));
+					dbCursor.getString(2),dbCursor.getString(3)));
 			while (dbCursor.moveToNext() == true) {
 				films.add(new Film(dbCursor.getString(0),dbCursor.getString(1),
-						dbCursor.getLong(2),dbCursor.getString(3)));
+						dbCursor.getString(2),dbCursor.getString(3)));
 			}
 		} catch(Throwable ex) {
 			Log.e("TAG", "Konnte Filme nicht lesen", ex);
@@ -302,7 +302,7 @@ public class FilmData{
 	}
 	
 	public ArrayList<TextImageEntry> getFilmsTI() {
-		ArrayList<TextImageEntry> albums = new ArrayList<TextImageEntry>();
+		ArrayList<TextImageEntry> films = new ArrayList<TextImageEntry>();
 		Cursor dbCursor = null;
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
@@ -311,27 +311,27 @@ public class FilmData{
 			if (dbCursor.moveToFirst() == false) {
 				return null;
 			}
-			albums.add(new TextImageEntry(dbCursor.getString(0),
+			films.add(new TextImageEntry(dbCursor.getString(0),
 					dbCursor.getString(1),
 					context.getResources().getDrawable(
-							R.drawable.color_red), dbCursor.getInt(1)));
+							R.drawable.color_red), dbCursor.getString(2)));
 			while (dbCursor.moveToNext() == true) {
 //				tempAlbum = new TextImageEntry(dbCursor.getString(0),
 //						getResources().getDrawable(dbCursor.getString(1)),
 //						dbCursor.getInt(2)));
-				albums.add(new TextImageEntry(dbCursor.getString(0),
+				films.add(new TextImageEntry(dbCursor.getString(0),
 						dbCursor.getString(1),
 						context.getResources().getDrawable(
-    							R.drawable.color_red), dbCursor.getInt(1)));
+    							R.drawable.color_red), dbCursor.getString(2)));
 			}
 		} catch(Throwable ex) {
-			Log.e("TAG", "Konnte Alben nicht lesen", ex);
+			Log.e("TAG", "Konnte Filme nicht lesen", ex);
 		} finally {
 			if (dbCursor != null) {
 				dbCursor.close();
 			}
 		}
-		return albums;
+		return films;
 	}	
 
 	/**

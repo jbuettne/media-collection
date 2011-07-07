@@ -94,11 +94,12 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:clickable="true">
-	        <TextView android:text="@string/SCAN_add" 
-	            android:id="@+id/add_to_collection_text" 
+	        <TextView android:id="@+id/add_to_collection_text" 
 	            android:layout_width="wrap_content" 
 	            android:layout_height="wrap_content"
-	            android:layout_alignParentBottom="true"></TextView>
+	            android:layout_alignParentRight="true"
+	            android:textSize="14sp"
+	            android:layout_alignParentBottom="true" android:text="@string/SCAN_add"></TextView>
             </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

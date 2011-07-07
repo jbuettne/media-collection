@@ -6,7 +6,9 @@ import com.mediacollector.tools.RegisteredActivity;
 import android.os.Bundle;
 
 public class TestDBDelete extends RegisteredActivity {
-	Database dBase;
+	
+	private Database dBase;
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

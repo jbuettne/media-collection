@@ -81,7 +81,7 @@ public class Database{
 		return board;
 	}
 	
-	public VideoGameData getVideGame() {
+	public VideoGameData getVideoGame() {
 		return video;
 	}
 
@@ -92,11 +92,12 @@ public class Database{
 		film = new FilmData(context);
 		book = new BookData(context);
 		board = new BoardGameData(context);
+		video = new VideoGameData(context);
 		
 	}
 	
     final String[] tables = {
-    		FilmTbl.TABLE_NAME, BoardGameTbl.TABLE_NAME
+    		FilmTbl.TABLE_NAME, BoardGameTbl.TABLE_NAME, VideoGameTbl.TABLE_NAME
     };
     
 	public ArrayList<Data> getSearchResult(String search) {
@@ -112,13 +113,13 @@ public class Database{
 					"OR ar.name LIKE  '%" + search + "%'", null);
 			if (dbCursor.moveToFirst() == true) {
 				searchResult.add(new Data(dbCursor.getString(0), dbCursor
-						.getString(1), dbCursor.getLong(3), dbCursor
+						.getString(1), dbCursor.getString(3), dbCursor
 						.getString(4), AlbumTbl.TABLE_NAME, dbCursor
 						.getString(5)));
 			}
 			while (dbCursor.moveToNext() == true) {
 				searchResult.add(new Data(dbCursor.getString(0), dbCursor
-						.getString(1), dbCursor.getLong(3), dbCursor
+						.getString(1), dbCursor.getString(3), dbCursor
 						.getString(4), AlbumTbl.TABLE_NAME, dbCursor
 						.getString(5)));
 			}
@@ -128,12 +129,12 @@ public class Database{
 							+ "%' OR author LIKE '%" + search + "%'", null);
 			if (dbCursor.moveToFirst() == true) {
 				searchResult.add(new Data(dbCursor.getString(0), dbCursor
-						.getString(1), dbCursor.getLong(2), dbCursor
+						.getString(1), dbCursor.getString(2), dbCursor
 						.getString(3), BookTbl.TABLE_NAME, ""));
 			}
 			while (dbCursor.moveToNext() == true) {
 				searchResult.add(new Data(dbCursor.getString(0), dbCursor
-						.getString(1), dbCursor.getLong(2), dbCursor
+						.getString(1), dbCursor.getString(2), dbCursor
 						.getString(3), BookTbl.TABLE_NAME, ""));
 			}
 			for (String table : tables) {
@@ -142,12 +143,12 @@ public class Database{
 								+ search + "%' ", null);
 				if (dbCursor.moveToFirst() == true) {
 					searchResult.add(new Data(dbCursor.getString(0), dbCursor
-							.getString(1), dbCursor.getLong(2), dbCursor
+							.getString(1), dbCursor.getString(2), dbCursor
 							.getString(3), table, ""));
 				}
 				while (dbCursor.moveToNext() == true) {
 					searchResult.add(new Data(dbCursor.getString(0), dbCursor
-							.getString(1), dbCursor.getLong(2), dbCursor
+							.getString(1), dbCursor.getString(2), dbCursor
 							.getString(3), table, ""));
 				}
 			}
@@ -166,7 +167,7 @@ public class Database{
 	public final void writeToCsv(String csvFile, String encoding) {
 		final String[] dataTables = { ArtistTbl.TABLE_NAME, FilmTbl.TABLE_NAME,
 				AlbumTbl.TABLE_NAME, BookTbl.TABLE_NAME,
-				BoardGameTbl.TABLE_NAME, /*VideoGameTbl.TABLE_NAME*/};
+				BoardGameTbl.TABLE_NAME, VideoGameTbl.TABLE_NAME};
 		Cursor dbCursor = null;
 		try {
 			BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
@@ -209,22 +210,22 @@ public class Database{
 			while ((readString = in.readLine()) != null) {
 				String[] tmpArray = readString.split(";");
 				if (tmpArray[0].equals("Artist")) {
-					artist.insertArtist(tmpArray[1], tmpArray[2], tmpArray[3]);
+					artist.insertArtist(tmpArray[1], tmpArray[2]);
 				} else if(tmpArray[0].equals("Album")) {
 					album.insertAlbum(tmpArray[1], tmpArray[2], tmpArray[3],
-							Long.valueOf(tmpArray[4]), tmpArray[5]);
+							tmpArray[4], tmpArray[5]);
 				} else if(tmpArray[0] == "Book") {
 					book.insertBook(tmpArray[1], tmpArray[2], tmpArray[3],
-							Long.valueOf(tmpArray[4]), tmpArray[5]);
+							tmpArray[4], tmpArray[5]);
 				} else if(tmpArray[0] == "Film") {
 					film.insertFilm(tmpArray[1], tmpArray[2],
-							Long.valueOf(tmpArray[3]), tmpArray[4]);
+							tmpArray[3], tmpArray[4]);
 				} else if(tmpArray[0] == "BoardGame") {
 					board.insertBoardGame(tmpArray[1], tmpArray[2],
-							Long.valueOf(tmpArray[3]), tmpArray[4]);
-//				} else if(tmpArray[0] == "VideoGame") {
-//					album.insertAlbum(tmpArray[1], tmpArray[2], tmpArray[3],
-//							Long.valueOf(tmpArray[4]), tmpArray[5]);
+							tmpArray[3], tmpArray[4]);
+				} else if(tmpArray[0] == "VideoGame") {
+					video.insertVideoGame(tmpArray[1], tmpArray[2],
+							tmpArray[3], tmpArray[4]);
 				}
 			}
 			in.close();
@@ -246,6 +247,7 @@ public class Database{
 		film.close();
 		book.close();
 		board.close();
+		video.close();
 		dbHelper.close();
 	}
 
