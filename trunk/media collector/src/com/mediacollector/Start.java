@@ -45,18 +45,18 @@ public class Start extends RegisteredActivity /*implements Observer*/ {
             }
         });
         LinearLayout browseAudioField = (LinearLayout) findViewById(
-           R.id.browseAudioField);
+        		R.id.browseAudioField);
         browseAudioField.setOnClickListener(new OnClickListener() { 
-        public void onClick(View v) {
-        	startActivity(new Intent(getBaseContext(), ArtistListing.class));
+        	public void onClick(View v) {
+        		startActivity(new Intent(getBaseContext(), ArtistListing.class));
         	}
         });
-        LinearLayout browseGamesField = (LinearLayout) findViewById(
-        	R.id.browseGamesField);
-        browseGamesField.setOnClickListener(new OnClickListener() {
+        LinearLayout browseVideoField = (LinearLayout) findViewById(
+            	R.id.browseVideoField);
+        browseVideoField.setOnClickListener(new OnClickListener() { 
         	public void onClick(View v) {
-        		startActivity(new Intent(getBaseContext(), GamesListing.class));
-        	}
+        		startActivity(new Intent(getBaseContext(), FilmListing.class));
+            }
         });
         LinearLayout browseBooksField = (LinearLayout) findViewById(
         		R.id.browseBooksField);
@@ -65,13 +65,14 @@ public class Start extends RegisteredActivity /*implements Observer*/ {
         		startActivity(new Intent(getBaseContext(), BookListing.class));
         	}
         });
-        LinearLayout browseVideoField = (LinearLayout) findViewById(
-        	R.id.browseVideoField);
-        browseVideoField.setOnClickListener(new OnClickListener() { 
+        LinearLayout browseGamesField = (LinearLayout) findViewById(
+            	R.id.browseGamesField);
+        browseGamesField.setOnClickListener(new OnClickListener() {
         	public void onClick(View v) {
-        		startActivity(new Intent(getBaseContext(), FilmListing.class));
-        	}
+        		startActivity(new Intent(getBaseContext(), GamesListing.class));
+            }
         });
+
         LinearLayout syncField = (LinearLayout) findViewById(
         	R.id.syncField);
         syncField.setOnClickListener(new OnClickListener() {
