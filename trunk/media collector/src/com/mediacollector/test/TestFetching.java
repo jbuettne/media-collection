@@ -38,6 +38,7 @@ public class TestFetching implements Observer {
 	private int 				counter 	= 1;
 	private Fetching			curFetcher	= null;
 	private Context 			context		= null;
+	private String				fileName	= null;
 	
 	@SuppressWarnings("serial")
 	private HashMap<Integer, ArrayList<String>> tests = 
@@ -45,23 +46,28 @@ public class TestFetching implements Observer {
 		put(1, new ArrayList<String>() {{
 			add("barcodes_audio");
 			add("" + Fetching.SEARCH_ENGINE_THALIA);
+			add("Audio");
 		}});
 		put(2, new ArrayList<String>() {{
 			add("barcodes_book");
 			add("" + Fetching.SEARCH_ENGINE_THALIA);
+			add("Books");
 		}});
 		put(3, new ArrayList<String>() {{
 			add("barcodes_games");
 			add("" + Fetching.SEARCH_ENGINE_TAGTOAD);
+			add("Games");
 		}});
 		put(4, new ArrayList<String>() {{
 			add("barcodes_video");
 			add("" + Fetching.SEARCH_ENGINE_OFDB);
+			add("Video");
 		}});
 	}};
 	
 	public TestFetching(final Context context, final int testType) {
 		this.context = context;
+		this.fileName = this.tests.get(testType).get(2);
 		String file = this.tests.get(testType).get(0);
 		Resources resources = this.context.getResources();
 		InputStream raw = resources.openRawResource(resources.getIdentifier(
@@ -109,7 +115,7 @@ public class TestFetching implements Observer {
 	public void updateObserver(boolean statusOkay) {
 		try {
 			String filePath = Environment.getExternalStorageDirectory() 
-				+ "/MediaCollector/TESTLOG_Audio";
+				+ "/MediaCollector/TESTLOG_" + this.fileName + ".txt";
 			File logFile = new File(filePath);
 			if (!logFile.exists()) logFile.createNewFile();			
 			FileWriter fw = new FileWriter(filePath, true);
