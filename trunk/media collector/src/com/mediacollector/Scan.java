@@ -172,9 +172,9 @@ public class Scan extends RegisteredActivity implements Observer {
 									"Brettspiel zur Datenbank hinzugefügt",
 									Toast.LENGTH_LONG).show();
 						}
-							
-					}
 						
+					}
+					finish();
 				}
 //				switch (resultCode) {
 //				case Activity.RESULT_OK:
