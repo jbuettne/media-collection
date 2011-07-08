@@ -23,7 +23,7 @@ import com.mediacollector.tools.Observer;
 import com.mediacollector.tools.Exceptions.MCFetchingException;
 
 /**
- * Testet die gesammelten Audio-EANs.
+ * Testet die gesammelten EANs.
  * @author Philipp Dermitzel
  */
 public class TestFetching implements Observer {
@@ -33,11 +33,11 @@ public class TestFetching implements Observer {
 	public static final int TEST_GAMES = 3;
 	public static final int TEST_VIDEO = 4;
 	
-	private Context 			context		= null;
 	private ArrayList<String>	eanList 	= new ArrayList<String>();
 	private ArrayList<Fetching>	fetcherList = new ArrayList<Fetching>();
 	private int 				counter 	= 1;
 	private Fetching			curFetcher	= null;
+	private Context 			context		= null;
 	
 	@SuppressWarnings("serial")
 	private HashMap<Integer, ArrayList<String>> tests = 
