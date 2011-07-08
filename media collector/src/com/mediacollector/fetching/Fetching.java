@@ -1,6 +1,7 @@
 package com.mediacollector.fetching;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.mediacollector.R;
 import com.mediacollector.fetching.fetcher.Google;
@@ -37,6 +38,18 @@ public class Fetching extends Observable implements Observer {
 	 * http://www.thalia.de  -- Thalia.java
 	 */
 	public static final int SEARCH_ENGINE_THALIA 	= 24;
+	
+	/**
+	 * Die verschiedenen Search-Engine-Klassen. Hier Thalia - Audio only;
+	 * http://www.thalia.de  -- Thalia.java
+	 */
+	public static final int SEARCH_ENGINE_THALIA_AUDIO 	= 241;
+	
+	/**
+	 * Die verschiedenen Search-Engine-Klassen. Hier Thalia - Bücher only;
+	 * http://www.thalia.de  -- Thalia.java
+	 */
+	public static final int SEARCH_ENGINE_THALIA_BOOKS 	= 242;
 	
 	/**
 	 * Die verschiedenen Search-Engine-Klassen. Hier Tagtoad;
@@ -122,6 +135,7 @@ public class Fetching extends Observable implements Observer {
 	 */
 	public void fetchData() 
 	throws MCFetchingException {
+Toast.makeText(context, "" + searchEngine, Toast.LENGTH_LONG).show();
 		switch (searchEngine) {
 		case SEARCH_ENGINE_GOOGLE:
 			this.fetcher = new Google(context, this.ean); break;
@@ -129,6 +143,12 @@ public class Fetching extends Observable implements Observer {
 			this.fetcher = new OFDb(context, this.ean); break;		
 		case SEARCH_ENGINE_THALIA:
 			this.fetcher = new Thalia(context, this.ean); break;
+		case SEARCH_ENGINE_THALIA_AUDIO:
+			this.fetcher = new Thalia(context, this.ean, Thalia.AUDIO_ONLY); 
+			break;
+		case SEARCH_ENGINE_THALIA_BOOKS:
+			this.fetcher = new Thalia(context, this.ean, Thalia.BOOKS_ONLY); 
+			break;
 		case SEARCH_ENGINE_TAGTOAD:
 			this.fetcher = new Tagtoad(context, this.ean); break;
 		default: 

@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.mediacollector.fetching.DataFetcher;
 import com.mediacollector.fetching.WebParsing;
@@ -18,6 +19,9 @@ import com.mediacollector.fetching.WebParsing;
  */
 public class Thalia extends DataFetcher {
 	
+	public static final int BOOKS_ONLY = 1;
+	public static final int AUDIO_ONLY = 2;
+	
 	/***************************************************************************
 	 * Klassenvariablen
 	 **************************************************************************/
@@ -25,13 +29,13 @@ public class Thalia extends DataFetcher {
 	/**
 	 * Die Grund-URL, über welche der Film - mittels der EAN - gesucht wird.
 	 */
-	private static final String BASE_URI = "http://www.thalia.de/shop/tha_"
-			+ "homestartseite/suche/?sswg=ANY&sq=";
-	
-	/**
-	 * Anhang an die URL nach der EAN.
-	 */
-	private static final String BASE_URI_2 = "&submit.x=0&submit.y=0";
+	private static final String BASE_URI_1 = "http://www.thalia.de/shop/tha_"
+			+ "homestartseite/suche/?sswg=";	
+	private static final String BASE_URI_20 = "ANY";
+	private static final String BASE_URI_21 = "BUCH";
+	private static final String BASE_URI_22 = "MUSIK";
+	private static final String BASE_URI_3 = "&sq=";
+	private static final String BASE_URI_4 = "&submit.x=0&submit.y=0";
 
 	/**
 	 * Das Pattern zum Suchen des Titels des Audio-Datenträgers.
@@ -63,7 +67,7 @@ public class Thalia extends DataFetcher {
 	 * sowohl Daten der Form tt.mm.yyyy als auch yyyy.
 	 */
 	private static final Pattern PATTERN_YEAR = Pattern.compile("<li><strong>"
-			+ "Erschienen:</strong> [0-9]{0,2}\\.*[0-9]{0,2}\\.*([0-9]{4})");	
+			+ "Erschienen:</strong>.+([0-9]{4})");	
 	
 	/***************************************************************************
 	 * Konstruktor/On-Create-Methode
@@ -77,6 +81,10 @@ public class Thalia extends DataFetcher {
 		super(context, ean);
 	}
 	
+	public Thalia(final Context context, final String ean, final int search) {
+		super(context, ean, search);
+	}
+	
 	/***************************************************************************
 	 * Klassenmethoden
 	 **************************************************************************/
@@ -86,8 +94,22 @@ public class Thalia extends DataFetcher {
 	 */
 	protected void getData() 
 	throws IOException {
-		String encPart		= URLEncoder.encode(this.ean, "UTF-8");
-		String completeURI	= BASE_URI + encPart + BASE_URI_2;
+		String encPart 		= URLEncoder.encode(this.ean, "UTF-8");
+		String completeURI	= null;
+		switch (this.search) {
+		case BOOKS_ONLY:
+			completeURI = BASE_URI_1 + BASE_URI_21 + BASE_URI_3 + encPart 
+				+ BASE_URI_4; 
+			break;
+		case AUDIO_ONLY:
+			completeURI = BASE_URI_1 + BASE_URI_22 + BASE_URI_3 + encPart 
+				+ BASE_URI_4;
+			break;
+		default:
+			completeURI = BASE_URI_1 + BASE_URI_20 + BASE_URI_3 + encPart 
+				+ BASE_URI_4;
+			break;
+		}
 		String webContent	= WebParsing.getWebContent(completeURI);
 		Matcher	matcher_t	= PATTERN_TITLE.matcher(webContent);
 		Matcher	matcher_a	= PATTERN_ARTIST.matcher(webContent);
