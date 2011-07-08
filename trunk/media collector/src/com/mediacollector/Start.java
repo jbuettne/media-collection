@@ -2,12 +2,13 @@ package com.mediacollector;
 
 import com.mediacollector.collection.SearchListing;
 import com.mediacollector.collection.audio.listings.ArtistListing;
+import com.mediacollector.collection.book.listings.BookListing;
+import com.mediacollector.collection.games.listings.GamesListing;
+import com.mediacollector.collection.video.listings.FilmListing;
 //import com.mediacollector.fetching.DataFetcher;
 //import com.mediacollector.fetching.Fetching;
 //import com.mediacollector.fetching.ImageFetcher;
 import com.mediacollector.sync.SyncActivity;
-import com.mediacollector.test.FetchingTest__Deprecated;
-import com.mediacollector.test.TestFetching;
 //import com.mediacollector.tools.Observer;
 import com.mediacollector.tools.RegisteredActivity;
 //import com.mediacollector.tools.Exceptions.MCException;
@@ -54,21 +55,21 @@ public class Start extends RegisteredActivity /*implements Observer*/ {
         	R.id.browseGamesField);
         browseGamesField.setOnClickListener(new OnClickListener() {
         	public void onClick(View v) {
-        		startActivity(new Intent(getBaseContext(), Scan.class));
+        		startActivity(new Intent(getBaseContext(), GamesListing.class));
         	}
         });
         LinearLayout browseBooksField = (LinearLayout) findViewById(
         		R.id.browseBooksField);
         browseBooksField.setOnClickListener(new OnClickListener() {
         	public void onClick(View v) {
-        		startActivity(new Intent(getBaseContext(), TestDBEntry.class));
+        		startActivity(new Intent(getBaseContext(), BookListing.class));
         	}
         });
         LinearLayout browseVideoField = (LinearLayout) findViewById(
         	R.id.browseVideoField);
         browseVideoField.setOnClickListener(new OnClickListener() { 
         	public void onClick(View v) {
-        		startActivity(new Intent(getBaseContext(), FetchingTest__Deprecated.class));
+        		startActivity(new Intent(getBaseContext(), FilmListing.class));
         	}
         });
         LinearLayout syncField = (LinearLayout) findViewById(
@@ -91,8 +92,8 @@ public class Start extends RegisteredActivity /*implements Observer*/ {
         	}
         });
         
-        TestFetching audio = new TestFetching(this, TestFetching.TEST_AUDIO);
-        audio.startTest();        
+        //TestFetching audio = new TestFetching(this, TestFetching.TEST_AUDIO);
+        //audio.startTest();        
         
         // Zum schnellen Testen der Fetcher...
         /*f = new Fetching(this, "5050582405859");
