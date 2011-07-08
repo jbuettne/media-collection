@@ -21,12 +21,17 @@ import com.mediacollector.tools.Observer;
 import com.mediacollector.tools.RegisteredActivity;
 import com.mediacollector.tools.Exceptions.MCFetchingException;
 
-public class FetchingTest extends RegisteredActivity implements Observer {
+public class FetchingTest__Deprecated extends RegisteredActivity implements Observer {
 	
 	private Resources resources;
 	
-	private String[] files = {"barcodes_audio","barcodes_books",
-			"barcodes_games","barcodes_video","isbns_books"};
+	private String[] files = {
+			"barcodes_audio",
+			"barcodes_books",
+			"barcodes_games",
+			"barcodes_video",
+			"isbns_books"
+	};
 	
 	private static final Pattern PATTERN_CODE = 
 		Pattern.compile("([0-9]{7,14})[^ ]+");
