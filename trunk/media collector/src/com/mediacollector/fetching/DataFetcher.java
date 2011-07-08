@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Looper;
 
 import com.mediacollector.R;
+import com.mediacollector.fetching.fetcher.Thalia;
 import com.mediacollector.tools.Observable;
 import com.mediacollector.tools.Exceptions.MCFetchingException;
 
@@ -71,6 +72,8 @@ public abstract class DataFetcher extends Observable implements Runnable {
 	 */
 	protected HashMap<String, Object> data = new HashMap<String, Object>();
 	
+	protected int search;
+	
 	/***************************************************************************
 	 * Getter und Setter
 	 **************************************************************************/
@@ -107,6 +110,11 @@ public abstract class DataFetcher extends Observable implements Runnable {
 		this.context = context;
 	}
 	
+	public DataFetcher(Context context, String ean, int search) {
+		this(context, ean);
+		this.search = search;
+	}
+
 	/**
 	 * Startet den Web-Fetching-Vorgang. Wird im Thread aufgerufen.
 	 */
