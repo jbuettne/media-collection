@@ -31,7 +31,7 @@ public class RegisteredActivity extends Activity {
         		getString(R.string.COLLECTION_Audio), 
         		getString(R.string.COLLECTION_Video), 
         		getString(R.string.COLLECTION_Books), 
-        		getString(R.string.COLLECTION_Books_Man),
+        		//getString(R.string.COLLECTION_Books_Man),
         		getString(R.string.COLLECTION_Games), 
         		getString(R.string.COLLECTION_Wishlist) 
         };
@@ -49,12 +49,12 @@ public class RegisteredActivity extends Activity {
             	else if (collections[item] == getString(R.string
             			.COLLECTION_Books)) intent.putExtra("collection", 
             					R.string.COLLECTION_Books);
-            	else if (collections[item] == getString(R.string
+            	/*else if (collections[item] == getString(R.string
             			.COLLECTION_Books_Man)) {
             		intent.putExtra("collection", 
             				R.string.COLLECTION_Books_Man);
             		intent.putExtra("noScan", true);
-            	} else if (collections[item] == getString(R.string
+            	}*/ else if (collections[item] == getString(R.string
             			.COLLECTION_Games)) intent.putExtra("collection", 
             					R.string.COLLECTION_Games);
             	else 
