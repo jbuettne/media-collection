@@ -127,5 +127,13 @@ public abstract class DataFetcher extends Observable implements Runnable {
 	 * @throws IOException .
 	 */
 	protected abstract void getData() throws IOException;
+	
+	/**
+	 * Temporäre Methode für das Testen.
+	 * @return String Die aktuelle EAN.
+	 */
+	public String getEAN() {
+		return this.ean;
+	}
 
 }
