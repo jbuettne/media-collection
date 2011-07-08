@@ -2,9 +2,7 @@ package com.mediacollector;
 
 import java.util.ArrayList;
 
-import com.mediacollector.collection.Data;
 import com.mediacollector.collection.TextImageEntry;
-import com.mediacollector.collection.books.Book;
 import com.mediacollector.sync.SyncActivity;
 import com.mediacollector.tools.ActivityRegistry;
 import com.mediacollector.tools.Preferences;
@@ -51,7 +49,6 @@ public abstract class EntryListing extends ListActivity {
         		getString(R.string.COLLECTION_Audio), 
         		getString(R.string.COLLECTION_Video), 
         		getString(R.string.COLLECTION_Books),
-        		getString(R.string.COLLECTION_Books_Man), 
         		getString(R.string.COLLECTION_Games), 
         		getString(R.string.COLLECTION_Wishlist) 
         };
@@ -70,9 +67,6 @@ public abstract class EntryListing extends ListActivity {
             	else if (collections[item] == getString(R.string
             			.COLLECTION_Books)) intent.putExtra("collection", 
             					R.string.COLLECTION_Books);
-            	else if (collections[item] == getString(R.string
-            			.COLLECTION_Books_Man)) intent.putExtra("collection", 
-            					R.string.COLLECTION_Books_Man);
             	else if (collections[item] == getString(R.string
             			.COLLECTION_Games)) intent.putExtra("collection", 
             					R.string.COLLECTION_Games);
