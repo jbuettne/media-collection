@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import com.mediacollector.fetching.ImageFetcher;
 import com.mediacollector.fetching.WebParsing;
+import com.mediacollector.tools.Exceptions.MCFetchingException;
 
 import android.content.Context;
 
@@ -41,7 +42,7 @@ public class ImagesGoogle extends ImageFetcher {
 	 * gespeichert werden kann.
 	 */
 	private static final Pattern PATTERN = Pattern.compile(
-			"\\\"unescapedUrl\\\":\\\"([^\\\"]+)\\\"");
+			"\\\"url\\\":\\\"([^\\\"]+)\\\"");
 	
 	/***************************************************************************
 	 * Konstruktor/On-Create-Methode
@@ -65,13 +66,23 @@ public class ImagesGoogle extends ImageFetcher {
 	protected void getData() 
 	throws IOException {
 		String encProductID = URLEncoder.encode(ean, "UTF-8");
-		String completeURI	= BASE_URI + encProductID + BASE_URI_2;
-		String webContent 	= WebParsing.getWebContent(completeURI);
-		Matcher	matcher 	= PATTERN.matcher(webContent);
-		if (matcher.find()) {
-			this.set(COVER_STRING, matcher.group(1));
-			this.getImage();
-			notifyObserver(true);
-		} else notifyObserver(false);
+		String completeURI = BASE_URI + encProductID + BASE_URI_2;
+		String webContent = WebParsing.getWebContent(completeURI);
+		Matcher	matcher = PATTERN.matcher(webContent);
+		boolean check = false;
+		while (!check && matcher.find()) {
+			try {
+				this.set(COVER_STRING, matcher.group(1));
+				this.getImage();
+				notifyObserver(true);
+				check = true;
+			} catch (MCFetchingException e) {
+				; // do nothing
+			} catch (Exception e) {
+				new MCFetchingException(context, e.getMessage());
+			}
+		}
+		if (!check) notifyObserver(false);
 	}
+	
 }
