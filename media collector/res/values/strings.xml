@@ -27,6 +27,9 @@
     <string name="SCAN_back">〈 back to start</string>
     <string name="SCAN_add">add to collection 〉</string>
     
+    <string name="INFO_please_wait">Please Wait ...</string>
+    <string name="INFO_we_comb_the_internet">We comb the Internet</string>
+    
     <string name="EXCEPTION_unknown">Unknown Error</string>
     <string name="EXCEPTION_Fetching">Couldn\'t fetch Web-Data</string>
     <string name="EXCEPTION_Fetching_2_1">Couldn\'t find Search-Engine</string>
