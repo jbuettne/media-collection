@@ -101,158 +101,13 @@ public class Scan extends RegisteredActivity implements Observer {
         	public void onClick(View v) { finish(); }
         });
     	
-        LinearLayout addToCollection = 
-        	(LinearLayout) findViewById(R.id.add_to_collection);
-        addToCollection.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-		        dBase = new Database(getBaseContext());
-				if (resultCode == Activity.RESULT_OK) {
-					if (collection == R.string.COLLECTION_Audio) {
-						dBase.getArtist().insertArtist(
-								(String) fetching.getDataFetcher().get(
-										DataFetcher.ARTIST_ID_STRING),
-								(String) fetching.getDataFetcher().get(
-										DataFetcher.ARTIST_STRING));
-						dBase.getAlbum().insertAlbum(
-								(String) fetching.getDataFetcher().get(
-										DataFetcher.TITLE_ID_STRING),
-								(String) fetching.getDataFetcher().get(
-										DataFetcher.TITLE_STRING),
-								(String) fetching.getDataFetcher().get(
-										DataFetcher.ARTIST_ID_STRING),
-								(String) fetching.getDataFetcher().get(
-										DataFetcher.YEAR_STRING),
-								(String) fetching.getImageFetcher().get(
-										ImageFetcher.COVER_PATH));
-						Toast.makeText(getBaseContext(),
-								"Album zur Datenbank hinzugefügt",
-								Toast.LENGTH_LONG).show();
-					} else if (collection == R.string.COLLECTION_Books) {
-						dBase.getBook().insertBook(
-								(String) fetching.getDataFetcher().get(
-										DataFetcher.TITLE_ID_STRING),
-								(String) fetching.getDataFetcher().get(
-										DataFetcher.TITLE_STRING),
-								(String) fetching.getDataFetcher().get(
-										DataFetcher.ARTIST_STRING),
-								(String) fetching.getDataFetcher().get(
-										DataFetcher.YEAR_STRING),
-								(String) fetching.getImageFetcher().get(
-										ImageFetcher.COVER_PATH));
-						Toast.makeText(getBaseContext(),
-								"Buch zur Datenbank hinzugefügt",
-								Toast.LENGTH_LONG).show();
-					} else if (collection == R.string.COLLECTION_Video) {
-						dBase.getFilm().insertFilm(
-								(String) fetching.getDataFetcher().get(
-										DataFetcher.TITLE_ID_STRING),
-								(String) fetching.getDataFetcher().get(
-										DataFetcher.TITLE_STRING),
-								(String) fetching.getDataFetcher().get(
-										DataFetcher.YEAR_STRING),
-								(String) fetching.getImageFetcher().get(
-										ImageFetcher.COVER_PATH));
-						Toast.makeText(getBaseContext(),
-								"Film zur Datenbank hinzugefügt",
-								Toast.LENGTH_LONG).show();
-					} else if (collection == R.string.COLLECTION_Games) {
-						if ((String) fetching.getDataFetcher()
-								.get(DataFetcher.ARTIST_STRING) == "Video") {
-							dBase.getVideoGame().insertVideoGame(
-									(String) fetching.getDataFetcher().get(
-											DataFetcher.TITLE_ID_STRING),
-									(String) fetching.getDataFetcher().get(
-											DataFetcher.TITLE_STRING),
-									(String) fetching.getDataFetcher().get(
-											DataFetcher.YEAR_STRING),
-									(String) fetching.getImageFetcher().get(
-											ImageFetcher.COVER_PATH));
-							Toast.makeText(getBaseContext(),
-									"PC-Spiel zur Datenbank hinzugefügt",
-									Toast.LENGTH_LONG).show();
-						} else {
-							dBase.getBoardGame().insertBoardGame(
-									(String) fetching.getDataFetcher().get(
-											DataFetcher.TITLE_ID_STRING),
-									(String) fetching.getDataFetcher().get(
-											DataFetcher.TITLE_STRING),
-									(String) fetching.getDataFetcher().get(
-											DataFetcher.YEAR_STRING),
-									(String) fetching.getImageFetcher().get(
-											ImageFetcher.COVER_PATH));
-							Toast.makeText(getBaseContext(),
-									"Brettspiel zur Datenbank hinzugefügt",
-									Toast.LENGTH_LONG).show();
-						}
-						
-					}
-					dBase.closeConnection();
-					finish();
-				}
-//				switch (resultCode) {
-//				case Activity.RESULT_OK:
-//					switch (collection) {
-//					case R.string.COLLECTION_Audio:
-//						dBase.getArtist().insertArtist(
-//								DataFetcher.ARTIST_ID_STRING,
-//								DataFetcher.ARTIST_STRING);
-//						dBase.getAlbum().insertAlbum(
-//								DataFetcher.TITLE_ID_STRING,
-//								DataFetcher.TITLE_STRING,
-//								DataFetcher.ARTIST_ID_STRING,
-//								Long.valueOf(DataFetcher.YEAR_STRING),
-//								ImageFetcher.COVER_PATH);
-//						break;
-//					case R.string.COLLECTION_Books:
-//						dBase.getBook().insertBook(DataFetcher.TITLE_ID_STRING,
-//								DataFetcher.TITLE_STRING,
-//								DataFetcher.ARTIST_STRING,
-//								Long.valueOf(DataFetcher.YEAR_STRING),
-//								ImageFetcher.COVER_PATH);
-//						break;
-//					case R.string.COLLECTION_Video:
-//						dBase.getFilm().insertFilm(DataFetcher.TITLE_ID_STRING,
-//								DataFetcher.TITLE_STRING,
-//								Long.valueOf(DataFetcher.YEAR_STRING),
-//								ImageFetcher.COVER_PATH);
-//						break;
-//					case R.string.COLLECTION_Games:
-//						if (DataFetcher.ARTIST_STRING == "Video") {
-//							dBase.getVideoGame().insertVideoGame(
-//									DataFetcher.TITLE_ID_STRING,
-//									DataFetcher.TITLE_STRING,
-//									"",
-//									ImageFetcher.COVER_PATH);
-//						} else {
-//							dBase.getBoardGame().insertBoardGame(
-//									DataFetcher.TITLE_ID_STRING, 
-//									DataFetcher.TITLE_STRING,
-//									Long.valueOf(DataFetcher.YEAR_STRING),
-//									ImageFetcher.COVER_PATH);
-//						};
-//						break;
-//					default:
-//						Toast.makeText(getBaseContext(),
-//								"Zur Datenbank hinzugefügt", 
-//								Toast.LENGTH_LONG).show();
-//						break;
-//					}
-//					break;
-//				case Activity.RESULT_CANCELED:
-//					break;
-//				default:
-//					break;
-//				}
-        		//startActivity(new Intent(getBaseContext(), Start.class));
-        	}
-        });
+        
         
         super.onActivityResult(requestCode, resultCode, data);
 	}
 	
 	public void updateObserver(boolean statusOkay) {
-		guiHandler.post(new Runnable() { public void run() {			
+		guiHandler.post(new Runnable() { public void run() {	
 			((ImageView) findViewById(R.id.cover)).setImageBitmap(BitmapFactory
 					.decodeFile((String) fetching.getImageFetcher()
 					.get(ImageFetcher.COVER_PATH)));			
@@ -262,6 +117,159 @@ public class Scan extends RegisteredActivity implements Observer {
 					fetching.getDataFetcher().get(DataFetcher.TITLE_STRING));
 			((TextView) findViewById(R.id.year)).setText((String) 
 					fetching.getDataFetcher().get(DataFetcher.YEAR_STRING));
+			
+			if(fetching.getDataFetcher().get(DataFetcher.ARTIST_STRING) != null
+					&& fetching.getDataFetcher().get(DataFetcher.ARTIST_STRING) != null) {
+				
+				LinearLayout addToCollection = 
+		        	(LinearLayout) findViewById(R.id.add_to_collection);
+				
+				((TextView) addToCollection.findViewById(R.id.add_to_collection_text)).setText(R.string.SCAN_add);
+				
+		        addToCollection.setOnClickListener(new OnClickListener() {
+
+					public void onClick(View v) {
+				        dBase = new Database(getBaseContext());
+							if (collection == R.string.COLLECTION_Audio) {
+								dBase.getArtist().insertArtist(
+										(String) fetching.getDataFetcher().get(
+												DataFetcher.ARTIST_ID_STRING),
+										(String) fetching.getDataFetcher().get(
+												DataFetcher.ARTIST_STRING));
+								dBase.getAlbum().insertAlbum(
+										(String) fetching.getDataFetcher().get(
+												DataFetcher.TITLE_ID_STRING),
+										(String) fetching.getDataFetcher().get(
+												DataFetcher.TITLE_STRING),
+										(String) fetching.getDataFetcher().get(
+												DataFetcher.ARTIST_ID_STRING),
+										(String) fetching.getDataFetcher().get(
+												DataFetcher.YEAR_STRING),
+										(String) fetching.getImageFetcher().get(
+												ImageFetcher.COVER_PATH));
+								Toast.makeText(getBaseContext(),
+										"Album zur Datenbank hinzugefügt",
+										Toast.LENGTH_LONG).show();
+							} else if (collection == R.string.COLLECTION_Books) {
+								dBase.getBook().insertBook(
+										(String) fetching.getDataFetcher().get(
+												DataFetcher.TITLE_ID_STRING),
+										(String) fetching.getDataFetcher().get(
+												DataFetcher.TITLE_STRING),
+										(String) fetching.getDataFetcher().get(
+												DataFetcher.ARTIST_STRING),
+										(String) fetching.getDataFetcher().get(
+												DataFetcher.YEAR_STRING),
+										(String) fetching.getImageFetcher().get(
+												ImageFetcher.COVER_PATH));
+								Toast.makeText(getBaseContext(),
+										"Buch zur Datenbank hinzugefügt",
+										Toast.LENGTH_LONG).show();
+							} else if (collection == R.string.COLLECTION_Video) {
+								dBase.getFilm().insertFilm(
+										(String) fetching.getDataFetcher().get(
+												DataFetcher.TITLE_ID_STRING),
+										(String) fetching.getDataFetcher().get(
+												DataFetcher.TITLE_STRING),
+										(String) fetching.getDataFetcher().get(
+												DataFetcher.YEAR_STRING),
+										(String) fetching.getImageFetcher().get(
+												ImageFetcher.COVER_PATH));
+								Toast.makeText(getBaseContext(),
+										"Film zur Datenbank hinzugefügt",
+										Toast.LENGTH_LONG).show();
+							} else if (collection == R.string.COLLECTION_Games) {
+								if ((String) fetching.getDataFetcher()
+										.get(DataFetcher.ARTIST_STRING) == "Video") {
+									dBase.getVideoGame().insertVideoGame(
+											(String) fetching.getDataFetcher().get(
+													DataFetcher.TITLE_ID_STRING),
+											(String) fetching.getDataFetcher().get(
+													DataFetcher.TITLE_STRING),
+											(String) fetching.getDataFetcher().get(
+													DataFetcher.YEAR_STRING),
+											(String) fetching.getImageFetcher().get(
+													ImageFetcher.COVER_PATH));
+									Toast.makeText(getBaseContext(),
+											"PC-Spiel zur Datenbank hinzugefügt",
+											Toast.LENGTH_LONG).show();
+								} else {
+									dBase.getBoardGame().insertBoardGame(
+											(String) fetching.getDataFetcher().get(
+													DataFetcher.TITLE_ID_STRING),
+											(String) fetching.getDataFetcher().get(
+													DataFetcher.TITLE_STRING),
+											(String) fetching.getDataFetcher().get(
+													DataFetcher.YEAR_STRING),
+											(String) fetching.getImageFetcher().get(
+													ImageFetcher.COVER_PATH));
+									Toast.makeText(getBaseContext(),
+											"Brettspiel zur Datenbank hinzugefügt",
+											Toast.LENGTH_LONG).show();
+								}
+								
+							}
+							dBase.closeConnection();
+							finish();
+						}
+	//					switch (resultCode) {
+	//					case Activity.RESULT_OK:
+	//						switch (collection) {
+	//						case R.string.COLLECTION_Audio:
+	//							dBase.getArtist().insertArtist(
+	//									DataFetcher.ARTIST_ID_STRING,
+	//									DataFetcher.ARTIST_STRING);
+	//							dBase.getAlbum().insertAlbum(
+	//									DataFetcher.TITLE_ID_STRING,
+	//									DataFetcher.TITLE_STRING,
+	//									DataFetcher.ARTIST_ID_STRING,
+	//									Long.valueOf(DataFetcher.YEAR_STRING),
+	//									ImageFetcher.COVER_PATH);
+	//							break;
+	//						case R.string.COLLECTION_Books:
+	//							dBase.getBook().insertBook(DataFetcher.TITLE_ID_STRING,
+	//									DataFetcher.TITLE_STRING,
+	//									DataFetcher.ARTIST_STRING,
+	//									Long.valueOf(DataFetcher.YEAR_STRING),
+	//									ImageFetcher.COVER_PATH);
+	//							break;
+	//						case R.string.COLLECTION_Video:
+	//							dBase.getFilm().insertFilm(DataFetcher.TITLE_ID_STRING,
+	//									DataFetcher.TITLE_STRING,
+	//									Long.valueOf(DataFetcher.YEAR_STRING),
+	//									ImageFetcher.COVER_PATH);
+	//							break;
+	//						case R.string.COLLECTION_Games:
+	//							if (DataFetcher.ARTIST_STRING == "Video") {
+	//								dBase.getVideoGame().insertVideoGame(
+	//										DataFetcher.TITLE_ID_STRING,
+	//										DataFetcher.TITLE_STRING,
+	//										"",
+	//										ImageFetcher.COVER_PATH);
+	//							} else {
+	//								dBase.getBoardGame().insertBoardGame(
+	//										DataFetcher.TITLE_ID_STRING, 
+	//										DataFetcher.TITLE_STRING,
+	//										Long.valueOf(DataFetcher.YEAR_STRING),
+	//										ImageFetcher.COVER_PATH);
+	//							};
+	//							break;
+	//						default:
+	//							Toast.makeText(getBaseContext(),
+	//									"Zur Datenbank hinzugefügt", 
+	//									Toast.LENGTH_LONG).show();
+	//							break;
+	//						}
+	//						break;
+	//					case Activity.RESULT_CANCELED:
+	//						break;
+	//					default:
+	//						break;
+	//					}
+		        		//startActivity(new Intent(getBaseContext(), Start.class));
+	        	
+	        		});
+				}
 			}
 		});
 		progress.dismiss();
