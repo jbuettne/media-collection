@@ -174,6 +174,7 @@ public class Scan extends RegisteredActivity implements Observer {
 						}
 						
 					}
+					dBase.closeConnection();
 					finish();
 				}
 //				switch (resultCode) {
@@ -252,9 +253,4 @@ public class Scan extends RegisteredActivity implements Observer {
 		});
 	}
 	
-    @Override
-    protected void onDestroy() {
-        dBase.closeConnection();
-        super.onDestroy();
-    }
 }
