@@ -44,20 +44,20 @@ public class TestFetching implements Observer {
 		new HashMap<Integer, ArrayList<String>>() {{
 		put(1, new ArrayList<String>() {{
 			add("barcodes_audio");
-			add("" + Fetching.SEARCH_ENGINE_THALIA
-		);}});
+			add("" + Fetching.SEARCH_ENGINE_THALIA);
+		}});
 		put(2, new ArrayList<String>() {{
 			add("barcodes_book");
-			add("" + Fetching.SEARCH_ENGINE_THALIA
-		);}});
+			add("" + Fetching.SEARCH_ENGINE_THALIA);
+		}});
 		put(3, new ArrayList<String>() {{
 			add("barcodes_games");
-			add("" + Fetching.SEARCH_ENGINE_TAGTOAD
-		);}});
+			add("" + Fetching.SEARCH_ENGINE_TAGTOAD);
+		}});
 		put(4, new ArrayList<String>() {{
 			add("barcodes_video");
-			add("" + Fetching.SEARCH_ENGINE_OFDB
-		);}});
+			add("" + Fetching.SEARCH_ENGINE_OFDB);
+		}});
 	}};
 	
 	public TestFetching(final Context context, final int testType) {
