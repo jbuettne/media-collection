@@ -2,9 +2,15 @@ package com.mediacollector;
 
 import com.mediacollector.collection.SearchListing;
 import com.mediacollector.collection.audio.listings.ArtistListing;
+//import com.mediacollector.fetching.DataFetcher;
+//import com.mediacollector.fetching.Fetching;
+//import com.mediacollector.fetching.ImageFetcher;
 import com.mediacollector.sync.SyncActivity;
 import com.mediacollector.test.FetchingTest;
+//import com.mediacollector.tools.Observer;
 import com.mediacollector.tools.RegisteredActivity;
+//import com.mediacollector.tools.Exceptions.MCException;
+//import com.mediacollector.tools.Exceptions.MCFetchingException;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,13 +19,17 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+//import android.widget.Toast;
 
 /**
  * Der Start-Screen der Applikation. Sie zeigt die Hauptbuttons zum Scannen von
  * neuen Medien sowie zum Browsen und Synchronisieren der Sammlungen. 
  * @author Philipp Dermitzel
  */
-public class Start extends RegisteredActivity {
+public class Start extends RegisteredActivity /*implements Observer*/ {
+	
+	// Zum schnellen Testen der Fetcher...
+	/*Fetching f;*/
  
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,6 +89,29 @@ public class Start extends RegisteredActivity {
         		startActivity(searchIntent);
         	}
         });
+        
+        // Zum schnellen Testen der Fetcher...
+        /*f = new Fetching(this, "5050582405859");
+        f.addObserver(this);
+        try {
+			f.fetchData();
+		} catch (MCFetchingException e) {
+			new MCFetchingException(this, "kacke", MCException.WARNING, false);
+		}*/
     }
+
+    // Zum schnellen Testen der Fetcher...
+	/*public void updateObserver(boolean statusOkay) {
+		Toast.makeText(
+				this, 
+				(String) f.getDataFetcher().get(DataFetcher.TITLE_STRING), 
+				Toast.LENGTH_LONG
+		).show();
+		Toast.makeText(
+				this, 
+				(String) f.getImageFetcher().get(ImageFetcher.COVER_STRING), 
+				Toast.LENGTH_LONG
+		).show();		
+	}*/
     
 }

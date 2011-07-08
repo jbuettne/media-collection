@@ -9,6 +9,7 @@ import java.net.URLEncoder;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
@@ -53,15 +54,19 @@ public abstract class ImageFetcher extends DataFetcher {
 	 * Holt das Bild und speichert es auf der SD-Card im Ordner MediaCollector.
 	 * Es wird außerdem auch eine verkleinerte Version mit max. 100px angelegt.
 	 * Siehe dazu com.mediacollector.tools.ImageResizer
+	 * @throws IOException 
+	 * @throws ClientProtocolException 
+	 * @throws MCFetchingException 
 	 */
-	protected void getImage() {
+	protected void getImage() throws ClientProtocolException, 
+	IOException, MCFetchingException {
 		final String url = (String) this.get(COVER_STRING);
 		final String name = (System.currentTimeMillis() / 1000) + "-" 
 			+ url.substring(url.lastIndexOf("/") + 1);
 		this.set(COVER_PATH, Environment.getExternalStorageDirectory() 
 				+ "/MediaCollector/");
 		
-        final DefaultHttpClient client = new DefaultHttpClient();
+        /*final DefaultHttpClient client = new DefaultHttpClient();
         try {
         	final HttpGet getRequest 	= new HttpGet(url);
             HttpResponse response = client.execute(getRequest);            
@@ -91,7 +96,22 @@ public abstract class ImageFetcher extends DataFetcher {
         				this.context.getString(R.string.EXCEPTION_Fechting_3), 
                 		MCException.INFO);
         	}
-        }
+        }*/
+		final DefaultHttpClient client = new DefaultHttpClient();
+		final HttpGet getRequest = new HttpGet(url);
+        HttpResponse response = client.execute(getRequest);            
+        final int sc1 = response.getStatusLine().getStatusCode();            
+        if (sc1 != HttpStatus.SC_OK) 
+        	throw new MCFetchingException(this.context, 
+        			this.context.getString(R.string.EXCEPTION_Fechting_3), 
+        			MCException.INFO);
+        HttpEntity entity = response.getEntity();            
+        if (entity != null)
+        	this.getHTTPImage(entity, name);
+        else 
+        	throw new MCFetchingException(this.context, 
+        			this.context.getString(R.string.EXCEPTION_Fechting_3), 
+        			MCException.INFO);
 	}
 	
 	/**
