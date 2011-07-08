@@ -22,9 +22,13 @@
     <string name="COLLECTION_Books_Man">Bücher (ISBN-Eingabe)</string>
     <string name="COLLECTION_Games">Spiele</string>
     <string name="COLLECTION_Wishlist">Wunschzettel</string>
+    <string name="COLLECTION_search">Suchen</string>
     
     <string name="SCAN_back">〈 zurück</string>
     <string name="SCAN_add">hinzufügen 〉</string>
+        
+    <string name="INFO_please_wait">Bitte Warten ...</string>
+    <string name="INFO_we_comb_the_internet">Das Internet wird durchsucht</string>
     
     <string name="EXCEPTION_unknown">Unbekannter Fehler</string>
     <string name="EXCEPTION_Fetching">Konnte keine Daten einholen</string>
