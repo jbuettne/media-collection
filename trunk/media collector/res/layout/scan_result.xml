@@ -93,8 +93,7 @@
 	            android:layout_alignParentRight="true"
 	            android:textSize="16sp"
 	            android:padding="20sp"
-	            android:layout_alignParentBottom="true" 
-	            android:text="@string/SCAN_add"></TextView>
+	            android:layout_alignParentBottom="true"></TextView>
             </LinearLayout>
     </RelativeLayout>
 </LinearLayout>
