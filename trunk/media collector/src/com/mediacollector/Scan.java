@@ -77,7 +77,7 @@ public class Scan extends RegisteredActivity implements Observer {
 	        				getString(R.string.INFO_please_wait), 
 	        				getString(R.string.INFO_we_comb_the_internet),
 	        				true,
-	        				false);
+	        				true);
 	        		this.fetching = new Fetching(this, data.getExtras()
 	        				.getString("BARCODE"), searchEngine);
 	        		this.fetching.addObserver(this);
