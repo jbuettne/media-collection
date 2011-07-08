@@ -28,6 +28,7 @@ import android.widget.Toast;
  */
 public class Scan extends RegisteredActivity implements Observer {
 	
+	@SuppressWarnings("unused")
 	private static final ProgressDialog ProgressDialog = null;
 
 	private Handler guiHandler = new Handler();
@@ -59,8 +60,10 @@ public class Scan extends RegisteredActivity implements Observer {
     			int searchEngine;
 	        	switch (this.collection) {
 	        	case R.string.COLLECTION_Audio:
+	        		searchEngine = Fetching.SEARCH_ENGINE_THALIA_AUDIO; 
+	        		break;
 	        	case R.string.COLLECTION_Books:        	
-	        		searchEngine = Fetching.SEARCH_ENGINE_THALIA; 
+	        		searchEngine = Fetching.SEARCH_ENGINE_THALIA_BOOKS; 
 	        		break;
 	        	case R.string.COLLECTION_Video:
 	        		searchEngine = Fetching.SEARCH_ENGINE_OFDB; 
@@ -73,7 +76,7 @@ public class Scan extends RegisteredActivity implements Observer {
 	        		break;
 	        	}
 	        	try {
-	        		progress = ProgressDialog.show(this, 
+	        		progress = android.app.ProgressDialog.show(this, 
 	        				getString(R.string.INFO_please_wait), 
 	        				getString(R.string.INFO_we_comb_the_internet),
 	        				true,
