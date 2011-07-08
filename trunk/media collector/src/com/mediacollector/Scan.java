@@ -10,6 +10,7 @@ import com.mediacollector.tools.ScanBarcode;
 import com.mediacollector.tools.Exceptions.MCFetchingException;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -27,6 +28,8 @@ import android.widget.Toast;
  */
 public class Scan extends RegisteredActivity implements Observer {
 	
+	private static final ProgressDialog ProgressDialog = null;
+
 	private Handler guiHandler = new Handler();
 	
 	private Fetching fetching;
@@ -34,6 +37,8 @@ public class Scan extends RegisteredActivity implements Observer {
 	public int collection;
 	
 	private Database dBase;
+
+	private static ProgressDialog progress;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +73,11 @@ public class Scan extends RegisteredActivity implements Observer {
 	        		break;
 	        	}
 	        	try {
+	        		progress = ProgressDialog.show(this, 
+	        				getString(R.string.INFO_please_wait), 
+	        				getString(R.string.INFO_we_comb_the_internet),
+	        				true,
+	        				false);
 	        		this.fetching = new Fetching(this, data.getExtras()
 	        				.getString("BARCODE"), searchEngine);
 	        		this.fetching.addObserver(this);
@@ -251,6 +261,7 @@ public class Scan extends RegisteredActivity implements Observer {
 					fetching.getDataFetcher().get(DataFetcher.YEAR_STRING));
 			}
 		});
+		progress.dismiss();
 	}
 	
 }
