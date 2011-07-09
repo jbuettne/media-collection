@@ -110,8 +110,8 @@ public class Scan extends RegisteredActivity implements Observer {
 	}
 	
 	public void updateObserver(boolean statusOkay) {
-		if (fetching.getDataFetcher().get(DataFetcher.TITLE_STRING) == null 
-			&& fetching.getDataFetcher().get(DataFetcher.ARTIST_STRING) == null)
+		if (fetching.getDataFetcher().get(DataFetcher.ARTIST_STRING) == null 
+			&& fetching.getDataFetcher().get(DataFetcher.TITLE_STRING) == null)
 		{
 			Toast.makeText(this, getString(R.string.INFO_nothing_found), 
 					Toast.LENGTH_LONG).show();

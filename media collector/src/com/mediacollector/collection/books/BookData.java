@@ -220,7 +220,7 @@ public class BookData {
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
 					"SELECT author FROM " + BookTbl.TABLE_NAME +
-					" ORDER BY author", null);
+					" GROUP BY author ORDER BY author", null);
 			if (dbCursor.moveToFirst() == false) {
 				return new ArrayList<String>();
 			}	
