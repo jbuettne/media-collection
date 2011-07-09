@@ -65,37 +65,6 @@ public abstract class ImageFetcher extends DataFetcher {
 		this.set(COVER_PATH, Environment.getExternalStorageDirectory() 
 				+ "/MediaCollector/");
 		
-        /*final DefaultHttpClient client = new DefaultHttpClient();
-        try {
-        	final HttpGet getRequest 	= new HttpGet(url);
-            HttpResponse response = client.execute(getRequest);            
-            final int sc1 = response.getStatusLine().getStatusCode();            
-            if (sc1 != HttpStatus.SC_OK) return;
-            HttpEntity entity = response.getEntity();            
-            if (entity != null)
-            	this.getHTTPImage(entity, name);
-            else new MCFetchingException(this.context, 
-            		this.context.getString(R.string.EXCEPTION_Fechting_3), 
-            		MCException.INFO);
-        } catch (Exception e) {
-        	try {
-        		final HttpGet getRequestEnc	= 
-        			new HttpGet(URLEncoder.encode(url));
-        		HttpResponse responseEnc 	= client.execute(getRequestEnc);
-        		final int sc2 = responseEnc.getStatusLine().getStatusCode();
-        		if (sc2 != HttpStatus.SC_OK) return;
-        		HttpEntity entityEnc = responseEnc.getEntity();
-        		if (entityEnc != null) 
-        			this.getHTTPImage(entityEnc, name);
-        		else new MCFetchingException(this.context, 
-                		this.context.getString(R.string.EXCEPTION_Fechting_3), 
-                		MCException.INFO);
-        	} catch (Exception ex) {
-        		new MCFetchingException(this.context, 
-        				this.context.getString(R.string.EXCEPTION_Fechting_3), 
-                		MCException.INFO);
-        	}
-        }*/
 		final DefaultHttpClient client = new DefaultHttpClient();
 		final HttpGet getRequest = new HttpGet(url);
         HttpResponse response = client.execute(getRequest);            

@@ -13,10 +13,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,6 +38,14 @@ public abstract class SearchResult extends RegisteredListActivity {
 		ActivityRegistry.registerActivity(this);
 		this.setData();
         setContentView(R.layout.search_result);    
+        
+        LinearLayout header = (LinearLayout) findViewById(R.id.overall_header);        
+        header.setOnClickListener(new OnClickListener() {
+			public void onClick(View arg0) {
+				startActivity(new Intent(getBaseContext(), com.mediacollector
+						.Start.class));
+			}        	
+        });
         
         setListAdapter(new ArrayAdapter<Data>(this, 
         		R.layout.group_row, searchResult) {
