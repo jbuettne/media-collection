@@ -7,7 +7,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.mediacollector.fetching.DataFetcher;
 import com.mediacollector.fetching.WebParsing;
@@ -128,14 +127,9 @@ public class Thalia extends DataFetcher {
 			
 			this.set(TITLE_STRING, URLDecoder.decode(matcher_t.group(1)));
 			this.set(TITLE_ID_STRING, URLDecoder.decode(matcher_t.group(2)));
-			if (this.search == AUDIO_ONLY) {
-				Toast.makeText(this.context,
-						URLDecoder.decode(matcher_a.group(2)),
-						Toast.LENGTH_LONG).show();
-				this.set(ARTIST_ID_STRING,
-						URLDecoder.decode(matcher_a.group(2)));
-			// Diese Zeile macht Probleme! No succesful match so far ! 
-			//u.A. getestet mit Barcode 5099749423862
+			if (this.search == AUDIO_ONLY && matcher_a.find()) {
+				this.set(ARTIST_ID_STRING, URLDecoder.decode(
+						matcher_a.group(2)));
 			} else
 				this.set(ARTIST_ID_STRING, "");
 			//this.set(ARTIST_ID_STRING, this.ean);
