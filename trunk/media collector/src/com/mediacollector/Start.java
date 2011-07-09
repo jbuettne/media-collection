@@ -105,19 +105,5 @@ public class Start extends RegisteredActivity /*implements Observer*/ {
 			new MCFetchingException(this, "kacke", MCException.WARNING, false);
 		}*/
     }
-
-    // Zum schnellen Testen der Fetcher...
-	/*public void updateObserver(boolean statusOkay) {
-		Toast.makeText(
-				this, 
-				(String) f.getDataFetcher().get(DataFetcher.TITLE_STRING), 
-				Toast.LENGTH_LONG
-		).show();
-		Toast.makeText(
-				this, 
-				(String) f.getImageFetcher().get(ImageFetcher.COVER_STRING), 
-				Toast.LENGTH_LONG
-		).show();		
-	}*/
     
 }

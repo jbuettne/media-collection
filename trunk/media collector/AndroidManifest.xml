@@ -89,7 +89,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".test.FetchingTest"
+        <activity android:name="test.FetchingTest__Deprecated"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
         </activity>

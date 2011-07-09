@@ -12,6 +12,7 @@ import com.mediacollector.tools.Exceptions.MCFetchingException;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
@@ -107,12 +108,14 @@ public class Scan extends RegisteredActivity implements Observer {
 	}
 	
 	public void updateObserver(boolean statusOkay) {
+		final Bitmap coverBM = ((String) fetching.getImageFetcher().get(
+			ImageFetcher.COVER_PATH) == null) 
+			? BitmapFactory.decodeResource(getResources(), R.drawable.no_cover)
+			: BitmapFactory.decodeFile((String) fetching.getImageFetcher().get(
+					ImageFetcher.COVER_PATH));
 		guiHandler.post(new Runnable() {
 			public void run() {
-				((ImageView) findViewById(R.id.cover))
-						.setImageBitmap(BitmapFactory
-								.decodeFile((String) fetching.getImageFetcher()
-										.get(ImageFetcher.COVER_PATH)));
+				((ImageView) findViewById(R.id.cover)).setImageBitmap(coverBM);
 				((TextView) findViewById(R.id.artist))
 						.setText((String) fetching.getDataFetcher().get(
 								DataFetcher.ARTIST_STRING));

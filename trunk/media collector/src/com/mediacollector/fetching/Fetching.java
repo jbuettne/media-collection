@@ -1,7 +1,6 @@
 package com.mediacollector.fetching;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.mediacollector.R;
 import com.mediacollector.fetching.fetcher.Google;
@@ -135,7 +134,6 @@ public class Fetching extends Observable implements Observer {
 	 */
 	public void fetchData() 
 	throws MCFetchingException {
-Toast.makeText(context, "" + searchEngine, Toast.LENGTH_LONG).show();
 		switch (searchEngine) {
 		case SEARCH_ENGINE_GOOGLE:
 			this.fetcher = new Google(context, this.ean); break;
