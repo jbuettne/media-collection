@@ -29,6 +29,7 @@
         
     <string name="INFO_please_wait">Bitte Warten ...</string>
     <string name="INFO_we_comb_the_internet">Informationen werden gesucht</string>
+    <string name="INFO_nothing_found">Konnte keine Informationen finden</string>
     
     <string name="EXCEPTION_unknown">Unbekannter Fehler</string>
     <string name="EXCEPTION_Fetching">Konnte keine Daten einholen</string>
