@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import com.mediacollector.R;
+import com.mediacollector.collection.Data;
 import com.mediacollector.collection.DatabaseHelper;
 import com.mediacollector.collection.TextImageEntry;
 
@@ -63,7 +64,7 @@ public class FilmData{
 			Log.i(TAG, "Film mit id=" + id + " erzeugt.");
 			return pos;
 		} catch(Throwable ex) {
-			Log.e("TAG", "Film nicht hinzugefuegt!");
+			Log.e(TAG, "Film nicht hinzugefuegt!");
 			return -1;
 		} finally {
 			db.endTransaction();
@@ -253,29 +254,6 @@ public class FilmData{
 					+ " WHERE id = '" + id + "'", null);
 	}
 
-//	public ArrayList<String> getFilms(String firstLetter) {
-//		ArrayList<String> albums = new ArrayList<String>();
-//		Cursor dbCursor = null;
-//		try {
-//			dbCursor = dbHelper.getReadableDatabase().rawQuery(
-//					"SELECT name, imgPath FROM " + FilmTbl.TABLE_NAME
-//					+ " WHERE name = '" + artist.mbId + "'", null);
-//			if (dbCursor.moveToFirst() == false) {
-//				return null;
-//			}
-//			albums.add(dbCursor.getString(0));
-//			while (dbCursor.moveToNext() == true) {
-//				albums.add(dbCursor.getString(0));
-//			}
-//		} catch(Throwable ex) {
-//			Log.e("TAG", "Konnte Alben nicht lesen", ex);
-//		} finally {
-//			if (dbCursor != null) {
-//				dbCursor.close();
-//			}
-//		}
-//		return albums;
-//	}	
 	public ArrayList<Film> getFilmsAll() {
 		ArrayList<Film> films = new ArrayList<Film>();
 		Cursor dbCursor = null;
@@ -283,7 +261,7 @@ public class FilmData{
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
 					"SELECT * FROM " + FilmTbl.TABLE_NAME, null);
 			if (dbCursor.moveToFirst() == false) {
-				return null;
+				return films;
 			}
 			films.add(new Film(dbCursor.getString(0),dbCursor.getString(1),
 					dbCursor.getString(2),dbCursor.getString(3)));
@@ -292,7 +270,7 @@ public class FilmData{
 						dbCursor.getString(2),dbCursor.getString(3)));
 			}
 		} catch(Throwable ex) {
-			Log.e("TAG", "Konnte Filme nicht lesen", ex);
+			Log.e(TAG, "Konnte Filme nicht lesen", ex);
 		} finally {
 			if (dbCursor != null) {
 				dbCursor.close();
@@ -309,7 +287,7 @@ public class FilmData{
 					"SELECT id, name, year, imgPath FROM " + FilmTbl.TABLE_NAME
 					, null);
 			if (dbCursor.moveToFirst() == false) {
-				return null;
+				return films;
 			}
 			films.add(new TextImageEntry(dbCursor.getString(0),
 					dbCursor.getString(1),
@@ -325,7 +303,7 @@ public class FilmData{
     							R.drawable.color_red), dbCursor.getString(2)));
 			}
 		} catch(Throwable ex) {
-			Log.e("TAG", "Konnte Filme nicht lesen", ex);
+			Log.e(TAG, "Konnte Filme nicht lesen", ex);
 		} finally {
 			if (dbCursor != null) {
 				dbCursor.close();
@@ -333,6 +311,38 @@ public class FilmData{
 		}
 		return films;
 	}	
+	
+	public ArrayList<Data> getFilmsData() {
+		ArrayList<Data> films = new ArrayList<Data>();
+		Cursor dbCursor = null;
+		try {
+			dbCursor = dbHelper.getReadableDatabase()
+					.rawQuery(
+							"SELECT id, name, year, imgPath FROM "
+									+ FilmTbl.TABLE_NAME, null);
+			if (dbCursor.moveToFirst() == false) {
+				return films;
+			}
+			films.add(new Data(dbCursor.getString(0), dbCursor.getString(1),
+					dbCursor.getString(2), dbCursor.getString(3),
+					FilmTbl.TABLE_NAME, ""));
+			while (dbCursor.moveToNext() == true) {
+				// tempAlbum = new TextImageEntry(dbCursor.getString(0),
+				// getResources().getDrawable(dbCursor.getString(1)),
+				// dbCursor.getInt(2)));
+				films.add(new Data(dbCursor.getString(0), dbCursor.getString(1),
+						dbCursor.getString(2), dbCursor.getString(3),
+						FilmTbl.TABLE_NAME, ""));
+			}
+		} catch (Throwable ex) {
+			Log.e(TAG, "Konnte Filme nicht lesen", ex);
+		} finally {
+			if (dbCursor != null) {
+				dbCursor.close();
+			}
+		}
+		return films;
+	}
 
 	/**
 	 * Gibt die Anzahl der Alben in der Datenbank zurueck. <br>

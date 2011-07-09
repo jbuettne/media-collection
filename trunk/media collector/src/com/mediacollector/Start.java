@@ -2,7 +2,7 @@ package com.mediacollector;
 
 import com.mediacollector.collection.SearchListing;
 import com.mediacollector.collection.audio.listings.ArtistListing;
-import com.mediacollector.collection.book.listings.BookListing;
+import com.mediacollector.collection.books.listings.BookListing;
 import com.mediacollector.collection.games.listings.GamesListing;
 import com.mediacollector.collection.video.listings.FilmListing;
 //import com.mediacollector.fetching.DataFetcher;

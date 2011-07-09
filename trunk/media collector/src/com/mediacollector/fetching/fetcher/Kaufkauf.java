@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import android.content.Context;
 import android.util.Log;
 
+import com.mediacollector.R;
 import com.mediacollector.fetching.DataFetcher;
 import com.mediacollector.fetching.WebParsing;
 
@@ -62,8 +63,9 @@ public class Kaufkauf extends DataFetcher {
 		if (matcher.find()) {
 			this.set(TITLE_STRING, matcher.group(1));
 			this.set(TITLE_ID_STRING, this.ean);
-			this.set(ARTIST_STRING, "Video");
-			Log.i("MediaCollector", "Item: " + this.get(TITLE_STRING));
+			this.set(ARTIST_STRING, context
+					.getString(R.string.COLLECTION_Games));
+			this.set(YEAR_STRING, "");
 			notifyObserver(true);
 		} else notifyObserver(false);
 	}

@@ -35,4 +35,6 @@
     <string name="EXCEPTION_Fetching_2_1">Couldn\'t find Search-Engine</string>
     <string name="EXCEPTION_Fetching_2_2"></string>
     <string name="EXCEPTION_Fechting_3">Couldn\'t find Cover</string>
+    <string name="COLLECTION_Games_PC">PC-Game</string>
+    <string name="COLLECTION_Games_Board">Boardgame</string>
 </resources>
