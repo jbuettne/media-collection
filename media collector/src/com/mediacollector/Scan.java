@@ -151,6 +151,10 @@ public class Scan extends RegisteredActivity implements Observer {
 										"Album zur Datenbank hinzugefügt",
 										Toast.LENGTH_LONG).show();
 							} else if (collection == R.string.COLLECTION_Books) {
+								Toast.makeText(getBaseContext(),
+										(String) fetching.getDataFetcher().get(
+												DataFetcher.ARTIST_STRING),
+										Toast.LENGTH_LONG).show();
 								dBase.getBook().insertBook(
 										(String) fetching.getDataFetcher().get(
 												DataFetcher.TITLE_ID_STRING),
@@ -180,7 +184,8 @@ public class Scan extends RegisteredActivity implements Observer {
 										Toast.LENGTH_LONG).show();
 							} else if (collection == R.string.COLLECTION_Games) {
 								if ((String) fetching.getDataFetcher()
-										.get(DataFetcher.ARTIST_STRING) == "Video") {
+										.get(DataFetcher.ARTIST_STRING) == 
+										getString(R.string.COLLECTION_Games)) {
 									dBase.getVideoGame().insertVideoGame(
 											(String) fetching.getDataFetcher().get(
 													DataFetcher.TITLE_ID_STRING),

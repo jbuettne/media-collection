@@ -49,7 +49,7 @@ public class Thalia extends DataFetcher {
 	 */
 	private static final Pattern PATTERN_ARTIST = Pattern.compile("https://ssl."
 			+ "buch.de/pagstract/textimage/\\?s=artikel-person-details&t=von"
-			+ "\\+([^&]+)\\&c=([^&]+)");
+			+ "\\+([^&]+)\\&c=([^&]+)", Pattern.MULTILINE);
 	/**
 	 * Alternatives Pattern zum Suchen des Artists des Audio-Datenträgers.
 	 */
@@ -128,8 +128,17 @@ public class Thalia extends DataFetcher {
 			
 			this.set(TITLE_STRING, URLDecoder.decode(matcher_t.group(1)));
 			this.set(TITLE_ID_STRING, URLDecoder.decode(matcher_t.group(2)));
-			//this.set(ARTIST_ID_STRING, URLDecoder.decode(matcher_a.group(2))); Diese Zeile macht Probleme! No succesful match so far ! u.A. getestet mit Barcode 5099749423862
-			this.set(ARTIST_ID_STRING, this.ean);
+			if (this.search == AUDIO_ONLY) {
+				Toast.makeText(this.context,
+						URLDecoder.decode(matcher_a.group(2)),
+						Toast.LENGTH_LONG).show();
+				this.set(ARTIST_ID_STRING,
+						URLDecoder.decode(matcher_a.group(2)));
+			// Diese Zeile macht Probleme! No succesful match so far ! 
+			//u.A. getestet mit Barcode 5099749423862
+			} else
+				this.set(ARTIST_ID_STRING, "");
+			//this.set(ARTIST_ID_STRING, this.ean);
 			this.set(ARTIST_STRING, artist); // Ist teilweise immer noch nicht korrekt: z.B. Die Fantastischen Vier, Die Fantastischen Vier
 			this.set(YEAR_STRING, URLDecoder.decode(matcher_y.group(1)));
 			notifyObserver(true);

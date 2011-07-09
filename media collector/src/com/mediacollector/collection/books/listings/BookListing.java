@@ -1,4 +1,4 @@
-package com.mediacollector.collection.book.listings;
+package com.mediacollector.collection.books.listings;
 
 import java.util.ArrayList;
 import java.util.HashMap;

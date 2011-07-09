@@ -62,7 +62,7 @@ public class BoardGameData{
 			Log.i(TAG, "BoardGame mit id=" + id + " erzeugt.");
 			return pos;
 		} catch(Throwable ex) {
-			Log.e("TAG", "BoardGame nicht hinzugefuegt!");
+			Log.e(TAG, "BoardGame nicht hinzugefuegt! " + ex);
 			return -1;
 		} finally {
 			db.endTransaction();
@@ -259,7 +259,7 @@ public class BoardGameData{
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
 					"SELECT * FROM " + BoardGameTbl.TABLE_NAME, null);
 			if (dbCursor.moveToFirst() == false) {
-				return null;
+				return games;
 			}
 			games.add(new BoardGame(dbCursor.getString(0),dbCursor.getString(1),
 					dbCursor.getString(2),dbCursor.getString(3)));
@@ -285,7 +285,7 @@ public class BoardGameData{
 					"SELECT id, name, year, imgPath FROM "
 							+ BoardGameTbl.TABLE_NAME, null);
 			if (dbCursor.moveToFirst() == false) {
-				return null;
+				return games;
 			}
 			games.add(new TextImageEntry(dbCursor.getString(0), dbCursor
 					.getString(1), context.getResources().getDrawable(

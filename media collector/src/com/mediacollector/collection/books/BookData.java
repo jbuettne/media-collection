@@ -67,7 +67,7 @@ public class BookData{
 			Log.i(TAG, "Book mit id=" + id + " erzeugt.");
 			return pos;
 		} catch(Throwable ex) {
-			Log.e("TAG", "Book nicht hinzugefuegt!");
+			Log.e(TAG, "Book nicht hinzugefuegt! " + ex);
 			return -1;
 		} finally {
 			db.endTransaction();

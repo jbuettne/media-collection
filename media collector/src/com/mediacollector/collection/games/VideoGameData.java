@@ -59,10 +59,10 @@ public class VideoGameData{
 			stmtInsert.bindString(4, imgPath);
 			long pos = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
-			Log.i(TAG, "VideoGame mit id=" + id + " erzeugt.");
+			Log.i(TAG, "PC-Spiel mit id=" + id + " erzeugt.");
 			return pos;
 		} catch(Throwable ex) {
-			Log.e("TAG", "VideoGame nicht hinzugefuegt!");
+			Log.e(TAG, "PC-Spiel nicht hinzugefuegt! " + ex);
 			return -1;
 		} finally {
 			db.endTransaction();
@@ -162,7 +162,7 @@ public class VideoGameData{
 		try {
 			deleteCount = db.delete(VideoGameTbl.TABLE_NAME, "_id = '" + id + "'",
 					null);
-			Log.i(TAG, "VideoGame id=" + id + " deleted.");
+			Log.i(TAG, "PC-Spiel id=" + id + " deleted.");
 		} finally {
 			db.close();
 		}
@@ -183,7 +183,7 @@ public class VideoGameData{
 		try {
 			deleteCount = db.delete(VideoGameTbl.TABLE_NAME, "name = '" + name
 					+ "'", null);
-			Log.i(TAG, "VideoGame name=" + name + " deleted.");
+			Log.i(TAG, "PC-Spiel name=" + name + " deleted.");
 		} finally {
 			db.close();
 		}
@@ -259,7 +259,7 @@ public class VideoGameData{
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
 					"SELECT * FROM " + VideoGameTbl.TABLE_NAME, null);
 			if (dbCursor.moveToFirst() == false) {
-				return null;
+				return games;
 			}
 			games.add(new VideoGame(dbCursor.getString(0),dbCursor.getString(1),
 					dbCursor.getString(2),dbCursor.getString(3)));
@@ -268,7 +268,7 @@ public class VideoGameData{
 						dbCursor.getString(2),dbCursor.getString(3)));
 			}
 		} catch(Throwable ex) {
-			Log.e("TAG", "Konnte VideoGamee nicht lesen", ex);
+			Log.e(TAG, "Konnte PC-Spiele nicht lesen", ex);
 		} finally {
 			if (dbCursor != null) {
 				dbCursor.close();
@@ -285,7 +285,7 @@ public class VideoGameData{
 					"SELECT id, name, year, imgPath FROM "
 							+ VideoGameTbl.TABLE_NAME, null);
 			if (dbCursor.moveToFirst() == false) {
-				return null;
+				return games;
 			}
 			games.add(new TextImageEntry(dbCursor.getString(0), dbCursor
 					.getString(1), context.getResources().getDrawable(
@@ -299,7 +299,7 @@ public class VideoGameData{
 						R.drawable.color_red), dbCursor.getString(2)));
 			}
 		} catch (Throwable ex) {
-			Log.e("TAG", "Konnte VideoGames nicht lesen", ex);
+			Log.e(TAG, "Konnte PC-Spiele nicht lesen", ex);
 		} finally {
 			if (dbCursor != null) {
 				dbCursor.close();
