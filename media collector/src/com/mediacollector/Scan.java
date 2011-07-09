@@ -106,8 +106,6 @@ public class Scan extends RegisteredActivity implements Observer {
         	public void onClick(View v) { finish(); }
         });
     	
-        
-        
         super.onActivityResult(requestCode, resultCode, data);
 	}
 	
@@ -232,62 +230,6 @@ public class Scan extends RegisteredActivity implements Observer {
 							dBase.closeConnection();
 							finish();
 						}
-	//					switch (resultCode) {
-	//					case Activity.RESULT_OK:
-	//						switch (collection) {
-	//						case R.string.COLLECTION_Audio:
-	//							dBase.getArtist().insertArtist(
-	//									DataFetcher.ARTIST_ID_STRING,
-	//									DataFetcher.ARTIST_STRING);
-	//							dBase.getAlbum().insertAlbum(
-	//									DataFetcher.TITLE_ID_STRING,
-	//									DataFetcher.TITLE_STRING,
-	//									DataFetcher.ARTIST_ID_STRING,
-	//									Long.valueOf(DataFetcher.YEAR_STRING),
-	//									ImageFetcher.COVER_PATH);
-	//							break;
-	//						case R.string.COLLECTION_Books:
-	//							dBase.getBook().insertBook(DataFetcher.TITLE_ID_STRING,
-	//									DataFetcher.TITLE_STRING,
-	//									DataFetcher.ARTIST_STRING,
-	//									Long.valueOf(DataFetcher.YEAR_STRING),
-	//									ImageFetcher.COVER_PATH);
-	//							break;
-	//						case R.string.COLLECTION_Video:
-	//							dBase.getFilm().insertFilm(DataFetcher.TITLE_ID_STRING,
-	//									DataFetcher.TITLE_STRING,
-	//									Long.valueOf(DataFetcher.YEAR_STRING),
-	//									ImageFetcher.COVER_PATH);
-	//							break;
-	//						case R.string.COLLECTION_Games:
-	//							if (DataFetcher.ARTIST_STRING == "Video") {
-	//								dBase.getVideoGame().insertVideoGame(
-	//										DataFetcher.TITLE_ID_STRING,
-	//										DataFetcher.TITLE_STRING,
-	//										"",
-	//										ImageFetcher.COVER_PATH);
-	//							} else {
-	//								dBase.getBoardGame().insertBoardGame(
-	//										DataFetcher.TITLE_ID_STRING, 
-	//										DataFetcher.TITLE_STRING,
-	//										Long.valueOf(DataFetcher.YEAR_STRING),
-	//										ImageFetcher.COVER_PATH);
-	//							};
-	//							break;
-	//						default:
-	//							Toast.makeText(getBaseContext(),
-	//									"Zur Datenbank hinzugefügt", 
-	//									Toast.LENGTH_LONG).show();
-	//							break;
-	//						}
-	//						break;
-	//					case Activity.RESULT_CANCELED:
-	//						break;
-	//					default:
-	//						break;
-	//					}
-		        		//startActivity(new Intent(getBaseContext(), Start.class));
-	        	
 	        		});
 				}
 			}
