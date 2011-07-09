@@ -1,7 +1,9 @@
 package com.mediacollector;
 
+import com.mediacollector.fetching.ImageFetcher;
 import com.mediacollector.tools.RegisteredActivity;
 
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -29,8 +31,8 @@ public class EntryDetails extends RegisteredActivity {
 				extras.getString("name"));		
 		((TextView) findViewById(R.id.year)).setText(
 				extras.getString("details"));			
-		((ImageView) findViewById(R.id.cover)).setImageDrawable((Drawable) 
-				getResources().getDrawable(R.drawable.color_red));
+		((ImageView) findViewById(R.id.cover)).setImageBitmap(BitmapFactory
+				.decodeFile(extras.getString("image") + ".jpg"));	
 		((LinearLayout) findViewById(R.id.back_to_start)).setOnClickListener(
 				new OnClickListener() { 
 					public void onClick(View v) { finish(); }

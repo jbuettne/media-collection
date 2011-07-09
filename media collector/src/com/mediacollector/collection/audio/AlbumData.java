@@ -298,17 +298,12 @@ public class AlbumData{
 				return null;
 			}
 			albums.add(new TextImageEntry(dbCursor.getString(0),
-					dbCursor.getString(1),
-					context.getResources().getDrawable(
-							R.drawable.color_red), dbCursor.getString(2)));
+					dbCursor.getString(1), dbCursor.getString(3),
+					dbCursor.getString(2)));
 			while (dbCursor.moveToNext() == true) {
-//				tempAlbum = new TextImageEntry(dbCursor.getString(0),
-//						getResources().getDrawable(dbCursor.getString(1)),
-//						dbCursor.getInt(2),getTrackCount...));
 				albums.add(new TextImageEntry(dbCursor.getString(0),
-						dbCursor.getString(1),
-						context.getResources().getDrawable(
-    							R.drawable.color_red), dbCursor.getString(2)));
+						dbCursor.getString(1),dbCursor.getString(3),
+						dbCursor.getString(2)));
 			}
 		} catch(Throwable ex) {
 			Log.e("TAG", "Konnte Alben nicht lesen", ex);

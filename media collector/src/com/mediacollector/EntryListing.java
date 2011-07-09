@@ -8,6 +8,7 @@ import com.mediacollector.tools.RegisteredListActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -65,8 +66,8 @@ public abstract class EntryListing extends RegisteredListActivity {
 					((TextView) v.findViewById(R.id.details)).setText(String
 							.valueOf(o.getYear()));
 					((ImageView) v.findViewById(R.id.image))
-							.setImageDrawable((Drawable) getResources()
-									.getDrawable(R.drawable.color_red));
+							.setImageBitmap(BitmapFactory
+									.decodeFile(o.getImage() + "_small.jpg"));
 				}
 				return v;
 			}
@@ -82,8 +83,7 @@ public abstract class EntryListing extends RegisteredListActivity {
         		entryDetails.putExtra("details", 
         				entries.get(position).getYear());
         		entryDetails.putExtra("extras", "");
-        		entryDetails.putExtra("image", entries.get(position).getImage()
-        				.toString());
+        		entryDetails.putExtra("image", entries.get(position).getImage());
         		entryDetails.putExtra("id", entries.get(position).getId());
         		startActivity(entryDetails);
         	}
