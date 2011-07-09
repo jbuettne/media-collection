@@ -3,18 +3,12 @@ package com.mediacollector.collection.audio;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 
-import com.mediacollector.R;
-import com.mediacollector.SearchResult;
 import com.mediacollector.collection.DatabaseHelper;
 
 /**
@@ -28,20 +22,16 @@ import com.mediacollector.collection.DatabaseHelper;
  * @author Philipp Dermitzel
  * @version 0.1
  */
-public class ArtistData{
+public class ArtistData {
 
 	private static final String TAG = "ArtistData";
 	private DatabaseHelper dbHelper;
 
 	public ArtistData(Context context) {
 		dbHelper = new DatabaseHelper(context);
-		//open();
 		Log.d(TAG, "Artistspeicher angelegt.");
 	}
-
-	private ArtistData() {
-	}
-
+	
 	public long insertArtist(String mbId, String name) {
 
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();

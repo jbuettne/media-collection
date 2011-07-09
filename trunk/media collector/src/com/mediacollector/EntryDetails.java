@@ -2,7 +2,6 @@ package com.mediacollector;
 
 import com.mediacollector.tools.RegisteredActivity;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;

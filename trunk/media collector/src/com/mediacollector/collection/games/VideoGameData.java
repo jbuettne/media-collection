@@ -1,7 +1,6 @@
 package com.mediacollector.collection.games;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -38,11 +37,7 @@ public class VideoGameData{
 	public VideoGameData(Context context) {
 		this.context = context;
 		dbHelper = new DatabaseHelper(context);
-		//open();
 		Log.d(TAG, "VideoGamespeicher angelegt.");
-	}
-
-	private VideoGameData() {
 	}
 
 	public long insertVideoGame(String id, String name, String year,

@@ -31,6 +31,7 @@ public class AlbumData{
 	 * entsprechenden getter und setter gelesen/gesetzt werden.
 	 */
 	
+	@SuppressWarnings("unused")
 	private HashMap<String, Object> data = new HashMap<String, Object>();
 	private static final String TAG = "AlbumData";
 	private DatabaseHelper dbHelper;
@@ -43,11 +44,8 @@ public class AlbumData{
 		Log.d(TAG, "Albenspeicher angelegt.");
 	}
 
-	private AlbumData() {
-	}
-
-	public long insertAlbum(String mbId, String name, String artist, String year,
-			String imgPath) {
+	public long insertAlbum(String mbId, String name, String artist, 
+			String year, String imgPath) {
 
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 		SQLiteStatement stmtInsert = db
