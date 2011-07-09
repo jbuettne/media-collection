@@ -25,13 +25,14 @@ import com.mediacollector.collection.TextImageEntry;
  * @author Philipp Dermitzel
  * @version 0.1
  */
-public class FilmData{
+public class FilmData {
 
 	/**
 	 * Enthält alle benötigten Daten für die Objekte. Diese können über die
 	 * entsprechenden getter und setter gelesen/gesetzt werden.
 	 */
 	
+	@SuppressWarnings("unused")
 	private HashMap<String, Object> data = new HashMap<String, Object>();
 	private static final String TAG = "FilmData";
 	private DatabaseHelper dbHelper;
@@ -40,11 +41,7 @@ public class FilmData{
 	public FilmData(Context context) {
 		this.context = context;
 		dbHelper = new DatabaseHelper(context);
-		//open();
 		Log.d(TAG, "Filmspeicher angelegt.");
-	}
-
-	private FilmData() {
 	}
 
 	public long insertFilm(String id, String name, String year,

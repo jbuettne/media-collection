@@ -5,14 +5,11 @@ import java.util.HashMap;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
-import com.mediacollector.R;
 import com.mediacollector.collection.DatabaseHelper;
-import com.mediacollector.collection.TextImageEntry;
 
 /**
  * OR-Mapper für 'Artist'. ----------------------- Die Artist-Klasse
@@ -25,26 +22,22 @@ import com.mediacollector.collection.TextImageEntry;
  * @author Philipp Dermitzel
  * @version 0.1
  */
-public class TrackData{
+public class TrackData {
 
 	/**
 	 * Enthält alle benötigten Daten für die Objekte. Diese können über die
 	 * entsprechenden getter und setter gelesen/gesetzt werden.
 	 */
 	
+	@SuppressWarnings("unused")
 	private HashMap<String, Object> data = new HashMap<String, Object>();
 	private static final String TAG = "TrackData";
 	private DatabaseHelper dbHelper;
-	private Context context;
 
 	public TrackData(Context context) {
-		this.context = context;
 		dbHelper = new DatabaseHelper(context);
 		open();
 		Log.d(TAG, "Trackpeicher angelegt.");
-	}
-
-	private TrackData() {
 	}
 
 	public long insertTrack(String mbId, String name, String artist, long cd,

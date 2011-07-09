@@ -2,22 +2,14 @@ package com.mediacollector.collection;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Vector;
 
-import com.mediacollector.R;
-import com.mediacollector.Start;
-import com.mediacollector.collection.audio.Album;
 import com.mediacollector.collection.audio.AlbumData;
 import com.mediacollector.collection.audio.AlbumTbl;
-import com.mediacollector.collection.audio.Artist;
 import com.mediacollector.collection.audio.ArtistData;
 import com.mediacollector.collection.audio.ArtistTbl;
 import com.mediacollector.collection.books.BookData;
@@ -29,16 +21,9 @@ import com.mediacollector.collection.games.VideoGameTbl;
 import com.mediacollector.collection.video.FilmData;
 import com.mediacollector.collection.video.FilmTbl;
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * Die Datenbank-Klasse, die für die Erstellung, zur Verbindung zur Datenbank

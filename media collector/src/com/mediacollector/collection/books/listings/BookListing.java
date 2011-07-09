@@ -1,24 +1,11 @@
 package com.mediacollector.collection.books.listings;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import android.database.Cursor;
-import android.os.Bundle;
-import android.util.Log;
 import android.widget.EditText;
 
 import com.mediacollector.EntryListingExp;
-import com.mediacollector.R;
-import com.mediacollector.SearchResult;
-import com.mediacollector.Start;
-import com.mediacollector.collection.Database;
-import com.mediacollector.collection.DatabaseHelper;
 import com.mediacollector.collection.TextImageEntry;
-import com.mediacollector.collection.audio.AlbumData;
-import com.mediacollector.collection.audio.Artist;
-import com.mediacollector.collection.audio.ArtistData;
-import com.mediacollector.collection.books.Book;
 import com.mediacollector.collection.books.BookData;
 
 /**

@@ -12,9 +12,6 @@ import android.util.Log;
 import com.mediacollector.R;
 import com.mediacollector.collection.DatabaseHelper;
 import com.mediacollector.collection.TextImageEntry;
-import com.mediacollector.collection.audio.AlbumTbl;
-import com.mediacollector.collection.audio.Artist;
-import com.mediacollector.collection.audio.ArtistTbl;
 
 /**
  * OR-Mapper für 'Artist'. ----------------------- Die Artist-Klasse
@@ -27,13 +24,14 @@ import com.mediacollector.collection.audio.ArtistTbl;
  * @author Philipp Dermitzel
  * @version 0.1
  */
-public class BookData{
+public class BookData {
 
 	/**
 	 * Enthält alle benötigten Daten für die Objekte. Diese können über die
 	 * entsprechenden getter und setter gelesen/gesetzt werden.
 	 */
 	
+	@SuppressWarnings("unused")
 	private HashMap<String, Object> data = new HashMap<String, Object>();
 	private static final String TAG = "BookData";
 	private DatabaseHelper dbHelper;
@@ -42,11 +40,7 @@ public class BookData{
 	public BookData(Context context) {
 		this.context = context;
 		dbHelper = new DatabaseHelper(context);
-		//open();
 		Log.d(TAG, "Bookspeicher angelegt.");
-	}
-
-	private BookData() {
 	}
 
 	public long insertBook(String id, String name, String author, String year,

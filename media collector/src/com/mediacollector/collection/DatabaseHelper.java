@@ -2,7 +2,6 @@ package com.mediacollector.collection;
 
 import com.mediacollector.collection.audio.AlbumTbl;
 import com.mediacollector.collection.audio.ArtistTbl;
-import com.mediacollector.collection.audio.TrackTbl;
 import com.mediacollector.collection.books.BookTbl;
 import com.mediacollector.collection.games.BoardGameTbl;
 import com.mediacollector.collection.games.VideoGameTbl;
@@ -14,6 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
+	@SuppressWarnings("unused")
 	private static final String TAG = "DatabaseHelper";
 	private static final String DATENBANK_NAME = "mcData.db";
 	private static final int DATENBANK_VERSION = 1;

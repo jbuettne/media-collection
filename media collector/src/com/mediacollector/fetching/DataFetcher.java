@@ -7,7 +7,6 @@ import android.content.Context;
 import android.os.Looper;
 
 import com.mediacollector.R;
-import com.mediacollector.fetching.fetcher.Thalia;
 import com.mediacollector.tools.Observable;
 import com.mediacollector.tools.Exceptions.MCFetchingException;
 

@@ -98,8 +98,7 @@ public abstract class EntryListingExp extends ExpandableListActivity {
         LinearLayout header = (LinearLayout) findViewById(R.id.overall_header);        
         header.setOnClickListener(new OnClickListener() {
 			public void onClick(View arg0) {
-				startActivity(new Intent(getBaseContext(), com.mediacollector
-						.Start.class));
+				startActivity(new Intent(getBaseContext(), Start.class));
 			}        	
         });
         final LayoutInflater layoutInflater = (LayoutInflater) 

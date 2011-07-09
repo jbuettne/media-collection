@@ -6,7 +6,6 @@ import com.mediacollector.EntryListing;
 import com.mediacollector.collection.TextImageEntry;
 import com.mediacollector.collection.games.BoardGameData;
 import com.mediacollector.collection.games.VideoGameData;
-import com.mediacollector.collection.video.FilmData;
 
 public class GamesListing extends EntryListing{
 
