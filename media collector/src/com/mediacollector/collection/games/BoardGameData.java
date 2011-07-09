@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.mediacollector.R;
 import com.mediacollector.collection.DatabaseHelper;
@@ -55,6 +56,8 @@ public class BoardGameData{
 			long pos = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
 			Log.i(TAG, "BoardGame mit id=" + id + " erzeugt.");
+			Toast.makeText(this.context, "Brettspiel zur Datenbank hinzugefügt",
+					Toast.LENGTH_LONG).show();
 			return pos;
 		} catch(Throwable ex) {
 			Log.e(TAG, "BoardGame nicht hinzugefuegt! " + ex);
@@ -155,9 +158,11 @@ public class BoardGameData{
 
 		int deleteCount = 0;
 		try {
-			deleteCount = db.delete(BoardGameTbl.TABLE_NAME, "_id = '" + id + "'",
+			deleteCount = db.delete(BoardGameTbl.TABLE_NAME, "id = '" + id + "'",
 					null);
 			Log.i(TAG, "BoardGame id=" + id + " deleted.");
+			Toast.makeText(this.context, "Brettspiel aus der Datenbank gelöscht",
+					Toast.LENGTH_LONG).show();
 		} finally {
 			db.close();
 		}
@@ -179,6 +184,8 @@ public class BoardGameData{
 			deleteCount = db.delete(BoardGameTbl.TABLE_NAME, "name = '" + name
 					+ "'", null);
 			Log.i(TAG, "BoardGame name=" + name + " deleted.");
+			Toast.makeText(this.context, "Brettspiel aus der Datenbank gelöscht",
+					Toast.LENGTH_LONG).show();
 		} finally {
 			db.close();
 		}

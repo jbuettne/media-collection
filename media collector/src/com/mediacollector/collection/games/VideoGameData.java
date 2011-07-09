@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.mediacollector.R;
 import com.mediacollector.collection.DatabaseHelper;
@@ -55,6 +56,8 @@ public class VideoGameData{
 			long pos = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
 			Log.i(TAG, "PC-Spiel mit id=" + id + " erzeugt.");
+			Toast.makeText(this.context, "Spiel zur Datenbank hinzugefügt",
+					Toast.LENGTH_LONG).show();
 			return pos;
 		} catch(Throwable ex) {
 			Log.e(TAG, "PC-Spiel nicht hinzugefuegt! " + ex);
@@ -155,9 +158,11 @@ public class VideoGameData{
 
 		int deleteCount = 0;
 		try {
-			deleteCount = db.delete(VideoGameTbl.TABLE_NAME, "_id = '" + id + "'",
+			deleteCount = db.delete(VideoGameTbl.TABLE_NAME, "id = '" + id + "'",
 					null);
 			Log.i(TAG, "PC-Spiel id=" + id + " deleted.");
+			Toast.makeText(this.context, "Spiel aus der Datenbank gelöscht",
+					Toast.LENGTH_LONG).show();
 		} finally {
 			db.close();
 		}
@@ -179,6 +184,8 @@ public class VideoGameData{
 			deleteCount = db.delete(VideoGameTbl.TABLE_NAME, "name = '" + name
 					+ "'", null);
 			Log.i(TAG, "PC-Spiel name=" + name + " deleted.");
+			Toast.makeText(this.context, "Spiel aus der Datenbank gelöscht",
+					Toast.LENGTH_LONG).show();
 		} finally {
 			db.close();
 		}

@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.mediacollector.R;
 import com.mediacollector.collection.DatabaseHelper;
@@ -59,6 +60,8 @@ public class BookData {
 			long pos = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
 			Log.i(TAG, "Book mit id=" + id + " erzeugt.");
+			Toast.makeText(this.context, "Buch zur Datenbank hinzugefügt",
+					Toast.LENGTH_LONG).show();
 			return pos;
 		} catch(Throwable ex) {
 			Log.e(TAG, "Book nicht hinzugefuegt! " + ex);
@@ -89,6 +92,8 @@ public class BookData {
 			deleteCount = db.delete(BookTbl.TABLE_NAME, "id = '" + id + "'",
 					null);
 			Log.i(TAG, "Book id=" + id + " deleted.");
+			Toast.makeText(this.context, "Buch aus der Datenbank gelöscht",
+					Toast.LENGTH_LONG).show();
 		} finally {
 			db.close();
 		}
@@ -110,6 +115,8 @@ public class BookData {
 			deleteCount = db.delete(BookTbl.TABLE_NAME, "name = '" + name
 					+ "'", null);
 			Log.i(TAG, "Book name=" + name + " deleted.");
+			Toast.makeText(this.context, "Buch aus der Datenbank gelöscht",
+					Toast.LENGTH_LONG).show();
 		} finally {
 			db.close();
 		}

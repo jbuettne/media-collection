@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.mediacollector.R;
 import com.mediacollector.collection.DatabaseHelper;
@@ -60,6 +61,8 @@ public class AlbumData{
 			long id = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
 			Log.i(TAG, "Album mit id=" + mbId + " erzeugt.");
+			Toast.makeText(this.context, "Album zur Datenbank hinzugefügt",
+					Toast.LENGTH_LONG).show();
 			return id;
 		} catch(Throwable ex) {
 			Log.e("TAG", "Album nicht hinzugefuegt!");
@@ -155,14 +158,16 @@ public class AlbumData{
 	 *            Schlüssel des gesuchten Kontakts
 	 * @return true, wenn Datensatz geloescht wurde.
 	 */
-	public boolean deleteAlbum(long id) {
+	public boolean deleteAlbum(String id) {
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 		int deleteCount = 0;
 		try {
-			deleteCount = db.delete(AlbumTbl.TABLE_NAME, "_id = '" + id + "'",
+			deleteCount = db.delete(AlbumTbl.TABLE_NAME, "id = '" + id + "'",
 					null);
 			Log.i(TAG, "Album id=" + id + " deleted.");
+			Toast.makeText(this.context, "Album aus der Datenbank gelöscht",
+					Toast.LENGTH_LONG).show();
 		} finally {
 			db.close();
 		}
@@ -176,7 +181,7 @@ public class AlbumData{
 	 *            Schlüssel des gesuchten Kontakts
 	 * @return true, wenn Datensatz geloescht wurde.
 	 */
-	public boolean deleteAlbum(String name) {
+	public boolean deleteAlbumName(String name) {
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 		int deleteCount = 0;
@@ -184,6 +189,8 @@ public class AlbumData{
 			deleteCount = db.delete(AlbumTbl.TABLE_NAME, "name = '" + name
 					+ "'", null);
 			Log.i(TAG, "Album name=" + name + " deleted.");
+			Toast.makeText(this.context, "Album aus der Datenbank gelöscht",
+					Toast.LENGTH_LONG).show();
 		} finally {
 			db.close();
 		}
@@ -260,7 +267,7 @@ public class AlbumData{
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
 					"SELECT name, imgPath FROM " + AlbumTbl.TABLE_NAME + 
-					" WHERE artist = '" + artist.mbId + "' " +
+					" WHERE artist = '" + artist.id + "' " +
 					"ORDER BY name", null);
 			if (dbCursor.moveToFirst() == false) {
 				return null;
@@ -285,7 +292,7 @@ public class AlbumData{
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
 					"SELECT id, name, year, imgPath FROM " + AlbumTbl.TABLE_NAME
-					+ " WHERE artist = '" + artist.mbId + "' " +
+					+ " WHERE artist = '" + artist.id + "' " +
 					"ORDER BY name", null);
 			if (dbCursor.moveToFirst() == false) {
 				return null;
