@@ -8,6 +8,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.mediacollector.collection.DatabaseHelper;
 
@@ -140,22 +141,19 @@ public class ArtistData {
 	   *          Schlüssel des gesuchten Kontakts
 	   * @return true, wenn Datensatz geloescht wurde.
 	   */
-	  public boolean deleteArtist(String value, String type) {
-	    final SQLiteDatabase db = dbHelper.getWritableDatabase();
-	    Log.i("TAG", "ICH BIN DRIN!");
-	    int deleteCount = 0;
-	    try {
-	      deleteCount = 
-	        db.delete(ArtistTbl.TABLE_NAME, 
-	        		"name = '" + value + "'",
-	          null);
-	      Log.i(TAG,
-	          "Artist " + type + " = " + value  + " deleted.");
-	    } finally {
-	      db.close();
-	    }
-	    return deleteCount == 1;
-	  }
+	public boolean deleteArtist(String id) {
+		final SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+		int deleteCount = 0;
+		try {
+			deleteCount = db.delete(ArtistTbl.TABLE_NAME, "id = '" + id + "'",
+					null);
+			Log.i(TAG, "Artist id=" + id + " deleted.");
+		} finally {
+			db.close();
+		}
+		return deleteCount == 1;
+	}
 
 	public Artist getArtist(String value, String type) {
 		Artist artist = null;
@@ -194,7 +192,7 @@ public class ArtistData {
 	        .getColumnIndex(ArtistTbl.COL_ARTIST_NAME));
 	    artist.imgPath = dbCursor.getString(dbCursor
 	        .getColumnIndex(ArtistTbl.COL_ARTIST_IMAGE));
-	    artist.mbId = dbCursor.getString(dbCursor
+	    artist.id = dbCursor.getString(dbCursor
 	        .getColumnIndex(ArtistTbl.COL_ARTIST_ID));
 	    return artist;
 	  }

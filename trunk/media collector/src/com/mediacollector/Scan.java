@@ -169,9 +169,6 @@ public class Scan extends RegisteredActivity implements Observer {
 												DataFetcher.YEAR_STRING),
 										(String) fetching.getImageFetcher().get(
 												ImageFetcher.COVER_PATH));
-								Toast.makeText(getBaseContext(),
-										"Album zur Datenbank hinzugefügt",
-										Toast.LENGTH_LONG).show();
 							} else if (collection == 
 								R.string.COLLECTION_Books) {
 								dBase.getBook().insertBook(
@@ -185,9 +182,6 @@ public class Scan extends RegisteredActivity implements Observer {
 												DataFetcher.YEAR_STRING),
 										(String) fetching.getImageFetcher().get(
 												ImageFetcher.COVER_PATH));
-								Toast.makeText(getBaseContext(),
-										"Buch zur Datenbank hinzugefügt",
-										Toast.LENGTH_LONG).show();
 							} else if (collection == 
 								R.string.COLLECTION_Video) {
 								dBase.getFilm().insertFilm(
@@ -199,9 +193,6 @@ public class Scan extends RegisteredActivity implements Observer {
 												DataFetcher.YEAR_STRING),
 										(String) fetching.getImageFetcher().get(
 												ImageFetcher.COVER_PATH));
-								Toast.makeText(getBaseContext(),
-										"Film zur Datenbank hinzugefügt",
-										Toast.LENGTH_LONG).show();
 							} else if (collection == R.string.COLLECTION_Games) {
 								if ((String) fetching.getDataFetcher()
 										.get(DataFetcher.ARTIST_STRING) ==
@@ -215,9 +206,6 @@ public class Scan extends RegisteredActivity implements Observer {
 													DataFetcher.YEAR_STRING),
 											(String) fetching.getImageFetcher().get(
 													ImageFetcher.COVER_PATH));
-									Toast.makeText(getBaseContext(),
-											"PC-Spiel zur Datenbank hinzugefügt",
-											Toast.LENGTH_LONG).show();
 								} else {
 									dBase.getBoardGame().insertBoardGame(
 											(String) fetching.getDataFetcher().get(
@@ -228,9 +216,6 @@ public class Scan extends RegisteredActivity implements Observer {
 													DataFetcher.YEAR_STRING),
 											(String) fetching.getImageFetcher().get(
 													ImageFetcher.COVER_PATH));
-									Toast.makeText(getBaseContext(),
-											"Brettspiel zur Datenbank hinzugefügt",
-											Toast.LENGTH_LONG).show();
 								}
 								
 							}

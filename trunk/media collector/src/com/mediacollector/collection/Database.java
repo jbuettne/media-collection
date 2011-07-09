@@ -93,7 +93,7 @@ public class Database{
 					"SELECT a.* , ar.name "						+
 					"FROM " + AlbumTbl.TABLE_NAME + " As a " 	+
 					"JOIN " + ArtistTbl.TABLE_NAME + " As ar " 	+
-					"ON (a.artist = ar.mbId) " 					+
+					"ON (a.artist = ar.id) " 					+
 					"WHERE a.name LIKE  '%" + search + "%' " 	+
 					"OR ar.name LIKE  '%" + search + "%'", null);
 			if (dbCursor.moveToFirst() == true) {
