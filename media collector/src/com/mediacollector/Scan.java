@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 /**
  * 
+ * @author David Pollehn
  * @author Philipp Dermitzel
  */
 public class Scan extends RegisteredActivity implements Observer {
@@ -80,8 +81,7 @@ public class Scan extends RegisteredActivity implements Observer {
 	        		progress = android.app.ProgressDialog.show(this, 
 	        				getString(R.string.INFO_please_wait), 
 	        				getString(R.string.INFO_we_comb_the_internet),
-	        				true,
-	        				true);
+	        				true, true);
 	        		this.fetching = new Fetching(this, data.getExtras()
 	        				.getString("BARCODE"), searchEngine);
 	        		this.fetching.addObserver(this);

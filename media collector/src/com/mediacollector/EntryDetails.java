@@ -33,9 +33,8 @@ public class EntryDetails extends RegisteredActivity {
 		((ImageView) findViewById(R.id.cover)).setImageDrawable((Drawable) 
 				getResources().getDrawable(R.drawable.color_red));
 		((LinearLayout) findViewById(R.id.back_to_start)).setOnClickListener(
-				new OnClickListener() { public void onClick(View v) {
-					startActivity(new Intent(EntryDetails.this, Start.class));			
-					finish();
-		}});
+				new OnClickListener() { 
+					public void onClick(View v) { finish(); }
+				});
     }
 }
