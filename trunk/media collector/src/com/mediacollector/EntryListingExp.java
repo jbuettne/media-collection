@@ -15,6 +15,7 @@ import android.app.ExpandableListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -141,10 +142,11 @@ public abstract class EntryListingExp extends ExpandableListActivity {
         			boolean isLastChild, View convertView, ViewGroup parent) {
         		final View v = super.getChildView(groupPosition, childPosition, 
         				isLastChild, convertView, parent);
-        		((ImageView) v.findViewById(R.id.image)).setImageDrawable(
-        				(Drawable) ((Map<String, Object>) 
+        		((ImageView) v.findViewById(R.id.image))
+        		.setImageBitmap(BitmapFactory.decodeFile(
+        				(String) ((Map<String, Object>) 
         						getChild(groupPosition, childPosition))
-        						.get(IMAGE));
+        						.get(IMAGE) + "_small.jpg"));
         		((TextView) v.findViewById(R.id.name)).setText( 
         				(String) ((Map<String, Object>) 
         						getChild(groupPosition, childPosition))
@@ -180,8 +182,9 @@ public abstract class EntryListingExp extends ExpandableListActivity {
 								.get(childPosition).get(YEAR));
 				entryDetails.putExtra("extra",
 						(String) groupData.get(groupPosition).get(TEXT));
-        		entryDetails.putExtra("image", childData.get(groupPosition)
-						.get(childPosition).get(IMAGE).toString());
+        		entryDetails.putExtra("image", 
+        				(String) childData.get(groupPosition)
+						.get(childPosition).get(IMAGE));
 				entryDetails.putExtra("id",
 						(String) childData.get(groupPosition)
 						.get(childPosition).get(ID));

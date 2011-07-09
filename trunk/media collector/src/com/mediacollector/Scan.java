@@ -113,14 +113,17 @@ public class Scan extends RegisteredActivity implements Observer {
 		if (fetching.getDataFetcher().get(DataFetcher.ARTIST_STRING) == null 
 			&& fetching.getDataFetcher().get(DataFetcher.TITLE_STRING) == null)
 		{
-			Toast.makeText(this, getString(R.string.INFO_nothing_found), 
-					Toast.LENGTH_LONG).show();
-			finish();
+//			Toast.makeText(this, getString(R.string.INFO_nothing_found), 
+//					Toast.LENGTH_LONG).show();
+//			finish();
 		}
+
+		Toast.makeText(this, (String) fetching.getImageFetcher().get(ImageFetcher.COVER_PATH),
+				Toast.LENGTH_LONG).show();
 		guiHandler.post(new Runnable() { public void run() {
 			((ImageView) findViewById(R.id.cover)).setImageBitmap(BitmapFactory
 					.decodeFile((String) fetching.getImageFetcher()
-					.get(ImageFetcher.COVER_PATH)));			
+					.get(ImageFetcher.COVER_PATH) + ".jpg"));			
 			((TextView) findViewById(R.id.artist)).setText((String) 
 					fetching.getDataFetcher().get(DataFetcher.ARTIST_STRING));
 			((TextView) findViewById(R.id.release)).setText((String) 
