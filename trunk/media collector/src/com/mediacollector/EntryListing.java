@@ -32,9 +32,9 @@ import android.widget.TextView;
  */
 public abstract class EntryListing extends ListActivity {
 	
-	protected	 ArrayList<TextImageEntry> 		entries 		= null;
-	protected	 String[] 			groups 		= null;
-	protected	 AlertDialog			alert		= null; 
+	protected ArrayList<TextImageEntry> entries = null;
+	protected String[] groups = null;
+	protected AlertDialog alert = null; 
 	
 	protected abstract void setData();
 	
@@ -56,7 +56,7 @@ public abstract class EntryListing extends ListActivity {
         builder.setTitle(R.string.COLLECTION_Choose);
         builder.setItems(collections, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
-            	Intent intent = new Intent(getApplicationContext(), 
+            	Intent intent = new Intent(EntryListing.this, 
             			ScanBarcode.class);
             	if (collections[item] == getString(R.string
             			.COLLECTION_Audio)) intent.putExtra("collection", 
