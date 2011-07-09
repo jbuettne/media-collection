@@ -110,7 +110,14 @@ public class Scan extends RegisteredActivity implements Observer {
 	}
 	
 	public void updateObserver(boolean statusOkay) {
-		guiHandler.post(new Runnable() { public void run() {	
+		if (fetching.getDataFetcher().get(DataFetcher.ARTIST_STRING) == null 
+			&& fetching.getDataFetcher().get(DataFetcher.TITLE_STRING) == null)
+		{
+			Toast.makeText(this, getString(R.string.INFO_nothing_found), 
+					Toast.LENGTH_LONG).show();
+			finish();
+		}
+		guiHandler.post(new Runnable() { public void run() {
 			((ImageView) findViewById(R.id.cover)).setImageBitmap(BitmapFactory
 					.decodeFile((String) fetching.getImageFetcher()
 					.get(ImageFetcher.COVER_PATH)));			

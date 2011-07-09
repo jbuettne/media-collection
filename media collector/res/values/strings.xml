@@ -28,7 +28,8 @@
     <string name="SCAN_add">add to collection 〉</string>
     
     <string name="INFO_please_wait">Please Wait ...</string>
-    <string name="INFO_we_comb_the_internet">We comb the Internet</string>
+    <string name="INFO_we_comb_the_internet">Searching for your Product</string>
+    <string name="INFO_nothing_found">Couldn\'t find your Product</string>
     
     <string name="EXCEPTION_unknown">Unknown Error</string>
     <string name="EXCEPTION_Fetching">Couldn\'t fetch Web-Data</string>
