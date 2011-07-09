@@ -24,7 +24,7 @@
     <string name="COLLECTION_Wishlist">Wunschzettel</string>
     <string name="COLLECTION_search">Suchen</string>
     
-    <string name="SCAN_back">〈 zurück</string>
+    <string name="SCAN_back">〈 zurück zum Start</string>
     <string name="SCAN_add">hinzufügen 〉</string>
         
     <string name="INFO_please_wait">Bitte Warten ...</string>
