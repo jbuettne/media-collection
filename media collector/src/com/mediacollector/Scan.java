@@ -42,7 +42,7 @@ public class Scan extends RegisteredActivity implements Observer {
 	
 	public int collection;
 	
-	private Database dBase;
+	private Database dBase = null;
 
 	private static ProgressDialog progress;
 	
@@ -244,7 +244,7 @@ public class Scan extends RegisteredActivity implements Observer {
 
     @Override
     protected void onDestroy() {
-        dBase.closeConnection();
+        if (dBase != null) dBase.closeConnection();
         super.onDestroy();
     }
 }
