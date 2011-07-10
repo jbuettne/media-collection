@@ -20,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * 
@@ -109,12 +110,11 @@ public class Scan extends RegisteredActivity implements Observer {
 	}
 	
 	public void updateObserver(boolean statusOkay) {
-		if (fetching.getDataFetcher().get(DataFetcher.ARTIST_STRING) == null 
-			&& fetching.getDataFetcher().get(DataFetcher.TITLE_STRING) == null)
+		if (fetching.getDataFetcher().get(DataFetcher.TITLE_STRING) == null)
 		{
-//			Toast.makeText(this, getString(R.string.INFO_nothing_found), 
-//					Toast.LENGTH_LONG).show();
-//			finish();
+			Toast.makeText(this, getString(R.string.INFO_nothing_found), 
+					Toast.LENGTH_LONG).show();
+			finish();
 		}
 
 		guiHandler.post(new Runnable() { public void run() {
@@ -129,7 +129,7 @@ public class Scan extends RegisteredActivity implements Observer {
 					fetching.getDataFetcher().get(DataFetcher.YEAR_STRING));
 			
 			if(add2collection_values == "title+artist") {
-				add2collection =	fetching.getDataFetcher().get(
+				add2collection = fetching.getDataFetcher().get(
         				DataFetcher.TITLE_STRING) != null
         		&& fetching.getDataFetcher().get(
         				DataFetcher.ARTIST_STRING) != null;
