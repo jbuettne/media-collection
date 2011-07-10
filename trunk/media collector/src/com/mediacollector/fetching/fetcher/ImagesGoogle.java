@@ -82,7 +82,10 @@ public class ImagesGoogle extends ImageFetcher {
 				new MCFetchingException(context, e.getMessage());
 			}
 		}
-		if (!check) notifyObserver(false);
+		if (!check) {
+			notifyObserver(false);
+			this.set(COVER_PATH, null); 
+		}
 	}
 	
 }
