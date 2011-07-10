@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import android.content.Context;
 
+import com.mediacollector.R;
 import com.mediacollector.fetching.DataFetcher;
 import com.mediacollector.fetching.WebParsing;
 import com.mediacollector.tools.StringFilter;
@@ -127,7 +128,9 @@ public class Thalia extends DataFetcher {
 			else if (matcher_a.find()) 
 				artist = this.getCorrectArtist(URLDecoder.decode(
 						matcher_a.group(1)));
-			else artist = "Unknown Artist";
+			else artist = (this.search == AUDIO_ONLY)
+					? this.context.getString(R.string.UNKNOWN_Artist)
+					: this.context.getString(R.string.UNKNOWN_Author);
 			
 			this.set(TITLE_STRING, URLDecoder.decode(
 					StringFilter.normalizeString(matcher_t.group(1))));

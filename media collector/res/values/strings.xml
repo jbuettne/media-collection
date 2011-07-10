@@ -42,4 +42,7 @@
     <string name="MENU_Options">Options</string>
     <string name="MENU_Details">View Details</string>
     <string name="MENU_Delete">Delete Entry</string>
+    
+    <string name="UNKNOWN_Artist">Unknown Artist</string>
+    <string name="UNKNOWN_Author">Unknown Author</string>
 </resources>
