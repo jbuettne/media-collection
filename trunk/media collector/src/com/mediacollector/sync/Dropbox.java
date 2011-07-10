@@ -260,6 +260,10 @@ public class Dropbox extends Observable implements Runnable {
     		this.api.createFolder("dropbox", "/" + this.identifier);
     		this.uploadFile("/" + this.identifier, changes);
     		this.uploadFile("/" + this.identifier, collections);
+    		/*FileOutputStream fOSH = new FileOutputStream(changes);
+        	fOSH.write(("0").getBytes()); 
+        	fOSH.flush();
+        	fOSH.close();*/
     	}
     	BufferedReader reader 	= new BufferedReader(new FileReader(changes));
     	long timestampLocal 	= new Long(reader.readLine());
@@ -275,6 +279,8 @@ public class Dropbox extends Observable implements Runnable {
     		collections.delete();
     		this.downloadFile("/" + this.identifier + "/" + FILE_COLLECTIONS, 
     				collections);
+    		db = new Database(this.context);
+    		db.readFromCsv(collections.getAbsolutePath());
     		changes.delete();
         	FileOutputStream fOSH = new FileOutputStream(changes);
         	fOSH.write(("" + timestampRemote).getBytes()); 

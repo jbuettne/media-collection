@@ -45,7 +45,6 @@ public class Database{
 	private BoardGameData board;
 	private VideoGameData video;
 
-
 	public ArtistData getArtist() {
 		return artist;
 	}
@@ -78,7 +77,6 @@ public class Database{
 		book = new BookData(context);
 		board = new BoardGameData(context);
 		video = new VideoGameData(context);
-		
 	}
 	
     final String[] tables = {
