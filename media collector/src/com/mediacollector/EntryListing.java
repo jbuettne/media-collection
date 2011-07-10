@@ -3,6 +3,14 @@ package com.mediacollector;
 import java.util.ArrayList;
 
 import com.mediacollector.collection.TextImageEntry;
+import com.mediacollector.collection.audio.AlbumData;
+import com.mediacollector.collection.audio.listings.ArtistListing;
+import com.mediacollector.collection.books.BookData;
+import com.mediacollector.collection.books.listings.BookListing;
+import com.mediacollector.collection.games.VideoGameData;
+import com.mediacollector.collection.games.listings.GamesListing;
+import com.mediacollector.collection.video.FilmData;
+import com.mediacollector.collection.video.listings.FilmListing;
 import com.mediacollector.tools.ActivityRegistry;
 import com.mediacollector.tools.RegisteredListActivity;
 
@@ -12,13 +20,19 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,7 +47,16 @@ public abstract class EntryListing extends RegisteredListActivity {
 	protected ArrayList<TextImageEntry> entries = null;
 	protected String[] groups = null;
 	
-	protected abstract void setData();
+	protected abstract void setData();	
+
+    protected final int TYPE_FILM = 1;
+    protected final int TYPE_GAME = 2;
+	/**
+	 * Liefert die Art des Listings. Die Arten des Listings sind aus den oben 
+	 * aufgeführten Konstanten zu entnehmen.
+	 * @return int
+	 */
+	protected abstract int getType();
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +86,7 @@ public abstract class EntryListing extends RegisteredListActivity {
 				}
 				TextImageEntry o = entries.get(position);
 				if (o != null) {
-					((TextView) v.findViewById(R.id.name)).setText(o.getImage());
+					((TextView) v.findViewById(R.id.name)).setText(o.getText());
 					((TextView) v.findViewById(R.id.details)).setText(String
 							.valueOf(o.getYear()));
 					Bitmap cover;
@@ -71,8 +94,7 @@ public abstract class EntryListing extends RegisteredListActivity {
 					if (o.getImage() != null)
 						cover = BitmapFactory.decodeFile(
 								o.getImage() + "_small.jpg");
-					else
-						cover = BitmapFactory.decodeResource(
+					else cover = BitmapFactory.decodeResource(
 								getResources(),R.drawable.no_cover);
 					((ImageView) v.findViewById(R.id.image))
 							.setImageBitmap(cover);
@@ -97,6 +119,61 @@ public abstract class EntryListing extends RegisteredListActivity {
         		startActivity(entryDetails);
         	}
         });
-	}
+	}   
+	
+	@Override
+    public void onCreateContextMenu(ContextMenu menu, View v, 
+    		ContextMenuInfo menuInfo) {
+    	super.onCreateContextMenu(menu, v, menuInfo);    	
+    	AdapterContextMenuInfo info = 
+    		(AdapterContextMenuInfo) menuInfo;
+    		menu.setHeaderTitle(getString(R.string.MENU_Options));
+    		menu.add(0, 1, 0, getString(R.string.MENU_Details));
+    		menu.add(0, 2, 0, getString(R.string.MENU_Delete));
+    }
 
+
+    public boolean onContextItemSelected(MenuItem menuItem) {
+    	AdapterContextMenuInfo info = 
+    		(AdapterContextMenuInfo) menuItem.getMenuInfo();
+    	int groupPosition = 0, 
+    		childPosition = 0;
+    	int menuItemIndex = menuItem.getItemId();
+    	switch (menuItem.getItemId()) {
+	    	case 1: // Details
+	    		Intent entryDetails = new Intent(this, EntryDetails.class);
+				entryDetails.putExtra("name", entries.get(menuItemIndex)
+						.getText());
+				entryDetails.putExtra("details", entries.get(menuItemIndex)
+						.getYear());
+				entryDetails.putExtra("extra", "");
+	    		entryDetails.putExtra("image", entries.get(menuItemIndex)
+						.getImage());
+				entryDetails.putExtra("id", entries.get(menuItemIndex)
+						.getId());
+				startActivity(entryDetails);
+	    		return true;
+	    	case 2: // Delete
+	    		String entryID = entries.get(menuItemIndex).getId();
+	    		switch (this.getType()) {
+	    		case TYPE_FILM:
+	    			FilmData curFilm = new FilmData(this);
+	    			curFilm.deleteFilm(entryID);
+	    			finish();
+	    			startActivity(new Intent(getBaseContext(), 
+	    					FilmListing.class));
+	    			break;
+	    		case TYPE_GAME:
+	    			VideoGameData curGame = new VideoGameData(this);
+	    			curGame.deleteVideoGame(entryID);
+	    			finish();
+	    			startActivity(new Intent(getBaseContext(), 
+	    					GamesListing.class));
+	    			break;
+	    		}
+	    		return true;
+	    	default: 
+    		return super.onContextItemSelected(menuItem);
+    	}
+    }
 }

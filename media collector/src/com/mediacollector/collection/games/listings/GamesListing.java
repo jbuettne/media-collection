@@ -32,4 +32,9 @@ public class GamesListing extends EntryListing{
 		super.onDestroy();
 	}
 	
+	@Override
+	protected int getType() {
+		return TYPE_GAME;
+	}
+	
 }

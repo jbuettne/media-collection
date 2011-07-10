@@ -2,6 +2,7 @@ package com.mediacollector;
 
 import com.mediacollector.tools.RegisteredActivity;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +17,7 @@ import android.widget.TextView;
  * @author Jens Büttner
  */
 public class EntryDetails extends RegisteredActivity {
-	
+	Bitmap bitmap;
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,8 +30,12 @@ public class EntryDetails extends RegisteredActivity {
 				extras.getString("name"));		
 		((TextView) findViewById(R.id.year)).setText(
 				extras.getString("details"));			
-		((ImageView) findViewById(R.id.cover)).setImageBitmap(BitmapFactory
-				.decodeFile(extras.getString("image") + ".jpg"));	
+		if (extras.getString("image") == null) 
+			bitmap = BitmapFactory.decodeResource(getResources(), 
+					R.drawable.no_cover);
+		else bitmap = BitmapFactory.decodeFile(
+					extras.getString("image") + ".jpg");
+		((ImageView) findViewById(R.id.cover)).setImageBitmap(bitmap);	
 		((LinearLayout) findViewById(R.id.back_to_start)).setOnClickListener(
 				new OnClickListener() { 
 					public void onClick(View v) { finish(); }

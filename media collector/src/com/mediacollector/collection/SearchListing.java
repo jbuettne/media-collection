@@ -34,4 +34,5 @@ public class SearchListing extends SearchResult{
 		db.closeConnection();
 		super.onDestroy();
 	}
+		
 }
