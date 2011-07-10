@@ -23,7 +23,8 @@
     <string name="COLLECTION_Wishlist">Wishlist</string>
     <string name="COLLECTION_search">Search</string>
     
-    <string name="SCAN_back">〈 back</string>
+    <string name="NAV_back">〈 back</string>
+    
     <string name="SCAN_add">add to collection 〉</string>
     
     <string name="INFO_please_wait">Please Wait ...</string>

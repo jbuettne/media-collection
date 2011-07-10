@@ -78,7 +78,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
             android:clickable="true">
-	        <TextView android:text="@string/SCAN_back" 
+	        <TextView android:text="@string/NAV_back" 
 	            android:id="@+id/back_to_start_text" 
 	            android:layout_width="wrap_content" 
 	            android:layout_height="wrap_content"
