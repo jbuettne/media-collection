@@ -55,7 +55,8 @@ public class FilmData {
 			stmtInsert.bindString(1, id);
 			stmtInsert.bindString(2, name);
 			stmtInsert.bindString(3, year);
-			stmtInsert.bindString(4, imgPath);
+			if (imgPath == null) stmtInsert.bindNull(4);
+			else stmtInsert.bindString(4, imgPath);
 			long pos = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
 			Log.i(TAG, "Film mit id=" + id + " erzeugt.");

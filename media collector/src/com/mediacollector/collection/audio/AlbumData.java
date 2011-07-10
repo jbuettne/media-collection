@@ -56,7 +56,8 @@ public class AlbumData{
 			stmtInsert.bindString(2, name);
 			stmtInsert.bindString(3, artist);
 			stmtInsert.bindString(4, year);
-			stmtInsert.bindString(5, imgPath);
+			if (imgPath == null) stmtInsert.bindNull(5);
+			else stmtInsert.bindString(5, imgPath);
 			long id = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
 			Log.i(TAG, "Album mit id=" + mbId + " erzeugt.");
