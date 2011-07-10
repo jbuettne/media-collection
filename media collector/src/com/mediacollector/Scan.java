@@ -20,7 +20,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * 
@@ -118,8 +117,6 @@ public class Scan extends RegisteredActivity implements Observer {
 //			finish();
 		}
 
-		Toast.makeText(this, (String) fetching.getImageFetcher().get(ImageFetcher.COVER_PATH),
-				Toast.LENGTH_LONG).show();
 		guiHandler.post(new Runnable() { public void run() {
 			((ImageView) findViewById(R.id.cover)).setImageBitmap(BitmapFactory
 					.decodeFile((String) fetching.getImageFetcher()

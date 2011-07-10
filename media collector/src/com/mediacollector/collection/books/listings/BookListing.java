@@ -12,10 +12,11 @@ import com.mediacollector.collection.books.BookData;
  * 
  * @author Jens Buettner
  */
-public class BookListing extends EntryListingExp{
+public class BookListing extends EntryListingExp {
 
 	BookData bookDB = null;
 	EditText searchText = null;
+	
 	@Override
 	protected void setData() {
 		bookDB = new BookData(this);
@@ -33,9 +34,15 @@ public class BookListing extends EntryListingExp{
 		this.groups = groups.toArray(new String[0]);
 		this.children = groupsTI.toArray(new TextImageEntry[0][0]);
 	}
+	
 	@Override
 	protected void onDestroy() {
 		bookDB.close();
 		super.onDestroy();
+	}
+	
+	@Override
+	protected int getType() {
+		return TYPE_BOOKS;
 	}
 }
