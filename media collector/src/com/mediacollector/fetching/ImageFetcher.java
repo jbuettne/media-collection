@@ -83,8 +83,7 @@ public abstract class ImageFetcher extends DataFetcher {
 	}
 	
 	/**
-	 * Holt das Bild - je nach dem, ob mittels encodierter oder nicht 
-	 * encodierter URl.
+	 * Holt das Bild.
 	 * @param entity HttpEntity
 	 * @param name Der Dateiname
 	 * @throws IllegalStateException .
