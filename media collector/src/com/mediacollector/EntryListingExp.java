@@ -84,7 +84,6 @@ public abstract class EntryListingExp extends ExpandableListActivity {
         		getString(R.string.COLLECTION_Audio), 
         		getString(R.string.COLLECTION_Video), 
         		getString(R.string.COLLECTION_Books),
-        		getString(R.string.COLLECTION_Books_Man), 
         		getString(R.string.COLLECTION_Games), 
         		getString(R.string.COLLECTION_Wishlist) 
         };
@@ -103,9 +102,6 @@ public abstract class EntryListingExp extends ExpandableListActivity {
             	else if (collections[item] == getString(R.string
             			.COLLECTION_Books)) intent.putExtra("collection", 
             					R.string.COLLECTION_Books);
-            	else if (collections[item] == getString(R.string
-            			.COLLECTION_Books_Man)) intent.putExtra("collection", 
-            					R.string.COLLECTION_Books_Man);
             	else if (collections[item] == getString(R.string
             			.COLLECTION_Games)) intent.putExtra("collection", 
             					R.string.COLLECTION_Games);
