@@ -8,8 +8,11 @@ import com.mediacollector.tools.RegisteredListActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,12 +64,20 @@ public abstract class EntryListing extends RegisteredListActivity {
 				}
 				TextImageEntry o = entries.get(position);
 				if (o != null) {
-					((TextView) v.findViewById(R.id.name)).setText(o.getText());
+					((TextView) v.findViewById(R.id.name)).setText(o.getImage());
 					((TextView) v.findViewById(R.id.details)).setText(String
 							.valueOf(o.getYear()));
+					Bitmap cover;
+					Log.i("mcTest",o.getImage());
+					if (o.getImage() != null)
+						cover = BitmapFactory.decodeFile(
+								o.getImage() + "_small.jpg");
+					else
+						cover = BitmapFactory.decodeResource(
+								getResources(),R.drawable.no_cover);
 					((ImageView) v.findViewById(R.id.image))
-							.setImageBitmap(BitmapFactory
-									.decodeFile(o.getImage() + "_small.jpg"));
+							.setImageBitmap(cover);
+						
 				}
 				return v;
 			}

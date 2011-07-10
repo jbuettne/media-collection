@@ -20,6 +20,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.util.Log;
 
 /**
  * Der allgemeine Image-Fetcher. Kann für alle Sammlungstypen genutzt werden.
@@ -88,6 +89,7 @@ public abstract class ImageFetcher extends DataFetcher {
 		final String nameSmall = name.substring(0, name.lastIndexOf(".")) 
 			+ "_small" + name.substring(name.lastIndexOf("."));
 		InputStream inputStream = null;
+		boolean cover = true;
 		try { 
     		inputStream = entity.getContent();            	
             Bitmap bmp = BitmapFactory.decodeStream(inputStream);
@@ -100,11 +102,12 @@ public abstract class ImageFetcher extends DataFetcher {
             		new FileOutputStream(this.get(COVER_PATH) + name);
                 bmp.compress(Bitmap.CompressFormat.JPEG, 90, out);
                 new ImageResizer(bmp, 100, 100, nameSmall);
-            } catch (Exception e) {}
-            this.set(COVER_PATH, 
+            } catch (Exception e) { cover =false; }
+            if(cover) this.set(COVER_PATH, 
             		Environment.getExternalStorageDirectory() 
             		+ "/MediaCollector/" 
             		+ name.substring(0, name.lastIndexOf(".")));
+            else this.set(COVER_PATH, null);            
             return;
         } finally {
             if (inputStream != null) inputStream.close();
