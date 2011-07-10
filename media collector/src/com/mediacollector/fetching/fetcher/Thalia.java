@@ -120,18 +120,15 @@ public class Thalia extends DataFetcher {
 		if (matcher_t.find() && matcher_y.find()) {
 			String artist = null;
 			if (matcher_ak.find()) 
-				artist = this.getCorrectArtist(URLDecoder.decode(
-						matcher_ak.group(1)));
+				artist = this.getCorrectArtist(matcher_ak.group(1));
 			else if (matcher_as.find())
-				artist = this.getCorrectArtist(URLDecoder.decode(
-						matcher_as.group(1)));
+				artist = this.getCorrectArtist(matcher_as.group(1));
 			else if (matcher_a.find()) 
-				artist = this.getCorrectArtist(URLDecoder.decode(
-						matcher_a.group(1)));
+				artist = this.getCorrectArtist(matcher_a.group(1));
 			else artist = (this.search == AUDIO_ONLY)
 					? this.context.getString(R.string.UNKNOWN_Artist)
 					: this.context.getString(R.string.UNKNOWN_Author);
-			
+					
 			this.set(TITLE_STRING, URLDecoder.decode(
 					StringFilter.normalizeString(matcher_t.group(1))));
 			this.set(TITLE_ID_STRING, URLDecoder.decode(matcher_t.group(2)));
@@ -139,7 +136,7 @@ public class Thalia extends DataFetcher {
 				this.set(ARTIST_ID_STRING, URLDecoder.decode(
 						matcher_a.group(2)));
 			} else this.set(ARTIST_ID_STRING, "");
-			this.set(ARTIST_STRING, StringFilter.normalizeString(artist));
+			this.set(ARTIST_STRING, URLDecoder.decode(StringFilter.normalizeString(artist)));
 			this.set(YEAR_STRING, URLDecoder.decode(matcher_y.group(1)));
 			notifyObserver(true);
 		} else notifyObserver(false);

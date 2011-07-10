@@ -18,6 +18,7 @@ public class StringFilter {
                 replaceAll("&#225;","ß").
                 replaceAll("&amp;","&").
                 replaceAll("%E1","á").
+                replaceAll("%E9","é").
                 replaceAll("&#233;","é");
         return s;
     }
