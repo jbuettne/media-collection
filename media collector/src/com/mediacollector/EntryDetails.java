@@ -1,10 +1,8 @@
 package com.mediacollector;
 
-import com.mediacollector.fetching.ImageFetcher;
 import com.mediacollector.tools.RegisteredActivity;
 
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;

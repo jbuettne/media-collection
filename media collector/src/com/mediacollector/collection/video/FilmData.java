@@ -10,7 +10,6 @@ import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.mediacollector.R;
 import com.mediacollector.collection.Data;
 import com.mediacollector.collection.DatabaseHelper;
 import com.mediacollector.collection.TextImageEntry;
