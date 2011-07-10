@@ -4,6 +4,7 @@ import com.mediacollector.collection.Database;
 import com.mediacollector.tools.RegisteredActivity;
 
 import android.os.Bundle;
+import android.os.Environment;
 
 public class TestDBDelete extends RegisteredActivity {
 	
@@ -13,8 +14,9 @@ public class TestDBDelete extends RegisteredActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dBase = new Database(this);
-        //dBase.writeToCsv(this.getFilesDir() + "/test.csv", "UTF-8");
-        dBase.readFromCsv(this.getFilesDir() + "/test.csv");
+        dBase.writeToCsv(Environment.getExternalStorageDirectory() 
+				 + "/test.csv", "UTF-8");
+        //dBase.readFromCsv(this.getFilesDir() + "/test.csv"); + "/MediaCollector/"
         //try {
 //        artist = new ArtistData(this);
 //        Artist art = new Artist();

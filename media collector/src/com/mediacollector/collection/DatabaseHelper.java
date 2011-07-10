@@ -23,8 +23,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	public void onCreate(SQLiteDatabase db) {
+	    db.execSQL("PRAGMA foreign_keys=ON;");
 		db.execSQL(ArtistTbl.SQL_CREATE);
 		db.execSQL(AlbumTbl.SQL_CREATE);
+		db.execSQL(AlbumTbl.STMT_TRIGGER);
 		db.execSQL(BookTbl.SQL_CREATE);
 		db.execSQL(FilmTbl.SQL_CREATE);
 		db.execSQL(BoardGameTbl.SQL_CREATE);
