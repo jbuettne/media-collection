@@ -403,7 +403,7 @@ public class Dropbox extends Observable implements Runnable {
     
     @Override
     protected void onDestroy() {
-        db.closeConnection();
+    	if (db != null) db.closeConnection();
         super.onDestroy();
     }
     
