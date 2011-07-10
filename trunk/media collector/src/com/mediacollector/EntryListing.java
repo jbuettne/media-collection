@@ -19,7 +19,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -90,7 +89,6 @@ public abstract class EntryListing extends RegisteredListActivity {
 					((TextView) v.findViewById(R.id.details)).setText(String
 							.valueOf(o.getYear()));
 					Bitmap cover;
-					Log.i("mcTest",o.getImage());
 					if (o.getImage() != null)
 						cover = BitmapFactory.decodeFile(
 								o.getImage() + "_small.jpg");
