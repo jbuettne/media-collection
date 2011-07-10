@@ -45,4 +45,9 @@ public class ArtistListing extends EntryListingExp {
 		albumDB.close();
 		super.onDestroy();
 	}
+
+	@Override
+	protected int getType() {
+		return TYPE_AUDIO;
+	}
 }

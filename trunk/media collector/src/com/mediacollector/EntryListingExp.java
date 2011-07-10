@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.mediacollector.collection.TextImageEntry;
+import com.mediacollector.collection.audio.AlbumData;
+import com.mediacollector.collection.books.BookData;
 import com.mediacollector.sync.SyncActivity;
 import com.mediacollector.tools.ActivityRegistry;
 import com.mediacollector.tools.Preferences;
@@ -16,7 +18,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -30,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SimpleExpandableListAdapter;
@@ -53,7 +55,22 @@ public abstract class EntryListingExp extends ExpandableListActivity {
 	protected	  	ImageView			more		= null;
 	protected	 	AlertDialog			alert		= null; 
 	
+	protected ArrayList<HashMap<String, String>> groupData = 
+    	new ArrayList<HashMap<String, String>>();
+    protected ArrayList<ArrayList<HashMap<String, Object>>> childData = 
+    	new ArrayList<ArrayList<HashMap<String, Object>>>();
+    
+    protected final int TYPE_AUDIO = 1;
+    protected final int TYPE_BOOKS = 2;
+	
 	protected abstract void setData();
+	
+	/**
+	 * Liefert die Art des Listings. Die Arten des Listings sind aus den oben 
+	 * aufgeführten Konstanten zu entnehmen.
+	 * @return int
+	 */
+	protected abstract int getType();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -108,11 +125,6 @@ public abstract class EntryListingExp extends ExpandableListActivity {
         final LayoutInflater layoutInflater = (LayoutInflater) 
         	this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         
-        final ArrayList<HashMap<String, String>> groupData = 
-        	new ArrayList<HashMap<String, String>>();
-        final ArrayList<ArrayList<HashMap<String, Object>>> childData = 
-        	new ArrayList<ArrayList<HashMap<String, Object>>>();
-        
         for (Object obj : this.groups) {
         	HashMap<String, String> hmTmp = new HashMap<String, String>();
         	hmTmp.put(TEXT, obj.toString());
@@ -134,7 +146,7 @@ public abstract class EntryListingExp extends ExpandableListActivity {
         	}
         	childData.add(alTmp);
         }
-        
+                
         setListAdapter(new SimpleExpandableListAdapter(this, groupData, 
         		R.layout.group_row, new String[] { TEXT, IMAGE , YEAR,
         		TRACKCOUNT}, new int[] { R.id.groupname }, childData, 0, null, 
@@ -230,13 +242,11 @@ public abstract class EntryListingExp extends ExpandableListActivity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, 
     		ContextMenuInfo menuInfo) {
-    	super.onCreateContextMenu(menu, v, menuInfo);
-    	
-    	ExpandableListView.ExpandableListContextMenuInfo info = 
-    		(ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
+    	super.onCreateContextMenu(menu, v, menuInfo);    	
+    	ExpandableListContextMenuInfo info = 
+    		(ExpandableListContextMenuInfo) menuInfo;
     	int type = 
     		ExpandableListView.getPackedPositionType(info.packedPosition);
-
     	if (type == 1) {
     		menu.setHeaderTitle(getString(R.string.MENU_Options));
     		menu.add(0, 1, 0, getString(R.string.MENU_Details));
@@ -247,38 +257,46 @@ public abstract class EntryListingExp extends ExpandableListActivity {
     public boolean onContextItemSelected(MenuItem menuItem) {
     	ExpandableListContextMenuInfo info = 
     		(ExpandableListContextMenuInfo) menuItem.getMenuInfo();
-    	int groupPos = 0, 
-    	    childPos = 0;
+    	int groupPosition = 0, 
+    		childPosition = 0;
     	if (ExpandableListView.getPackedPositionType(info.packedPosition) 
     			== ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-    		groupPos = 
+    		groupPosition = 
     			ExpandableListView.getPackedPositionGroup(info.packedPosition);
-    		childPos = 
+    		childPosition = 
     			ExpandableListView.getPackedPositionChild(info.packedPosition);
     	}    	
     	switch (menuItem.getItemId()) {
     	case 1: // Details
-    		/*Intent entryDetails = new Intent(getBaseContext(),
-						EntryDetails.class);
-			entryDetails.putExtra("name",
-					(String) childData.get(groupPosition)
-							.get(childPosition).get(TEXT));
-			entryDetails.putExtra("details",
-					(String) childData.get(groupPosition)
-							.get(childPosition).get(YEAR));
-			entryDetails.putExtra("extra",
-					(String) groupData.get(groupPosition).get(TEXT));
-    		entryDetails.putExtra("image", 
-    				(String) childData.get(groupPosition)
+    		Intent entryDetails = new Intent(this, EntryDetails.class);
+			entryDetails.putExtra("name", (String) childData.get(groupPosition)
+					.get(childPosition).get(TEXT));
+			entryDetails.putExtra("details", (String) childData
+					.get(groupPosition).get(childPosition).get(YEAR));
+			entryDetails.putExtra("extra", (String) groupData.get(groupPosition)
+					.get(TEXT));
+    		entryDetails.putExtra("image", (String) childData.get(groupPosition)
 					.get(childPosition).get(IMAGE));
-			entryDetails.putExtra("id",
-					(String) childData.get(groupPosition)
+			entryDetails.putExtra("id", (String) childData.get(groupPosition)
 					.get(childPosition).get(ID));
-			startActivity(entryDetails);*/
+			startActivity(entryDetails);
     		return true;
     	case 2: // Delete
+    		String entryID = (String) childData.get(groupPosition).get(
+    				childPosition).get(ID);
+    		switch (this.getType()) {
+    		case TYPE_AUDIO:
+    			AlbumData curAlbum = new AlbumData(this);
+    			curAlbum.deleteAlbum(entryID);
+    			break;
+    		case TYPE_BOOKS:
+    			BookData curBook = new BookData(this);
+    			curBook.deleteBook(entryID);
+    			break;
+    		}
+    		// Hier müsste noch ein Reload des Views hin...
     		return true;
-    	default:
+    	default: 
     		return super.onContextItemSelected(menuItem);
     	}
     }
