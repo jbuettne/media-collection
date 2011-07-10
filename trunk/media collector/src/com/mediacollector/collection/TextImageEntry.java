@@ -2,8 +2,6 @@ package com.mediacollector.collection;
 
 import java.util.HashMap;
 
-import android.graphics.drawable.Drawable;
-
 public class TextImageEntry {
 	
 	private HashMap<String, Object> data = new HashMap<String, Object>();
