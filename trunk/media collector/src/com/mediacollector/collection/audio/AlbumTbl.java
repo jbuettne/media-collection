@@ -10,16 +10,23 @@ public interface AlbumTbl {
 
 	static final String TABLE_NAME = "Album";
 
-	static final String SQL_CREATE = "CREATE TABLE Album (				"
-			+ "	id		VARCHAR(63)		PRIMARY KEY ,					"
-			+ "	name	VARCHAR(500)	NOT NULL,						"
-			+ "	artist	VARCHAR(63) 	REFERENCES Artist(mbId)         " 
-			+ " 	ON DELETE CASCADE ON UPDATE CASCADE,				"
-			+ "	year	VARCHAR(4),										"
-			+ "	imgPath	VARCHAR(500)									"
+	static final String SQL_CREATE = "CREATE TABLE Album ( 					"
+			+ "id		VARCHAR(63)		PRIMARY KEY, 						"
+			+ "name	VARCHAR(500)	NOT NULL, 								"
+			+ "artist	VARCHAR(63), 										"
+			+ "year	VARCHAR(4), 											"
+			+ "imgPath	VARCHAR(500), 										"
+			+ "FOREIGN KEY(artist) REFERENCES Artist(id) ON DELETE CASCADE	"
 			+ ");";
 
-	static final String STMT_FULL_INSERT = "INSERT INTO Album (			"
-			+ "	id, name, artist, year, imgPath)  					"
+	static final String STMT_FULL_INSERT = "INSERT INTO Album ( 			"
+			+ "id, name, artist, year, imgPath)  							"
 			+ " 	values (?,?,?,?,?)";
+
+	static final String STMT_TRIGGER = "CREATE TRIGGER noAlbum 				" 
+			+ "AFTER DELETE ON Album 										" 
+			+ "BEGIN 														" 
+			+ "		DELETE FROM Artist WHERE Artist.id NOT IN 				"
+			+ "			(SELECT artist FROM Album); 						" 
+			+ "END;";
 }
