@@ -107,11 +107,23 @@ public class OFDb extends DataFetcher {
 			this.set(TITLE_STRING, URLDecoder.decode(matcher_t.group(1)));
 			this.set(YEAR_STRING, URLDecoder.decode(matcher_y.group(1)));
 			if (matcher_i.find())
-				this.set(TITLE_ID_STRING, URLDecoder.decode(matcher_i.group(1)));
-			else
-				this.set(TITLE_ID_STRING, this.ean);
+				this.set(TITLE_ID_STRING, 
+						URLDecoder.decode(matcher_i.group(1)));
+			else this.set(TITLE_ID_STRING, this.genereateRandomID());
 			notifyObserver(true);
 		} else notifyObserver(false);
+	}
+	
+	/**
+	 * Erzeugt eine zufällige ID mit 20-30 Stellen und dem Alphabet 0-9.
+	 * @return String
+	 */
+	private String genereateRandomID() {
+		StringBuffer randomID = new StringBuffer();
+		Random rg = new Random();
+		for (int i = 0; i < (20 + rg.nextInt(10)); i++) 
+			randomID.append(rg.nextInt(9));
+		return randomID.toString();
 	}
 
 }
