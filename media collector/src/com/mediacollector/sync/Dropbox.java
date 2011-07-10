@@ -261,10 +261,11 @@ public class Dropbox extends Observable implements Runnable {
     	}
     	BufferedReader reader 	= new BufferedReader(new FileReader(changes));
     	long timestampLocal 	= new Long(reader.readLine());
-    	long timestampRemote	= this.getRemoteTimestamp();      	
+    	long timestampRemote	= this.getRemoteTimestamp();
     	if (timestampLocal == timestampRemote) {
     		return 0;
     	} else if (timestampLocal > timestampRemote) {
+    		this.createLocalFiles();
     		this.uploadFile("/" + this.identifier + "/", changes);
     		this.uploadFile("/" + this.identifier + "/", collections);
     		return -1;
@@ -293,7 +294,9 @@ public class Dropbox extends Observable implements Runnable {
     	this.downloadFile("/" + this.identifier + "/" + FILE_CHANGES, 
     			changesTmp);
     	BufferedReader reader = new BufferedReader(new FileReader(changesTmp));
-    	return new Long(reader.readLine());
+    	Long timestamp = new Long(reader.readLine());
+    	changesTmp.delete();
+    	return timestamp;
     }
     
     /**
@@ -347,7 +350,9 @@ public class Dropbox extends Observable implements Runnable {
 	private static void createLocalFiles(Context context) 
     throws IOException {
     	final File o = new File(context.getFilesDir() + "/" + FILE_COLLECTIONS);
-    	final File h = new File(context.getFilesDir() + "/" + FILE_CHANGES);    	
+    	final File h = new File(context.getFilesDir() + "/" + FILE_CHANGES);
+    	if (o.exists()) o.delete();
+    	if (h.exists()) h.delete();
     	o.createNewFile();
     	h.createNewFile();
     	FileOutputStream fOSO = new FileOutputStream(o);
