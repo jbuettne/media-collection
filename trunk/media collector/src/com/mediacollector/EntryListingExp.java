@@ -1,5 +1,6 @@
 package com.mediacollector;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,10 +10,10 @@ import com.mediacollector.collection.audio.AlbumData;
 import com.mediacollector.collection.audio.listings.ArtistListing;
 import com.mediacollector.collection.books.BookData;
 import com.mediacollector.collection.books.listings.BookListing;
+import com.mediacollector.sync.Dropbox;
 import com.mediacollector.sync.SyncActivity;
 import com.mediacollector.tools.ActivityRegistry;
 import com.mediacollector.tools.Preferences;
-import com.mediacollector.tools.ScanBarcode;
 
 import android.app.AlertDialog;
 import android.app.ExpandableListActivity;
@@ -306,6 +307,9 @@ public abstract class EntryListingExp extends ExpandableListActivity {
 	    					BookListing.class));
 	    			break;
 	    		}
+	    		try {
+	    			Dropbox.updateChangesTimestamp(this);
+	    		} catch (IOException e) {}
 	    		return true;
 	    	default: 
     		return super.onContextItemSelected(menuItem);
