@@ -18,6 +18,8 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +28,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -221,6 +224,62 @@ public abstract class EntryListingExp extends ExpandableListActivity {
 		case R.id.menu_info:    			
 			startActivityForResult(new Intent(this, InfoPopUp.class), 1);
 		default: return true;
+    	}
+    }
+    
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, 
+    		ContextMenuInfo menuInfo) {
+    	super.onCreateContextMenu(menu, v, menuInfo);
+    	
+    	ExpandableListView.ExpandableListContextMenuInfo info = 
+    		(ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
+    	int type = 
+    		ExpandableListView.getPackedPositionType(info.packedPosition);
+
+    	if (type == 1) {
+    		menu.setHeaderTitle(getString(R.string.MENU_Options));
+    		menu.add(0, 1, 0, getString(R.string.MENU_Details));
+    		menu.add(0, 2, 0, getString(R.string.MENU_Delete));
+    	}
+    }
+
+    public boolean onContextItemSelected(MenuItem menuItem) {
+    	ExpandableListContextMenuInfo info = 
+    		(ExpandableListContextMenuInfo) menuItem.getMenuInfo();
+    	int groupPos = 0, 
+    	    childPos = 0;
+    	if (ExpandableListView.getPackedPositionType(info.packedPosition) 
+    			== ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+    		groupPos = 
+    			ExpandableListView.getPackedPositionGroup(info.packedPosition);
+    		childPos = 
+    			ExpandableListView.getPackedPositionChild(info.packedPosition);
+    	}    	
+    	switch (menuItem.getItemId()) {
+    	case 1: // Details
+    		/*Intent entryDetails = new Intent(getBaseContext(),
+						EntryDetails.class);
+			entryDetails.putExtra("name",
+					(String) childData.get(groupPosition)
+							.get(childPosition).get(TEXT));
+			entryDetails.putExtra("details",
+					(String) childData.get(groupPosition)
+							.get(childPosition).get(YEAR));
+			entryDetails.putExtra("extra",
+					(String) groupData.get(groupPosition).get(TEXT));
+    		entryDetails.putExtra("image", 
+    				(String) childData.get(groupPosition)
+					.get(childPosition).get(IMAGE));
+			entryDetails.putExtra("id",
+					(String) childData.get(groupPosition)
+					.get(childPosition).get(ID));
+			startActivity(entryDetails);*/
+    		return true;
+    	case 2: // Delete
+    		return true;
+    	default:
+    		return super.onContextItemSelected(menuItem);
     	}
     }
     	

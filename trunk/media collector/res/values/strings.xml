@@ -38,4 +38,8 @@
     <string name="EXCEPTION_Fechting_3">Couldn\'t find Cover</string>
     <string name="COLLECTION_Games_PC">PC-Game</string>
     <string name="COLLECTION_Games_Board">Boardgame</string>
+    
+    <string name="MENU_Options">Options</string>
+    <string name="MENU_Details">View Details</string>
+    <string name="MENU_Delete">Delete Entry</string>
 </resources>
