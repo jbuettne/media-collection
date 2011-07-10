@@ -3,8 +3,8 @@ package com.mediacollector.tools;
 public class StringFilter {
 
     /**
-     * Wandelt url Sonderzeichen um
-     * @param s Zu bearbeitender String
+     * Wandelt URL-Sonderzeichen um.
+     * @param String s Zu bearbeitender String
      */
     public static String normalizeString(String s) {
         s = s.replaceAll("%DC","Ü").
@@ -19,7 +19,6 @@ public class StringFilter {
                 replaceAll("&amp;","&").
                 replaceAll("%E1","á").
                 replaceAll("&#233;","é");
-
         return s;
     }
 
