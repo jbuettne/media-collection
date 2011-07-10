@@ -53,4 +53,9 @@ public abstract class Observable {
 			((Observer) obj).updateObserver(statusOkay);			
 	}
 
+	/**
+	 * Vorbereitung für Activities, die die Datenbank benutzen.
+	 */
+	protected void onDestroy() {}
+
 }

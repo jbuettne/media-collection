@@ -1,9 +1,12 @@
 package com.mediacollector;
 
+import java.io.IOException;
+
 import com.mediacollector.collection.Database;
 import com.mediacollector.fetching.DataFetcher;
 import com.mediacollector.fetching.Fetching;
 import com.mediacollector.fetching.ImageFetcher;
+import com.mediacollector.sync.Dropbox;
 import com.mediacollector.tools.Observer;
 import com.mediacollector.tools.RegisteredActivity;
 import com.mediacollector.tools.ScanBarcode;
@@ -227,6 +230,10 @@ public class Scan extends RegisteredActivity implements Observer {
 								
 							}
 							dBase.closeConnection();
+							try {
+								Dropbox.updateChangesTimestamp(
+										getBaseContext());
+							} catch (IOException e) {}
 							finish();
 						}
 	        		});

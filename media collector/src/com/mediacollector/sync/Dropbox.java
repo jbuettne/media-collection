@@ -18,6 +18,7 @@ import com.dropbox.client.DropboxAPI;
 import com.dropbox.client.DropboxAPI.Config;
 import com.dropbox.client.DropboxAPI.FileDownload;
 import com.mediacollector.R;
+import com.mediacollector.collection.Database;
 import com.mediacollector.tools.Identifier;
 import com.mediacollector.tools.Observable;
 
@@ -69,7 +70,8 @@ public class Dropbox extends Observable implements Runnable {
     private 			 Context	context				= null;
     private 			 DropboxAPI	api					= new DropboxAPI();    
     private 			 Config 	config				= null;
-    private				 String		identifier			= null;
+    private				 String		identifier			= null;    
+    private				 Database 	db					= null;
     
     /***************************************************************************
 	 * Getter und Setter
@@ -347,22 +349,14 @@ public class Dropbox extends Observable implements Runnable {
      * ersten Start erfolgen! Dafür kann auch ein Context übergeben werden.
      * @throws IOException
      */
-	private static void createLocalFiles(Context context) 
+	private void createLocalFiles(Context context) 
     throws IOException {
     	final File o = new File(context.getFilesDir() + "/" + FILE_COLLECTIONS);
-    	final File h = new File(context.getFilesDir() + "/" + FILE_CHANGES);
     	if (o.exists()) o.delete();
-    	if (h.exists()) h.delete();
     	o.createNewFile();
-    	h.createNewFile();
-    	FileOutputStream fOSO = new FileOutputStream(o);
-    	FileOutputStream fOSH = new FileOutputStream(h);
-    	fOSO.write("DB-Data".getBytes()); // DB-Data...
-    	fOSH.write(("" + (System.currentTimeMillis() / 1000)).getBytes());
-    	fOSO.flush();
-    	fOSH.flush();
-    	fOSO.close();
-    	fOSH.close();
+    	db = new Database(this.context);
+    	db.writeToCsv(o.getAbsolutePath(), "utf-8");   
+    	Dropbox.updateChangesTimestamp(this.context);
     }
     
     /**
@@ -377,11 +371,34 @@ public class Dropbox extends Observable implements Runnable {
     }
     
     /**
+     * Schreibt den aktuellen Timestamp in die CHANGES-File um lokale Änderungen
+     * anzuzeigen.
+     * @param context Der Context, aus dem die Methode aufgerufen wird.
+     * @throws IOException .
+     */
+    public static void updateChangesTimestamp(Context context) 
+    throws IOException {
+    	final File h = new File(context.getFilesDir() + "/" + FILE_CHANGES);
+    	if (h.exists()) h.delete();
+    	h.createNewFile();
+    	FileOutputStream fOSH = new FileOutputStream(h);
+    	fOSH.write(("" + (System.currentTimeMillis() / 1000)).getBytes());
+    	fOSH.flush();
+    	fOSH.close();
+    }
+    
+    /**
      * Reine Hilfsmethode für das Debugging. Wird für das Release entfernt.
      * @param msg String
      */
     public void showToast(String msg) {
-    	(Toast.makeText(this.context, msg, Toast.LENGTH_LONG)).show();
+        (Toast.makeText(this.context, msg, Toast.LENGTH_LONG)).show();
+    }
+    
+    @Override
+    protected void onDestroy() {
+        db.closeConnection();
+        super.onDestroy();
     }
     
 }

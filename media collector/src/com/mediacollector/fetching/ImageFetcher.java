@@ -20,7 +20,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
-import android.util.Log;
 
 /**
  * Der allgemeine Image-Fetcher. Kann für alle Sammlungstypen genutzt werden.
