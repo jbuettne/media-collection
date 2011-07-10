@@ -21,6 +21,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -92,7 +93,7 @@ public abstract class EntryListingExp extends ExpandableListActivity {
         builder.setItems(collections, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
             	Intent intent = new Intent(getApplicationContext(), 
-            			ScanBarcode.class);
+            			Scan.class);
             	if (collections[item] == getString(R.string
             			.COLLECTION_Audio)) intent.putExtra("collection", 
             					R.string.COLLECTION_Audio);
@@ -116,7 +117,7 @@ public abstract class EntryListingExp extends ExpandableListActivity {
         LinearLayout header = (LinearLayout) findViewById(R.id.overall_header);        
         header.setOnClickListener(new OnClickListener() {
 			public void onClick(View arg0) {
-				startActivity(new Intent(getBaseContext(), Start.class));
+				finish();
 			}        	
         });
         final LayoutInflater layoutInflater = (LayoutInflater) 
@@ -222,7 +223,15 @@ public abstract class EntryListingExp extends ExpandableListActivity {
 			startActivity(new Intent(getBaseContext(), SyncActivity.class));
 			return true;
 		case R.id.menu_scan:
-			alert.show();
+			Intent intent = new Intent(getBaseContext(), Scan.class);
+			Log.i("mcTest", String.valueOf(getType()));
+			switch (getType()) {
+			case 1:	intent.putExtra("collection", R.string.COLLECTION_Audio);
+	        	break;
+			case 2:	intent.putExtra("collection", R.string.COLLECTION_Books);
+        		break;
+			}
+			startActivity(intent);
 			return true;
 		case R.id.menu_settings:    			
 			startActivity(new Intent(getBaseContext(), Preferences.class));
@@ -264,41 +273,41 @@ public abstract class EntryListingExp extends ExpandableListActivity {
     			ExpandableListView.getPackedPositionChild(info.packedPosition);
     	}    	
     	switch (menuItem.getItemId()) {
-    	case 1: // Details
-    		Intent entryDetails = new Intent(this, EntryDetails.class);
-			entryDetails.putExtra("name", (String) childData.get(groupPosition)
-					.get(childPosition).get(TEXT));
-			entryDetails.putExtra("details", (String) childData
-					.get(groupPosition).get(childPosition).get(YEAR));
-			entryDetails.putExtra("extra", (String) groupData.get(groupPosition)
-					.get(TEXT));
-    		entryDetails.putExtra("image", (String) childData.get(groupPosition)
-					.get(childPosition).get(IMAGE));
-			entryDetails.putExtra("id", (String) childData.get(groupPosition)
-					.get(childPosition).get(ID));
-			startActivity(entryDetails);
-    		return true;
-    	case 2: // Delete
-    		String entryID = (String) childData.get(groupPosition).get(
-    				childPosition).get(ID);
-    		switch (this.getType()) {
-    		case TYPE_AUDIO:
-    			AlbumData curAlbum = new AlbumData(this);
-    			curAlbum.deleteAlbum(entryID);
-    			finish();
-    			startActivity(new Intent(getBaseContext(), 
-    					ArtistListing.class));
-    			break;
-    		case TYPE_BOOKS:
-    			BookData curBook = new BookData(this);
-    			curBook.deleteBook(entryID);
-    			finish();
-    			startActivity(new Intent(getBaseContext(), 
-    					BookListing.class));
-    			break;
-    		}
-    		return true;
-    	default: 
+	    	case 1: // Details
+	    		Intent entryDetails = new Intent(this, EntryDetails.class);
+				entryDetails.putExtra("name", (String) childData.get(groupPosition)
+						.get(childPosition).get(TEXT));
+				entryDetails.putExtra("details", (String) childData
+						.get(groupPosition).get(childPosition).get(YEAR));
+				entryDetails.putExtra("extra", (String) groupData.get(groupPosition)
+						.get(TEXT));
+	    		entryDetails.putExtra("image", (String) childData.get(groupPosition)
+						.get(childPosition).get(IMAGE));
+				entryDetails.putExtra("id", (String) childData.get(groupPosition)
+						.get(childPosition).get(ID));
+				startActivity(entryDetails);
+	    		return true;
+	    	case 2: // Delete
+	    		String entryID = (String) childData.get(groupPosition).get(
+	    				childPosition).get(ID);
+	    		switch (this.getType()) {
+	    		case TYPE_AUDIO:
+	    			AlbumData curAlbum = new AlbumData(this);
+	    			curAlbum.deleteAlbum(entryID);
+	    			finish();
+	    			startActivity(new Intent(getBaseContext(), 
+	    					ArtistListing.class));
+	    			break;
+	    		case TYPE_BOOKS:
+	    			BookData curBook = new BookData(this);
+	    			curBook.deleteBook(entryID);
+	    			finish();
+	    			startActivity(new Intent(getBaseContext(), 
+	    					BookListing.class));
+	    			break;
+	    		}
+	    		return true;
+	    	default: 
     		return super.onContextItemSelected(menuItem);
     	}
     }
