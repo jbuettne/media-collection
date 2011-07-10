@@ -42,4 +42,7 @@
     <string name="MENU_Options">Optionen</string>
     <string name="MENU_Details">Details anzeigen</string>
     <string name="MENU_Delete">Eintrag löschen</string>
+    
+    <string name="UNKNOWN_Artist">Unbekannter Künstler</string>
+    <string name="UNKNOWN_Author">Unbekannter Author</string>
 </resources>
