@@ -229,7 +229,6 @@ public class Scan extends RegisteredActivity implements Observer {
 								}
 								
 							}
-							dBase.closeConnection();
 							try {
 								Dropbox.updateChangesTimestamp(
 										getBaseContext());
@@ -242,5 +241,10 @@ public class Scan extends RegisteredActivity implements Observer {
 		});
 		progress.dismiss();
 	}
-	
+
+    @Override
+    protected void onDestroy() {
+        dBase.closeConnection();
+        super.onDestroy();
+    }
 }

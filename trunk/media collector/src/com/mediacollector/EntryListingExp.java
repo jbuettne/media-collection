@@ -20,6 +20,7 @@ import android.app.ExpandableListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
@@ -156,11 +157,17 @@ public abstract class EntryListingExp extends ExpandableListActivity {
         			boolean isLastChild, View convertView, ViewGroup parent) {
         		final View v = super.getChildView(groupPosition, childPosition, 
         				isLastChild, convertView, parent);
-        		((ImageView) v.findViewById(R.id.image))
-        		.setImageBitmap(BitmapFactory.decodeFile(
+        		Bitmap cover;
+				if ((String) ((Map<String, Object>) 
+						getChild(groupPosition, childPosition))
+						.get(IMAGE) == null)
+					cover = BitmapFactory.decodeResource(
+							getResources(),R.drawable.no_cover);
+				else cover = BitmapFactory.decodeFile(
         				(String) ((Map<String, Object>) 
         						getChild(groupPosition, childPosition))
-        						.get(IMAGE) + "_small.jpg"));
+        						.get(IMAGE) + "_small.jpg");
+        		((ImageView) v.findViewById(R.id.image)).setImageBitmap(cover);
         		((TextView) v.findViewById(R.id.name)).setText( 
         				(String) ((Map<String, Object>) 
         						getChild(groupPosition, childPosition))

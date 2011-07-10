@@ -26,5 +26,9 @@ public class FilmListing extends EntryListing{
 		filmDB.close();
 		super.onDestroy();
 	}
-	
+
+	@Override
+	protected int getType() {
+		return TYPE_FILM;
+	}
 }

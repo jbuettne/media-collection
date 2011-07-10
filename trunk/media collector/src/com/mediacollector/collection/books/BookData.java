@@ -55,7 +55,8 @@ public class BookData {
 			stmtInsert.bindString(2, name);
 			stmtInsert.bindString(3, author);
 			stmtInsert.bindString(4, year);
-			stmtInsert.bindString(5, imgPath);
+			if (imgPath == null) stmtInsert.bindNull(5);
+			else stmtInsert.bindString(5, imgPath);
 			long pos = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
 			Log.i(TAG, "Book mit id=" + id + " erzeugt.");
