@@ -10,6 +10,7 @@ import android.content.Context;
 
 import com.mediacollector.fetching.DataFetcher;
 import com.mediacollector.fetching.WebParsing;
+import com.mediacollector.tools.StringFilter;
 
 /**
  * Data-Fetcher, welcher Daten von Thalia einholt. Siehe auch: DataFetcher.java
@@ -112,7 +113,7 @@ public class Thalia extends DataFetcher {
 		String webContent	= WebParsing.getWebContent(completeURI);
 		Matcher	matcher_t	= PATTERN_TITLE.matcher(webContent);
 		Matcher	matcher_a	= PATTERN_ARTIST.matcher(webContent);
-		Matcher	matcher_ak	= PATTERN_ARTIST_ALT_KOM.matcher(webContent);
+		Matcher	matcher_ak = PATTERN_ARTIST_ALT_KOM.matcher(webContent);
 		Matcher	matcher_as	= PATTERN_ARTIST_ALT_SOL.matcher(webContent);
 		Matcher matcher_y	= PATTERN_YEAR.matcher(webContent);
 		if (matcher_t.find() && matcher_y.find()) {
@@ -125,7 +126,7 @@ public class Thalia extends DataFetcher {
 				artist = URLDecoder.decode(matcher_a.group(1));
 			else artist = "Unknown Artist";
 			
-			this.set(TITLE_STRING, URLDecoder.decode(matcher_t.group(1)));
+			this.set(TITLE_STRING, URLDecoder.decode(StringFilter.normalizeString(matcher_t.group(1))));
 			this.set(TITLE_ID_STRING, URLDecoder.decode(matcher_t.group(2)));
 			if (this.search == AUDIO_ONLY && matcher_a.find()) {
 				this.set(ARTIST_ID_STRING, URLDecoder.decode(
@@ -133,7 +134,7 @@ public class Thalia extends DataFetcher {
 			} else
 				this.set(ARTIST_ID_STRING, "");
 			//this.set(ARTIST_ID_STRING, this.ean);
-			this.set(ARTIST_STRING, artist); // Ist teilweise immer noch nicht korrekt: z.B. Die Fantastischen Vier, Die Fantastischen Vier
+			this.set(ARTIST_STRING, StringFilter.normalizeString(artist)); // Ist teilweise immer noch nicht korrekt: z.B. Die Fantastischen Vier, Die Fantastischen Vier
 			this.set(YEAR_STRING, URLDecoder.decode(matcher_y.group(1)));
 			notifyObserver(true);
 		} else notifyObserver(false);

@@ -43,13 +43,18 @@
 	            android:layout_height="wrap_content" 
 	            android:textSize="14sp"
 	            android:layout_marginTop="15sp"
+	            android:layout_marginRight="55sp"
 	            android:layout_alignParentLeft="true"
-	            android:id="@+id/artist"></TextView>
+	            android:id="@+id/artist"
+            	android:ellipsize="marquee"
+            	android:scrollHorizontally="true"
+            	android:focusable="true"
+            	android:focusableInTouchMode="true"></TextView>
 	        <TextView android:text="" 
 	            android:layout_width="wrap_content" 
 	            android:layout_height="wrap_content" 
 	            android:textSize="14sp"
-	            android:layout_marginTop="20sp"
+	            android:layout_marginTop="15sp"
 	            android:layout_alignParentRight="true"
 	            android:id="@+id/year"></TextView>
         </RelativeLayout>    
