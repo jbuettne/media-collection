@@ -34,11 +34,6 @@
         <ImageView android:id="@+id/cover" 
             android:layout_width="225sp"
             android:layout_height="225sp"></ImageView>
-        <TextView
-            android:id="@+id/txt_barcode"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            ></TextView>
         <RelativeLayout android:id="@+id/relativeLayout2" 
 	        android:layout_height="match_parent" 
 	        android:layout_width="match_parent"
@@ -47,14 +42,19 @@
 	            android:layout_width="wrap_content" 
 	            android:layout_height="wrap_content" 
 	            android:textSize="14sp"
-	            android:layout_marginTop="20sp"
+	            android:layout_marginTop="15sp"
+	            android:layout_marginRight="55sp"
 	            android:layout_alignParentLeft="true"
-	            android:id="@+id/artist"></TextView>
+	            android:id="@+id/artist"
+            	android:ellipsize="marquee"
+            	android:scrollHorizontally="true"
+            	android:focusable="true"
+            	android:focusableInTouchMode="true"></TextView>
 	        <TextView android:text="" 
 	            android:layout_width="wrap_content" 
 	            android:layout_height="wrap_content" 
 	            android:textSize="14sp"
-	            android:layout_marginTop="20sp"
+	            android:layout_marginTop="15sp"
 	            android:layout_alignParentRight="true"
 	            android:id="@+id/year"></TextView>
         </RelativeLayout>    
@@ -62,7 +62,12 @@
             android:layout_width="wrap_content" 
             android:layout_height="wrap_content" 
             android:id="@+id/release"
-            android:textSize="18sp"></TextView>
+            android:ellipsize="marquee"
+            android:scrollHorizontally="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textSize="18sp"
+            android:layout_marginRight="20sp"></TextView>
     </LinearLayout>
     <RelativeLayout android:id="@+id/relativeLayout3" 
         android:layout_height="match_parent" 
@@ -73,14 +78,14 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
             android:clickable="true">
-	        <TextView android:text="@+string/SCAN_back" 
-	            android:id="@+id/back_to_start_button" 
+	        <TextView android:text="@string/NAV_back" 
+	            android:id="@+id/back_to_start_text" 
 	            android:layout_width="wrap_content" 
 	            android:layout_height="wrap_content"
 	            android:layout_alignParentLeft="true"
-	            android:textSize="12sp"
-	            android:layout_alignParentBottom="true"
-	            android:padding="20sp"></TextView>
+	            android:textSize="14sp"
+	            android:padding="20sp"
+	            android:layout_alignParentBottom="true"></TextView>
             </LinearLayout>
     </RelativeLayout>
 </LinearLayout>
