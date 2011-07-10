@@ -48,28 +48,32 @@ public class Start extends RegisteredActivity /*implements Observer*/ {
         		R.id.browseAudioField);
         browseAudioField.setOnClickListener(new OnClickListener() { 
         	public void onClick(View v) {
-        		startActivity(new Intent(getBaseContext(), ArtistListing.class));
+        		startActivity(new Intent(getBaseContext(), 
+        				ArtistListing.class));
         	}
         });
         LinearLayout browseVideoField = (LinearLayout) findViewById(
             	R.id.browseVideoField);
         browseVideoField.setOnClickListener(new OnClickListener() { 
         	public void onClick(View v) {
-        		startActivity(new Intent(getBaseContext(), FilmListing.class));
+        		startActivity(new Intent(getBaseContext(), 
+        				FilmListing.class));
             }
         });
         LinearLayout browseBooksField = (LinearLayout) findViewById(
         		R.id.browseBooksField);
         browseBooksField.setOnClickListener(new OnClickListener() {
         	public void onClick(View v) {
-        		startActivity(new Intent(getBaseContext(), BookListing.class));
+        		startActivity(new Intent(getBaseContext(), 
+        				BookListing.class));
         	}
         });
         LinearLayout browseGamesField = (LinearLayout) findViewById(
             	R.id.browseGamesField);
         browseGamesField.setOnClickListener(new OnClickListener() {
         	public void onClick(View v) {
-        		startActivity(new Intent(getBaseContext(), GamesListing.class));
+        		startActivity(new Intent(getBaseContext(), 
+        				GamesListing.class));
             }
         });
 
@@ -77,7 +81,8 @@ public class Start extends RegisteredActivity /*implements Observer*/ {
         	R.id.syncField);
         syncField.setOnClickListener(new OnClickListener() {
 		   	public void onClick(View v) {
-		   		startActivity(new Intent(getBaseContext(), SyncActivity.class));
+		   		startActivity(new Intent(getBaseContext(), 
+		   				SyncActivity.class));
 		   	}
         });
         
@@ -87,8 +92,10 @@ public class Start extends RegisteredActivity /*implements Observer*/ {
         		R.id.searchText);
         searchButton.setOnClickListener(new OnClickListener() {			
         	public void onClick(View v) {
-        		Intent searchIntent = new Intent(getBaseContext(), SearchListing.class);
-        		searchIntent.putExtra("searchText", searchText.getText().toString());
+        		Intent searchIntent = new Intent(getBaseContext(), 
+        				SearchListing.class);
+        		searchIntent.putExtra("searchText", 
+        				searchText.getText().toString());
         		startActivity(searchIntent);
         	}
         });

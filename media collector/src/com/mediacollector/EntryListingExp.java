@@ -6,7 +6,9 @@ import java.util.Map;
 
 import com.mediacollector.collection.TextImageEntry;
 import com.mediacollector.collection.audio.AlbumData;
+import com.mediacollector.collection.audio.listings.ArtistListing;
 import com.mediacollector.collection.books.BookData;
+import com.mediacollector.collection.books.listings.BookListing;
 import com.mediacollector.sync.SyncActivity;
 import com.mediacollector.tools.ActivityRegistry;
 import com.mediacollector.tools.Preferences;
@@ -288,13 +290,18 @@ public abstract class EntryListingExp extends ExpandableListActivity {
     		case TYPE_AUDIO:
     			AlbumData curAlbum = new AlbumData(this);
     			curAlbum.deleteAlbum(entryID);
+    			finish();
+    			startActivity(new Intent(getBaseContext(), 
+    					ArtistListing.class));
     			break;
     		case TYPE_BOOKS:
     			BookData curBook = new BookData(this);
     			curBook.deleteBook(entryID);
+    			finish();
+    			startActivity(new Intent(getBaseContext(), 
+    					BookListing.class));
     			break;
     		}
-    		// Hier müsste noch ein Reload des Views hin...
     		return true;
     	default: 
     		return super.onContextItemSelected(menuItem);
