@@ -234,9 +234,13 @@ public abstract class EntryListingExp extends ExpandableListActivity {
 			Intent intent = new Intent(getBaseContext(), Scan.class);
 			Log.i("mcTest", String.valueOf(getType()));
 			switch (getType()) {
-			case 1:	intent.putExtra("collection", R.string.COLLECTION_Audio);
+			case 1:	
+				intent.putExtra("collection", R.string.COLLECTION_Audio);
+				startActivity(getIntent()); finish();
 	        	break;
-			case 2:	intent.putExtra("collection", R.string.COLLECTION_Books);
+			case 2:	
+				intent.putExtra("collection", R.string.COLLECTION_Books);
+				startActivity(getIntent()); finish();
         		break;
 			}
 			startActivity(intent);
