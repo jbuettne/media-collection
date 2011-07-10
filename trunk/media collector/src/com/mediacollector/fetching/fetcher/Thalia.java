@@ -10,7 +10,6 @@ import android.content.Context;
 
 import com.mediacollector.fetching.DataFetcher;
 import com.mediacollector.fetching.WebParsing;
-import com.mediacollector.tools.StringFilter;
 
 /**
  * Data-Fetcher, welcher Daten von Thalia einholt. Siehe auch: DataFetcher.java
@@ -113,31 +112,60 @@ public class Thalia extends DataFetcher {
 		String webContent	= WebParsing.getWebContent(completeURI);
 		Matcher	matcher_t	= PATTERN_TITLE.matcher(webContent);
 		Matcher	matcher_a	= PATTERN_ARTIST.matcher(webContent);
-		Matcher	matcher_ak = PATTERN_ARTIST_ALT_KOM.matcher(webContent);
+		Matcher	matcher_ak	= PATTERN_ARTIST_ALT_KOM.matcher(webContent);
 		Matcher	matcher_as	= PATTERN_ARTIST_ALT_SOL.matcher(webContent);
 		Matcher matcher_y	= PATTERN_YEAR.matcher(webContent);
 		if (matcher_t.find() && matcher_y.find()) {
 			String artist = null;
 			if (matcher_ak.find()) 
-				artist = URLDecoder.decode(matcher_ak.group(1));
+				artist = this.getCorrectArtist(URLDecoder.decode(
+						matcher_ak.group(1)));
 			else if (matcher_as.find())
-				artist = URLDecoder.decode(matcher_as.group(1));
+				artist = this.getCorrectArtist(URLDecoder.decode(
+						matcher_as.group(1)));
 			else if (matcher_a.find()) 
-				artist = URLDecoder.decode(matcher_a.group(1));
+				artist = this.getCorrectArtist(URLDecoder.decode(
+						matcher_a.group(1)));
 			else artist = "Unknown Artist";
 			
-			this.set(TITLE_STRING, URLDecoder.decode(StringFilter.normalizeString(matcher_t.group(1))));
+			this.set(TITLE_STRING, URLDecoder.decode(matcher_t.group(1)));
 			this.set(TITLE_ID_STRING, URLDecoder.decode(matcher_t.group(2)));
 			if (this.search == AUDIO_ONLY && matcher_a.find()) {
 				this.set(ARTIST_ID_STRING, URLDecoder.decode(
 						matcher_a.group(2)));
-			} else
-				this.set(ARTIST_ID_STRING, "");
-			//this.set(ARTIST_ID_STRING, this.ean);
-			this.set(ARTIST_STRING, StringFilter.normalizeString(artist)); // Ist teilweise immer noch nicht korrekt: z.B. Die Fantastischen Vier, Die Fantastischen Vier
+			} else this.set(ARTIST_ID_STRING, "");
+			this.set(ARTIST_STRING, artist);
 			this.set(YEAR_STRING, URLDecoder.decode(matcher_y.group(1)));
 			notifyObserver(true);
 		} else notifyObserver(false);
+	}
+	
+	/**
+	 * Prüft den Artist-String auf doppelte Vorkommen des eigentlichen Namens.
+	 * So wird bei Übergabe des Strings "Black Sabbath, Black Sabbath" ein 
+	 * einfaches "Black Sabbath" zurückgegeben.
+	 * @param artist String Der Artist-String
+	 * @return String Der Name des Artists.
+	 */
+	private String getCorrectArtist(String artist) {		
+		String[]		oldParts 		= artist.split(",");
+		String   		artistNew 		= artist.replace(" ", "");
+		String[] 		parts 			= artistNew.split(",");
+		StringBuffer 	returnArtist 	= new StringBuffer();		
+		if (parts.length > 1 && parts.length % 2 == 0) {
+			int middle = parts.length / 2;
+			StringBuffer left 	= new StringBuffer(),
+			             right 	= new StringBuffer(); 
+			for (int i = 0; i < middle; i++) {
+				left.append(parts[i]);
+				right.append(parts[middle + i]);
+			}
+			if (left.toString().equals(right.toString()))
+				for (int j = 0; j < middle; j++)
+					returnArtist.append(oldParts[j]);
+			else returnArtist.append(artist);
+		} else returnArtist.append(artist);		
+		return returnArtist.toString();
 	}
 
 }
