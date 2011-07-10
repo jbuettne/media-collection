@@ -5,12 +5,17 @@ import com.mediacollector.collection.audio.listings.ArtistListing;
 import com.mediacollector.collection.books.listings.BookListing;
 import com.mediacollector.collection.games.listings.GamesListing;
 import com.mediacollector.collection.video.listings.FilmListing;
+import com.mediacollector.fetching.DataFetcher;
+import com.mediacollector.fetching.Fetching;
 //import com.mediacollector.fetching.DataFetcher;
 //import com.mediacollector.fetching.Fetching;
 //import com.mediacollector.fetching.ImageFetcher;
 import com.mediacollector.sync.SyncActivity;
 //import com.mediacollector.tools.Observer;
+import com.mediacollector.tools.Observer;
 import com.mediacollector.tools.RegisteredActivity;
+import com.mediacollector.tools.Exceptions.MCException;
+import com.mediacollector.tools.Exceptions.MCFetchingException;
 //import com.mediacollector.tools.Exceptions.MCException;
 //import com.mediacollector.tools.Exceptions.MCFetchingException;
 
@@ -21,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 //import android.widget.Toast;
 
 /**
@@ -28,10 +34,10 @@ import android.widget.LinearLayout;
  * neuen Medien sowie zum Browsen und Synchronisieren der Sammlungen. 
  * @author Philipp Dermitzel
  */
-public class Start extends RegisteredActivity /*implements Observer*/ {
+public class Start extends RegisteredActivity implements Observer {
 	
 	// Zum schnellen Testen der Fetcher...
-	/*Fetching f;*/
+	Fetching f;
  
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,17 +106,19 @@ public class Start extends RegisteredActivity /*implements Observer*/ {
         	}
         });
         
-        //TestFetching audio = new TestFetching(this, TestFetching.TEST_AUDIO);
-        //audio.startTest();        
-        
         // Zum schnellen Testen der Fetcher...
-        /*f = new Fetching(this, "5050582405859");
+        f = new Fetching(this, "5099749423862", Fetching.SEARCH_ENGINE_THALIA);
         f.addObserver(this);
         try {
 			f.fetchData();
 		} catch (MCFetchingException e) {
 			new MCFetchingException(this, "kacke", MCException.WARNING, false);
-		}*/
+		}
     }
+
+	public void updateObserver(boolean statusOkay) {
+		Toast.makeText(this, (String) f.getDataFetcher().get(DataFetcher
+				.ARTIST_STRING), Toast.LENGTH_LONG).show();
+	}
     
 }

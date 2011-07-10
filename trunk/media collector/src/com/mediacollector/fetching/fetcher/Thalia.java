@@ -10,6 +10,7 @@ import android.content.Context;
 
 import com.mediacollector.fetching.DataFetcher;
 import com.mediacollector.fetching.WebParsing;
+import com.mediacollector.tools.StringFilter;
 
 /**
  * Data-Fetcher, welcher Daten von Thalia einholt. Siehe auch: DataFetcher.java
@@ -128,13 +129,14 @@ public class Thalia extends DataFetcher {
 						matcher_a.group(1)));
 			else artist = "Unknown Artist";
 			
-			this.set(TITLE_STRING, URLDecoder.decode(matcher_t.group(1)));
+			this.set(TITLE_STRING, URLDecoder.decode(
+					StringFilter.normalizeString(matcher_t.group(1))));
 			this.set(TITLE_ID_STRING, URLDecoder.decode(matcher_t.group(2)));
 			if (this.search == AUDIO_ONLY && matcher_a.find()) {
 				this.set(ARTIST_ID_STRING, URLDecoder.decode(
 						matcher_a.group(2)));
 			} else this.set(ARTIST_ID_STRING, "");
-			this.set(ARTIST_STRING, artist);
+			this.set(ARTIST_STRING, StringFilter.normalizeString(artist));
 			this.set(YEAR_STRING, URLDecoder.decode(matcher_y.group(1)));
 			notifyObserver(true);
 		} else notifyObserver(false);
