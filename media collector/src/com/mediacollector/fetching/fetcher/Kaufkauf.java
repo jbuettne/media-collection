@@ -63,8 +63,7 @@ public class Kaufkauf extends DataFetcher {
 		if (matcher.find()) {
 			this.set(TITLE_STRING, matcher.group(1));
 			this.set(TITLE_ID_STRING, this.ean);
-			this.set(ARTIST_STRING, context
-					.getString(R.string.COLLECTION_Games));
+			this.set(ARTIST_STRING, "Spiel");
 			this.set(YEAR_STRING, "");
 			notifyObserver(true);
 		} else notifyObserver(false);
