@@ -3,10 +3,6 @@ package com.mediacollector;
 import java.util.ArrayList;
 
 import com.mediacollector.collection.TextImageEntry;
-import com.mediacollector.collection.audio.AlbumData;
-import com.mediacollector.collection.audio.listings.ArtistListing;
-import com.mediacollector.collection.books.BookData;
-import com.mediacollector.collection.books.listings.BookListing;
 import com.mediacollector.collection.games.VideoGameData;
 import com.mediacollector.collection.games.listings.GamesListing;
 import com.mediacollector.collection.video.FilmData;
@@ -27,11 +23,8 @@ import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ArrayAdapter;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -122,9 +115,7 @@ public abstract class EntryListing extends RegisteredListActivity {
 	@Override
     public void onCreateContextMenu(ContextMenu menu, View v, 
     		ContextMenuInfo menuInfo) {
-    	super.onCreateContextMenu(menu, v, menuInfo);    	
-    	AdapterContextMenuInfo info = 
-    		(AdapterContextMenuInfo) menuInfo;
+    	super.onCreateContextMenu(menu, v, menuInfo);
     		menu.setHeaderTitle(getString(R.string.MENU_Options));
     		menu.add(0, 1, 0, getString(R.string.MENU_Details));
     		menu.add(0, 2, 0, getString(R.string.MENU_Delete));
@@ -132,10 +123,6 @@ public abstract class EntryListing extends RegisteredListActivity {
 
 
     public boolean onContextItemSelected(MenuItem menuItem) {
-    	AdapterContextMenuInfo info = 
-    		(AdapterContextMenuInfo) menuItem.getMenuInfo();
-    	int groupPosition = 0, 
-    		childPosition = 0;
     	int menuItemIndex = menuItem.getItemId();
     	switch (menuItem.getItemId()) {
 	    	case 1: // Details
