@@ -24,10 +24,12 @@ public class EntryDetails extends RegisteredActivity {
         setContentView(R.layout.entry_details); 
         
         final Bundle extras = getIntent().getExtras();         
-		((TextView) findViewById(R.id.artist)).setText(
-				extras.getString("extra"));		
-		((TextView) findViewById(R.id.release)).setText(
-				extras.getString("name"));		
+		TextView artist = (TextView) findViewById(R.id.artist);
+		artist.setSelected(true);
+		artist.setText(	extras.getString("extra"));		
+		TextView release = (TextView) findViewById(R.id.release);
+		release.setSelected(true);
+		release.setText(	extras.getString("name"));		
 		((TextView) findViewById(R.id.year)).setText(
 				extras.getString("details"));			
 		if (extras.getString("image") == null) 
