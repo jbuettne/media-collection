@@ -289,7 +289,7 @@ public class FilmData {
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
 					"SELECT id, name, year, imgPath FROM " + FilmTbl.TABLE_NAME
-					, null);
+					+ " ORDER by name", null);
 			if (dbCursor.moveToFirst() == false) {
 				return films;
 			}

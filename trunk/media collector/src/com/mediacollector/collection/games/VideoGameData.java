@@ -285,7 +285,7 @@ public class VideoGameData{
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
 					"SELECT id, name, year, imgPath FROM "
-							+ VideoGameTbl.TABLE_NAME, null);
+							+ VideoGameTbl.TABLE_NAME + " ORDER by name", null);
 			if (dbCursor.moveToFirst() == false) {
 				return games;
 			}
