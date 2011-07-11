@@ -79,7 +79,10 @@ public class Scan extends RegisteredActivity implements Observer {
 	        			add2collection_values = "title+artist";
 		        		break;
 		        	case R.string.COLLECTION_Games:
-		        		searchEngine = Fetching.SEARCH_ENGINE_TAGTOAD;
+		        		if(data.getExtras().getString("FORMAT").contains("EAN"))
+		        			searchEngine = Fetching.SEARCH_ENGINE_TAGTOAD;
+		        		else
+		        			searchEngine = Fetching.SEARCH_ENGINE_KAUFKAUF;
 		        		break;
 		        	default:
 		        		searchEngine = Fetching.SEARCH_ENGINE_GOOGLE;
