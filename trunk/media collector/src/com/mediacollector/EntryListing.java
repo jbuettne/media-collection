@@ -1,12 +1,15 @@
 package com.mediacollector;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.mediacollector.collection.TextImageEntry;
 import com.mediacollector.collection.games.VideoGameData;
 import com.mediacollector.collection.games.listings.GamesListing;
 import com.mediacollector.collection.video.FilmData;
 import com.mediacollector.collection.video.listings.FilmListing;
+import com.mediacollector.sync.Dropbox;
 import com.mediacollector.tools.ActivityRegistry;
 import com.mediacollector.tools.RegisteredListActivity;
 
@@ -15,19 +18,26 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.widget.Filter;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -38,6 +48,10 @@ public abstract class EntryListing extends RegisteredListActivity {
 	
 	protected ArrayList<TextImageEntry> entries = null;
 	protected String[] groups = null;
+	
+	protected RelativeLayout		more		= null;
+	protected EditText filterText = null;
+	protected ArrayAdapter<TextImageEntry> adapter = null;
 	
 	protected abstract void setData();	
 
@@ -57,16 +71,25 @@ public abstract class EntryListing extends RegisteredListActivity {
 		this.setData();
         setContentView(R.layout.search_result);      
         
+        this.more = (RelativeLayout) findViewById(R.id.more);
+        this.more.setOnClickListener(new OnClickListener() {            
+            public void onClick(View arg0) { hideHeader(); } 
+        });
+        
         LinearLayout header = (LinearLayout) findViewById(R.id.overall_header);        
         header.setOnClickListener(new OnClickListener() {
-			public void onClick(View arg0) {
-				startActivity(new Intent(getBaseContext(), com.mediacollector
-						.Start.class));
+			public void onClick(View v) {
+				finish();
 			}        	
         });
         
-        setListAdapter(new ArrayAdapter<TextImageEntry>(this, 
+        filterText = (EditText) findViewById(R.id.filterText);
+        filterText.addTextChangedListener(filterTextWatcher);   
+
+        adapter = new ArrayAdapter<TextImageEntry>(this, 
         		R.layout.group_row, entries) {
+
+            private ArrayFilter mFilter;
         	@Override
 			public View getView(
 					int position, View convertView, ViewGroup parent) {
@@ -92,8 +115,18 @@ public abstract class EntryListing extends RegisteredListActivity {
 						
 				}
 				return v;
-			}
-		});
+			}   
+        	
+        	@Override
+            public Filter getFilter() {
+                if (mFilter == null) {
+                    mFilter = new ArrayFilter();
+                }
+                return mFilter;
+            }      	
+        	
+		};
+        setListAdapter(adapter);
         ListView lv = getListView();
         lv.setTextFilterEnabled(true);
         lv.setOnItemClickListener(new OnItemClickListener() {
@@ -110,8 +143,24 @@ public abstract class EntryListing extends RegisteredListActivity {
         		startActivity(entryDetails);
         	}
         });
+		registerForContextMenu(getListView());
 	}   
 	
+	private TextWatcher filterTextWatcher = new TextWatcher() {
+
+	    public void afterTextChanged(Editable s) {
+	    }
+
+	    public void beforeTextChanged(CharSequence s, int start, int count,
+	            int after) {
+	    }
+
+	    public void onTextChanged(CharSequence s, int start, int before,
+	            int count) {
+	        adapter.getFilter().filter(s);
+	    }
+
+	};
 	@Override
     public void onCreateContextMenu(ContextMenu menu, View v, 
     		ContextMenuInfo menuInfo) {
@@ -123,23 +172,24 @@ public abstract class EntryListing extends RegisteredListActivity {
 
 
     public boolean onContextItemSelected(MenuItem menuItem) {
-    	int menuItemIndex = menuItem.getItemId();
+    	AdapterContextMenuInfo info = 
+        		(AdapterContextMenuInfo) menuItem.getMenuInfo();
     	switch (menuItem.getItemId()) {
 	    	case 1: // Details
 	    		Intent entryDetails = new Intent(this, EntryDetails.class);
-				entryDetails.putExtra("name", entries.get(menuItemIndex)
+				entryDetails.putExtra("name", entries.get(info.position)
 						.getText());
-				entryDetails.putExtra("details", entries.get(menuItemIndex)
+				entryDetails.putExtra("details", entries.get(info.position)
 						.getYear());
 				entryDetails.putExtra("extra", "");
-	    		entryDetails.putExtra("image", entries.get(menuItemIndex)
+	    		entryDetails.putExtra("image", entries.get(info.position)
 						.getImage());
-				entryDetails.putExtra("id", entries.get(menuItemIndex)
+				entryDetails.putExtra("id", entries.get(info.position)
 						.getId());
 				startActivity(entryDetails);
 	    		return true;
 	    	case 2: // Delete
-	    		String entryID = entries.get(menuItemIndex).getId();
+	    		String entryID = entries.get(info.position).getId();
 	    		switch (this.getType()) {
 	    		case TYPE_FILM:
 	    			FilmData curFilm = new FilmData(this);
@@ -156,9 +206,100 @@ public abstract class EntryListing extends RegisteredListActivity {
 	    					GamesListing.class));
 	    			break;
 	    		}
+	    		try {
+	    			Dropbox.updateChangesTimestamp(this);
+	    		} catch (IOException e) {}
 	    		return true;
 	    	default: 
     		return super.onContextItemSelected(menuItem);
     	}
+    }
+    
+    public void showHeader() {
+        findViewById(R.id.overall_header_spacer).setVisibility(View.VISIBLE);
+        findViewById(R.id.overall_header_container).setVisibility(View.VISIBLE);
+        this.more.setOnClickListener(new OnClickListener() {
+        	public void onClick(View arg0) { hideHeader(); }
+        });
+        ((ImageView) findViewById(R.id.more_img))
+        	.setImageResource(R.drawable.less);
+    }
+
+    public void hideHeader() {
+        findViewById(R.id.overall_header_spacer).setVisibility(View.GONE);
+        findViewById(R.id.overall_header_container).setVisibility(View.GONE);
+        this.more.setOnClickListener(new OnClickListener() {
+        	public void onClick(View arg0) { showHeader(); }
+        });
+        ((ImageView) findViewById(R.id.more_img))
+        	.setImageResource(R.drawable.more);
+    }
+    
+    private class ArrayFilter extends android.widget.Filter {
+
+        private List<TextImageEntry> mObjects;
+        private final Object mLock = new Object();
+        private ArrayList<TextImageEntry> mOriginalValues;
+        @Override
+        protected FilterResults performFiltering(CharSequence prefix) {
+            FilterResults results = new FilterResults();
+
+            if (mOriginalValues == null) {
+                synchronized (mLock) {
+                    mOriginalValues = new ArrayList<TextImageEntry>(mObjects);
+                }
+            }
+
+            if (prefix == null || prefix.length() == 0) {
+                synchronized (mLock) {
+                    ArrayList<TextImageEntry> list = new ArrayList<TextImageEntry>(mOriginalValues);
+                    results.values = list;
+                    results.count = list.size();
+                }
+            } else {
+                String prefixString = prefix.toString().toLowerCase();
+
+                final ArrayList<TextImageEntry> values = mOriginalValues;
+                final int count = values.size();
+
+                final ArrayList<TextImageEntry> newValues = new ArrayList<TextImageEntry>(count);
+
+                for (int i = 0; i < count; i++) {
+                    final TextImageEntry value = values.get(i);
+                    final String valueText = value.toString().toLowerCase();
+
+                    // First match against the whole, non-splitted value
+                    if (valueText.startsWith(prefixString)) {
+                        newValues.add(value);
+                    } else {
+                        final String[] words = valueText.split(" ");
+                        final int wordCount = words.length;
+
+                        for (int k = 0; k < wordCount; k++) {
+                            if (words[k].contains(prefixString)) {
+                                newValues.add(value);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                results.values = newValues;
+                results.count = newValues.size();
+            }
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            //noinspection unchecked
+            mObjects = (List<TextImageEntry>) results.values;
+            if (results.count > 0) {
+                adapter.notifyDataSetChanged();
+            } else {
+                adapter.notifyDataSetInvalidated();
+            }
+        }
     }
 }
