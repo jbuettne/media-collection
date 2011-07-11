@@ -10,7 +10,6 @@ import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.mediacollector.collection.Data;
 import com.mediacollector.collection.DatabaseHelper;
 import com.mediacollector.collection.TextImageEntry;
 
@@ -45,7 +44,7 @@ public class FilmData {
 	}
 
 	public long insertFilm(String id, String name, String year,
-			String imgPath) {
+			String imgPath, String imgPathHttp) {
 
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 		SQLiteStatement stmtInsert = db
@@ -57,6 +56,8 @@ public class FilmData {
 			stmtInsert.bindString(3, year);
 			if (imgPath == null) stmtInsert.bindNull(4);
 			else stmtInsert.bindString(4, imgPath);
+			if (imgPathHttp == null) stmtInsert.bindNull(5);
+			else stmtInsert.bindString(5, imgPathHttp);
 			long pos = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
 			Log.i(TAG, "Film mit id=" + id + " erzeugt.");
@@ -75,7 +76,7 @@ public class FilmData {
 	public long insertFilm(Film film) {
 		// if (artist.istNeu()) {
 		return insertFilm(film.id, film.name, film.year,
-				film.imgPath);
+				film.imgPath, film.imgPathHttp);
 
 		// };
 		// } else {
@@ -268,10 +269,12 @@ public class FilmData {
 				return films;
 			}
 			films.add(new Film(dbCursor.getString(0),dbCursor.getString(1),
-					dbCursor.getString(2),dbCursor.getString(3)));
+					dbCursor.getString(2),dbCursor.getString(3),
+					dbCursor.getString(4)));
 			while (dbCursor.moveToNext() == true) {
 				films.add(new Film(dbCursor.getString(0),dbCursor.getString(1),
-						dbCursor.getString(2),dbCursor.getString(3)));
+						dbCursor.getString(2),dbCursor.getString(3),
+						dbCursor.getString(4)));
 			}
 		} catch(Throwable ex) {
 			Log.e(TAG, "Konnte Filme nicht lesen", ex);
@@ -311,38 +314,6 @@ public class FilmData {
 		return films;
 	}	
 	
-	public ArrayList<Data> getFilmsData() {
-		ArrayList<Data> films = new ArrayList<Data>();
-		Cursor dbCursor = null;
-		try {
-			dbCursor = dbHelper.getReadableDatabase()
-					.rawQuery(
-							"SELECT id, name, year, imgPath FROM "
-									+ FilmTbl.TABLE_NAME, null);
-			if (dbCursor.moveToFirst() == false) {
-				return films;
-			}
-			films.add(new Data(dbCursor.getString(0), dbCursor.getString(1),
-					dbCursor.getString(2), dbCursor.getString(3),
-					FilmTbl.TABLE_NAME, ""));
-			while (dbCursor.moveToNext() == true) {
-				// tempAlbum = new TextImageEntry(dbCursor.getString(0),
-				// getResources().getDrawable(dbCursor.getString(1)),
-				// dbCursor.getInt(2)));
-				films.add(new Data(dbCursor.getString(0), dbCursor.getString(1),
-						dbCursor.getString(2), dbCursor.getString(3),
-						FilmTbl.TABLE_NAME, ""));
-			}
-		} catch (Throwable ex) {
-			Log.e(TAG, "Konnte Filme nicht lesen", ex);
-		} finally {
-			if (dbCursor != null) {
-				dbCursor.close();
-			}
-		}
-		return films;
-	}
-
 	/**
 	 * Gibt die Anzahl der Alben in der Datenbank zurueck. <br>
 	 * Performanter als Cursor::getCount.

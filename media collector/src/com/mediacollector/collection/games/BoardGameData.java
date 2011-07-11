@@ -41,7 +41,7 @@ public class BoardGameData{
 	}
 
 	public long insertBoardGame(String id, String name, String year,
-			String imgPath) {
+			String imgPath, String imgPathHttp) {
 
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 		SQLiteStatement stmtInsert = db
@@ -53,6 +53,8 @@ public class BoardGameData{
 			stmtInsert.bindString(3, year);
 			if (imgPath == null) stmtInsert.bindNull(4);
 			else stmtInsert.bindString(4, imgPath);
+			if (imgPathHttp == null) stmtInsert.bindNull(5);
+			else stmtInsert.bindString(5, imgPathHttp);
 			long pos = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
 			Log.i(TAG, "BoardGame mit id=" + id + " erzeugt.");
@@ -71,7 +73,7 @@ public class BoardGameData{
 	public long insertBoardGame(BoardGame game) {
 		// if (artist.istNeu()) {
 		return insertBoardGame(game.id, game.name, game.year,
-				game.imgPath);
+				game.imgPath, game.imgPathHttp);
 
 		// };
 		// } else {
@@ -264,10 +266,12 @@ public class BoardGameData{
 				return games;
 			}
 			games.add(new BoardGame(dbCursor.getString(0),dbCursor.getString(1),
-					dbCursor.getString(2),dbCursor.getString(3)));
+					dbCursor.getString(2),dbCursor.getString(3),
+					dbCursor.getString(4)));
 			while (dbCursor.moveToNext() == true) {
 				games.add(new BoardGame(dbCursor.getString(0),dbCursor.getString(1),
-						dbCursor.getString(2),dbCursor.getString(3)));
+						dbCursor.getString(2),dbCursor.getString(3),
+						dbCursor.getString(4)));
 			}
 		} catch(Throwable ex) {
 			Log.e("TAG", "Konnte BoardGamee nicht lesen", ex);

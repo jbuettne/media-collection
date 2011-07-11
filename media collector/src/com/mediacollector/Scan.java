@@ -194,8 +194,10 @@ public class Scan extends RegisteredActivity implements Observer {
 										(String) fetching.getDataFetcher().get(
 												DataFetcher.YEAR_STRING),
 										(String) fetching.getImageFetcher().get(
-												ImageFetcher.COVER_PATH));
-							} else if (collection == 
+												ImageFetcher.COVER_PATH),
+										(String) fetching.getImageFetcher().get(
+												ImageFetcher.COVER_STRING));
+							} else if (collection ==
 								R.string.COLLECTION_Books) {
 								dBase.getBook().insertBook(
 										(String) fetching.getDataFetcher().get(
@@ -207,7 +209,9 @@ public class Scan extends RegisteredActivity implements Observer {
 										(String) fetching.getDataFetcher().get(
 												DataFetcher.YEAR_STRING),
 										(String) fetching.getImageFetcher().get(
-												ImageFetcher.COVER_PATH));
+												ImageFetcher.COVER_PATH),
+										(String) fetching.getImageFetcher().get(
+												ImageFetcher.COVER_STRING));
 							} else if (collection == 
 								R.string.COLLECTION_Video) {
 								dBase.getFilm().insertFilm(
@@ -218,7 +222,9 @@ public class Scan extends RegisteredActivity implements Observer {
 										(String) fetching.getDataFetcher().get(
 												DataFetcher.YEAR_STRING),
 										(String) fetching.getImageFetcher().get(
-												ImageFetcher.COVER_PATH));
+												ImageFetcher.COVER_PATH),
+										(String) fetching.getImageFetcher().get(
+												ImageFetcher.COVER_STRING));
 							} else if (collection == R.string.COLLECTION_Games) {
 								if ((String) fetching.getDataFetcher()
 										.get(DataFetcher.ARTIST_STRING) ==
@@ -231,7 +237,9 @@ public class Scan extends RegisteredActivity implements Observer {
 											(String) fetching.getDataFetcher().get(
 													DataFetcher.YEAR_STRING),
 											(String) fetching.getImageFetcher().get(
-													ImageFetcher.COVER_PATH));
+													ImageFetcher.COVER_PATH),
+											(String) fetching.getImageFetcher().get(
+													ImageFetcher.COVER_STRING));
 								} else {
 									dBase.getBoardGame().insertBoardGame(
 											(String) fetching.getDataFetcher().get(
@@ -241,7 +249,9 @@ public class Scan extends RegisteredActivity implements Observer {
 											(String) fetching.getDataFetcher().get(
 													DataFetcher.YEAR_STRING),
 											(String) fetching.getImageFetcher().get(
-													ImageFetcher.COVER_PATH));
+													ImageFetcher.COVER_PATH),
+											(String) fetching.getImageFetcher().get(
+													ImageFetcher.COVER_STRING));
 								}
 								
 							}

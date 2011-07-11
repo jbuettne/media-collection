@@ -44,26 +44,28 @@ public class AlbumData{
 		Log.d(TAG, "Albenspeicher angelegt.");
 	}
 
-	public long insertAlbum(String mbId, String name, String artist, 
-			String year, String imgPath) {
+	public long insertAlbum(String id, String name, String artist, 
+			String year, String imgPath, String imgPathHttp) {
 
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 		SQLiteStatement stmtInsert = db
 				.compileStatement(AlbumTbl.STMT_FULL_INSERT);
 		db.beginTransaction();
 		try {
-			stmtInsert.bindString(1, mbId);
+			stmtInsert.bindString(1, id);
 			stmtInsert.bindString(2, name);
 			stmtInsert.bindString(3, artist);
 			stmtInsert.bindString(4, year);
 			if (imgPath == null) stmtInsert.bindNull(5);
 			else stmtInsert.bindString(5, imgPath);
-			long id = stmtInsert.executeInsert();
+			if (imgPathHttp == null) stmtInsert.bindNull(6);
+			else stmtInsert.bindString(6, imgPathHttp);
+			long index = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
-			Log.i(TAG, "Album mit id=" + mbId + " erzeugt.");
+			Log.i(TAG, "Album mit id=" + id + " erzeugt.");
 			Toast.makeText(this.context, "Album zur Datenbank hinzugefügt",
 					Toast.LENGTH_LONG).show();
-			return id;
+			return index;
 		} catch(Throwable ex) {
 			Log.e("TAG", "Album nicht hinzugefuegt!");
 			return -1;
@@ -76,7 +78,7 @@ public class AlbumData{
 	public long insertAlbum(Album album) {
 		// if (artist.istNeu()) {
 		return insertAlbum(album.mbId, album.name, album.artist, album.year,
-				album.imgPath);
+				album.imgPath, album.imgPathHttp);
 
 		// };
 		// } else {

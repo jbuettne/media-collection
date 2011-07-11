@@ -41,7 +41,7 @@ public class VideoGameData{
 	}
 
 	public long insertVideoGame(String id, String name, String year,
-			String imgPath) {
+			String imgPath, String imgPathHttp) {
 
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 		SQLiteStatement stmtInsert = db
@@ -53,6 +53,8 @@ public class VideoGameData{
 			stmtInsert.bindString(3, year);
 			if (imgPath == null) stmtInsert.bindNull(4);
 			else stmtInsert.bindString(4, imgPath);
+			if (imgPathHttp == null) stmtInsert.bindNull(5);
+			else stmtInsert.bindString(5, imgPathHttp);
 			long pos = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
 			Log.i(TAG, "PC-Spiel mit id=" + id + " erzeugt.");
@@ -71,7 +73,7 @@ public class VideoGameData{
 	public long insertVideoGame(VideoGame game) {
 		// if (artist.istNeu()) {
 		return insertVideoGame(game.id, game.name, game.year,
-				game.imgPath);
+				game.imgPath, game.imgPathHttp);
 
 		// };
 		// } else {
@@ -264,10 +266,12 @@ public class VideoGameData{
 				return games;
 			}
 			games.add(new VideoGame(dbCursor.getString(0),dbCursor.getString(1),
-					dbCursor.getString(2),dbCursor.getString(3)));
+					dbCursor.getString(2),dbCursor.getString(3),
+					dbCursor.getString(4)));
 			while (dbCursor.moveToNext() == true) {
 				games.add(new VideoGame(dbCursor.getString(0),dbCursor.getString(1),
-						dbCursor.getString(2),dbCursor.getString(3)));
+						dbCursor.getString(2),dbCursor.getString(3),
+						dbCursor.getString(4)));
 			}
 		} catch(Throwable ex) {
 			Log.e(TAG, "Konnte PC-Spiele nicht lesen", ex);
