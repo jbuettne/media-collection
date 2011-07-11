@@ -2,18 +2,13 @@ package com.mediacollector;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.mediacollector.collection.SearchListing;
 import com.mediacollector.collection.TextImageEntry;
 import com.mediacollector.collection.audio.AlbumData;
 import com.mediacollector.collection.audio.AlbumTbl;
-import com.mediacollector.collection.audio.listings.ArtistListing;
 import com.mediacollector.collection.books.BookData;
 import com.mediacollector.collection.books.BookTbl;
-import com.mediacollector.collection.books.listings.BookListing;
-import com.mediacollector.collection.games.BoardGameData;
-import com.mediacollector.collection.games.BoardGameTbl;
 import com.mediacollector.collection.games.VideoGameData;
 import com.mediacollector.collection.games.VideoGameTbl;
 import com.mediacollector.collection.games.listings.GamesListing;
@@ -47,7 +42,8 @@ import android.widget.RelativeLayout;
 
 /**
  * 
- * @author Philipp Dermitzel
+ * @author Jens Buettner
+ * @version 0.1
  */
 public abstract class EntryListing extends RegisteredListActivity {
 	

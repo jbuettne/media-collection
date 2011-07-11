@@ -22,6 +22,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -35,6 +37,7 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -47,7 +50,6 @@ import android.widget.TextView;
  */
 public abstract class EntryListingExp extends ExpandableListActivity {    
 
-
 	private final 	String 				ID	 		= "id";
 	private final 	String 				TEXT	 	= "name";
 	private final 	String 				IMAGE	 	= "image";
@@ -58,6 +60,9 @@ public abstract class EntryListingExp extends ExpandableListActivity {
 	protected 	  	TextImageEntry[][] 	children 	= null;
 	protected	  	RelativeLayout		more		= null;
 	protected	 	AlertDialog			alert		= null; 
+	protected 		EditText 			filterText 	= null;
+	//protected 		ResultsAdapterExp	adapter = null;
+	protected 		SimpleExpandableListAdapter	adapter = null;
 	
 	protected ArrayList<HashMap<String, String>> groupData = 
     	new ArrayList<HashMap<String, String>>();
@@ -118,8 +123,11 @@ public abstract class EntryListingExp extends ExpandableListActivity {
         	}
         	childData.add(alTmp);
         }
+        
+        filterText = (EditText) findViewById(R.id.filterText);
+        filterText.addTextChangedListener(filterTextWatcher);   
                 
-        setListAdapter(new SimpleExpandableListAdapter(this, groupData, 
+        adapter = new SimpleExpandableListAdapter(this, groupData, 
         		R.layout.group_row, new String[] { TEXT, IMAGE , YEAR,
         		TRACKCOUNT}, new int[] { R.id.groupname }, childData, 0, null, 
         		new int[] {}) {
@@ -148,17 +156,18 @@ public abstract class EntryListingExp extends ExpandableListActivity {
         				(String) ((Map<String, Object>) 
         						getChild(groupPosition, childPosition))
         						.get(YEAR));
-//        						+ "; " +
-//        				(String) ((Map<String, Object>) 
-//                				getChild(groupPosition, childPosition))
-//                				.get(TRACKCOUNT) + " Tracks");
         		return v;
         	}        	
         	public View newChildView(boolean isLastChild, ViewGroup parent) {
         		return layoutInflater.inflate(R.layout.entry_child_layout, 
         				null, false);
         	}
-        });
+        };
+//        adapter = new ResultsAdapterExp(this, groupData, 
+//        		R.layout.group_row, new String[] { TEXT, IMAGE , YEAR,
+//        		TRACKCOUNT}, new int[] { R.id.groupname }, childData, 0, null, 
+//        		new int[] {});
+        setListAdapter(adapter);
         
 		ExpandableListView list = (ExpandableListView) findViewById(
 				android.R.id.list);
@@ -187,6 +196,22 @@ public abstract class EntryListingExp extends ExpandableListActivity {
 		});
 		registerForContextMenu(getExpandableListView());
 	}
+	
+	private TextWatcher filterTextWatcher = new TextWatcher() {
+
+	    public void afterTextChanged(Editable s) {
+	    }
+
+	    public void beforeTextChanged(CharSequence s, int start, int count,
+	            int after) {
+	    }
+
+	    public void onTextChanged(CharSequence s, int start, int before,
+	            int count) {
+	        //adapter.getFilter().filter(s);
+	    }
+
+	};
 	
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {

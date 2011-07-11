@@ -8,6 +8,11 @@ import com.mediacollector.collection.audio.AlbumData;
 import com.mediacollector.collection.audio.Artist;
 import com.mediacollector.collection.audio.ArtistData;
 
+/**
+ * 
+ * @author Jens Buettner
+ * @version 0.1
+ */
 public class ArtistListing extends EntryListingExp {
 	
 	ArtistData artistDB;
@@ -15,12 +20,6 @@ public class ArtistListing extends EntryListingExp {
 	
 	@Override
 	protected void setData() {
-		/*
-		 * Beispieldaten.
-		 * Diese sollten später aus der Datenbank geholt werden.
-		 * Groups bezeichnet hier die Artists, children die zum Artist 
-		 * gehörenden Alben, images die entsprechenden Alben-Cover.
-		 */
 		artistDB = new ArtistData(this);
 		albumDB = new AlbumData(this);
 		

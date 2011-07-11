@@ -1,5 +1,10 @@
 package com.mediacollector.collection.games;
 
+/**
+ * 
+ * @author Jens Buettner
+ * @version 0.1
+ */
 public interface BoardGameTbl {
 
 	public static final String COL_BOARD_ID = "id";

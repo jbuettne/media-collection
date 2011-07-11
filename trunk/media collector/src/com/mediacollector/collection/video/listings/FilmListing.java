@@ -6,6 +6,11 @@ import com.mediacollector.EntryListing;
 import com.mediacollector.collection.TextImageEntry;
 import com.mediacollector.collection.video.FilmData;
 
+/**
+ * 
+ * @author Jens Buettner
+ * @version 0.1
+ */
 public class FilmListing extends EntryListing{
 
 	FilmData filmDB;

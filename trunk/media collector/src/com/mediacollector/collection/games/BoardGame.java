@@ -1,5 +1,10 @@
 package com.mediacollector.collection.games;
 
+/**
+ * 
+ * @author Jens Buettner
+ * @version 0.1
+ */
 public class BoardGame {
 		  
 	public String id;
