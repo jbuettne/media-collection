@@ -8,6 +8,8 @@ import com.mediacollector.tools.RegisteredListActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,9 +19,11 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -30,6 +34,11 @@ public abstract class SearchResult extends RegisteredListActivity {
 	
 	protected ArrayList<Data>searchResult = null;
 	protected String[] groups = null;
+	
+	protected RelativeLayout		more		= null;
+	protected EditText filterText = null;
+	protected ResultsAdapter adapter = null;
+	
 	protected abstract void setData();
 	
 	@Override
@@ -37,38 +46,26 @@ public abstract class SearchResult extends RegisteredListActivity {
         super.onCreate(savedInstanceState);
 		ActivityRegistry.registerActivity(this);
 		this.setData();
-        setContentView(R.layout.search_result);    
+        setContentView(R.layout.search_result); 
+        
+        this.more = (RelativeLayout) findViewById(R.id.more);
+//        this.more.setOnClickListener(new OnClickListener() {            
+//            public void onClick(View arg0) { hideHeader(); } 
+//        });
         
         LinearLayout header = (LinearLayout) findViewById(R.id.overall_header);        
         header.setOnClickListener(new OnClickListener() {
-			public void onClick(View arg0) {
-				startActivity(new Intent(getBaseContext(), com.mediacollector
-						.Start.class));
+			public void onClick(View v) {
+				finish();
 			}        	
         });
         
-        setListAdapter(new ArrayAdapter<Data>(this, 
-        		R.layout.group_row, searchResult) {
-        	@Override
-			public View getView(
-					int position, View convertView, ViewGroup parent) {
-				View v = convertView;
-				if (v == null) {
-					LayoutInflater vi = (LayoutInflater) getSystemService(
-							Context.LAYOUT_INFLATER_SERVICE);
-					v = vi.inflate(R.layout.entry_child_layout, null);
-				}
-				Data o = searchResult.get(position);
-				if (o != null) {
-					((TextView) v.findViewById(R.id.name)).setText(o.name);
-					((TextView) v.findViewById(R.id.details)).setText(o.year);
-					((ImageView) v.findViewById(R.id.image))
-							.setImageDrawable((Drawable) getResources()
-									.getDrawable(R.drawable.color_red));
-				}
-				return v;
-			}
-		});
+        filterText = (EditText) findViewById(R.id.filterText);
+        //filterText.addTextChangedListener(filterTextWatcher);   
+
+		//adapter = new ResultsAdapter(this, R.layout.group_row, searchResult);
+        setListAdapter(adapter);        
+        
         ListView lv = getListView();
         lv.setTextFilterEnabled(true);
         lv.setOnItemClickListener(new OnItemClickListener() {
@@ -77,13 +74,14 @@ public abstract class SearchResult extends RegisteredListActivity {
         		Intent entryDetails = new Intent(getBaseContext(),
         				EntryDetails.class);
         		entryDetails.putExtra("name", searchResult.get(position).name);
-        		entryDetails.putExtra("details", String.valueOf(
-        				searchResult.get(position).year));
+        		entryDetails.putExtra("details", searchResult.get(position).year);
+        		entryDetails.putExtra("image", searchResult.get(position).image);
         		entryDetails.putExtra("extra", searchResult.get(position).extra);
         		entryDetails.putExtra("id", searchResult.get(position).id);
         		startActivity(entryDetails);
         	}
         });
+		registerForContextMenu(getListView());
     }
 	
 }

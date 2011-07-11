@@ -171,8 +171,8 @@ public class Dropbox extends Observable implements Runnable {
    						Toast.LENGTH_LONG).show();	
 			}
 		} catch (Exception e) {
-			Toast.makeText(this.context, "Error: " + e, 
-					Toast.LENGTH_LONG).show();
+//			Toast.makeText(this.context, "Error: " + e, 
+//					Toast.LENGTH_LONG).show();
 		}
 		this.notifyObserver(true);
 		Looper.loop();

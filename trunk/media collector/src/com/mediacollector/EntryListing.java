@@ -15,32 +15,24 @@ import com.mediacollector.tools.ActivityRegistry;
 import com.mediacollector.tools.Preferences;
 import com.mediacollector.tools.RegisteredListActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.widget.Filter;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 /**
  * 
@@ -53,7 +45,7 @@ public abstract class EntryListing extends RegisteredListActivity {
 	
 	protected RelativeLayout		more		= null;
 	protected EditText filterText = null;
-	protected ArrayAdapter<TextImageEntry> adapter = null;
+	protected ResultsAdapter adapter = null;
 	
 	protected abstract void setData();	
 
@@ -88,46 +80,7 @@ public abstract class EntryListing extends RegisteredListActivity {
         filterText = (EditText) findViewById(R.id.filterText);
         filterText.addTextChangedListener(filterTextWatcher);   
 
-        adapter = new ArrayAdapter<TextImageEntry>(this, 
-        		R.layout.group_row, entries) {
-
-            private ArrayFilter mFilter;
-        	@Override
-			public View getView(
-					int position, View convertView, ViewGroup parent) {
-				View v = convertView;
-				if (v == null) {
-					LayoutInflater vi = (LayoutInflater) getSystemService(
-							Context.LAYOUT_INFLATER_SERVICE);
-					v = vi.inflate(R.layout.entry_child_layout, null);
-				}
-				TextImageEntry o = entries.get(position);
-				if (o != null) {
-					((TextView) v.findViewById(R.id.name)).setText(o.getText());
-					((TextView) v.findViewById(R.id.details)).setText(String
-							.valueOf(o.getYear()));
-					Bitmap cover;
-					if (o.getImage() != null)
-						cover = BitmapFactory.decodeFile(
-								o.getImage() + "_small.jpg");
-					else cover = BitmapFactory.decodeResource(
-								getResources(),R.drawable.no_cover);
-					((ImageView) v.findViewById(R.id.image))
-							.setImageBitmap(cover);
-						
-				}
-				return v;
-			}   
-        	
-        	@Override
-            public Filter getFilter() {
-                if (mFilter == null) {
-                    mFilter = new ArrayFilter();
-                }
-                return mFilter;
-            }      	
-        	
-		};
+		adapter = new ResultsAdapter(this, R.layout.group_row, entries);
         setListAdapter(adapter);
         ListView lv = getListView();
         lv.setTextFilterEnabled(true);
@@ -136,13 +89,15 @@ public abstract class EntryListing extends RegisteredListActivity {
         			int position, long id) {
         		Intent entryDetails = new Intent(getBaseContext(),
         				EntryDetails.class);
-        		entryDetails.putExtra("name", entries.get(position).getText());
-        		entryDetails.putExtra("details", 
-        				entries.get(position).getYear());
-        		entryDetails.putExtra("extras", "");
-        		entryDetails.putExtra("image", entries.get(position).getImage());
-        		entryDetails.putExtra("id", entries.get(position).getId());
-        		startActivity(entryDetails);
+				entryDetails.putExtra("name", adapter.getItem(position)
+						.getText());
+				entryDetails.putExtra("details", adapter.getItem(position)
+						.getYear());
+				entryDetails.putExtra("extras", "");
+				entryDetails.putExtra("image", adapter.getItem(position)
+						.getImage());
+				entryDetails.putExtra("id", adapter.getItem(position).getId());
+				startActivity(entryDetails);
         	}
         });
 		registerForContextMenu(getListView());
@@ -212,19 +167,19 @@ public abstract class EntryListing extends RegisteredListActivity {
     	switch (menuItem.getItemId()) {
 	    	case 1: // Details
 	    		Intent entryDetails = new Intent(this, EntryDetails.class);
-				entryDetails.putExtra("name", entries.get(info.position)
+				entryDetails.putExtra("name", adapter.getItem(info.position)
 						.getText());
-				entryDetails.putExtra("details", entries.get(info.position)
+				entryDetails.putExtra("details", adapter.getItem(info.position)
 						.getYear());
 				entryDetails.putExtra("extra", "");
-	    		entryDetails.putExtra("image", entries.get(info.position)
+	    		entryDetails.putExtra("image", adapter.getItem(info.position)
 						.getImage());
-				entryDetails.putExtra("id", entries.get(info.position)
+				entryDetails.putExtra("id", adapter.getItem(info.position)
 						.getId());
 				startActivity(entryDetails);
 	    		return true;
 	    	case 2: // Delete
-	    		String entryID = entries.get(info.position).getId();
+	    		String entryID = adapter.getItem(info.position).getId();
 	    		switch (this.getType()) {
 	    		case TYPE_FILM:
 	    			FilmData curFilm = new FilmData(this);
@@ -268,73 +223,5 @@ public abstract class EntryListing extends RegisteredListActivity {
         });
         ((ImageView) findViewById(R.id.more_img))
         	.setImageResource(R.drawable.more);
-    }
-    
-    private class ArrayFilter extends android.widget.Filter {
-
-        private List<TextImageEntry> mObjects;
-        private final Object mLock = new Object();
-        private ArrayList<TextImageEntry> mOriginalValues;
-        @Override
-        protected FilterResults performFiltering(CharSequence prefix) {
-            FilterResults results = new FilterResults();
-
-            if (mOriginalValues == null) {
-                synchronized (mLock) {
-                    mOriginalValues = new ArrayList<TextImageEntry>(mObjects);
-                }
-            }
-
-            if (prefix == null || prefix.length() == 0) {
-                synchronized (mLock) {
-                    ArrayList<TextImageEntry> list = new ArrayList<TextImageEntry>(mOriginalValues);
-                    results.values = list;
-                    results.count = list.size();
-                }
-            } else {
-                String prefixString = prefix.toString().toLowerCase();
-
-                final ArrayList<TextImageEntry> values = mOriginalValues;
-                final int count = values.size();
-
-                final ArrayList<TextImageEntry> newValues = new ArrayList<TextImageEntry>(count);
-
-                for (int i = 0; i < count; i++) {
-                    final TextImageEntry value = values.get(i);
-                    final String valueText = value.toString().toLowerCase();
-
-                    // First match against the whole, non-splitted value
-                    if (valueText.startsWith(prefixString)) {
-                        newValues.add(value);
-                    } else {
-                        final String[] words = valueText.split(" ");
-                        final int wordCount = words.length;
-
-                        for (int k = 0; k < wordCount; k++) {
-                            if (words[k].contains(prefixString)) {
-                                newValues.add(value);
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                results.values = newValues;
-                results.count = newValues.size();
-            }
-
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            //noinspection unchecked
-            mObjects = (List<TextImageEntry>) results.values;
-            if (results.count > 0) {
-                adapter.notifyDataSetChanged();
-            } else {
-                adapter.notifyDataSetInvalidated();
-            }
-        }
     }
 }

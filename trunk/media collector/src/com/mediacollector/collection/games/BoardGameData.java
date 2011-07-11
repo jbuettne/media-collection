@@ -289,13 +289,13 @@ public class BoardGameData{
 			if (dbCursor.moveToFirst() == false) {
 				return games;
 			}
-			games.add(new TextImageEntry(dbCursor.getString(0), 
-					dbCursor.getString(1), dbCursor.getString(3), 
-					dbCursor.getString(2)));
+			games.add(new TextImageEntry(dbCursor.getString(0),
+					dbCursor.getString(1), dbCursor.getString(2),
+					dbCursor.getString(3), BoardGameTbl.TABLE_NAME, ""));
 			while (dbCursor.moveToNext() == true) {
 				games.add(new TextImageEntry(dbCursor.getString(0),
-						dbCursor.getString(1), dbCursor.getString(3),
-						dbCursor.getString(2)));
+						dbCursor.getString(1), dbCursor.getString(2),
+						dbCursor.getString(3), BoardGameTbl.TABLE_NAME, ""));
 			}
 		} catch (Throwable ex) {
 			Log.e("TAG", "Konnte Spiele nicht lesen", ex);
