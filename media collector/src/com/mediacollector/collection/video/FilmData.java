@@ -294,12 +294,12 @@ public class FilmData {
 				return films;
 			}
 			films.add(new TextImageEntry(dbCursor.getString(0),
-					dbCursor.getString(1), dbCursor.getString(3), 
-					dbCursor.getString(2)));
+					dbCursor.getString(1), dbCursor.getString(2),
+					dbCursor.getString(3), FilmTbl.TABLE_NAME, ""));
 			while (dbCursor.moveToNext() == true) {
 				films.add(new TextImageEntry(dbCursor.getString(0),
-						dbCursor.getString(1), dbCursor.getString(3),
-						dbCursor.getString(2)));
+						dbCursor.getString(1), dbCursor.getString(2),
+						dbCursor.getString(3), FilmTbl.TABLE_NAME, ""));
 			}
 		} catch(Throwable ex) {
 			Log.e(TAG, "Konnte Filme nicht lesen", ex);

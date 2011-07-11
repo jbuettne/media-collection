@@ -250,12 +250,12 @@ public class BookData {
 				return null;
 			}
 			books.add(new TextImageEntry(dbCursor.getString(0),
-					dbCursor.getString(1), dbCursor.getString(3),
-					dbCursor.getString(2)));
+					dbCursor.getString(1), dbCursor.getString(2),
+					dbCursor.getString(3), BookTbl.TABLE_NAME, author));
 			while (dbCursor.moveToNext() == true) {
 				books.add(new TextImageEntry(dbCursor.getString(0),
-						dbCursor.getString(1),
-						dbCursor.getString(3), dbCursor.getString(2)));
+						dbCursor.getString(1), dbCursor.getString(2),
+						dbCursor.getString(3), BookTbl.TABLE_NAME, author));
 			}
 		} catch(Throwable ex) {
 			Log.e("TAG", "Konnte Buecher nicht lesen", ex);

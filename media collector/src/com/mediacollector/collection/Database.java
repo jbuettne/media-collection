@@ -23,6 +23,7 @@ import com.mediacollector.collection.video.FilmTbl;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 /**
@@ -44,7 +45,12 @@ public class Database{
 	private FilmData film;
 	private BoardGameData board;
 	private VideoGameData video;
+	private Context context;
 
+	final String[] dataTables = { ArtistTbl.TABLE_NAME, FilmTbl.TABLE_NAME,
+			AlbumTbl.TABLE_NAME, BookTbl.TABLE_NAME,
+			BoardGameTbl.TABLE_NAME, VideoGameTbl.TABLE_NAME};
+	
 	public ArtistData getArtist() {
 		return artist;
 	}
@@ -70,21 +76,16 @@ public class Database{
 	}
 
 	public Database(Context context) {
-		dbHelper = new DatabaseHelper(context);
-		artist = new ArtistData(context);
-		album = new AlbumData(context);
-		film = new FilmData(context);
-		book = new BookData(context);
-		board = new BoardGameData(context);
-		video = new VideoGameData(context);
+		this.context = context;
+		openConnection();
 	}
 	
     final String[] tables = {
     		FilmTbl.TABLE_NAME, BoardGameTbl.TABLE_NAME, VideoGameTbl.TABLE_NAME
     };
     
-	public ArrayList<Data> getSearchResult(String search) {
-		ArrayList<Data> searchResult = new ArrayList<Data>();
+	public ArrayList<TextImageEntry> getSearchResult(String search) {
+		ArrayList<TextImageEntry> searchResult = new ArrayList<TextImageEntry>();
 		Cursor dbCursor = null;
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
@@ -95,13 +96,13 @@ public class Database{
 					"WHERE a.name LIKE  '%" + search + "%' " 	+
 					"OR ar.name LIKE  '%" + search + "%'", null);
 			if (dbCursor.moveToFirst() == true) {
-				searchResult.add(new Data(dbCursor.getString(0), dbCursor
+				searchResult.add(new TextImageEntry(dbCursor.getString(0), dbCursor
 						.getString(1), dbCursor.getString(3), dbCursor
 						.getString(4), AlbumTbl.TABLE_NAME, dbCursor
 						.getString(5)));
 			}
 			while (dbCursor.moveToNext() == true) {
-				searchResult.add(new Data(dbCursor.getString(0), dbCursor
+				searchResult.add(new TextImageEntry(dbCursor.getString(0), dbCursor
 						.getString(1), dbCursor.getString(3), dbCursor
 						.getString(4), AlbumTbl.TABLE_NAME, dbCursor
 						.getString(5)));
@@ -111,12 +112,12 @@ public class Database{
 							+ " WHERE name LIKE  '%" + search
 							+ "%' OR author LIKE '%" + search + "%'", null);
 			if (dbCursor.moveToFirst() == true) {
-				searchResult.add(new Data(dbCursor.getString(0), dbCursor
+				searchResult.add(new TextImageEntry(dbCursor.getString(0), dbCursor
 						.getString(1), dbCursor.getString(2), dbCursor
 						.getString(3), BookTbl.TABLE_NAME, ""));
 			}
 			while (dbCursor.moveToNext() == true) {
-				searchResult.add(new Data(dbCursor.getString(0), dbCursor
+				searchResult.add(new TextImageEntry(dbCursor.getString(0), dbCursor
 						.getString(1), dbCursor.getString(2), dbCursor
 						.getString(3), BookTbl.TABLE_NAME, ""));
 			}
@@ -125,18 +126,18 @@ public class Database{
 						"SELECT * " + "FROM " + table + " WHERE name LIKE  '%"
 								+ search + "%' ", null);
 				if (dbCursor.moveToFirst() == true) {
-					searchResult.add(new Data(dbCursor.getString(0), dbCursor
+					searchResult.add(new TextImageEntry(dbCursor.getString(0), dbCursor
 							.getString(1), dbCursor.getString(2), dbCursor
 							.getString(3), table, ""));
 				}
 				while (dbCursor.moveToNext() == true) {
-					searchResult.add(new Data(dbCursor.getString(0), dbCursor
+					searchResult.add(new TextImageEntry(dbCursor.getString(0), dbCursor
 							.getString(1), dbCursor.getString(2), dbCursor
 							.getString(3), table, ""));
 				}
 			}
 			if (searchResult.isEmpty()) {
-				return new ArrayList<Data>();
+				return new ArrayList<TextImageEntry>();
 			}
   
 		} finally {
@@ -148,9 +149,6 @@ public class Database{
 	}
 
 	public final void writeToCsv(String csvFile, String encoding) {
-		final String[] dataTables = { ArtistTbl.TABLE_NAME, FilmTbl.TABLE_NAME,
-				AlbumTbl.TABLE_NAME, BookTbl.TABLE_NAME,
-				BoardGameTbl.TABLE_NAME, VideoGameTbl.TABLE_NAME};
 		Cursor dbCursor = null;
 		try {
 			BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
@@ -189,6 +187,7 @@ public class Database{
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					new FileInputStream(filePath)));
+			dropTables();
 			String readString;
 			while ((readString = in.readLine()) != null) {
 				String[] tmpArray = readString.split(";");
@@ -211,18 +210,43 @@ public class Database{
 							tmpArray[3], tmpArray[4]);
 				}
 			}
+			Log.e(TAG, "CSV gelesen");
 			in.close();
 		} catch (Exception ex) {
 			Log.e(TAG, "\nFehler beim Lesen der CSV-Datei '" + filePath + "': "
 					+ ex);
+		} finally {
+			closeConnection();
 		}
-
 	}
 	
 	
+	private void dropTables() {
+		for (String table : tables) {
+			Cursor cur = dbHelper.getWritableDatabase().rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='" + table +"'", null);
+			if (cur != null) {
+		if (cur.moveToFirst() == true) {
+                   // Always one row returned.
+			//dbHelper.getWritableDatabase().execSQL("CREATE TABLE IF NOT EXISTS " + table);
+					dbHelper.getWritableDatabase().execSQL(
+							"DELETE FROM " + table);
+			}
+			}
+		}
+	}
+	
+	public void openConnection() {
+		dbHelper = new DatabaseHelper(context);
+		artist = new ArtistData(context);
+		album = new AlbumData(context);
+		film = new FilmData(context);
+		book = new BookData(context);
+		board = new BoardGameData(context);
+		video = new VideoGameData(context);
+	}
 	
 	/**
-	 * schlie�e die Datenbankverbindung
+	 * Schliesst die Datenbankverbindung
 	 */
 	public void closeConnection() {
 		artist.close();
