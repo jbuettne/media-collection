@@ -228,7 +228,7 @@ public class Scan extends RegisteredActivity implements Observer {
 							} else if (collection == R.string.COLLECTION_Games) {
 								if ((String) fetching.getDataFetcher()
 										.get(DataFetcher.ARTIST_STRING) ==
-											"Video") {
+											"Spiel") {
 									dBase.getVideoGame().insertVideoGame(
 											(String) fetching.getDataFetcher().get(
 													DataFetcher.TITLE_ID_STRING),
