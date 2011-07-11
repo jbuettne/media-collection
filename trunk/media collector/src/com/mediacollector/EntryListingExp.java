@@ -18,7 +18,6 @@ import com.mediacollector.tools.Preferences;
 import android.app.AlertDialog;
 import android.app.ExpandableListActivity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -83,40 +82,7 @@ public abstract class EntryListingExp extends ExpandableListActivity {
 		ActivityRegistry.registerActivity(this);
 		this.setData();
         setContentView(R.layout.entry_layout);
-        
-        final String[] collections = {
-        		getString(R.string.COLLECTION_Audio), 
-        		getString(R.string.COLLECTION_Video), 
-        		getString(R.string.COLLECTION_Books),
-        		getString(R.string.COLLECTION_Games), 
-        		getString(R.string.COLLECTION_Wishlist) 
-        };
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.COLLECTION_Choose);
-        builder.setItems(collections, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-            	Intent intent = new Intent(getApplicationContext(), 
-            			Scan.class);
-            	if (collections[item] == getString(R.string
-            			.COLLECTION_Audio)) intent.putExtra("collection", 
-            					R.string.COLLECTION_Audio);
-            	else if (collections[item] == getString(R.string
-            			.COLLECTION_Video)) intent.putExtra("collection", 
-            					R.string.COLLECTION_Video);
-            	else if (collections[item] == getString(R.string
-            			.COLLECTION_Books)) intent.putExtra("collection", 
-            					R.string.COLLECTION_Books);
-            	else if (collections[item] == getString(R.string
-            			.COLLECTION_Games)) intent.putExtra("collection", 
-            					R.string.COLLECTION_Games);
-            	else 
-            		intent.putExtra("collection", 
-            				R.string.COLLECTION_Wishlist);
-            	startActivity(intent);
-            }
-        });
-        alert = builder.create();
-        
+
         this.more = (RelativeLayout) findViewById(R.id.more);
         this.more.setOnClickListener(new OnClickListener() {            
             public void onClick(View arg0) { hideHeader(); } 
@@ -228,8 +194,7 @@ public abstract class EntryListingExp extends ExpandableListActivity {
         inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
-    
-	
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch (item.getItemId()) {
