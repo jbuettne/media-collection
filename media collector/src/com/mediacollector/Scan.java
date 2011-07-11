@@ -136,14 +136,23 @@ public class Scan extends RegisteredActivity implements Observer {
 			((ImageView) findViewById(R.id.cover)).setImageBitmap(coverBM);			
 			TextView artist = (TextView) findViewById(R.id.artist);
 			artist.setSelected(true);
-			artist.setText((String) fetching.getDataFetcher().get(
-					DataFetcher.ARTIST_STRING));
+			switch (collection) {
+			case R.string.COLLECTION_Audio:
+			case R.string.COLLECTION_Books:
+				artist.setText((String) fetching.getDataFetcher().get(
+						DataFetcher.ARTIST_STRING));
+				((TextView) findViewById(R.id.year)).setText((String) 
+						fetching.getDataFetcher().get(DataFetcher.YEAR_STRING));
+				break;
+			default:
+				artist.setText((String) fetching.getDataFetcher().get(
+						DataFetcher.YEAR_STRING));
+				break;
+			}
 			TextView title = (TextView) findViewById(R.id.release);
 			title.setSelected(true);
 			title.setText((String) fetching.getDataFetcher().get(
 					DataFetcher.TITLE_STRING));
-			((TextView) findViewById(R.id.year)).setText((String) 
-					fetching.getDataFetcher().get(DataFetcher.YEAR_STRING));
 			
 			if(add2collection_values == "title+artist") {
 				add2collection = fetching.getDataFetcher().get(
