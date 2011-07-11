@@ -23,7 +23,6 @@ import com.mediacollector.collection.video.FilmTbl;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 /**
@@ -47,8 +46,8 @@ public class Database{
 	private VideoGameData video;
 	private Context context;
 
-	final String[] dataTables = { ArtistTbl.TABLE_NAME, FilmTbl.TABLE_NAME,
-			AlbumTbl.TABLE_NAME, BookTbl.TABLE_NAME,
+	final String[] dataTables = { ArtistTbl.TABLE_NAME, AlbumTbl.TABLE_NAME, 
+			FilmTbl.TABLE_NAME, BookTbl.TABLE_NAME,
 			BoardGameTbl.TABLE_NAME, VideoGameTbl.TABLE_NAME};
 	
 	public ArtistData getArtist() {
@@ -187,27 +186,30 @@ public class Database{
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					new FileInputStream(filePath)));
-			dropTables();
+			dbHelper.onUpgrade(
+					dbHelper.getWritableDatabase(), 
+					dbHelper.getWritableDatabase().getVersion(), 
+					dbHelper.getWritableDatabase().getVersion() + 1);
 			String readString;
 			while ((readString = in.readLine()) != null) {
 				String[] tmpArray = readString.split(";");
-				if (tmpArray[0].equals("Artist")) {
+				if (tmpArray[0].equals(ArtistTbl.TABLE_NAME)) {
 					artist.insertArtist(tmpArray[1], tmpArray[2]);
-				} else if(tmpArray[0].equals("Album")) {
+				} else if(tmpArray[0].equals(AlbumTbl.TABLE_NAME)) {
 					album.insertAlbum(tmpArray[1], tmpArray[2], tmpArray[3],
-							tmpArray[4], tmpArray[5]);
-				} else if(tmpArray[0] == "Book") {
+							tmpArray[4], tmpArray[5], tmpArray[6]);
+				} else if(tmpArray[0].equals(BookTbl.TABLE_NAME)) {
 					book.insertBook(tmpArray[1], tmpArray[2], tmpArray[3],
-							tmpArray[4], tmpArray[5]);
-				} else if(tmpArray[0] == "Film") {
+							tmpArray[4], tmpArray[5], tmpArray[6]);
+				} else if(tmpArray[0].equals(FilmTbl.TABLE_NAME)) {
 					film.insertFilm(tmpArray[1], tmpArray[2],
-							tmpArray[3], tmpArray[4]);
-				} else if(tmpArray[0] == "BoardGame") {
+							tmpArray[3], tmpArray[4], tmpArray[5]);
+				} else if(tmpArray[0].equals(BoardGameTbl.TABLE_NAME)) {
 					board.insertBoardGame(tmpArray[1], tmpArray[2],
-							tmpArray[3], tmpArray[4]);
-				} else if(tmpArray[0] == "VideoGame") {
+							tmpArray[3], tmpArray[4], tmpArray[5]);
+				} else if(tmpArray[0].equals(VideoGameTbl.TABLE_NAME)) {
 					video.insertVideoGame(tmpArray[1], tmpArray[2],
-							tmpArray[3], tmpArray[4]);
+							tmpArray[3], tmpArray[4], tmpArray[5]);
 				}
 			}
 			Log.e(TAG, "CSV gelesen");
@@ -219,22 +221,11 @@ public class Database{
 			closeConnection();
 		}
 	}
+
 	
-	
-	private void dropTables() {
-		for (String table : tables) {
-			Cursor cur = dbHelper.getWritableDatabase().rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='" + table +"'", null);
-			if (cur != null) {
-		if (cur.moveToFirst() == true) {
-                   // Always one row returned.
-			//dbHelper.getWritableDatabase().execSQL("CREATE TABLE IF NOT EXISTS " + table);
-					dbHelper.getWritableDatabase().execSQL(
-							"DELETE FROM " + table);
-			}
-			}
-		}
-	}
-	
+	/**
+	 * Oeffnet die Datenbankverbindung
+	 */
 	public void openConnection() {
 		dbHelper = new DatabaseHelper(context);
 		artist = new ArtistData(context);

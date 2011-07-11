@@ -6,6 +6,7 @@ public interface VideoGameTbl {
 	public static final String COL_VIDEO_NAME = "name";
 	public static final String COL_VIDEO_YEAR = "year";
 	public static final String COL_VIDEO_IMAGE = "imgPath";
+	public static final String COL_VIDEO_IMAGE_HTTP = "imgPathHttp";
 
 	static final String TABLE_NAME = "VideoGame";
 
@@ -14,11 +15,12 @@ public interface VideoGameTbl {
 			+ "name			VARCHAR(500)	NOT NULL,					"
 			+ "year			VARCHAR(4), 								"
 			+ "imgPath		VARCHAR(500), 								"
+			+ "imgPathHttp	VARCHAR(500), 								"
 			+ "PRIMARY KEY (id, name)									"		
 			+ ");";
 
 	static final String STMT_FULL_INSERT = "INSERT INTO VideoGame ( 	"
-			+ "id, name, year, imgPath)  								"
-			+ " 	values (?,?,?,?)";
+			+ "id, name, year, imgPath, imgPathHttp)					"
+			+ " 	values (?,?,?,?,?)";
 	
 }

@@ -153,6 +153,20 @@ public class ArtistData {
 		}
 		return deleteCount == 1;
 	}
+	
+	public boolean deleteArtistName(String name) {
+		final SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+		int deleteCount = 0;
+		try {
+			deleteCount = db.delete(
+					ArtistTbl.TABLE_NAME, "name = '" + name + "'", null);
+			Log.i(TAG, "Artist name=" + name + " deleted.");
+		} finally {
+			db.close();
+		}
+		return deleteCount == 1;
+	}
 
 	public Artist getArtist(String value, String type) {
 		Artist artist = null;
@@ -189,8 +203,6 @@ public class ArtistData {
 
 	    artist.name = dbCursor.getString(dbCursor
 	        .getColumnIndex(ArtistTbl.COL_ARTIST_NAME));
-	    artist.imgPath = dbCursor.getString(dbCursor
-	        .getColumnIndex(ArtistTbl.COL_ARTIST_IMAGE));
 	    artist.id = dbCursor.getString(dbCursor
 	        .getColumnIndex(ArtistTbl.COL_ARTIST_ID));
 	    return artist;

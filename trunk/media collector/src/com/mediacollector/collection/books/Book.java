@@ -11,14 +11,17 @@ public class Book {
 	public String year;
 
 	public String imgPath;
+
+	public String imgPathHttp;
 	
 	public Book(String id, String name, String author, String year, 
-			String imgPath){
+			String imgPath, String imgPathHttp){
 		this.id = id;
 		this.name = name;
 		this.author = author;
 		this.year = year;
 		this.imgPath = imgPath;
+		this.imgPathHttp = imgPathHttp;
 	}
 	public Book(){
 		

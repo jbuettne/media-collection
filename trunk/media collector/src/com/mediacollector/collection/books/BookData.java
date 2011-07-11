@@ -44,7 +44,7 @@ public class BookData {
 	}
 
 	public long insertBook(String id, String name, String author, String year,
-			String imgPath) {
+			String imgPath, String imgPathHttp) {
 
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 		SQLiteStatement stmtInsert = db
@@ -57,6 +57,8 @@ public class BookData {
 			stmtInsert.bindString(4, year);
 			if (imgPath == null) stmtInsert.bindNull(5);
 			else stmtInsert.bindString(5, imgPath);
+			if (imgPathHttp == null) stmtInsert.bindNull(6);
+			else stmtInsert.bindString(6, imgPathHttp);
 			long pos = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
 			Log.i(TAG, "Book mit id=" + id + " erzeugt.");
@@ -74,7 +76,7 @@ public class BookData {
 
 	public long insertBook(Book book) {
 		return insertBook(book.id, book.name, book.author, book.year,
-				book.imgPath);
+				book.imgPath, book.imgPathHttp);
 	}
 
 	/**
@@ -198,11 +200,11 @@ public class BookData {
 			}
 			books.add(new Book(dbCursor.getString(0),dbCursor.getString(1),
 					dbCursor.getString(2),dbCursor.getString(3),
-					dbCursor.getString(4)));
+					dbCursor.getString(4), dbCursor.getString(5)));
 			while (dbCursor.moveToNext() == true) {
 				books.add(new Book(dbCursor.getString(0),dbCursor.getString(1),
 						dbCursor.getString(2),dbCursor.getString(3),
-						dbCursor.getString(4)));
+						dbCursor.getString(4), dbCursor.getString(5)));
 			}
 		} catch(Throwable ex) {
 			Log.e("TAG", "Konnte Books nicht lesen", ex);

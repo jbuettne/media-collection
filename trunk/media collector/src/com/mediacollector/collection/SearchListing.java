@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.os.Bundle;
 
 import com.mediacollector.EntryListing;
-import com.mediacollector.SearchResult;
 import com.mediacollector.collection.Database;
 
 /**
