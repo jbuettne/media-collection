@@ -1,5 +1,10 @@
 package com.mediacollector.collection.audio;
 
+/**
+ * 
+ * @author Jens Buettner
+ * @version 0.1
+ */
 public interface ArtistTbl {
 
 		public static final String COL_ARTIST_ID = "id";

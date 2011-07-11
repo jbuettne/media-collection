@@ -1,5 +1,10 @@
 package com.mediacollector.collection.audio;
 
+/**
+ * 
+ * @author Jens Buettner
+ * @version 0.1
+ */
 public class Album {
 
 	public String mbId;

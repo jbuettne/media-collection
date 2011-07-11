@@ -12,15 +12,10 @@ import android.widget.Toast;
 import com.mediacollector.collection.DatabaseHelper;
 import com.mediacollector.collection.TextImageEntry;
 
+
 /**
- * OR-Mapper für 'Artist'. ----------------------- Die Artist-Klasse
- * repräsentiert einen Künstler mit allen in der Datenbank gespeicherten
- * Attributen. Über ein Objekt dieser Klasse können neue Einträge in die
- * Datenbank eingefügt werden, im Gegenzug aber auch über die Id des Eintrags
- * in der Datenbank die entsprechenden Informationen in das Objekt eingelesen
- * werden.
  * 
- * @author Philipp Dermitzel
+ * @author Jens Buettner
  * @version 0.1
  */
 public class BoardGameData{

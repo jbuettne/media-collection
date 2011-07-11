@@ -1,5 +1,10 @@
 package com.mediacollector.collection.video;
 
+/**
+ * 
+ * @author Jens Buettner
+ * @version 0.1
+ */
 public interface FilmTbl {
 
 		public static final String COL_FILM_ID = "id";

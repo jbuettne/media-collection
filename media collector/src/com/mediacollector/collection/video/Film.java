@@ -1,5 +1,10 @@
 package com.mediacollector.collection.video;
 
+/**
+ * 
+ * @author Jens Buettner
+ * @version 0.1
+ */
 public class Film {
 
 	public String id;

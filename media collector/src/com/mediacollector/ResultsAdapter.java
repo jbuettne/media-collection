@@ -18,6 +18,12 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * Adapter um innerhalb eines ListView über ein TextView Einträge zu filtern.
+ * 
+ * @author Jens Buettner
+ * @version 0.1
+ */
 public class ResultsAdapter extends ArrayAdapter<TextImageEntry> implements
 		Filterable {
 	

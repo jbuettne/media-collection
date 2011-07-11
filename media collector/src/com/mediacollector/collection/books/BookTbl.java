@@ -1,5 +1,10 @@
 package com.mediacollector.collection.books;
 
+/**
+ * 
+ * @author Jens Buettner
+ * @version 0.1
+ */
 public interface BookTbl {
 
 	public static final String COL_BOOK_ID = "id";

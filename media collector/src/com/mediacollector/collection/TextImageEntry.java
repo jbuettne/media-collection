@@ -2,6 +2,14 @@ package com.mediacollector.collection;
 
 import java.util.HashMap;
 
+/**
+ * Klasse zur Erstellung von TextImageEntry-Objekten.
+ * Diese werden für die Anzeige der Einträge in den ListViews und 
+ * ExpandableListViews verwendet.
+ * 
+ * @author Jens Buettner
+ * @version 0.1
+ */
 public class TextImageEntry {
 	
 	private HashMap<String, Object> data = new HashMap<String, Object>();

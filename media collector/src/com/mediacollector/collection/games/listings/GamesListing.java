@@ -7,6 +7,11 @@ import com.mediacollector.collection.TextImageEntry;
 import com.mediacollector.collection.games.BoardGameData;
 import com.mediacollector.collection.games.VideoGameData;
 
+/**
+ * 
+ * @author Jens Buettner
+ * @version 0.1
+ */
 public class GamesListing extends EntryListing{
 
 	BoardGameData boardDB;
