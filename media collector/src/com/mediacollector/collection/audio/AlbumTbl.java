@@ -14,7 +14,7 @@ public interface AlbumTbl {
 	static final String SQL_CREATE = "CREATE TABLE Album ( 					"
 			+ "id		VARCHAR(63)	, 										"
 			+ "name	VARCHAR(500)	PRIMARY KEY NOT NULL, 					"
-			+ "artist	VARCHAR(63), 										"
+			+ "artist	VARCHAR(500) NOT NULL,								"
 			+ "year	VARCHAR(4), 											"
 			+ "imgPath	VARCHAR(500), 										"
 			+ "imgPathHttp	VARCHAR(500), 									"

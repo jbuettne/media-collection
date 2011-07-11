@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mediacollector.collection.SearchListing;
 import com.mediacollector.collection.TextImageEntry;
 import com.mediacollector.collection.audio.AlbumData;
 import com.mediacollector.collection.audio.AlbumTbl;
@@ -56,6 +57,7 @@ public abstract class EntryListing extends RegisteredListActivity {
 	protected RelativeLayout		more		= null;
 	protected EditText filterText = null;
 	protected ResultsAdapter adapter = null;
+	protected Bundle extras = null;
 	
 	protected abstract void setData();	
 
@@ -195,39 +197,38 @@ public abstract class EntryListing extends RegisteredListActivity {
 	    		String entryID = adapter.getItem(info.position).getId();
 	    		switch (this.getType()) {
 	    		case TYPE_SEARCH:
+	    			Intent searchResult = new Intent(this, SearchListing.class);
+	    			searchResult.putExtra("searchText", 
+	    					extras.getString("searchText"));
 	    			if (adapter.getItem(info.position)
 	    					.getTable() == AlbumTbl.TABLE_NAME) {
 	    				entryID = adapter.getItem(info.position).getText();
 	    				AlbumData curAlbum = new AlbumData(this);
 	    				curAlbum.deleteAlbumName(entryID);
 	    				finish();
-	    				startActivity(new Intent(getBaseContext(),
-							ArtistListing.class));
 	    				curAlbum.close();
+	    				startActivity(searchResult);
 	    			} else if (adapter.getItem(info.position)
 	    					.getTable() == BookTbl.TABLE_NAME) {
 	    				BookData curBook = new BookData(this);
 	    				curBook.deleteBook(entryID);
 	    				finish();
-	    				startActivity(new Intent(getBaseContext(),
-							ArtistListing.class));
-	    				curBook.close();	    				
+	    				curBook.close();	
+	    				startActivity(searchResult);			
 	    			} else if (adapter.getItem(info.position)
 	    					.getTable() == FilmTbl.TABLE_NAME){
 	    				FilmData curFilm = new FilmData(this);
 	    				curFilm.deleteFilm(entryID);
 	    				finish();
-	    				startActivity(new Intent(getBaseContext(),
-							ArtistListing.class));
-	    				curFilm.close();	    				
+	    				curFilm.close();	    
+	    				startActivity(searchResult);			
 	    			} else if (adapter.getItem(info.position)
 	    					.getTable() == VideoGameTbl.TABLE_NAME){
 	    				VideoGameData curGame = new VideoGameData(this);
 	    				curGame.deleteVideoGame(entryID);
 	    				finish();
-	    				startActivity(new Intent(getBaseContext(),
-							ArtistListing.class));
 	    				curGame.close();
+	    				startActivity(searchResult);
 	    			}
 	    			break;
 	    		case TYPE_FILM:

@@ -269,7 +269,7 @@ public class AlbumData{
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
 					"SELECT name, imgPath FROM " + AlbumTbl.TABLE_NAME + 
-					" WHERE artist = '" + artist.id + "' " +
+					" WHERE artist = '" + artist.name + "' " +
 					"ORDER BY name", null);
 			if (dbCursor.moveToFirst() == false) {
 				return null;
@@ -294,18 +294,18 @@ public class AlbumData{
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
 					"SELECT id, name, year, imgPath FROM " + AlbumTbl.TABLE_NAME
-					+ " WHERE artist = '" + artist.id + "' " +
+					+ " WHERE artist = '" + artist.name + "' " +
 					"ORDER BY name", null);
 			if (dbCursor.moveToFirst() == false) {
 				return null;
 			}
 			albums.add(new TextImageEntry(dbCursor.getString(0),
 					dbCursor.getString(1), dbCursor.getString(2),
-					dbCursor.getString(3), AlbumTbl.TABLE_NAME, artist.id));
+					dbCursor.getString(3), AlbumTbl.TABLE_NAME, artist.name));
 			while (dbCursor.moveToNext() == true) {
 				albums.add(new TextImageEntry(dbCursor.getString(0),
 						dbCursor.getString(1), dbCursor.getString(2),
-						dbCursor.getString(3), AlbumTbl.TABLE_NAME, artist.id));
+						dbCursor.getString(3), AlbumTbl.TABLE_NAME, artist.name));
 			}
 		} catch(Throwable ex) {
 			Log.e("TAG", "Konnte Alben nicht lesen", ex);

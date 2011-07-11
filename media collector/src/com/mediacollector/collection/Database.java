@@ -88,23 +88,23 @@ public class Database{
 		Cursor dbCursor = null;
 		try {
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
-					"SELECT a.* , ar.name "						+
+					"SELECT a.* , ar.id "						+
 					"FROM " + AlbumTbl.TABLE_NAME + " As a " 	+
 					"JOIN " + ArtistTbl.TABLE_NAME + " As ar " 	+
-					"ON (a.artist = ar.id) " 					+
+					"ON (a.artist = ar.name) " 					+
 					"WHERE a.name LIKE  '%" + search + "%' " 	+
 					"OR ar.name LIKE  '%" + search + "%'", null);
 			if (dbCursor.moveToFirst() == true) {
 				searchResult.add(new TextImageEntry(dbCursor.getString(0), dbCursor
 						.getString(1), dbCursor.getString(3), dbCursor
 						.getString(4), AlbumTbl.TABLE_NAME, dbCursor
-						.getString(5)));
+						.getString(2)));
 			}
 			while (dbCursor.moveToNext() == true) {
 				searchResult.add(new TextImageEntry(dbCursor.getString(0), dbCursor
 						.getString(1), dbCursor.getString(3), dbCursor
 						.getString(4), AlbumTbl.TABLE_NAME, dbCursor
-						.getString(5)));
+						.getString(2)));
 			}
 			dbCursor = dbHelper.getReadableDatabase().rawQuery(
 					"SELECT * " + "FROM " + BookTbl.TABLE_NAME
@@ -112,13 +112,15 @@ public class Database{
 							+ "%' OR author LIKE '%" + search + "%'", null);
 			if (dbCursor.moveToFirst() == true) {
 				searchResult.add(new TextImageEntry(dbCursor.getString(0), dbCursor
-						.getString(1), dbCursor.getString(2), dbCursor
-						.getString(3), BookTbl.TABLE_NAME, ""));
+						.getString(1), dbCursor.getString(3), 
+						dbCursor.getString(4) , BookTbl.TABLE_NAME,
+						dbCursor.getString(2)));
 			}
 			while (dbCursor.moveToNext() == true) {
 				searchResult.add(new TextImageEntry(dbCursor.getString(0), dbCursor
-						.getString(1), dbCursor.getString(2), dbCursor
-						.getString(3), BookTbl.TABLE_NAME, ""));
+						.getString(1), dbCursor.getString(3), 
+						dbCursor.getString(4) , BookTbl.TABLE_NAME,
+						dbCursor.getString(2)));
 			}
 			for (String table : tables) {
 				dbCursor = dbHelper.getReadableDatabase().rawQuery(
