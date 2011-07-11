@@ -34,14 +34,13 @@
             <RelativeLayout android:layout_width="wrap_content" 
                 android:layout_height="match_parent" 
                 android:id="@+id/more"
-                android:clickable="true">
-                <ImageView android:layout_marginRight="10sp" 
-                    android:layout_height="wrap_content" 
+                android:clickable="true"
+                android:paddingRight="10sp">
+                <ImageView android:layout_height="wrap_content" 
                     android:id="@+id/more_img" 
                     android:layout_width="wrap_content" 
                     android:layout_alignParentRight="true" 
-                    android:clickable="true" 
-                    android:src="@drawable/more" 
+                    android:src="@drawable/more"
                     android:layout_centerVertical="true"></ImageView>
             </RelativeLayout>
         </LinearLayout>
