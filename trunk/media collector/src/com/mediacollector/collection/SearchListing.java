@@ -28,6 +28,7 @@ public class SearchListing extends EntryListing{
 		}
 	    
 		this.entries = searchResult;
+		this.extras = extras;
 	}
 	@Override
 	protected void onDestroy() {

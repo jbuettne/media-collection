@@ -190,7 +190,7 @@ public class Scan extends RegisteredActivity implements Observer {
 										(String) fetching.getDataFetcher().get(
 												DataFetcher.TITLE_STRING),
 										(String) fetching.getDataFetcher().get(
-												DataFetcher.ARTIST_ID_STRING),
+												DataFetcher.ARTIST_STRING),
 										(String) fetching.getDataFetcher().get(
 												DataFetcher.YEAR_STRING),
 										(String) fetching.getImageFetcher().get(
