@@ -10,7 +10,9 @@ import com.mediacollector.collection.games.listings.GamesListing;
 import com.mediacollector.collection.video.FilmData;
 import com.mediacollector.collection.video.listings.FilmListing;
 import com.mediacollector.sync.Dropbox;
+import com.mediacollector.sync.SyncActivity;
 import com.mediacollector.tools.ActivityRegistry;
+import com.mediacollector.tools.Preferences;
 import com.mediacollector.tools.RegisteredListActivity;
 
 import android.content.Context;
@@ -20,6 +22,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.widget.Filter;
@@ -31,7 +34,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -55,8 +57,8 @@ public abstract class EntryListing extends RegisteredListActivity {
 	
 	protected abstract void setData();	
 
-    protected final int TYPE_FILM = 1;
-    protected final int TYPE_GAME = 2;
+    protected final int TYPE_FILM = 3;
+    protected final int TYPE_GAME = 4;
 	/**
 	 * Liefert die Art des Listings. Die Arten des Listings sind aus den oben 
 	 * aufgeführten Konstanten zu entnehmen.
@@ -145,6 +147,39 @@ public abstract class EntryListing extends RegisteredListActivity {
         });
 		registerForContextMenu(getListView());
 	}   
+	
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	switch (item.getItemId()) {
+		case R.id.menu_sync:
+			startActivity(new Intent(getBaseContext(), SyncActivity.class));
+			return true;
+		case R.id.menu_scan:
+			Intent intent = new Intent(getBaseContext(), Scan.class);
+			Log.i("mcTest", String.valueOf(getType()));
+			switch (getType()) {
+			case 3:	
+				intent.putExtra("collection", R.string.COLLECTION_Video);
+				startActivity(getIntent()); finish();
+	        	break;
+			case 4:	
+				intent.putExtra("collection", R.string.COLLECTION_Games);
+				startActivity(getIntent()); finish();
+        		break;
+			}
+			startActivity(intent);
+			return true;
+		case R.id.menu_settings:    			
+			startActivity(new Intent(getBaseContext(), Preferences.class));
+			return true;
+		case R.id.menu_exit:
+			ActivityRegistry.closeAllActivities();
+			return true;
+		case R.id.menu_info:    			
+			startActivityForResult(new Intent(this, InfoPopUp.class), 1);
+		default: return true;
+    	}
+    }
 	
 	private TextWatcher filterTextWatcher = new TextWatcher() {
 
