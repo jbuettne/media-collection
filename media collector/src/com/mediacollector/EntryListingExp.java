@@ -38,6 +38,7 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 
@@ -56,7 +57,7 @@ public abstract class EntryListingExp extends ExpandableListActivity {
 	
 	protected	  	String[] 			groups 		= null;
 	protected 	  	TextImageEntry[][] 	children 	= null;
-	protected	  	ImageView			more		= null;
+	protected	  	RelativeLayout		more		= null;
 	protected	 	AlertDialog			alert		= null; 
 	
 	protected ArrayList<HashMap<String, String>> groupData = 
@@ -116,9 +117,14 @@ public abstract class EntryListingExp extends ExpandableListActivity {
         });
         alert = builder.create();
         
+        this.more = (RelativeLayout) findViewById(R.id.more);
+        this.more.setOnClickListener(new OnClickListener() {            
+            public void onClick(View arg0) { hideHeader(); } 
+        });
+        
         LinearLayout header = (LinearLayout) findViewById(R.id.overall_header);        
         header.setOnClickListener(new OnClickListener() {
-			public void onClick(View arg0) {
+			public void onClick(View v) {
 				finish();
 			}        	
         });
@@ -326,5 +332,26 @@ public abstract class EntryListingExp extends ExpandableListActivity {
     		return super.onContextItemSelected(menuItem);
     	}
     }
+    
+    public void showHeader() {
+        findViewById(R.id.overall_header_spacer).setVisibility(View.VISIBLE);
+        findViewById(R.id.overall_header_container).setVisibility(View.VISIBLE);
+        this.more.setOnClickListener(new OnClickListener() {
+        	public void onClick(View arg0) { hideHeader(); }
+        });
+        ((ImageView) findViewById(R.id.more_img))
+        	.setImageResource(R.drawable.less);
+    }
+
+    public void hideHeader() {
+        findViewById(R.id.overall_header_spacer).setVisibility(View.GONE);
+        findViewById(R.id.overall_header_container).setVisibility(View.GONE);
+        this.more.setOnClickListener(new OnClickListener() {
+        	public void onClick(View arg0) { showHeader(); }
+        });
+        ((ImageView) findViewById(R.id.more_img))
+        	.setImageResource(R.drawable.more);
+    }
+
     	
 }
