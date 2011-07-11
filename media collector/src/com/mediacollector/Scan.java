@@ -134,10 +134,14 @@ public class Scan extends RegisteredActivity implements Observer {
 						.getImageFetcher().get(ImageFetcher.COVER_PATH) 
 						+ ".jpg");
 			((ImageView) findViewById(R.id.cover)).setImageBitmap(coverBM);			
-			((TextView) findViewById(R.id.artist)).setText((String) 
-					fetching.getDataFetcher().get(DataFetcher.ARTIST_STRING));
-			((TextView) findViewById(R.id.release)).setText((String) 
-					fetching.getDataFetcher().get(DataFetcher.TITLE_STRING));
+			TextView artist = (TextView) findViewById(R.id.artist);
+			artist.setSelected(true);
+			artist.setText((String) fetching.getDataFetcher().get(
+					DataFetcher.ARTIST_STRING));
+			TextView title = (TextView) findViewById(R.id.release);
+			title.setSelected(true);
+			title.setText((String) fetching.getDataFetcher().get(
+					DataFetcher.TITLE_STRING));
 			((TextView) findViewById(R.id.year)).setText((String) 
 					fetching.getDataFetcher().get(DataFetcher.YEAR_STRING));
 			
