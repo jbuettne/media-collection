@@ -5,9 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mediacollector.collection.TextImageEntry;
+import com.mediacollector.collection.audio.AlbumData;
+import com.mediacollector.collection.audio.AlbumTbl;
+import com.mediacollector.collection.audio.listings.ArtistListing;
+import com.mediacollector.collection.books.BookData;
+import com.mediacollector.collection.books.BookTbl;
+import com.mediacollector.collection.books.listings.BookListing;
+import com.mediacollector.collection.games.BoardGameData;
+import com.mediacollector.collection.games.BoardGameTbl;
 import com.mediacollector.collection.games.VideoGameData;
+import com.mediacollector.collection.games.VideoGameTbl;
 import com.mediacollector.collection.games.listings.GamesListing;
 import com.mediacollector.collection.video.FilmData;
+import com.mediacollector.collection.video.FilmTbl;
 import com.mediacollector.collection.video.listings.FilmListing;
 import com.mediacollector.sync.Dropbox;
 import com.mediacollector.sync.SyncActivity;
@@ -49,6 +59,7 @@ public abstract class EntryListing extends RegisteredListActivity {
 	
 	protected abstract void setData();	
 
+    protected final int TYPE_SEARCH = -1;
     protected final int TYPE_FILM = 3;
     protected final int TYPE_GAME = 4;
 	/**
@@ -93,7 +104,8 @@ public abstract class EntryListing extends RegisteredListActivity {
 						.getText());
 				entryDetails.putExtra("details", adapter.getItem(position)
 						.getYear());
-				entryDetails.putExtra("extras", "");
+				entryDetails.putExtra("extras", adapter.getItem(position)
+						.getExtra());
 				entryDetails.putExtra("image", adapter.getItem(position)
 						.getImage());
 				entryDetails.putExtra("id", adapter.getItem(position).getId());
@@ -171,7 +183,8 @@ public abstract class EntryListing extends RegisteredListActivity {
 						.getText());
 				entryDetails.putExtra("details", adapter.getItem(info.position)
 						.getYear());
-				entryDetails.putExtra("extra", "");
+				entryDetails.putExtra("extra", adapter.getItem(info.position)
+						.getExtra());
 	    		entryDetails.putExtra("image", adapter.getItem(info.position)
 						.getImage());
 				entryDetails.putExtra("id", adapter.getItem(info.position)
@@ -181,12 +194,49 @@ public abstract class EntryListing extends RegisteredListActivity {
 	    	case 2: // Delete
 	    		String entryID = adapter.getItem(info.position).getId();
 	    		switch (this.getType()) {
+	    		case TYPE_SEARCH:
+	    			if (adapter.getItem(info.position)
+	    					.getTable() == AlbumTbl.TABLE_NAME) {
+	    				entryID = adapter.getItem(info.position).getText();
+	    				AlbumData curAlbum = new AlbumData(this);
+	    				curAlbum.deleteAlbumName(entryID);
+	    				finish();
+	    				startActivity(new Intent(getBaseContext(),
+							ArtistListing.class));
+	    				curAlbum.close();
+	    			} else if (adapter.getItem(info.position)
+	    					.getTable() == BookTbl.TABLE_NAME) {
+	    				BookData curBook = new BookData(this);
+	    				curBook.deleteBook(entryID);
+	    				finish();
+	    				startActivity(new Intent(getBaseContext(),
+							ArtistListing.class));
+	    				curBook.close();	    				
+	    			} else if (adapter.getItem(info.position)
+	    					.getTable() == FilmTbl.TABLE_NAME){
+	    				FilmData curFilm = new FilmData(this);
+	    				curFilm.deleteFilm(entryID);
+	    				finish();
+	    				startActivity(new Intent(getBaseContext(),
+							ArtistListing.class));
+	    				curFilm.close();	    				
+	    			} else if (adapter.getItem(info.position)
+	    					.getTable() == VideoGameTbl.TABLE_NAME){
+	    				VideoGameData curGame = new VideoGameData(this);
+	    				curGame.deleteVideoGame(entryID);
+	    				finish();
+	    				startActivity(new Intent(getBaseContext(),
+							ArtistListing.class));
+	    				curGame.close();
+	    			}
+	    			break;
 	    		case TYPE_FILM:
 	    			FilmData curFilm = new FilmData(this);
 	    			curFilm.deleteFilm(entryID);
 	    			finish();
 	    			startActivity(new Intent(getBaseContext(), 
 	    					FilmListing.class));
+	    			curFilm.close();
 	    			break;
 	    		case TYPE_GAME:
 	    			VideoGameData curGame = new VideoGameData(this);
@@ -194,6 +244,7 @@ public abstract class EntryListing extends RegisteredListActivity {
 	    			finish();
 	    			startActivity(new Intent(getBaseContext(), 
 	    					GamesListing.class));
+	    			curGame.close();
 	    			break;
 	    		}
 	    		try {

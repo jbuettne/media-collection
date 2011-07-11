@@ -12,7 +12,7 @@ public interface AlbumTbl {
 	static final String TABLE_NAME = "Album";
 
 	static final String SQL_CREATE = "CREATE TABLE Album ( 					"
-			+ "id		VARCHAR(63)		PRIMARY KEY, 						"
+			+ "id		VARCHAR(63)	, 										"
 			+ "name	VARCHAR(500)	PRIMARY KEY NOT NULL, 					"
 			+ "artist	VARCHAR(63), 										"
 			+ "year	VARCHAR(4), 											"

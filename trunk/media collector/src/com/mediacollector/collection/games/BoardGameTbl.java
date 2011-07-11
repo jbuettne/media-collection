@@ -14,7 +14,7 @@ public interface BoardGameTbl {
 			+ "id			VARCHAR(63)		PRIMARY KEY, 				"
 			+ "name			VARCHAR(500)	NOT NULL, 					"
 			+ "year			VARCHAR(4), 								"
-			+ "imgPath		VARCHAR(500) 								"
+			+ "imgPath		VARCHAR(500), 								"
 			+ "imgPathHttp	VARCHAR(500) 								"
 			+ ");";
 

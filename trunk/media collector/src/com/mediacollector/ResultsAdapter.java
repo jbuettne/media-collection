@@ -127,11 +127,6 @@ public class ResultsAdapter extends ArrayAdapter<TextImageEntry> implements
 			} else {
 				String prefixString = prefix.toString().toLowerCase();
 
-				// final ArrayList<T> values = mOriginalValues;
-
-				// final ArrayList<TextImageEntry> newValues = new
-				// ArrayList<TextImageEntry>(count);
-
 				for (int index = 0; index < allItems.size(); index++) {
 					final TextImageEntry value = allItems.get(index);
 					final String valueText = value.getText().toLowerCase();

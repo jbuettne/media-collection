@@ -274,9 +274,10 @@ public abstract class EntryListingExp extends ExpandableListActivity {
 	    		String entryID = (String) childData.get(groupPosition).get(
 	    				childPosition).get(ID);
 	    		switch (this.getType()) {
-	    		case TYPE_AUDIO:
+	    		case TYPE_AUDIO:entryID = (String) childData.get(groupPosition).get(
+	    				childPosition).get(TEXT);
 	    			AlbumData curAlbum = new AlbumData(this);
-	    			curAlbum.deleteAlbum(entryID);
+	    			curAlbum.deleteAlbumName(entryID);
 	    			finish();
 	    			startActivity(new Intent(getBaseContext(), 
 	    					ArtistListing.class));

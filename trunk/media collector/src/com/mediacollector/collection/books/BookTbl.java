@@ -16,8 +16,8 @@ public interface BookTbl {
 			+ "name			VARCHAR(500)	NOT NULL, 					"
 			+ "author		VARCHAR(63), 								"
 			+ "year			VARCHAR(4), 								"
-			+ "imgPath		VARCHAR(500) 								"
-			+ "imgPathHttp	VARCHAR(500), 								"
+			+ "imgPath		VARCHAR(500), 								"
+			+ "imgPathHttp	VARCHAR(500) 								"
 			+ ");";
 
 	static final String STMT_FULL_INSERT = "INSERT INTO Book (			"
