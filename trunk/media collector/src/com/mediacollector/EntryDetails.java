@@ -1,5 +1,7 @@
 package com.mediacollector;
 
+import java.io.File;
+
 import com.mediacollector.tools.RegisteredActivity;
 
 import android.graphics.Bitmap;
@@ -42,8 +44,15 @@ public class EntryDetails extends RegisteredActivity {
 		if (extras.getString("image") == null) 
 			bitmap = BitmapFactory.decodeResource(getResources(), 
 					R.drawable.no_cover);
-		else bitmap = BitmapFactory.decodeFile(
-					extras.getString("image") + ".jpg");
+		else {
+			String path = extras.getString("image") + ".jpg";
+			File bmFile = new File(path);
+			if (bmFile.exists()) 
+				bitmap = BitmapFactory.decodeFile(path);
+			else bitmap = BitmapFactory.decodeResource(getResources(), 
+					R.drawable.no_cover);
+		}
+					
 		((ImageView) findViewById(R.id.cover)).setImageBitmap(bitmap);	
 		((LinearLayout) findViewById(R.id.back_to_start)).setOnClickListener(
 				new OnClickListener() { 
