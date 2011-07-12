@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.mediacollector.R;
 import com.mediacollector.collection.DatabaseHelper;
 import com.mediacollector.collection.TextImageEntry;
 
@@ -50,8 +51,8 @@ public class AlbumData{
 			long index = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
 			Log.i(TAG, "Album mit id=" + id + " erzeugt.");
-			Toast.makeText(this.context, "Album zur Datenbank hinzugefügt",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, R.string.MEDIA_Album + " " 
+					+ R.string.MEDIA_add,	Toast.LENGTH_LONG).show();
 			return index;
 		} catch(Throwable ex) {
 			Log.e("TAG", "Album nicht hinzugefuegt!");
@@ -75,8 +76,8 @@ public class AlbumData{
 			deleteCount = db.delete(AlbumTbl.TABLE_NAME, "id = '" + id + "'",
 					null);
 			Log.i(TAG, "Album id=" + id + " deleted.");
-			Toast.makeText(this.context, "Album aus der Datenbank gelöscht",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, R.string.MEDIA_Album+ " " 
+					+ R.string.MEDIA_del,	Toast.LENGTH_LONG).show();
 		} finally {
 			db.close();
 		}
@@ -100,8 +101,8 @@ public class AlbumData{
 			deleteCount = db.delete(AlbumTbl.TABLE_NAME, "name = '" + name
 					+ "'", null);
 			Log.i(TAG, "Album name=" + name + " deleted.");
-			Toast.makeText(this.context, "Album aus der Datenbank gelöscht",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, R.string.MEDIA_Album + " " 
+					+ R.string.MEDIA_del,	Toast.LENGTH_LONG).show();
 		} finally {
 			db.close();
 		}

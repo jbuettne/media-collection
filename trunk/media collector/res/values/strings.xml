@@ -37,10 +37,14 @@
     <string name="EXCEPTION_Fetching_2_2"></string>
     <string name="EXCEPTION_Fechting_3">Couldn\'t find Cover</string>
     
-    <string name="COLLECTION_add">added to the database</string>
-    <string name="COLLECTION_Game">Game</string>
-    <string name="COLLECTION_Games_PC">PC-Game</string>
-    <string name="COLLECTION_Games_Board">Boardgame</string>
+    <string name="MEDIA_add">added to the database</string>
+    <string name="MEDIA_del">deleted</string>
+    <string name="MEDIA_Game">Game</string>
+    <string name="MEDIA_Games_PC">PC-Game</string>
+    <string name="MEDIA_Games_Board">Boardgame</string>
+    <string name="MEDIA_Album">Album</string>
+    <string name="MEDIA_Video">Movie</string>
+    <string name="MEDIA_Book">Book</string>
     
     <string name="MENU_Options">Options</string>
     <string name="MENU_Details">View Details</string>

@@ -50,8 +50,8 @@ public class VideoGameData{
 			long pos = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
 			Log.i(TAG, "PC-Spiel mit id=" + id + " erzeugt.");
-			Toast.makeText(this.context, R.string.COLLECTION_Game + " " + R.string.COLLECTION_add,
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, R.string.MEDIA_Game + " " 
+					+ R.string.MEDIA_add,	Toast.LENGTH_LONG).show();;
 			return pos;
 		} catch(Throwable ex) {
 			Log.e(TAG, "PC-Spiel nicht hinzugefuegt! " + ex);
@@ -85,8 +85,8 @@ public class VideoGameData{
 			deleteCount = db.delete(VideoGameTbl.TABLE_NAME, "id = '" + id + "'",
 					null);
 			Log.i(TAG, "PC-Spiel id=" + id + " deleted.");
-			Toast.makeText(this.context, "Spiel aus der Datenbank gelöscht",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, R.string.MEDIA_Game + " " 
+					+ R.string.MEDIA_del,	Toast.LENGTH_LONG).show();
 		} finally {
 			db.close();
 		}
@@ -111,8 +111,8 @@ public class VideoGameData{
 			deleteCount = db.delete(VideoGameTbl.TABLE_NAME, "name = '" + name
 					+ "'", null);
 			Log.i(TAG, "PC-Spiel name=" + name + " deleted.");
-			Toast.makeText(this.context, "Spiel aus der Datenbank gelöscht",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, R.string.MEDIA_Game + " " 
+					+ R.string.MEDIA_del,	Toast.LENGTH_LONG).show();
 		} finally {
 			db.close();
 		}

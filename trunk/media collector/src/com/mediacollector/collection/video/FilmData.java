@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.mediacollector.R;
 import com.mediacollector.collection.DatabaseHelper;
 import com.mediacollector.collection.TextImageEntry;
 
@@ -48,8 +49,8 @@ public class FilmData {
 			long pos = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
 			Log.i(TAG, "Film mit id=" + id + " erzeugt.");
-			Toast.makeText(this.context, "Film zur Datenbank hinzugefügt",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, R.string.MEDIA_Video + " " 
+					+ R.string.MEDIA_add,	Toast.LENGTH_LONG).show();
 			return pos;
 		} catch(Throwable ex) {
 			Log.e(TAG, "Film nicht hinzugefuegt!");
@@ -85,8 +86,8 @@ public class FilmData {
 			deleteCount = db.delete(FilmTbl.TABLE_NAME, "id = '" + id + "'",
 					null);
 			Log.i(TAG, "Film id=" + id + " deleted.");
-			Toast.makeText(this.context, "Film aus der Datenbank gelöscht",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, R.string.MEDIA_Video + " " 
+					+ R.string.MEDIA_del,	Toast.LENGTH_LONG).show();
 		} finally {
 			db.close();
 		}
@@ -111,8 +112,8 @@ public class FilmData {
 			deleteCount = db.delete(FilmTbl.TABLE_NAME, "name = '" + name
 					+ "'", null);
 			Log.i(TAG, "Film name=" + name + " deleted.");
-			Toast.makeText(this.context, "Film aus der Datenbank gelöscht",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, R.string.MEDIA_Video + " " 
+					+ R.string.MEDIA_del,	Toast.LENGTH_LONG).show();
 		} finally {
 			db.close();
 		}
