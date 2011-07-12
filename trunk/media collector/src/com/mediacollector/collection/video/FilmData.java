@@ -49,8 +49,9 @@ public class FilmData {
 			long pos = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
 			Log.i(TAG, "Film mit id=" + id + " erzeugt.");
-			Toast.makeText(this.context, R.string.MEDIA_Video + " " 
-					+ R.string.MEDIA_add,	Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, context.getString(
+					R.string.MEDIA_Video) + " " + context.getString(
+					R.string.MEDIA_add),	Toast.LENGTH_LONG).show();
 			return pos;
 		} catch(Throwable ex) {
 			Log.e(TAG, "Film nicht hinzugefuegt!");
@@ -86,8 +87,9 @@ public class FilmData {
 			deleteCount = db.delete(FilmTbl.TABLE_NAME, "id = '" + id + "'",
 					null);
 			Log.i(TAG, "Film id=" + id + " deleted.");
-			Toast.makeText(this.context, R.string.MEDIA_Video + " " 
-					+ R.string.MEDIA_del,	Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, context.getString(
+					R.string.MEDIA_Video) + " " + context.getString(
+					R.string.MEDIA_del),	Toast.LENGTH_LONG).show();
 		} finally {
 			db.close();
 		}
@@ -112,8 +114,9 @@ public class FilmData {
 			deleteCount = db.delete(FilmTbl.TABLE_NAME, "name = '" + name
 					+ "'", null);
 			Log.i(TAG, "Film name=" + name + " deleted.");
-			Toast.makeText(this.context, R.string.MEDIA_Video + " " 
-					+ R.string.MEDIA_del,	Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, context.getString(
+					R.string.MEDIA_Video) + " " + context.getString(
+					R.string.MEDIA_del),	Toast.LENGTH_LONG).show();
 		} finally {
 			db.close();
 		}
