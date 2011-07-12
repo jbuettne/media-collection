@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.mediacollector.R;
 import com.mediacollector.collection.DatabaseHelper;
 import com.mediacollector.collection.TextImageEntry;
 
@@ -49,7 +50,7 @@ public class VideoGameData{
 			long pos = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
 			Log.i(TAG, "PC-Spiel mit id=" + id + " erzeugt.");
-			Toast.makeText(this.context, "Spiel zur Datenbank hinzugefügt",
+			Toast.makeText(this.context, R.string.COLLECTION_Game + " " + R.string.COLLECTION_add,
 					Toast.LENGTH_LONG).show();
 			return pos;
 		} catch(Throwable ex) {
