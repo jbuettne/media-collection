@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
 
 /**
  * 
@@ -31,6 +32,8 @@ public class ScanBarcode extends RegisteredActivity {
 		return this.scanResult;
 	}
 	
+	private boolean noScanner = false;
+	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         scanBarcode();
@@ -45,6 +48,7 @@ public class ScanBarcode extends RegisteredActivity {
         try {
         	startActivityForResult(intentScan, 2);
         } catch (ActivityNotFoundException e) {
+        	this.noScanner = true;
         	showDownloadDialog();
         } catch (Exception ex) {
         	new MCException(this, getString(R.string.EXCEPTION_unknown), 
@@ -68,11 +72,14 @@ public class ScanBarcode extends RegisteredActivity {
     			Uri uri = Uri.parse("market://search?q=pname:" + BS_PACKAGE);
     			Intent intent = new Intent(Intent.ACTION_VIEW, uri);
     			startActivity(intent);
+    			finish();
     		}
     	});
     	downloadDialog.setNegativeButton(getString(R.string.BSNFD_button_neg), 
     			new DialogInterface.OnClickListener() {
-    		public void onClick(DialogInterface dialogInterface, int i) {}
+    		public void onClick(DialogInterface dialogInterface, int i) {
+    			finish();
+    		}
     	});
     	return downloadDialog.show();
     }
@@ -91,7 +98,8 @@ public class ScanBarcode extends RegisteredActivity {
             } else {
             	setResult(Activity.RESULT_CANCELED);
             }
-        	finish();
+        	if (!this.noScanner)
+        		finish();
         }
     }
 
