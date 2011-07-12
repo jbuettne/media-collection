@@ -230,16 +230,20 @@ public abstract class EntryListingExp extends ExpandableListActivity {
 			Intent intent = new Intent(getBaseContext(), Scan.class);
 			Log.i("mcTest", String.valueOf(getType()));
 			switch (getType()) {
-			case 1:	
-				intent.putExtra("collection", R.string.COLLECTION_Audio);
-				startActivity(getIntent()); finish();
-	        	break;
-			case 2:	
-				intent.putExtra("collection", R.string.COLLECTION_Books);
-				startActivity(getIntent()); finish();
-        		break;
+				case 1:	
+					intent.putExtra("collection", R.string.COLLECTION_Audio);
+					startActivity(getIntent()); finish();
+					startActivity(intent);
+		        	break;
+				case 2:	
+					intent.putExtra("collection", R.string.COLLECTION_Books);
+					startActivity(getIntent()); finish();
+					startActivity(intent);
+					break;
+				default:
+					alert.show();
+					break;
 			}
-			startActivity(intent);
 			return true;
 		case R.id.menu_settings:    			
 			startActivity(new Intent(getBaseContext(), Preferences.class));
