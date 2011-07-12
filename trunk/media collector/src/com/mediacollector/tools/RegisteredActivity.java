@@ -33,7 +33,7 @@ public class RegisteredActivity extends Activity {
         		getString(R.string.COLLECTION_Books), 
         		//getString(R.string.COLLECTION_Books_Man),
         		getString(R.string.COLLECTION_Games), 
-        		getString(R.string.COLLECTION_Wishlist) 
+        		//getString(R.string.COLLECTION_Wishlist) 
         };
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.COLLECTION_Choose);
@@ -57,9 +57,8 @@ public class RegisteredActivity extends Activity {
             	}*/ else if (collections[item] == getString(R.string
             			.COLLECTION_Games)) intent.putExtra("collection", 
             					R.string.COLLECTION_Games);
-            	else 
-            		intent.putExtra("collection", 
-            				R.string.COLLECTION_Wishlist);
+//				else
+//					intent.putExtra("collection", R.string.COLLECTION_Wishlist);
             	startActivity(intent);
             }
         });
