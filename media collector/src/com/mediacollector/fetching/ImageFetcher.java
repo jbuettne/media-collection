@@ -80,13 +80,15 @@ public abstract class ImageFetcher extends DataFetcher {
 	 * Holt das Bild.
 	 * @param entity HttpEntity
 	 * @param name Der Dateiname
+	 * @throws MCFetchingException .
 	 * @throws IllegalStateException .
 	 * @throws IOException .
 	 */
 	private void getHTTPImage(final HttpEntity entity, final String name) 
-	throws IllegalStateException, IOException {
+	throws IllegalStateException, IOException, MCFetchingException {
+		final String extension = name.substring(name.lastIndexOf("."));
 		final String nameSmall = name.substring(0, name.lastIndexOf(".")) 
-			+ "_small" + name.substring(name.lastIndexOf("."));
+			+ "_small" + extension;
 		InputStream inputStream = null;
 		boolean cover = true;
 		try { 
@@ -97,16 +99,23 @@ public abstract class ImageFetcher extends DataFetcher {
             	File cp = new File((String) this.get(COVER_PATH));
             	if (!cp.exists()) cp.mkdir();
             	// <<< Dieser Teil sollte noch entfernt werden
+            	if (!extension.equals(".jpg") && !extension.equals(".png")) {
+            		this.set(COVER_PATH, null);
+            		throw new MCFetchingException("");
+            	}
             	FileOutputStream out = 
             		new FileOutputStream(this.get(COVER_PATH) + name);
                 bmp.compress(Bitmap.CompressFormat.JPEG, 90, out);
                 new ImageResizer(bmp, 100, 100, nameSmall);
-            } catch (Exception e) { cover =false; }
-            if(cover) this.set(COVER_PATH, 
-            		Environment.getExternalStorageDirectory() 
-            		+ "/MediaCollector/" 
-            		+ name.substring(0, name.lastIndexOf(".")));
-            else this.set(COVER_PATH, null);            
+            } catch (Exception e) { cover = false; }
+            if(cover) {
+            	this.set(COVER_PATH, Environment.getExternalStorageDirectory()
+            			+ "/MediaCollector/" 
+            			+ name.substring(0, name.lastIndexOf(".")));
+            } else { 
+            	this.set(COVER_PATH, null);
+            	throw new MCFetchingException("");
+            }
             return;
         } finally {
             if (inputStream != null) inputStream.close();
