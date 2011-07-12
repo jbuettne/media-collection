@@ -124,8 +124,8 @@ public abstract class EntryListingExp extends ExpandableListActivity {
         	childData.add(alTmp);
         }
         
-        filterText = (EditText) findViewById(R.id.filterText);
-        filterText.addTextChangedListener(filterTextWatcher);   
+        /*filterText = (EditText) findViewById(R.id.filterText);
+        filterText.addTextChangedListener(filterTextWatcher);   */
                 
         adapter = new SimpleExpandableListAdapter(this, groupData, 
         		R.layout.group_row, new String[] { TEXT, IMAGE , YEAR,
