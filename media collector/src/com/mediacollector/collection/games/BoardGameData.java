@@ -55,8 +55,8 @@ public class BoardGameData{
 			long pos = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
 			Log.i(TAG, "BoardGame mit id=" + id + " erzeugt.");
-			Toast.makeText(this.context, R.string.COLLECTION_Game + " " + R.string.COLLECTION_add,
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, R.string.MEDIA_Game + " " 
+					+ R.string.MEDIA_add,	Toast.LENGTH_LONG).show();
 			return pos;
 		} catch(Throwable ex) {
 			Log.e(TAG, "BoardGame nicht hinzugefuegt! " + ex);
@@ -90,8 +90,8 @@ public class BoardGameData{
 			deleteCount = db.delete(BoardGameTbl.TABLE_NAME, "id = '" + id + "'",
 					null);
 			Log.i(TAG, "BoardGame id=" + id + " deleted.");
-			Toast.makeText(this.context, "Brettspiel aus der Datenbank gelöscht",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, R.string.MEDIA_Game + " " 
+					+ R.string.MEDIA_del,	Toast.LENGTH_LONG).show();
 		} finally {
 			db.close();
 		}
@@ -116,8 +116,8 @@ public class BoardGameData{
 			deleteCount = db.delete(BoardGameTbl.TABLE_NAME, "name = '" + name
 					+ "'", null);
 			Log.i(TAG, "BoardGame name=" + name + " deleted.");
-			Toast.makeText(this.context, "Brettspiel aus der Datenbank gelöscht",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, R.string.MEDIA_Game + " " 
+					+ R.string.MEDIA_del,	Toast.LENGTH_LONG).show();
 		} finally {
 			db.close();
 		}
