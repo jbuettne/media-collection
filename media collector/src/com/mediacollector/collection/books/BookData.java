@@ -50,8 +50,9 @@ public class BookData {
 			long pos = stmtInsert.executeInsert();
 			db.setTransactionSuccessful();
 			Log.i(TAG, "Book mit id=" + id + " erzeugt.");
-			Toast.makeText(this.context, R.string.MEDIA_Book + " " 
-					+ R.string.MEDIA_add,	Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, context.getString(
+					R.string.MEDIA_Book) + " " + context.getString(
+					R.string.MEDIA_add),	Toast.LENGTH_LONG).show();
 			return pos;
 		} catch(Throwable ex) {
 			Log.e(TAG, "Book nicht hinzugefuegt! " + ex);
@@ -84,8 +85,9 @@ public class BookData {
 			deleteCount = db.delete(BookTbl.TABLE_NAME, "id = '" + id + "'",
 					null);
 			Log.i(TAG, "Book id=" + id + " deleted.");
-			Toast.makeText(this.context, R.string.MEDIA_Book + " " 
-					+ R.string.MEDIA_del,	Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, context.getString(
+					R.string.MEDIA_Book) + " " + context.getString(
+					R.string.MEDIA_del),	Toast.LENGTH_LONG).show();
 		} finally {
 			db.close();
 		}
@@ -110,8 +112,9 @@ public class BookData {
 			deleteCount = db.delete(BookTbl.TABLE_NAME, "name = '" + name
 					+ "'", null);
 			Log.i(TAG, "Book name=" + name + " deleted.");
-			Toast.makeText(this.context, R.string.MEDIA_Book + " " 
-					+ R.string.MEDIA_del,	Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context, context.getString(
+					R.string.MEDIA_Book) + " " + context.getString(
+					R.string.MEDIA_del),	Toast.LENGTH_LONG).show();
 		} finally {
 			db.close();
 		}
