@@ -88,10 +88,10 @@ public abstract class EntryListingExp extends ExpandableListActivity {
 		this.setData();
         setContentView(R.layout.entry_layout);
 
-        this.more = (RelativeLayout) findViewById(R.id.more);
+        /*this.more = (RelativeLayout) findViewById(R.id.more);
         this.more.setOnClickListener(new OnClickListener() {            
             public void onClick(View arg0) { hideHeader(); } 
-        });
+        });*/
         
         LinearLayout header = (LinearLayout) findViewById(R.id.overall_header);        
         header.setOnClickListener(new OnClickListener() {
@@ -328,7 +328,7 @@ public abstract class EntryListingExp extends ExpandableListActivity {
     	}
     }
     
-    public void showHeader() {
+    /*public void showHeader() {
         findViewById(R.id.overall_header_spacer).setVisibility(View.VISIBLE);
         findViewById(R.id.overall_header_container).setVisibility(View.VISIBLE);
         this.more.setOnClickListener(new OnClickListener() {
@@ -346,7 +346,6 @@ public abstract class EntryListingExp extends ExpandableListActivity {
         });
         ((ImageView) findViewById(R.id.more_img))
         	.setImageResource(R.drawable.more);
-    }
-
+    }*/
     	
 }
