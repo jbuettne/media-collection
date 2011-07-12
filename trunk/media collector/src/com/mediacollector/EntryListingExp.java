@@ -1,5 +1,6 @@
 package com.mediacollector;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +44,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  *  
@@ -143,10 +145,16 @@ public abstract class EntryListingExp extends ExpandableListActivity {
 						.get(IMAGE) == null)
 					cover = BitmapFactory.decodeResource(
 							getResources(),R.drawable.no_cover);
-				else cover = BitmapFactory.decodeFile(
-        				(String) ((Map<String, Object>) 
-        						getChild(groupPosition, childPosition))
-        						.get(IMAGE) + "_small.jpg");
+				else {
+					String path = (String) ((Map<String, Object>) 
+							getChild(groupPosition, childPosition)).get(IMAGE) 
+							+ "_small.jpg";
+					File bmFile = new File(path);
+					if (bmFile.exists()) 
+						cover = BitmapFactory.decodeFile(path);
+					else cover = BitmapFactory.decodeResource(getResources(), 
+							R.drawable.no_cover);
+				}   			
         		((ImageView) v.findViewById(R.id.image)).setImageBitmap(cover);
         		((TextView) v.findViewById(R.id.name)).setText( 
         				(String) ((Map<String, Object>) 
