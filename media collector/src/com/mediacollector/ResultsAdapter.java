@@ -1,11 +1,11 @@
 package com.mediacollector;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 import com.mediacollector.collection.TextImageEntry;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -88,11 +88,18 @@ public class ResultsAdapter extends ArrayAdapter<TextImageEntry> implements
 			((TextView) v.findViewById(R.id.name)).setText(o.getText());
 			((TextView) v.findViewById(R.id.details)).setText(o.getYear());
 			Bitmap cover;
-			if (o.getImage() != null)
-				cover = BitmapFactory.decodeFile(o.getImage() + "_small.jpg");
-			else
+			if (o.getImage() != null) {
+				//cover = BitmapFactory.decodeFile(o.getImage() + "_small.jpg");
+				String path = o.getImage() + "_small.jpg";
+				File bmFile = new File(path);
+				if (bmFile.exists()) 
+					cover = BitmapFactory.decodeFile(path);
+				else cover = BitmapFactory.decodeResource(
+						context.getResources(), R.drawable.no_cover);
+			} else {
 				cover = BitmapFactory.decodeResource(context.getResources(),
 						R.drawable.no_cover);
+			}
 			((ImageView) v.findViewById(R.id.image)).setImageBitmap(cover);
 
 		}
