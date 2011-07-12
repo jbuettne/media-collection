@@ -26,12 +26,19 @@ public class EntryDetails extends RegisteredActivity {
         final Bundle extras = getIntent().getExtras();         
 		TextView artist = (TextView) findViewById(R.id.artist);
 		artist.setSelected(true);
-		artist.setText(	extras.getString("extra"));		
+		if (extras.getString("extra") == null || 
+				extras.getString("extra").equals("")) {
+			artist.setText(extras.getString("details"));
+			((TextView) findViewById(R.id.year)).setText("");
+		} else {
+			artist.setText(extras.getString("extra"));
+			((TextView) findViewById(R.id.year)).setText(
+					extras.getString("details"));
+		}
 		TextView release = (TextView) findViewById(R.id.release);
 		release.setSelected(true);
-		release.setText(	extras.getString("name"));		
-		((TextView) findViewById(R.id.year)).setText(
-				extras.getString("details"));			
+		release.setText(extras.getString("name"));		
+					
 		if (extras.getString("image") == null) 
 			bitmap = BitmapFactory.decodeResource(getResources(), 
 					R.drawable.no_cover);
