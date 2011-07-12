@@ -1,5 +1,6 @@
 package com.mediacollector.collection.games;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -19,11 +20,6 @@ import com.mediacollector.collection.TextImageEntry;
  * @version 0.1
  */
 public class VideoGameData{
-
-	/**
-	 * Enthält alle benötigten Daten für die Objekte. Diese können über die
-	 * entsprechenden getter und setter gelesen/gesetzt werden.
-	 */
 	
 	private static final String TAG = "VideoGameData";
 	private DatabaseHelper dbHelper;
@@ -66,95 +62,25 @@ public class VideoGameData{
 	}
 
 	public long insertVideoGame(VideoGame game) {
-		// if (artist.istNeu()) {
 		return insertVideoGame(game.id, game.name, game.year,
 				game.imgPath, game.imgPathHttp);
-
-		// };
-		// } else {
-		// updateArtist(
-		// artist.id,
-		// artist.name,
-		// artist.imgPath,
-		// artist.mbId);
-		// return artist.id;
-		// }
 	}
-
-	// public void aendereGeoKontakt(long id, String name,
-	// String lookupKey, String mobilnummer,
-	// String stichwort,
-	// double laengengrad, double breitengrad, double hoehe,
-	// long zeitstempel) {
-	// if (id == 0) {
-	// Log.w(TAG, "id == 0 => kein update möglich.");
-	// return;
-	// }
-	//
-	// final ContentValues daten = new ContentValues();
-	// daten.put(GeoKontaktTbl.NAME, name);
-	// daten.put(GeoKontaktTbl.LOOKUP_KEY, lookupKey);
-	// daten.put(GeoKontaktTbl.MOBILNUMMER, mobilnummer);
-	// if (stichwort != null) {
-	// daten.put(GeoKontaktTbl.STICHWORT_POS, stichwort);
-	// daten.put(GeoKontaktTbl.LAENGENGRAD, laengengrad);
-	// daten.put(GeoKontaktTbl.BREITENGRAD, breitengrad);
-	// daten.put(GeoKontaktTbl.HOEHE, hoehe);
-	// daten.put(GeoKontaktTbl.ZEITSTEMPEL, zeitstempel);
-	// }
-	//
-	// final SQLiteDatabase dbCon = mDb.getWritableDatabase();
-	//
-	// try {
-	// dbCon.update(GeoKontaktTbl.TABLE_NAME, daten,
-	// GeoKontaktTbl.WHERE_ID_EQUALS, new String[] {
-	// String.valueOf(id) });
-	// Log.i(TAG,
-	// "Geokontakt id=" + id + " aktualisiert.");
-	// } finally {
-	// dbCon.close();
-	// }
-	// }
-
-	// public void updateAlbum(long id,
-	// double laengengrad, double breitengrad, double hoehe,
-	// long zeitstempel) {
-	// if (id == 0) {
-	// Log.w(TAG, "id == 0 => kein update möglich.");
-	// return;
-	// }
-	//
-	// final ContentValues daten = new ContentValues();
-	// daten.put(GeoKontaktTbl.LAENGENGRAD, laengengrad);
-	// daten.put(GeoKontaktTbl.BREITENGRAD, breitengrad);
-	// daten.put(GeoKontaktTbl.HOEHE, hoehe);
-	// daten.put(GeoKontaktTbl.ZEITSTEMPEL, zeitstempel);
-	//
-	// final SQLiteDatabase dbCon = mDb.getWritableDatabase();
-	//
-	// try {
-	// dbCon.update(GeoKontaktTbl.TABLE_NAME, daten,
-	// GeoKontaktTbl.WHERE_ID_EQUALS,
-	// new String[] { String.valueOf(id) });
-	// Log.i(TAG,
-	// "Geokontakt id=" + id + " aktualisiert.");
-	// } finally {
-	// dbCon.close();
-	// }
-	// }
-
-	/**
-	 * Entfernt einen Geokontakt aus der Datenbank.
-	 * 
-	 * @param id
-	 *            Schlüssel des gesuchten Kontakts
-	 * @return true, wenn Datensatz geloescht wurde.
-	 */
+	
 	public boolean deleteVideoGame(String id) {
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 		int deleteCount = 0;
 		try {
+			try {
+				File gameImage = new File(getVideoGame(id).imgPath
+						+ ".jpg");
+				File gameImageSmall = new File(getVideoGame(id).imgPath
+						+ "_small.jpg");
+				gameImage.delete();
+				gameImageSmall.delete();
+			} catch (Exception ex) {
+				Log.e(TAG, "Spiel hat kein Cover " + ex);
+			}
 			deleteCount = db.delete(VideoGameTbl.TABLE_NAME, "id = '" + id + "'",
 					null);
 			Log.i(TAG, "PC-Spiel id=" + id + " deleted.");
@@ -166,18 +92,21 @@ public class VideoGameData{
 		return deleteCount == 1;
 	}
 
-	/**
-	 * Entfernt einen Geokontakt aus der Datenbank.
-	 * 
-	 * @param name
-	 *            Schlüssel des gesuchten Kontakts
-	 * @return true, wenn Datensatz geloescht wurde.
-	 */
 	public boolean deleteVideoGameName(String name) {
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 		int deleteCount = 0;
 		try {
+			try {
+				File gameImage = new File(getVideoGameName(name).imgPath
+						+ ".jpg");
+				File gameImageSmall = new File(getVideoGameName(name).imgPath
+						+ "_small.jpg");
+				gameImage.delete();
+				gameImageSmall.delete();
+			} catch (Exception ex) {
+				Log.e(TAG, "Spiel hat kein Cover " + ex);
+			}
 			deleteCount = db.delete(VideoGameTbl.TABLE_NAME, "name = '" + name
 					+ "'", null);
 			Log.i(TAG, "PC-Spiel name=" + name + " deleted.");
@@ -208,17 +137,25 @@ public class VideoGameData{
 		return game;
 	}
 
-	/**
-	 * Lädt den Geo-Kontakt aus dem GeoKontaktTbl-Datensatz, auf dem der Cursor
-	 * gerade steht.
-	 * <p>
-	 * Der Cursor wird anschließend deaktiviert, da er im GeoKontaktSpeicher nur
-	 * intern als "letzter Aufruf" aufgerufen wird.
-	 * 
-	 * @param c
-	 *            aktuelle Cursorposition != null
-	 * @return Exemplar von GeoKontakt.
-	 */
+	public VideoGame getVideoGameName(String name) {
+		VideoGame game = null;
+		Cursor c = null;
+		try {
+			c = dbHelper.getReadableDatabase().rawQuery(
+					"SELECT * FROM " + VideoGameTbl.TABLE_NAME
+					+ " WHERE name = '" + name + "'", null);
+			if (c.moveToFirst() == false) {
+				return null;
+			}
+			game = getVideoGame(c);
+		} finally {
+			if (c != null) {
+				c.close();
+			}
+		}
+		return game;
+	}
+
 	public VideoGame getVideoGame(Cursor dbCursor) {
 		final VideoGame game = new VideoGame();
 
@@ -306,12 +243,6 @@ public class VideoGameData{
 		return games;
 	}
 
-	/**
-	 * Gibt die Anzahl der Alben in der Datenbank zurueck. <br>
-	 * Performanter als Cursor::getCount.
-	 * 
-	 * @return Anzahl der Kontakte.
-	 */
 	public int gameCount() {
 		final Cursor dbCursor = dbHelper.getReadableDatabase().rawQuery(
 				"SELECT count(*) FROM " + VideoGameTbl.TABLE_NAME, null);
