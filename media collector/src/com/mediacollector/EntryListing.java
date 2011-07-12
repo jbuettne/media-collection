@@ -123,16 +123,20 @@ public abstract class EntryListing extends RegisteredListActivity {
 			Intent intent = new Intent(getBaseContext(), Scan.class);
 			Log.i("mcTest", String.valueOf(getType()));
 			switch (getType()) {
-			case 3:	
-				intent.putExtra("collection", R.string.COLLECTION_Video);
-				startActivity(getIntent()); finish();
-	        	break;
-			case 4:	
-				intent.putExtra("collection", R.string.COLLECTION_Games);
-				startActivity(getIntent()); finish();
-        		break;
+				case 3:	
+					intent.putExtra("collection", R.string.COLLECTION_Video);
+					startActivity(getIntent()); finish();
+					startActivity(intent);
+		        	break;
+				case 4:	
+					intent.putExtra("collection", R.string.COLLECTION_Games);
+					startActivity(getIntent()); finish();
+					startActivity(intent);
+					break;
+				default:
+					alert.show();
+					break;
 			}
-			startActivity(intent);
 			return true;
 		case R.id.menu_settings:    			
 			startActivity(new Intent(getBaseContext(), Preferences.class));
