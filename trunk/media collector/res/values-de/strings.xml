@@ -36,6 +36,9 @@
     <string name="EXCEPTION_Fetching_2_1">Die Search-Engine</string>
     <string name="EXCEPTION_Fetching_2_2">konnte nicht gefunden werden</string>
     <string name="EXCEPTION_Fechting_3">Konnte kein Cover finden</string>
+    
+    <string name="COLLECTION_add">zur Datenbank hinzugefügt</string>
+    <string name="COLLECTION_Game">Spiel</string>
     <string name="COLLECTION_Games_PC">PC-Spiel</string>
     <string name="COLLECTION_Games_Board">Brettspiel</string>
     
