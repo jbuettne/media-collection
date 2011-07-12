@@ -1,7 +1,7 @@
 package com.mediacollector.collection.books;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -20,13 +20,6 @@ import com.mediacollector.collection.TextImageEntry;
  */
 public class BookData {
 
-	/**
-	 * Enthält alle benötigten Daten für die Objekte. Diese können über die
-	 * entsprechenden getter und setter gelesen/gesetzt werden.
-	 */
-	
-	@SuppressWarnings("unused")
-	private HashMap<String, Object> data = new HashMap<String, Object>();
 	private static final String TAG = "BookData";
 	private DatabaseHelper dbHelper;
 	private Context context;
@@ -73,18 +66,20 @@ public class BookData {
 				book.imgPath, book.imgPathHttp);
 	}
 
-	/**
-	 * Entfernt einen Geokontakt aus der Datenbank.
-	 * 
-	 * @param id
-	 *            Schlüssel des gesuchten Kontakts
-	 * @return true, wenn Datensatz geloescht wurde.
-	 */
 	public boolean deleteBook(String id) {
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 		int deleteCount = 0;
 		try {
+			try {
+				File bookImage = new File(getBook(id).imgPath + ".jpg");
+				File bookImageSmall = new File(getBook(id).imgPath
+						+ "_small.jpg");
+				bookImage.delete();
+				bookImageSmall.delete();
+			} catch (Exception ex) {
+				Log.e(TAG, "Buch hat kein Cover " + ex);
+			}
 			deleteCount = db.delete(BookTbl.TABLE_NAME, "id = '" + id + "'",
 					null);
 			Log.i(TAG, "Book id=" + id + " deleted.");
@@ -96,18 +91,21 @@ public class BookData {
 		return deleteCount == 1;
 	}
 
-	/**
-	 * Entfernt einen Geokontakt aus der Datenbank.
-	 * 
-	 * @param name
-	 *            Schlüssel des gesuchten Kontakts
-	 * @return true, wenn Datensatz geloescht wurde.
-	 */
 	public boolean deleteBookName(String name) {
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 		int deleteCount = 0;
 		try {
+			try {
+				File bookImage = new File(
+						getBookName(name).imgPath + ".jpg");
+				File bookImageSmall = new File(
+						getBookName(name).imgPath + "_small.jpg");
+				bookImage.delete();
+				bookImageSmall.delete();
+			} catch (Exception ex) {
+				Log.e(TAG, "Buch hat kein Cover " + ex);				
+			}
 			deleteCount = db.delete(BookTbl.TABLE_NAME, "name = '" + name
 					+ "'", null);
 			Log.i(TAG, "Book name=" + name + " deleted.");
@@ -137,18 +135,26 @@ public class BookData {
 		}
 		return book;
 	}
+	
+	public Book getBookName(String name) {
+		Book book = null;
+		Cursor c = null;
+		try {
+			c = dbHelper.getReadableDatabase().rawQuery(
+					"SELECT * FROM " + BookTbl.TABLE_NAME
+					+ " WHERE name = '" + name + "'", null);
+			if (c.moveToFirst() == false) {
+				return null;
+			}
+			book = getBook(c);
+		} finally {
+			if (c != null) {
+				c.close();
+			}
+		}
+		return book;
+	}
 
-	/**
-	 * Lädt den Geo-Kontakt aus dem GeoKontaktTbl-Datensatz, auf dem der Cursor
-	 * gerade steht.
-	 * <p>
-	 * Der Cursor wird anschließend deaktiviert, da er im GeoKontaktSpeicher nur
-	 * intern als "letzter Aufruf" aufgerufen wird.
-	 * 
-	 * @param c
-	 *            aktuelle Cursorposition != null
-	 * @return Exemplar von GeoKontakt.
-	 */
 	public Book getBook(Cursor dbCursor) {
 		final Book book = new Book();
 
@@ -263,12 +269,6 @@ public class BookData {
 		return books;
 	}	
 
-	/**
-	 * Gibt die Anzahl der Alben in der Datenbank zurueck. <br>
-	 * Performanter als Cursor::getCount.
-	 * 
-	 * @return Anzahl der Kontakte.
-	 */
 	public int bookCount() {
 		final Cursor dbCursor = dbHelper.getReadableDatabase().rawQuery(
 				"SELECT count(*) FROM " + BookTbl.TABLE_NAME, null);

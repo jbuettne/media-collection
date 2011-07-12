@@ -1,7 +1,7 @@
 package com.mediacollector.collection.audio;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -21,13 +21,6 @@ import com.mediacollector.collection.TextImageEntry;
  */
 public class AlbumData{
 
-	/**
-	 * Enthält alle benötigten Daten für die Objekte. Diese können über die
-	 * entsprechenden getter und setter gelesen/gesetzt werden.
-	 */
-	
-	@SuppressWarnings("unused")
-	private HashMap<String, Object> data = new HashMap<String, Object>();
 	private static final String TAG = "AlbumData";
 	private DatabaseHelper dbHelper;
 	private Context context;
@@ -35,7 +28,6 @@ public class AlbumData{
 	public AlbumData(Context context) {
 		this.context = context;
 		dbHelper = new DatabaseHelper(context);
-		//open();
 		Log.d(TAG, "Albenspeicher angelegt.");
 	}
 
@@ -71,90 +63,10 @@ public class AlbumData{
 	}
 
 	public long insertAlbum(Album album) {
-		// if (artist.istNeu()) {
 		return insertAlbum(album.mbId, album.name, album.artist, album.year,
 				album.imgPath, album.imgPathHttp);
-
-		// };
-		// } else {
-		// updateArtist(
-		// artist.id,
-		// artist.name,
-		// artist.imgPath,
-		// artist.mbId);
-		// return artist.id;
-		// }
 	}
 
-	// public void aendereGeoKontakt(long id, String name,
-	// String lookupKey, String mobilnummer,
-	// String stichwort,
-	// double laengengrad, double breitengrad, double hoehe,
-	// long zeitstempel) {
-	// if (id == 0) {
-	// Log.w(TAG, "id == 0 => kein update möglich.");
-	// return;
-	// }
-	//
-	// final ContentValues daten = new ContentValues();
-	// daten.put(GeoKontaktTbl.NAME, name);
-	// daten.put(GeoKontaktTbl.LOOKUP_KEY, lookupKey);
-	// daten.put(GeoKontaktTbl.MOBILNUMMER, mobilnummer);
-	// if (stichwort != null) {
-	// daten.put(GeoKontaktTbl.STICHWORT_POS, stichwort);
-	// daten.put(GeoKontaktTbl.LAENGENGRAD, laengengrad);
-	// daten.put(GeoKontaktTbl.BREITENGRAD, breitengrad);
-	// daten.put(GeoKontaktTbl.HOEHE, hoehe);
-	// daten.put(GeoKontaktTbl.ZEITSTEMPEL, zeitstempel);
-	// }
-	//
-	// final SQLiteDatabase dbCon = mDb.getWritableDatabase();
-	//
-	// try {
-	// dbCon.update(GeoKontaktTbl.TABLE_NAME, daten,
-	// GeoKontaktTbl.WHERE_ID_EQUALS, new String[] {
-	// String.valueOf(id) });
-	// Log.i(TAG,
-	// "Geokontakt id=" + id + " aktualisiert.");
-	// } finally {
-	// dbCon.close();
-	// }
-	// }
-
-	// public void updateAlbum(long id,
-	// double laengengrad, double breitengrad, double hoehe,
-	// long zeitstempel) {
-	// if (id == 0) {
-	// Log.w(TAG, "id == 0 => kein update möglich.");
-	// return;
-	// }
-	//
-	// final ContentValues daten = new ContentValues();
-	// daten.put(GeoKontaktTbl.LAENGENGRAD, laengengrad);
-	// daten.put(GeoKontaktTbl.BREITENGRAD, breitengrad);
-	// daten.put(GeoKontaktTbl.HOEHE, hoehe);
-	// daten.put(GeoKontaktTbl.ZEITSTEMPEL, zeitstempel);
-	//
-	// final SQLiteDatabase dbCon = mDb.getWritableDatabase();
-	//
-	// try {
-	// dbCon.update(GeoKontaktTbl.TABLE_NAME, daten,
-	// GeoKontaktTbl.WHERE_ID_EQUALS,
-	// new String[] { String.valueOf(id) });
-	// Log.i(TAG,
-	// "Geokontakt id=" + id + " aktualisiert.");
-	// } finally {
-	// dbCon.close();
-	// }
-	// }
-
-	/**
-	 * Entfernt einen Geokontakt aus der Datenbank.
-	 * 
-	 * @param id
-	 *            Schlüssel des gesuchten Kontakts
-	 * @return true, wenn Datensatz geloescht wurde.
-	 */
 	public boolean deleteAlbum(String id) {
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -171,18 +83,20 @@ public class AlbumData{
 		return deleteCount == 1;
 	}
 
-	/**
-	 * Entfernt einen Geokontakt aus der Datenbank.
-	 * 
-	 * @param name
-	 *            Schlüssel des gesuchten Kontakts
-	 * @return true, wenn Datensatz geloescht wurde.
-	 */
 	public boolean deleteAlbumName(String name) {
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
-
 		int deleteCount = 0;
 		try {
+			try {
+				File albumImage = new File(
+						getAlbum(name).imgPath + ".jpg");
+				File albumImageSmall = new File(
+						getAlbum(name).imgPath + "_small.jpg");
+				albumImage.delete();
+				albumImageSmall.delete();
+			} catch (Exception ex) {
+				Log.e(TAG, "Album hat kein Cover " + ex);				
+			}
 			deleteCount = db.delete(AlbumTbl.TABLE_NAME, "name = '" + name
 					+ "'", null);
 			Log.i(TAG, "Album name=" + name + " deleted.");
@@ -212,13 +126,13 @@ public class AlbumData{
 					+ " WHERE _id = '" + id + "'", null);
 	}
 
-	public Album getAlbum(String mbId) {
+	public Album getAlbum(String name) {
 		Album album = null;
 		Cursor c = null;
 		try {
 			c = dbHelper.getReadableDatabase().rawQuery(
 					"SELECT * FROM " + AlbumTbl.TABLE_NAME
-					+ " WHERE mbId = '" + mbId + "'", null);
+					+ " WHERE name = '" + name + "'", null);
 			if (c.moveToFirst() == false) {
 				return null;
 			}
@@ -231,17 +145,6 @@ public class AlbumData{
 		return album;
 	}
 
-	/**
-	 * Lädt den Geo-Kontakt aus dem GeoKontaktTbl-Datensatz, auf dem der Cursor
-	 * gerade steht.
-	 * <p>
-	 * Der Cursor wird anschließend deaktiviert, da er im GeoKontaktSpeicher nur
-	 * intern als "letzter Aufruf" aufgerufen wird.
-	 * 
-	 * @param c
-	 *            aktuelle Cursorposition != null
-	 * @return Exemplar von GeoKontakt.
-	 */
 	public Album getAlbum(Cursor dbCursor) {
 		final Album album = new Album();
 
@@ -255,6 +158,8 @@ public class AlbumData{
 				.getColumnIndex(AlbumTbl.COL_ALBUM_YEAR));
 		album.imgPath = dbCursor.getString(dbCursor
 				.getColumnIndex(AlbumTbl.COL_ALBUM_IMAGE));
+		album.imgPathHttp = dbCursor.getString(dbCursor
+				.getColumnIndex(AlbumTbl.COL_ALBUM_IMAGE_HTTP));
 		return album;
 	}
 
@@ -312,12 +217,6 @@ public class AlbumData{
 		return albums;
 	}	
 
-	/**
-	 * Gibt die Anzahl der Alben in der Datenbank zurueck. <br>
-	 * Performanter als Cursor::getCount.
-	 * 
-	 * @return Anzahl der Kontakte.
-	 */
 	public int albumCount() {
 		final Cursor dbCursor = dbHelper.getReadableDatabase().rawQuery(
 				"SELECT count(*) FROM " + AlbumTbl.TABLE_NAME, null);

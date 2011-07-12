@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
@@ -48,92 +47,12 @@ public class ArtistData {
 		}
 	}
 
-	  /**
-	   * Speichert einen Geokontakt. Ist dieser bereits in der
-	   * Datenbank bekannt, wird der vorhandene Datensatz
-	   * geändert.<br>
-	   * Ansonsten wird ein neuer Datensatz erzeugt.
-	   * 
-	   * @param kontakt
-	   *          Zu speichernder Geokontakt.
-	   * @return id des persistenten Kontakts.
-	   * @throws SQLException
-	   *           falls Neuanlegen gefordert aber nicht
-	   *           möglich.
-	   */
 	  public long insertArtist(Artist artist) {
 	      return insertArtist(
 	          artist.name,
 	          artist.imgPath);
 	    }
-//	    } else {
-//	      updateArtist(
-//	          artist.id,
-//	          artist.name,
-//	          artist.imgPath,
-//	          artist.mbId);
-//	      return artist.id;
-//	    }
 
-//	  public void updateArtist(long id, String name,
-//	      String imgPath, String mbId) {
-//	    if (id == 0) {
-//	      Log.w(TAG, "id == 0 => kein update möglich.");
-//	      return;
-//	    }
-//
-//	    final ContentValues daten = new ContentValues();
-//	    daten.put(GeoKontaktTbl.NAME, name);
-//	    daten.put(GeoKontaktTbl.LOOKUP_KEY, lookupKey);
-//	    daten.put(GeoKontaktTbl.MOBILNUMMER, mobilnummer);
-//	    final SQLiteDatabase dbCon = mDb.getWritableDatabase();
-//
-//	    try {
-//	      dbCon.update(GeoKontaktTbl.TABLE_NAME, daten,
-//	          GeoKontaktTbl.WHERE_ID_EQUALS, new String[] { 
-//	          String.valueOf(id) });
-//	      Log.i(TAG,
-//	          "Geokontakt id=" + id + " aktualisiert.");
-//	    } finally {
-//	      dbCon.close();
-//	    }
-//	  }
-
-
-//	  public void updateArtist(long id,
-//	      double laengengrad, double breitengrad, double hoehe,
-//	      long zeitstempel) {
-//	    if (id == 0) {
-//	      Log.w(TAG, "id == 0 => kein update möglich.");
-//	      return;
-//	    }
-//
-//	    final ContentValues daten = new ContentValues();
-//	    daten.put(GeoKontaktTbl.LAENGENGRAD, laengengrad);
-//	    daten.put(GeoKontaktTbl.BREITENGRAD, breitengrad);
-//	    daten.put(GeoKontaktTbl.HOEHE, hoehe);
-//	    daten.put(GeoKontaktTbl.ZEITSTEMPEL, zeitstempel);
-//
-//	    final SQLiteDatabase dbCon = mDb.getWritableDatabase();
-//
-//	    try {
-//	      dbCon.update(GeoKontaktTbl.TABLE_NAME, daten,
-//	          GeoKontaktTbl.WHERE_ID_EQUALS, 
-//	          new String[] { String.valueOf(id) });
-//	      Log.i(TAG,
-//	          "Geokontakt id=" + id + " aktualisiert.");
-//	    } finally {
-//	      dbCon.close();
-//	    }
-//	  }
-	  
-	  /**
-	   * Entfernt einen Geokontakt aus der Datenbank.
-	   * 
-	   * @param name
-	   *          Schlüssel des gesuchten Kontakts
-	   * @return true, wenn Datensatz geloescht wurde.
-	   */
 	public boolean deleteArtist(String id) {
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -181,17 +100,6 @@ public class ArtistData {
 		return artist;
 	}
 
-	  /**
-	   * Lädt den Geo-Kontakt aus dem GeoKontaktTbl-Datensatz, 
-	   * auf dem der Cursor gerade steht.
-	   * <p>
-	   * Der Cursor wird anschließend deaktiviert, da er im
-	   * GeoKontaktSpeicher nur intern als "letzter Aufruf"
-	   * aufgerufen wird.
-	   * 
-	   * @param c aktuelle Cursorposition != null
-	   * @return Exemplar von GeoKontakt.
-	   */
 	  public Artist getArtist(Cursor dbCursor) {
 	    final Artist artist = new Artist();
 
@@ -256,7 +164,6 @@ public class ArtistData {
 			}	
 	    	artists.add(new Artist(dbCursor.getString(0),
 	    			dbCursor.getString(1)));
-	    	//artists.add(dbCursor.getString(0));
 		    while (dbCursor.moveToNext() == true) {
 		    	artists.add(new Artist(dbCursor.getString(0),
 		    			dbCursor.getString(1)));
@@ -270,31 +177,22 @@ public class ArtistData {
 	    return artists; 
 	}	
 	  
+	public int artistCount() {
+		final Cursor dbCursor = dbHelper.getReadableDatabase().rawQuery(
+				"SELECT count(*) FROM " + ArtistTbl.TABLE_NAME, null);
+		if (dbCursor.moveToFirst() == false) {
+			return 0;
+		}
+		return dbCursor.getInt(0);
+	}
 
-	  /**
-	   * Gibt die Anzahl der Geokontakte in der Datenbank
-	   * zurueck.
-	   * <br>Performanter als Cursor::getCount.
-	   * 
-	   * @return Anzahl der Kontakte.
-	   */
-	  public int artistCount() {
-	    final Cursor dbCursor = dbHelper.getReadableDatabase().rawQuery(
-	        "SELECT count(*) FROM " + ArtistTbl.TABLE_NAME,
-	        null);
-	    if (dbCursor.moveToFirst() == false) {
-	      return 0;
-	    }
-	    return dbCursor.getInt(0);
-	  }
+	public void close() {
+		dbHelper.close();
+		Log.d(TAG, "Database closed.");
+	}
 
-	  public void close() {
-	    dbHelper.close();
-	    Log.d(TAG, "Database closed.");
-	  }
-	  
-	  public void open() {
-	    dbHelper.getReadableDatabase();
-	    Log.d(TAG, "Database opened.");
-	  }
+	public void open() {
+		dbHelper.getReadableDatabase();
+		Log.d(TAG, "Database opened.");
+	}
 }

@@ -1,7 +1,7 @@
 package com.mediacollector.collection.video;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -19,14 +19,7 @@ import com.mediacollector.collection.TextImageEntry;
  * @version 0.1
  */
 public class FilmData {
-
-	/**
-	 * Enthält alle benötigten Daten für die Objekte. Diese können über die
-	 * entsprechenden getter und setter gelesen/gesetzt werden.
-	 */
 	
-	@SuppressWarnings("unused")
-	private HashMap<String, Object> data = new HashMap<String, Object>();
 	private static final String TAG = "FilmData";
 	private DatabaseHelper dbHelper;
 	private Context context;
@@ -68,95 +61,27 @@ public class FilmData {
 	}
 
 	public long insertFilm(Film film) {
-		// if (artist.istNeu()) {
 		return insertFilm(film.id, film.name, film.year,
 				film.imgPath, film.imgPathHttp);
 
-		// };
-		// } else {
-		// updateArtist(
-		// artist.id,
-		// artist.name,
-		// artist.imgPath,
-		// artist.mbId);
-		// return artist.id;
-		// }
 	}
 
-	// public void aendereGeoKontakt(long id, String name,
-	// String lookupKey, String mobilnummer,
-	// String stichwort,
-	// double laengengrad, double breitengrad, double hoehe,
-	// long zeitstempel) {
-	// if (id == 0) {
-	// Log.w(TAG, "id == 0 => kein update möglich.");
-	// return;
-	// }
-	//
-	// final ContentValues daten = new ContentValues();
-	// daten.put(GeoKontaktTbl.NAME, name);
-	// daten.put(GeoKontaktTbl.LOOKUP_KEY, lookupKey);
-	// daten.put(GeoKontaktTbl.MOBILNUMMER, mobilnummer);
-	// if (stichwort != null) {
-	// daten.put(GeoKontaktTbl.STICHWORT_POS, stichwort);
-	// daten.put(GeoKontaktTbl.LAENGENGRAD, laengengrad);
-	// daten.put(GeoKontaktTbl.BREITENGRAD, breitengrad);
-	// daten.put(GeoKontaktTbl.HOEHE, hoehe);
-	// daten.put(GeoKontaktTbl.ZEITSTEMPEL, zeitstempel);
-	// }
-	//
-	// final SQLiteDatabase dbCon = mDb.getWritableDatabase();
-	//
-	// try {
-	// dbCon.update(GeoKontaktTbl.TABLE_NAME, daten,
-	// GeoKontaktTbl.WHERE_ID_EQUALS, new String[] {
-	// String.valueOf(id) });
-	// Log.i(TAG,
-	// "Geokontakt id=" + id + " aktualisiert.");
-	// } finally {
-	// dbCon.close();
-	// }
-	// }
 
-	// public void updateAlbum(long id,
-	// double laengengrad, double breitengrad, double hoehe,
-	// long zeitstempel) {
-	// if (id == 0) {
-	// Log.w(TAG, "id == 0 => kein update möglich.");
-	// return;
-	// }
-	//
-	// final ContentValues daten = new ContentValues();
-	// daten.put(GeoKontaktTbl.LAENGENGRAD, laengengrad);
-	// daten.put(GeoKontaktTbl.BREITENGRAD, breitengrad);
-	// daten.put(GeoKontaktTbl.HOEHE, hoehe);
-	// daten.put(GeoKontaktTbl.ZEITSTEMPEL, zeitstempel);
-	//
-	// final SQLiteDatabase dbCon = mDb.getWritableDatabase();
-	//
-	// try {
-	// dbCon.update(GeoKontaktTbl.TABLE_NAME, daten,
-	// GeoKontaktTbl.WHERE_ID_EQUALS,
-	// new String[] { String.valueOf(id) });
-	// Log.i(TAG,
-	// "Geokontakt id=" + id + " aktualisiert.");
-	// } finally {
-	// dbCon.close();
-	// }
-	// }
-
-	/**
-	 * Entfernt einen Geokontakt aus der Datenbank.
-	 * 
-	 * @param id
-	 *            Schlüssel des gesuchten Kontakts
-	 * @return true, wenn Datensatz geloescht wurde.
-	 */
 	public boolean deleteFilm(String id) {
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 		int deleteCount = 0;
 		try {
+			try {
+				File filmImage = new File(getFilm(id).imgPath
+						+ ".jpg");
+				File filmImageSmall = new File(getFilm(id).imgPath
+						+ "_small.jpg");
+				filmImage.delete();
+				filmImageSmall.delete();
+			} catch (Exception ex) {
+				Log.e(TAG, "Film hat kein Cover " + ex);
+			}
 			deleteCount = db.delete(FilmTbl.TABLE_NAME, "id = '" + id + "'",
 					null);
 			Log.i(TAG, "Film id=" + id + " deleted.");
@@ -168,18 +93,21 @@ public class FilmData {
 		return deleteCount == 1;
 	}
 
-	/**
-	 * Entfernt einen Geokontakt aus der Datenbank.
-	 * 
-	 * @param name
-	 *            Schlüssel des gesuchten Kontakts
-	 * @return true, wenn Datensatz geloescht wurde.
-	 */
 	public boolean deleteFilmName(String name) {
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 		int deleteCount = 0;
 		try {
+			try {
+				File filmImage = new File(getFilmName(name).imgPath
+						+ ".jpg");
+				File filmImageSmall = new File(getFilmName(name).imgPath
+						+ "_small.jpg");
+				filmImage.delete();
+				filmImageSmall.delete();
+			} catch (Exception ex) {
+				Log.e(TAG, "Spiel hat kein Cover " + ex);
+			}
 			deleteCount = db.delete(FilmTbl.TABLE_NAME, "name = '" + name
 					+ "'", null);
 			Log.i(TAG, "Film name=" + name + " deleted.");
@@ -210,17 +138,25 @@ public class FilmData {
 		return film;
 	}
 
-	/**
-	 * Lädt den Geo-Kontakt aus dem GeoKontaktTbl-Datensatz, auf dem der Cursor
-	 * gerade steht.
-	 * <p>
-	 * Der Cursor wird anschließend deaktiviert, da er im GeoKontaktSpeicher nur
-	 * intern als "letzter Aufruf" aufgerufen wird.
-	 * 
-	 * @param c
-	 *            aktuelle Cursorposition != null
-	 * @return Exemplar von GeoKontakt.
-	 */
+	public Film getFilmName(String name) {
+		Film film = null;
+		Cursor c = null;
+		try {
+			c = dbHelper.getReadableDatabase().rawQuery(
+					"SELECT * FROM " + FilmTbl.TABLE_NAME
+					+ " WHERE name = '" + name + "'", null);
+			if (c.moveToFirst() == false) {
+				return null;
+			}
+			film = getFilm(c);
+		} finally {
+			if (c != null) {
+				c.close();
+			}
+		}
+		return film;
+	}
+
 	public Film getFilm(Cursor dbCursor) {
 		final Film film = new Film();
 
@@ -307,13 +243,7 @@ public class FilmData {
 		}
 		return films;
 	}	
-	
-	/**
-	 * Gibt die Anzahl der Alben in der Datenbank zurueck. <br>
-	 * Performanter als Cursor::getCount.
-	 * 
-	 * @return Anzahl der Kontakte.
-	 */
+
 	public int filmCount() {
 		final Cursor dbCursor = dbHelper.getReadableDatabase().rawQuery(
 				"SELECT count(*) FROM " + FilmTbl.TABLE_NAME, null);
