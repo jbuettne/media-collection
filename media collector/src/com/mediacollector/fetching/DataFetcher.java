@@ -51,7 +51,19 @@ public abstract class DataFetcher extends Observable implements Runnable {
 	 * Definiert den Schlüsselwert, unter welchem der Artists des Eintrags in
 	 * der Data-HashMap gespeichert wird.
 	 */
-	public static final String ARTIST_STRING = "artist";
+	public static final String ARTIST_STRING = "artist";	
+
+	/**
+	 * Definiert den Schlüsselwert, unter welchem das Medium des 
+	 * Eintrags in der Data-HashMap gespeichert wird.
+	 */
+	public static final String MEDIUM_STRING = "medium";
+
+	/**
+	 * Definiert den Schlüsselwert, unter welchem das Cover des 
+	 * Eintrags in der Data-HashMap gespeichert wird.
+	 */
+	public static final String COVER_STRING = "cover";
 	
 	/**
 	 * Die EAN, zu der die entsprechenden Daten eingeholt werden. Sie wird
