@@ -31,7 +31,7 @@ public abstract class ImageFetcher extends DataFetcher {
 	 * Definiert den Schlüsselwert, unter welchem die URL des Covers des Videos
 	 * in der Data-HashMap gespeichert wird.
 	 */
-	public static final String COVER_STRING = "cover";
+	//public static final String COVER_STRING = "cover";
 	
 	/**
 	 * Definiert den Schlüsselwert, unter welchem der lokale Pfad zum Cover des

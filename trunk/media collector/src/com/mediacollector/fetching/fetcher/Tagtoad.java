@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 import android.content.Context;
 import android.util.Log;
 
-import com.mediacollector.R;
 import com.mediacollector.fetching.DataFetcher;
 import com.mediacollector.fetching.WebParsing;
 
