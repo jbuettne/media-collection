@@ -45,22 +45,22 @@ public class TestFetching implements Observer {
 		new HashMap<Integer, ArrayList<String>>() {{
 		put(1, new ArrayList<String>() {{
 			add("barcodes_audio");
-			add("" + Fetching.SEARCH_ENGINE_THALIA);
+			//add("" + Fetching.SEARCH_ENGINE_THALIA);
 			add("Audio");
 		}});
 		put(2, new ArrayList<String>() {{
 			add("barcodes_book");
-			add("" + Fetching.SEARCH_ENGINE_THALIA);
+			//add("" + Fetching.SEARCH_ENGINE_THALIA);
 			add("Books");
 		}});
 		put(3, new ArrayList<String>() {{
 			add("barcodes_games");
-			add("" + Fetching.SEARCH_ENGINE_TAGTOAD);
+			//add("" + Fetching.SEARCH_ENGINE_TAGTOAD);
 			add("Games");
 		}});
 		put(4, new ArrayList<String>() {{
 			add("barcodes_video");
-			add("" + Fetching.SEARCH_ENGINE_OFDB);
+			//add("" + Fetching.SEARCH_ENGINE_OFDB);
 			add("Video");
 		}});
 	}};
@@ -94,10 +94,10 @@ public class TestFetching implements Observer {
 	
 	public void startTest() {
 		for (String ean : this.eanList) {
-			Fetching fTmp = new Fetching(this.context, ean, 
-					Fetching.SEARCH_ENGINE_THALIA);
-			fTmp.addObserver(this);
-			fetcherList.add(fTmp);
+			//Fetching fTmp = new Fetching(this.context, ean, 
+					//Fetching.SEARCH_ENGINE_THALIA);
+			//fTmp.addObserver(this);
+			//fetcherList.add(fTmp);
 		}
 		Toast.makeText(this.context, "Starte Tests", Toast.LENGTH_LONG).show();
 		this.startFetcher();

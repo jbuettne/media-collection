@@ -52,4 +52,8 @@
     
     <string name="UNKNOWN_Artist">Unbekannter Künstler</string>
     <string name="UNKNOWN_Author">Unbekannter Author</string>
+    <string name="COLLECTION_browse">Wähle Sammlung:</string>
+    <string name="COLLECTION_sync">Synchronisieren</string>
+    <string name="COLLECTION_searchentry">Suche nach:</string>
+    <string name="COLLECTION_add">Medien scannen</string>
 </resources>

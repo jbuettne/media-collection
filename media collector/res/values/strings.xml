@@ -52,4 +52,8 @@
     
     <string name="UNKNOWN_Artist">Unknown Artist</string>
     <string name="UNKNOWN_Author">Unknown Author</string>
+    <string name="COLLECTION_browse">Browse Collections:</string>
+    <string name="COLLECTION_sync">Sync Collection</string>
+    <string name="COLLECTION_add">Add new Media</string>
+    <string name="COLLECTION_searchentry">Search Entry:</string>
 </resources>

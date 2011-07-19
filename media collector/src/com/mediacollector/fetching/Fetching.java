@@ -3,12 +3,8 @@ package com.mediacollector.fetching;
 import android.content.Context;
 
 import com.mediacollector.R;
-import com.mediacollector.fetching.fetcher.Google;
 import com.mediacollector.fetching.fetcher.ImagesGoogle;
 import com.mediacollector.fetching.fetcher.Amazon;
-//import com.mediacollector.fetching.fetcher.OFDb;
-import com.mediacollector.fetching.fetcher.Thalia;
-import com.mediacollector.fetching.fetcher.Tagtoad;
 import com.mediacollector.tools.Observable;
 import com.mediacollector.tools.Observer;
 import com.mediacollector.tools.Exceptions.MCFetchingException;
@@ -25,43 +21,37 @@ public class Fetching extends Observable implements Observer {
 	 * Die verschiedenen Search-Engine-Klassen. Hier Google Product Search;
 	 * http://www.google.com/m/products  -- Google.java
 	 */
-	public static final int SEARCH_ENGINE_GOOGLE 	= 0;
+	public static final int SEARCH_INDEX_MUSIC 			= 0;
 	
 	/**
 	 * Die verschiedenen Search-Engine-Klassen. Hier OFDb;
 	 * http://www.ofdb.de  -- OFDb.java
 	 */
-	public static final int SEARCH_ENGINE_OFDB 		= 1;
+	public static final int SEARCH_INDEX_VIDEO 			= 1;
 	
 	/**
 	 * Die verschiedenen Search-Engine-Klassen. Hier Thalia;
 	 * http://www.thalia.de  -- Thalia.java
 	 */
-	public static final int SEARCH_ENGINE_THALIA 	= 24;
+	public static final int SEARCH_INDEX_BOOKS 			= 2;
 	
 	/**
 	 * Die verschiedenen Search-Engine-Klassen. Hier Thalia - Audio only;
 	 * http://www.thalia.de  -- Thalia.java
 	 */
-	public static final int SEARCH_ENGINE_THALIA_AUDIO 	= 241;
+	public static final int SEARCH_INDEX_GAMES 			= 3;
 	
 	/**
 	 * Die verschiedenen Search-Engine-Klassen. Hier Thalia - Bücher only;
 	 * http://www.thalia.de  -- Thalia.java
 	 */
-	public static final int SEARCH_ENGINE_THALIA_BOOKS 	= 242;
+	public static final int SEARCH_INDEX_VIDEOGAMES 	= 31;
 	
 	/**
-	 * Die verschiedenen Search-Engine-Klassen. Hier Tagtoad;
-	 * http://www.tagtoad.com  -- tagtoad.java
+	 * Die verschiedenen Search-Engine-Klassen. Hier Thalia - Bücher only;
+	 * http://www.thalia.de  -- Thalia.java
 	 */
-	public static final int SEARCH_ENGINE_TAGTOAD	= 25;
-	
-	/**
-	 * Die verschiedenen Search-Engine-Klassen. Hier Kaufkauf;
-	 * http://www.kaufkauf.net  -- kaufkauf.java
-	 */
-	public static final int SEARCH_ENGINE_KAUFKAUF	= 26;
+	public static final int SEARCH_INDEX_ALL 	= 4;
 	
 	/**
 	 * Der Context, aus welchem das Fetching aufgerufen wurde. Wird nur für das
@@ -111,7 +101,7 @@ public class Fetching extends Observable implements Observer {
 	 * @throws MCFetchingException 
 	 */
 	public Fetching(final Context context, final String ean) {
-		this(context, ean, SEARCH_ENGINE_GOOGLE);
+		this(context, ean, SEARCH_INDEX_ALL);
 	}
 	
 	/**
@@ -136,20 +126,21 @@ public class Fetching extends Observable implements Observer {
 	public void fetchData() 
 	throws MCFetchingException {
 		switch (searchEngine) {
-		case SEARCH_ENGINE_GOOGLE:
-			this.fetcher = new Google(context, this.ean); break;
-		case SEARCH_ENGINE_OFDB:
-			this.fetcher = new Amazon(context, this.ean); break;		
-		case SEARCH_ENGINE_THALIA:
-			this.fetcher = new Thalia(context, this.ean); break;
-		case SEARCH_ENGINE_THALIA_AUDIO:
-			this.fetcher = new Thalia(context, this.ean, Thalia.AUDIO_ONLY); 
+		case SEARCH_INDEX_MUSIC:
+			this.fetcher = new Amazon(context, this.ean, SEARCH_INDEX_MUSIC);
 			break;
-		case SEARCH_ENGINE_THALIA_BOOKS:
-			this.fetcher = new Thalia(context, this.ean, Thalia.BOOKS_ONLY); 
+		case SEARCH_INDEX_VIDEO:
+			this.fetcher = new Amazon(context, this.ean, SEARCH_INDEX_VIDEO);
+			break;		
+		case SEARCH_INDEX_BOOKS:
+			this.fetcher = new Amazon(context, this.ean, SEARCH_INDEX_BOOKS);
 			break;
-		case SEARCH_ENGINE_TAGTOAD:
-			this.fetcher = new Tagtoad(context, this.ean); break;
+		case SEARCH_INDEX_GAMES:
+			this.fetcher = new Amazon(context, this.ean, SEARCH_INDEX_GAMES); 
+			break;
+		case SEARCH_INDEX_ALL:
+			this.fetcher = new Amazon(context, this.ean, SEARCH_INDEX_ALL); 
+			break;
 		default: 
 			throw new MCFetchingException(this.context.getString(
 					R.string.EXCEPTION_Fetching_2_1) + " '" + this.searchEngine 
