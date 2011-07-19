@@ -165,7 +165,8 @@ public class Amazon extends DataFetcher{
 		/*
 		 * Unser Barcode
 		 */
-		params.put("ItemId", ean);
+		if (ean.length() == 12) params.put("ItemId", 0 + ean);			
+		else params.put("ItemId", ean);
 		/*
 		 * Je nach ResponseGroup werden unterschiedlich viele Daten ausgegeben
 		 * mit "Small,ItemAttributes,Images,Tracks" würde man u.A. auch noch die
