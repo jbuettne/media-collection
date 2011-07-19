@@ -68,24 +68,21 @@ public class Scan extends RegisteredActivity implements Observer {
     			int searchEngine;
 	        	switch (this.collection) {
 	        		case R.string.COLLECTION_Audio:
-	        			searchEngine = Fetching.SEARCH_ENGINE_THALIA_AUDIO;
+	        			searchEngine = Fetching.SEARCH_INDEX_MUSIC;
 	        			add2collection_values = "title+artist";
 	        			break;
 		        	case R.string.COLLECTION_Video:
-		        		searchEngine = Fetching.SEARCH_ENGINE_OFDB;
+		        		searchEngine = Fetching.SEARCH_INDEX_VIDEO;
 		        		break;
 		        	case R.string.COLLECTION_Books:
-		        		searchEngine = Fetching.SEARCH_ENGINE_THALIA_BOOKS;
+		        		searchEngine = Fetching.SEARCH_INDEX_BOOKS;
 	        			add2collection_values = "title+artist";
 		        		break;
 		        	case R.string.COLLECTION_Games:
-		        		if(data.getExtras().getString("FORMAT").contains("EAN"))
-		        			searchEngine = Fetching.SEARCH_ENGINE_TAGTOAD;
-		        		else
-		        			searchEngine = Fetching.SEARCH_ENGINE_KAUFKAUF;
+		        		searchEngine = Fetching.SEARCH_INDEX_GAMES;
 		        		break;
 		        	default:
-		        		searchEngine = Fetching.SEARCH_ENGINE_GOOGLE;
+		        		searchEngine = Fetching.SEARCH_INDEX_ALL;
 		        		break;
 		        }
 	        	try {

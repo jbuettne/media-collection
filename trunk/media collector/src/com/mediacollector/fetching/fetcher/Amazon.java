@@ -34,7 +34,6 @@ import org.w3c.dom.Element;
 import com.mediacollector.fetching.DataFetcher;
 
 import android.content.Context;
-import android.util.Log;
 
 /*
  * This class shows how to make a simple authenticated ItemLookup call to the
@@ -76,10 +75,12 @@ public class Amazon extends DataFetcher{
      */
     //private static final String ITEM_ID = "4010232027719"; // i, Robot
 
+
     /*
      * SearchIndex muss bei einem IdType, welcher nicht die ASIN ist,
      * gesetzt sein.
      * Alternativen für SearchIndex:
+     * All
      * Books
      * Music
      * VideoGames
@@ -88,14 +89,39 @@ public class Amazon extends DataFetcher{
      * etc. 
      * http://docs.amazonwebservices.com/AWSECommerceService/2010-11-01/DG/index.html?CHAP_ResponseGroupsList.html
      */
-    private static final String SEARCH_INDEX = "Video";
+    private static String SEARCH_INDEX = null;
+	
+	public static final int MUSIC 	= 0;
+	public static final int VIDEO 	= 1;
+	public static final int BOOKS 	= 2;
+	public static final int GAMES 	= 3;
+	public static final int ALL		= 4;
     
-	public Amazon(final Context context, final String ean) {
-		super(context, ean);
+	public Amazon(final Context context, final String ean, 
+			final int search) {
+		super(context, ean, search);
 	}
 	
 	protected void getData() throws IOException {
+		
 		SignedRequestsHelper helper;
+		switch (this.search) {
+		case MUSIC:
+			SEARCH_INDEX = "Music"; 
+			break;
+		case VIDEO:
+			SEARCH_INDEX = "Video"; 
+			break;
+		case BOOKS:
+			SEARCH_INDEX = "Books"; 
+			break;
+		case GAMES:
+			SEARCH_INDEX = "All"; 
+			break;
+		default:
+			SEARCH_INDEX = "All";
+			break;
+		}
 		try {
 			helper = SignedRequestsHelper.getInstance(ENDPOINT,
 					AWS_ACCESS_KEY_ID, AWS_SECRET_KEY);
@@ -143,27 +169,56 @@ public class Amazon extends DataFetcher{
      * title from the XML.
      */
     private void getMovieData(final String requestUrl) {
-        try {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(requestUrl);
-        	Log.i("AMAZON", requestUrl + " " + ((Element) doc.getElementsByTagName("MediumImage").item(0)).getElementsByTagName("URL").item(0).getTextContent());
-            this.set(TITLE_STRING, doc.getElementsByTagName("Title").item(0).getTextContent());
-            
-            /*//Informationen für Bücher
-            title.put("artist", doc.getElementsByTagName("Author").item(0).getTextContent());
-            title.put("year", doc.getElementsByTagName("PublicationDate").item(0).getTextContent().substring(0, 4));*/
-            /*//Informationen für Musik
-            title.put("artist", doc.getElementsByTagName("Artist").item(0).getTextContent());
-            title.put("year", doc.getElementsByTagName("ReleaseDate").item(0).getTextContent().substring(0, 4));*/
-            //Informationen für Filme
-            this.set(ARTIST_STRING, doc.getElementsByTagName("Director").item(0).getTextContent());
-            this.set(MEDIUM_STRING, doc.getElementsByTagName("Binding").item(0).getTextContent()); //DVD, BluRay, etc
-            this.set(YEAR_STRING, doc.getElementsByTagName("ReleaseDate").item(0).getTextContent().substring(0, 4));
-            this.set(COVER_STRING, ((Element) doc.getElementsByTagName("MediumImage").item(0)).getElementsByTagName("URL").item(0).getTextContent());
-            /*//Informationen für Spiele
-            title.put("artist", doc.getElementsByTagName("Brand").item(0).getTextContent());
-            title.put("year", doc.getElementsByTagName("ReleaseDate").item(0).getTextContent().substring(0, 4));*/
+		try {
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			Document doc = db.parse(requestUrl);
+			this.set(TITLE_STRING, doc.getElementsByTagName("Title").item(0)
+					.getTextContent());
+			this.set(COVER_STRING,
+					((Element) doc.getElementsByTagName("MediumImage").item(0))
+							.getElementsByTagName("URL").item(0)
+							.getTextContent());
+			this.set(MEDIUM_STRING, doc.getElementsByTagName("Binding").item(0)
+					.getTextContent()); // Medium, Produktart
+			switch (this.search) {
+			case MUSIC:
+				this.set(ARTIST_STRING, doc.getElementsByTagName("Artist")
+						.item(0).getTextContent());
+				this.set(YEAR_STRING, doc.getElementsByTagName("ReleaseDate")
+						.item(0).getTextContent().substring(0, 4));
+				break;
+			case VIDEO:
+				this.set(ARTIST_STRING, doc.getElementsByTagName("Director")
+						.item(0).getTextContent());
+				this.set(YEAR_STRING, doc.getElementsByTagName("ReleaseDate")
+						.item(0).getTextContent().substring(0, 4));
+				break;
+			case BOOKS:
+				this.set(ARTIST_STRING, doc.getElementsByTagName("Author")
+						.item(0).getTextContent());
+				this.set(YEAR_STRING,
+						doc.getElementsByTagName("PublicationDate").item(0)
+								.getTextContent().substring(0, 4));
+				break;
+			case GAMES:
+				this.set(ARTIST_STRING,
+						doc.getElementsByTagName("Brand").item(0)
+								.getTextContent());
+				try {
+					this.set(YEAR_STRING,
+							doc.getElementsByTagName("ReleaseDate").item(0)
+									.getTextContent().substring(0, 4));
+				} catch (Exception ex) {
+					this.set(YEAR_STRING,
+							doc.getElementsByTagName("PublicationDate").item(0)
+									.getTextContent().substring(0, 4));
+				}
+				break;
+			default:
+				SEARCH_INDEX = "All";
+				break;
+			}
 			notifyObserver(true);
         } catch (Exception e) {
         	notifyObserver(false);
