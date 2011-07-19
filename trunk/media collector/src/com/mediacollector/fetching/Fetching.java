@@ -1,6 +1,7 @@
 package com.mediacollector.fetching;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.mediacollector.R;
 import com.mediacollector.fetching.fetcher.ImagesGoogle;
@@ -150,9 +151,9 @@ public class Fetching extends Observable implements Observer {
 		this.fetcher.addObserver(this);
         new Thread(this.fetcher).start();
         
-        this.imgFetcher = new ImagesGoogle(context, this.ean);
-        this.imgFetcher.addObserver(this);
-        new Thread(this.imgFetcher).start();
+//        this.imgFetcher = new ImagesGoogle(context, this.ean);
+//        this.imgFetcher.addObserver(this);
+//        new Thread(this.imgFetcher).start();
 	}
 	
 	/**
@@ -164,6 +165,7 @@ public class Fetching extends Observable implements Observer {
 	 * eben diese darzustellen. 
 	 */
 	public void updateObserver(boolean statusOkay) {
+		Log.i("SCANAMAZON", "TUTTI");
 		this.fetcherCounter = this.fetcherCounter + 1;
 		if (this.fetcherCounter == 2) this.notifyObserver(statusOkay);
 	}

@@ -64,6 +64,12 @@ public abstract class DataFetcher extends Observable implements Runnable {
 	 * Eintrags in der Data-HashMap gespeichert wird.
 	 */
 	public static final String COVER_STRING = "cover";
+
+	/**
+	 * Definiert den Schlüsselwert, unter welchem der lokale Pfad zum Cover des
+	 * Videos in der Data-HashMap gespeichert wird.
+	 */
+	public static final String COVER_PATH = "cover_path";
 	
 	/**
 	 * Die EAN, zu der die entsprechenden Daten eingeholt werden. Sie wird
