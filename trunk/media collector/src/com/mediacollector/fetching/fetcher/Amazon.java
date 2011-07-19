@@ -165,8 +165,9 @@ public class Amazon extends DataFetcher{
 		/*
 		 * Unser Barcode
 		 */
-		if (ean.length() == 12) params.put("ItemId", 0 + ean);			
-		else params.put("ItemId", ean);
+		if (ean.length() == 12) ean = "0" + ean;
+		params.put("ItemId", ean);
+		Log.i("AMAZON", ean);
 		/*
 		 * Je nach ResponseGroup werden unterschiedlich viele Daten ausgegeben
 		 * mit "Small,ItemAttributes,Images,Tracks" würde man u.A. auch noch die
@@ -243,7 +244,6 @@ public class Amazon extends DataFetcher{
 					((Element) doc.getElementsByTagName("MediumImage").item(0))
 					.getElementsByTagName("URL").item(0)
 					.getTextContent());
-			Log.i("AMAZON", (String) this.get(COVER_PATH));
 			notifyObserver(true);
 			notifyObserver(true);
         } catch (Exception e) {
@@ -312,7 +312,6 @@ public class Amazon extends DataFetcher{
                 new ImageResizer(bmp, 100, 100, nameSmall);
             } catch (Exception e) { cover = false; }
             if(cover) {
-        		Log.i("AMAZON", "BIN DRIN");
             	this.set(COVER_PATH, Environment.getExternalStorageDirectory()
             			+ "/MediaCollector/" 
             			+ name.substring(0, name.lastIndexOf(".")));
