@@ -19,6 +19,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -123,12 +124,11 @@ public class Scan extends RegisteredActivity implements Observer {
 
 		guiHandler.post(new Runnable() { public void run() {
 			Bitmap coverBM;
-			if ((String) fetching.getImageFetcher()
-					.get(ImageFetcher.COVER_PATH)== null)
+			if ((String) fetching.getDataFetcher().get(DataFetcher.COVER_PATH) == null)
 				coverBM = BitmapFactory.decodeResource(getResources(), 
 						R.drawable.no_cover);
-			else coverBM = BitmapFactory.decodeFile((String) fetching
-						.getImageFetcher().get(ImageFetcher.COVER_PATH) 
+			else coverBM = BitmapFactory.decodeFile((String) 
+					fetching.getDataFetcher().get(DataFetcher.COVER_PATH) 
 						+ ".jpg");
 			((ImageView) findViewById(R.id.cover)).setImageBitmap(coverBM);			
 			TextView artist = (TextView) findViewById(R.id.artist);
@@ -190,10 +190,10 @@ public class Scan extends RegisteredActivity implements Observer {
 												DataFetcher.ARTIST_STRING),
 										(String) fetching.getDataFetcher().get(
 												DataFetcher.YEAR_STRING),
-										(String) fetching.getImageFetcher().get(
-												ImageFetcher.COVER_PATH),
-										(String) fetching.getImageFetcher().get(
-												ImageFetcher.COVER_STRING));
+										(String) fetching.getDataFetcher().get(
+												DataFetcher.COVER_PATH),
+										(String) fetching.getDataFetcher().get(
+												DataFetcher.COVER_STRING));
 							} else if (collection ==
 								R.string.COLLECTION_Books) {
 								dBase.getBook().insertBook(
@@ -205,10 +205,10 @@ public class Scan extends RegisteredActivity implements Observer {
 												DataFetcher.ARTIST_STRING),
 										(String) fetching.getDataFetcher().get(
 												DataFetcher.YEAR_STRING),
-										(String) fetching.getImageFetcher().get(
-												ImageFetcher.COVER_PATH),
-										(String) fetching.getImageFetcher().get(
-												ImageFetcher.COVER_STRING));
+										(String) fetching.getDataFetcher().get(
+												DataFetcher.COVER_PATH),
+										(String) fetching.getDataFetcher().get(
+												DataFetcher.COVER_STRING));
 							} else if (collection == 
 								R.string.COLLECTION_Video) {
 								dBase.getFilm().insertFilm(
@@ -218,13 +218,13 @@ public class Scan extends RegisteredActivity implements Observer {
 												DataFetcher.TITLE_STRING),
 										(String) fetching.getDataFetcher().get(
 												DataFetcher.YEAR_STRING),
-										(String) fetching.getImageFetcher().get(
-												ImageFetcher.COVER_PATH),
-										(String) fetching.getImageFetcher().get(
-												ImageFetcher.COVER_STRING));
+										(String) fetching.getDataFetcher().get(
+												DataFetcher.COVER_PATH),
+										(String) fetching.getDataFetcher().get(
+												DataFetcher.COVER_STRING));
 							} else if (collection == R.string.COLLECTION_Games) {
 								if ((String) fetching.getDataFetcher()
-										.get(DataFetcher.ARTIST_STRING) ==
+										.get(DataFetcher.MEDIUM_STRING) !=
 											"Spiel") {
 									dBase.getVideoGame().insertVideoGame(
 											(String) fetching.getDataFetcher().get(
@@ -233,10 +233,10 @@ public class Scan extends RegisteredActivity implements Observer {
 													DataFetcher.TITLE_STRING),
 											(String) fetching.getDataFetcher().get(
 													DataFetcher.YEAR_STRING),
-											(String) fetching.getImageFetcher().get(
-													ImageFetcher.COVER_PATH),
-											(String) fetching.getImageFetcher().get(
-													ImageFetcher.COVER_STRING));
+											(String) fetching.getDataFetcher().get(
+													DataFetcher.COVER_PATH),
+											(String) fetching.getDataFetcher().get(
+													DataFetcher.COVER_STRING));
 								} else {
 									dBase.getBoardGame().insertBoardGame(
 											(String) fetching.getDataFetcher().get(
@@ -245,10 +245,10 @@ public class Scan extends RegisteredActivity implements Observer {
 													DataFetcher.TITLE_STRING),
 											(String) fetching.getDataFetcher().get(
 													DataFetcher.YEAR_STRING),
-											(String) fetching.getImageFetcher().get(
-													ImageFetcher.COVER_PATH),
-											(String) fetching.getImageFetcher().get(
-													ImageFetcher.COVER_STRING));
+											(String) fetching.getDataFetcher().get(
+													DataFetcher.COVER_PATH),
+											(String) fetching.getDataFetcher().get(
+													DataFetcher.COVER_STRING));
 								}
 								
 							}

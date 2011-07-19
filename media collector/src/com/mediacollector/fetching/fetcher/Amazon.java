@@ -21,19 +21,36 @@ package com.mediacollector.fetching.fetcher;
  */
 
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.mediacollector.R;
 import com.mediacollector.fetching.DataFetcher;
+import com.mediacollector.tools.ImageResizer;
+import com.mediacollector.tools.Exceptions.MCException;
+import com.mediacollector.tools.Exceptions.MCFetchingException;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
+import android.util.Log;
 
 /*
  * This class shows how to make a simple authenticated ItemLookup call to the
@@ -96,7 +113,7 @@ public class Amazon extends DataFetcher{
 	public static final int BOOKS 	= 2;
 	public static final int GAMES 	= 3;
 	public static final int ALL		= 4;
-    
+	
 	public Amazon(final Context context, final String ean, 
 			final int search) {
 		super(context, ean, search);
@@ -181,6 +198,8 @@ public class Amazon extends DataFetcher{
 							.getTextContent());
 			this.set(MEDIUM_STRING, doc.getElementsByTagName("Binding").item(0)
 					.getTextContent()); // Medium, Produktart
+			this.set(TITLE_ID_STRING, this.genereateRandomID());
+			this.set(ARTIST_ID_STRING, this.genereateRandomID());
 			switch (this.search) {
 			case MUSIC:
 				this.set(ARTIST_STRING, doc.getElementsByTagName("Artist")
@@ -219,11 +238,101 @@ public class Amazon extends DataFetcher{
 				SEARCH_INDEX = "All";
 				break;
 			}
+			this.getImage(
+					((Element) doc.getElementsByTagName("MediumImage").item(0))
+					.getElementsByTagName("URL").item(0)
+					.getTextContent());
+			Log.i("AMAZON", (String) this.get(COVER_PATH));
+			notifyObserver(true);
 			notifyObserver(true);
         } catch (Exception e) {
-        	notifyObserver(false);
             throw new RuntimeException(e);
         }
     }
-
+    
+	/**
+	 * Holt das Bild und speichert es auf der SD-Card im Ordner MediaCollector.
+	 * Es wird außerdem auch eine verkleinerte Version mit max. 100px angelegt.
+	 * Siehe dazu com.mediacollector.tools.ImageResizer
+	 * @throws IOException 
+	 * @throws ClientProtocolException 
+	 * @throws MCFetchingException 
+	 */
+	protected void getImage(final String url) throws ClientProtocolException, 
+	IOException, MCFetchingException {
+		//final String url = (String) this.get(COVER_STRING);
+		final String name = (System.currentTimeMillis() / 1000) + "-" 
+			+ url.substring(url.lastIndexOf("/") + 1);
+		this.set(COVER_PATH, Environment.getExternalStorageDirectory() 
+				+ "/MediaCollector/");
+		
+		final DefaultHttpClient client = new DefaultHttpClient();
+		final HttpGet getRequest = new HttpGet(url);
+        HttpResponse response = client.execute(getRequest);            
+        HttpEntity entity = response.getEntity();
+        if (entity != null){
+        	this.getHTTPImage(entity, name);
+        }else 
+        	throw new MCFetchingException(this.context, 
+        			this.context.getString(R.string.EXCEPTION_Fechting_3), 
+        			MCException.INFO);
+	}
+	
+	/**
+	 * Holt das Bild.
+	 * @param entity HttpEntity
+	 * @param name Der Dateiname
+	 * @throws MCFetchingException .
+	 * @throws IllegalStateException .
+	 * @throws IOException .
+	 */
+	private void getHTTPImage(final HttpEntity entity, final String name) 
+	throws IllegalStateException, IOException, MCFetchingException {
+		final String extension = name.substring(name.lastIndexOf("."));
+		final String nameSmall = name.substring(0, name.lastIndexOf(".")) 
+			+ "_small" + extension;
+		InputStream inputStream = null;
+		boolean cover = true;
+		try { 
+    		inputStream = entity.getContent();            	
+            Bitmap bmp = BitmapFactory.decodeStream(inputStream);
+            try {
+            	// >>> Dieser Teil sollte noch entfernt werden
+            	File cp = new File((String) this.get(COVER_PATH));
+            	if (!cp.exists()) cp.mkdir();
+            	// <<< Dieser Teil sollte noch entfernt werden
+            	if (!extension.equals(".jpg") && !extension.equals(".png")) {
+            		this.set(COVER_PATH, null);
+            		throw new MCFetchingException("");
+            	}
+            	FileOutputStream out = 
+            		new FileOutputStream(this.get(COVER_PATH) + name);
+                bmp.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                new ImageResizer(bmp, 100, 100, nameSmall);
+            } catch (Exception e) { cover = false; }
+            if(cover) {
+        		Log.i("AMAZON", "BIN DRIN");
+            	this.set(COVER_PATH, Environment.getExternalStorageDirectory()
+            			+ "/MediaCollector/" 
+            			+ name.substring(0, name.lastIndexOf(".")));
+            } else { 
+            	this.set(COVER_PATH, null);
+            	throw new MCFetchingException("");
+            }
+        } finally {
+            if (inputStream != null) inputStream.close();
+            entity.consumeContent();
+        }
+	}
+	/**
+	 * Erzeugt eine zufällige ID mit 20-30 Stellen und dem Alphabet 0-9.
+	 * @return String
+	 */
+	private String genereateRandomID() {
+		StringBuffer randomID = new StringBuffer();
+		Random rg = new Random();
+		for (int i = 0; i < (20 + rg.nextInt(10)); i++) 
+			randomID.append(rg.nextInt(9));
+		return randomID.toString();
+	}
 }
