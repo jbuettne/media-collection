@@ -1,0 +1,1 @@
+Eine Android-App, die es ermöglicht, eine Musiksammlung zu pflegen, in dem die auf die Datenträger aufgedruckten Barcodes gescannt werden.
